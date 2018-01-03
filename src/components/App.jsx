@@ -27,7 +27,7 @@ export default class App extends React.Component {
       modalType: null,
       modalOpen: false,
       helpOn: false,
-      showCookiesBanner: true
+      showCookiesBanner: false
     };
   }
 
