@@ -45,6 +45,9 @@ This application has been built with the following technologies:
 ## Installation
 
 ```bash
+brew install openssl
+brew install yarn
+
 yarn
 
 export CPPFLAGS=-I/usr/local/opt/openssl/include
