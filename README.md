@@ -45,7 +45,11 @@ This application has been built with the following technologies:
 ## Installation
 
 ```bash
-npm install
+yarn
+
+export CPPFLAGS=-I/usr/local/opt/openssl/include
+export LDFLAGS=-L/usr/local/opt/openssl/lib
+npm start
 ```
 
 ## Development
