@@ -1,54 +1,59 @@
 {
-  "name": "pixel-art-react",
-  "version": "2.2.0",
-  "description": "Draw and animate Pixel Art, then export the results to CSS, share or download them, powered by React",
-  "author": "Javier Valencia Romero",
+  "name": "pixelpusher",
+  "productName": "pixelpusher",
+  "version": "1.0.0",
+  "description": "Draw and animate Pixel Art, then export the results to CSS, share or download them, powered by Hypermerge",
+  "main": "src/index.js",
   "scripts": {
-    "lint": "eslint --ext .js --ext .jsx .",
-    "csslint": "stylelint src/css/**/*.css",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js 'test/**/*.@(js|jsx)'",
-    "test:watch": "npm run test -- --watch",
-    "development": "webpack-dev-server",
-    "deploy": "NODE_ENV=production webpack -p --config webpack.production.config.js",
-    "server": "node ./src/server/loader",
-    "server-debug": "node --inspect ./src/server/loader",
-    "start": "npm run server",
-    "postinstall": "NODE_ENV=production webpack -p --config webpack.production.config.js"
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --cache --color --ext .jsx,.js src"
   },
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/jvalen/pixel-art-react"
-  },
-  "keywords": [
-    "pixel",
-    "art",
-    "drawing",
-    "react",
-    "redux",
-    "express"
-  ],
-  "license": "MIT",
-  "babel": {
-    "presets": [
-      "es2015",
-      "react"
-    ]
+  "keywords": [],
+  "author": "jeffpeterson",
+  "config": {
+    "forge": {
+      "make_targets": {
+        "win32": [
+          "squirrel"
+        ],
+        "darwin": [
+          "zip"
+        ],
+        "linux": [
+          "deb",
+          "rpm"
+        ]
+      },
+      "electronPackagerConfig": {
+        "packageManager": "yarn"
+      },
+      "electronWinstallerConfig": {
+        "name": "pixel_art_forge"
+      },
+      "electronInstallerDebian": {},
+      "electronInstallerRedhat": {},
+      "github_repository": {
+        "owner": "",
+        "name": ""
+      },
+      "windowsStoreConfig": {
+        "packageName": "",
+        "name": "pixelartforge"
+      }
+    }
   },
   "dependencies": {
-    "autoprefixer": "^7.1.6",
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-plugin-react-transform": "^3.0.0",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "babel-register": "^6.26.0",
-    "babel-runtime": "^6.26.0",
     "body-parser": "^1.18.2",
     "cookie-parser": "^1.4.3",
     "copy-webpack-plugin": "^4.2.0",
     "cors": "^2.8.4",
     "css-loader": "^0.28.7",
+    "electron-compile": "^6.4.2",
+    "electron-devtools-installer": "^2.1.0",
+    "electron-squirrel-startup": "^1.0.0",
     "express": "^4.16.2",
     "express-session": "^1.15.6",
     "extract-text-webpack-plugin": "^3.0.2",
@@ -56,6 +61,8 @@
     "gm": "^1.23.0",
     "html-webpack-plugin": "^2.30.1",
     "immutable": "^3.8.2",
+    "ipfs": "^0.27.3",
+    "ipfs-pubsub-room": "^1.1.2",
     "js-cookie": "^2.2.0",
     "lost": "^8.2.0",
     "node-localstorage": "^1.3.0",
@@ -67,7 +74,6 @@
     "pug": "^2.0.0-rc.4",
     "radium": "^0.19.6",
     "react": "^16.1.0",
-    "react-transition-group": "^2.2.1",
     "react-addons-pure-render-mixin": "^15.6.2",
     "react-addons-shallow-compare": "^15.6.2",
     "react-color": "^2.13.8",
@@ -78,6 +84,7 @@
     "react-modal": "^3.1.2",
     "react-redux": "^5.0.6",
     "react-transform-hmr": "^1.0.4",
+    "react-transition-group": "^2.2.1",
     "redux": "^3.7.2",
     "redux-undo": "^0.6.1",
     "shortid": "^2.2.8",
@@ -91,21 +98,17 @@
     "webpack-hot-middleware": "^2.20.0",
     "whatwg-fetch": "^2.0.3"
   },
-  "engines": {
-    "node": "7.10.0"
-  },
   "devDependencies": {
-    "chai": "^4.1.2",
-    "chai-immutable": "^2.0.0-alpha.1",
-    "eslint": "^4.11.0",
-    "eslint-config-airbnb": "^16.1.0",
-    "eslint-plugin-import": "^2.8.0",
-    "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.4.0",
-    "jsdom": "^11.3.0",
-    "mocha": "^4.0.1",
-    "stylelint": "^8.2.0",
-    "stylelint-config-lost": "0.0.3",
-    "stylelint-config-standard": "^17.0.0"
+    "babel-plugin-transform-async-to-generator": "^6.24.1",
+    "babel-plugin-transform-es2015-classes": "^6.24.1",
+    "babel-preset-env": "^1.6.1",
+    "babel-preset-react": "^6.24.1",
+    "electron-forge": "^4.1.6",
+    "electron-prebuilt-compile": "1.6.2",
+    "eslint": "^3",
+    "eslint-config-airbnb": "^15",
+    "eslint-plugin-import": "^2",
+    "eslint-plugin-jsx-a11y": "^5",
+    "eslint-plugin-react": "^7"
   }
 }
