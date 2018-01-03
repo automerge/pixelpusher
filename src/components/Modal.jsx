@@ -11,6 +11,8 @@ import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import TwitterForm from './TwitterForm';
 
+ModalReact.setAppElement('#app');
+
 class Modal extends React.Component {
   static generateRadioOptions(props) {
     let options;
