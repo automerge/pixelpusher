@@ -22,7 +22,7 @@
     height: 6em;
   }
 
-  .twitter-form__count {
+  &__count {
     margin: 1em auto;
 
     &.max-reached {
@@ -30,7 +30,7 @@
     }
   }
 
-  .twitter-form__tweet {
+  &__tweet {
     @mixin button blue;
 
     span {

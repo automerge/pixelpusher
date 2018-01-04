@@ -3,14 +3,9 @@
     @mixin button blue;
   }
 
-  .modal__preview,
-  .modal__load {
+  &__preview,
+  &__load {
     margin: 2em 0 1em;
-
-    .modal__preview--wrapper {
-      margin: 1em auto;
-      display: table;
-    }
 
     fieldset {
       padding: 1em 0;
@@ -20,5 +15,10 @@
         display: inline-block;
       }
     }
+  }
+
+  &__preview--wrapper {
+    margin: 1em auto;
+    display: table;
   }
 }

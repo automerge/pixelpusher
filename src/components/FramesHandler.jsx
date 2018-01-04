@@ -53,7 +53,7 @@ class FramesHandler extends React.Component {
         >
           +
         </button>
-        <div className="frame-handler__list">
+        <div className="frames-handler__list">
           <Scrollbars
             autoHeight
             ref={(c) => { this.scrollbars = c; }}

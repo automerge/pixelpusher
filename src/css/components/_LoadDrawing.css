@@ -7,7 +7,7 @@
     text-align: center;
   }
 
-  .load-drawing__container {
+  &__container {
     max-height: 400;
     overflow-x: hidden;
     display: flex;
@@ -19,38 +19,38 @@
       overflow-y: hidden;
       display: block;
     }
+  }
 
-    .load-drawing__drawing {
-      position: relative;
-      border: 3px solid black;
-      cursor: pointer;
-      flex: 1 1 25%;
-      min-height: 200;
-      margin: 1em;
-      padding: 0.5em 0;
+  &__drawing {
+    position: relative;
+    border: 3px solid black;
+    cursor: pointer;
+    flex: 1 1 25%;
+    min-height: 200;
+    margin: 1em;
+    padding: 0.5em 0;
 
-      .drawing__delete {
-        @mixin icon trash-o;
+    .drawing__delete {
+      @mixin icon trash-o;
 
-        position: absolute;
-        font-size: 1.7em;
-        color: white;
-        top: 0;
-        right: 0;
-        cursor: no-drop;
-        padding: 0.1em;
-        background-color: $color-mineShaft;
-        border: 2px solid black;
-        border-width: 0 0 2px 2px;
-      }
+      position: absolute;
+      font-size: 1.7em;
+      color: white;
+      top: 0;
+      right: 0;
+      cursor: no-drop;
+      padding: 0.1em;
+      background-color: $color-mineShaft;
+      border: 2px solid black;
+      border-width: 0 0 2px 2px;
+    }
 
-      .preview {
-        margin: 0 auto;
-      }
+    .preview {
+      margin: 0 auto;
     }
   }
 
-  .load-drawing__export {
+  &__export {
     overflow-y: scroll;
     background-color: $color-mineShaft;
     color: $color-silver;
@@ -58,7 +58,7 @@
     text-align: left;
   }
 
-  .load-drawing__import {
+  &__import {
     font-family: $font-monospace;
     width: 100%;
     resize: none;

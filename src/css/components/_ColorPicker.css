@@ -1,5 +1,5 @@
 .color-picker {
-  .color-picker__button {
+  &__button {
     @mixin icon paint-brush;
 
     display: block;

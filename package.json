@@ -111,6 +111,7 @@
     "eslint-plugin-import": "^2",
     "eslint-plugin-jsx-a11y": "^5",
     "eslint-plugin-react": "^7",
-    "postcss-cli": "^4.1.1"
+    "postcss-cli": "^4.1.1",
+    "postcss-url": "^7.3.0"
   }
 }

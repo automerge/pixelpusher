@@ -1,32 +1,29 @@
-#app {
-  .app__main-container,
-  .app__central-container {
+
+.app {
+  &__main-container,
+  &__central-container {
     lost-utility: clearfix;
   }
 
-  .app__main,
-  .app__central-container {
+  &__main,
+  &__central-container {
     margin-bottom: 2em;
   }
 
-  .app__frames-container {
+  &__frames-container {
     margin-bottom: 1em;
   }
 
-  .app__frames-container[data-tooltip]::after {
+  &__frames-container[data-tooltip]::after {
     width: 80%;
   }
 
-  .app__frames-container[data-tooltip]::after {
+  &__frames-container[data-tooltip]::after {
     margin-left: -40%;
   }
 
-  .app__load-save-container {
+  &__load-save-container {
     margin-bottom: 2em;
-
-    .app__load-button {
-      @mixin button gray;
-    }
 
     lost-utility: clearfix;
 
@@ -36,41 +33,45 @@
     }
   }
 
-  .app__social-container {
+  &__load-button {
+    @mixin button gray;
+  }
+
+  &__social-container {
     lost-utility: clearfix;
     margin: 1em 0;
 
     > div {
       lost-column: 1/3 0 0.5em;
     }
-
-    .app__twitter-button {
-      @mixin button blue;
-      @mixin icon twitter;
-
-      width: 100%;
-    }
-
-    .app__download-button {
-      @mixin button brown;
-      @mixin icon download;
-
-      width: 100%;
-    }
-
-    .app__toggle-help-button {
-      @mixin button darkblue;
-      @mixin icon help;
-
-      &.selected {
-        box-shadow: 0 0 0 2px $color-silver;
-      }
-
-      width: 100%;
-    }
   }
 
-  .app__copycss-button {
+  &__twitter-button {
+    @mixin button blue;
+    @mixin icon twitter;
+
+    width: 100%;
+  }
+
+  &__download-button {
+    @mixin button brown;
+    @mixin icon download;
+
+    width: 100%;
+  }
+
+  &__toggle-help-button {
+    @mixin button darkblue;
+    @mixin icon help;
+
+    &.selected {
+      box-shadow: 0 0 0 2px $color-silver;
+    }
+
+    width: 100%;
+  }
+
+  &__copycss-button {
     @mixin button white;
 
     width: 100%;
@@ -79,7 +80,7 @@
     color: $color-mineShaft;
   }
 
-  .app__preview-button {
+  &__preview-button {
     @mixin button gray;
 
     width: 100%;
@@ -87,7 +88,7 @@
     display: table;
   }
 
-  .app__tools-wrapper {
+  &__tools-wrapper {
     text-align: center;
     margin: 1em 0 0.6em;
 
@@ -117,12 +118,12 @@
     }
   }
 
-  .app__left-side,
-  .app__right-side {
+  &__left-side,
+  &__right-side {
     width: 60%;
   }
 
-  .app__right-side {
+  &__right-side {
     margin-left: auto;
     margin-right: 0;
   }

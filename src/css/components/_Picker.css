@@ -5,11 +5,11 @@
   text-align: center;
   margin-bottom: 2em;
 
-  label.picker__columns {
+  label&__columns {
     @mixin icon columns;
   }
 
-  label.picker__rows {
+  label&__rows {
     @mixin icon rows;
   }
 
@@ -22,19 +22,19 @@
     text-align: center;
   }
 
-  .picker__container,
+  &__container,
   label {
     display: flex;
     align-items: center;
     justify-content: center;
   }
 
-  .picker__value,
-  .picker__buttons {
+  &__value,
+  &__buttons {
     flex: 1;
   }
 
-  .picker__container {
+  &__container {
     color: $color-silver;
     background-color: $color-tundora;
     border: 3px solid $color-boulder;

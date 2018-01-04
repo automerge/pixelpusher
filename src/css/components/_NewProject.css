@@ -3,7 +3,5 @@
     @mixin button gray;
 
     width: 100%;
-    padding: 0.5em;
-    margin-bottom: 0.6em;
   }
 }

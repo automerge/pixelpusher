@@ -11,7 +11,7 @@
     }
   }
 
-  .copy-css__string {
+  &__string {
     overflow-y: scroll;
     height: 20em;
     background-color: $color-mineShaft;

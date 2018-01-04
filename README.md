@@ -16,4 +16,10 @@ export LDFLAGS=-L/usr/local/opt/openssl/lib
 npm start
 ```
 
+If you want to edit the CSS, for now, start the css watcher separately:
+
+```bash
+npm run css
+```
+
 ![pixelpusher](screenshots/screenshot-cat.png)

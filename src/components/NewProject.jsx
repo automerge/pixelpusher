@@ -13,7 +13,7 @@ const NewProject = (props) => {
       <button
         onClick={() => { newProject(); }}
       >
-        NEW
+        New
       </button>
     </div>
   );
