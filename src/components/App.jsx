@@ -202,16 +202,19 @@ export default class App extends React.Component {
             className="app__load-button"
             onClick={() => { this.changeModalType('load'); }}
             data-tooltip={this.tip('Load projects you stored before')}>
-            Documents
+            Projects
           </button>
 
           <div data-tooltip={this.tip('New project')}>
             <NewProjectContainer />
           </div>
 
-          <div  data-tooltip={this.tip('Save your project')}>
-            <SaveDrawingContainer />
-          </div>
+          <button
+            className="app__load-button"
+            onClick={() => { this.changeModalType('share'); }}
+            data-tooltip={this.tip('Share your project with others')}>
+            Share
+          </button>
         </div>
       </header>
     );

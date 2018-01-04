@@ -14,58 +14,13 @@ import TwitterForm from './TwitterForm';
 ModalReact.setAppElement('#app');
 
 class Modal extends React.Component {
-  static generateRadioOptions(props) {
-    let options;
-
-    if (props.type !== 'load') {
-      options = [{
-        value: 'single',
-        label: 'single',
-        id: 3
-      }];
-
-      if (props.frames.size > 1) {
-        const spritesheetSupport =
-        props.type === 'download' ||
-        props.type === 'twitter';
-
-        const animationOption = {
-          value: 'animation',
-          label: spritesheetSupport ? 'GIF' : 'animation',
-          id: 4
-        };
-        options.push(animationOption);
-
-        if (spritesheetSupport) {
-          options.push({
-            value: 'spritesheet',
-            label: 'spritesheet',
-            id: 5
-          });
-        }
-      }
-    } else {
-      options = [
-        { value: 'storage', label: 'Stored', id: 0 },
-        { value: 'import', label: 'Import', id: 1 },
-        { value: 'export', label: 'Export', id: 2 }
-      ];
-    }
-
-    return options;
-  }
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      previewType: 'single',
-      loadType: 'storage'
-    };
-    this.changeRadioType = this.changeRadioType.bind(this);
+  state = {
+    previewType: 'single',
+    loadType: 'storage',
   }
 
   getModalContent(props) {
-    const options = this.constructor.generateRadioOptions(props);
+    const options = generateRadioOptions(props);
     let content;
     const radioOptions = props.type !== 'load' ?
       (
@@ -171,6 +126,13 @@ class Modal extends React.Component {
           />
         );
         break;
+      case 'share':
+        content = (
+          <div>
+            Share your drawing soon.
+          </div>
+        );
+        break;
       default:
     }
 
@@ -185,7 +147,7 @@ class Modal extends React.Component {
     );
   }
 
-  changeRadioType(value, type) {
+  changeRadioType = (value, type) => {
     const newState = {};
     switch (type) {
       case 'load-type':
@@ -222,6 +184,47 @@ class Modal extends React.Component {
       </ModalReact>
     );
   }
+}
+
+function generateRadioOptions(props) {
+  let options;
+
+  if (props.type !== 'load') {
+    options = [{
+      value: 'single',
+      label: 'single',
+      id: 3
+    }];
+
+    if (props.frames.size > 1) {
+      const spritesheetSupport =
+      props.type === 'download' ||
+      props.type === 'twitter';
+
+      const animationOption = {
+        value: 'animation',
+        label: spritesheetSupport ? 'GIF' : 'animation',
+        id: 4
+      };
+      options.push(animationOption);
+
+      if (spritesheetSupport) {
+        options.push({
+          value: 'spritesheet',
+          label: 'spritesheet',
+          id: 5
+        });
+      }
+    }
+  } else {
+    options = [
+      { value: 'storage', label: 'Stored', id: 0 },
+      { value: 'import', label: 'Import', id: 1 },
+      { value: 'export', label: 'Export', id: 2 }
+    ];
+  }
+
+  return options;
 }
 
 const mapStateToProps = (state) => {
