@@ -1,0 +1,2450 @@
+@charset 'UTF-8';
+
+/*! normalize.css v4.1.1 | MIT License | github.com/necolas/normalize.css */
+
+/**
+ * 1. Change the default font family in all browsers (opinionated).
+ * 2. Prevent adjustments of font size after orientation changes in IE and iOS.
+ */
+
+html {
+  font-family: sans-serif; /* 1 */
+  -ms-text-size-adjust: 100%; /* 2 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
+
+/**
+ * Remove the margin in all browsers (opinionated).
+ */
+
+body {
+  margin: 0;
+}
+
+/* HTML5 display definitions
+   ========================================================================== */
+
+/**
+ * Add the correct display in IE 9-.
+ * 1. Add the correct display in Edge, IE, and Firefox.
+ * 2. Add the correct display in IE.
+ */
+
+article, aside, details, figcaption, figure, footer, header, main, menu, nav, section, summary { /* 1 */
+  display: block;
+}
+
+/**
+ * Add the correct display in IE 9-.
+ */
+
+audio, canvas, progress, video {
+  display: inline-block;
+}
+
+/**
+ * Add the correct display in iOS 4-7.
+ */
+
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+
+/**
+ * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+ */
+
+progress {
+  vertical-align: baseline;
+}
+
+/**
+ * Add the correct display in IE 10-.
+ * 1. Add the correct display in IE.
+ */
+
+template, [hidden] {
+  display: none;
+}
+
+/* Links
+   ========================================================================== */
+
+/**
+ * 1. Remove the gray background on active links in IE 10.
+ * 2. Remove gaps in links underline in iOS 8+ and Safari 8+.
+ */
+
+a {
+  background-color: transparent; /* 1 */
+  -webkit-text-decoration-skip: objects; /* 2 */
+}
+
+/**
+ * Remove the outline on focused links when they are also active or hovered
+ * in all browsers (opinionated).
+ */
+
+a:active, a:hover {
+  outline-width: 0;
+}
+
+/* Text-level semantics
+   ========================================================================== */
+
+/**
+ * 1. Remove the bottom border in Firefox 39-.
+ * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+ */
+
+abbr[title] {
+  border-bottom: none; /* 1 */
+  text-decoration: underline; /* 2 */
+  text-decoration: underline dotted; /* 2 */
+}
+
+/**
+ * Prevent the duplicate application of `bolder` by the next rule in Safari 6.
+ */
+
+b, strong {
+  font-weight: inherit;
+}
+
+/**
+ * Add the correct font weight in Chrome, Edge, and Safari.
+ */
+
+b, strong {
+  font-weight: bolder;
+}
+
+/**
+ * Add the correct font style in Android 4.3-.
+ */
+
+dfn {
+  font-style: italic;
+}
+
+/**
+ * Correct the font size and margin on `h1` elements within `section` and
+ * `article` contexts in Chrome, Firefox, and Safari.
+ */
+
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+
+/**
+ * Add the correct background and color in IE 9-.
+ */
+
+mark {
+  background-color: #ff0;
+  color: #000;
+}
+
+/**
+ * Add the correct font size in all browsers.
+ */
+
+small {
+  font-size: 80%;
+}
+
+/**
+ * Prevent `sub` and `sup` elements from affecting the line height in
+ * all browsers.
+ */
+
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+/* Embedded content
+   ========================================================================== */
+
+/**
+ * Remove the border on images inside links in IE 10-.
+ */
+
+img {
+  border-style: none;
+}
+
+/**
+ * Hide the overflow in IE.
+ */
+
+svg:not(:root) {
+  overflow: hidden;
+}
+
+/* Grouping content
+   ========================================================================== */
+
+/**
+ * 1. Correct the inheritance and scaling of font size in all browsers.
+ * 2. Correct the odd `em` font sizing in all browsers.
+ */
+
+code, kbd, pre, samp {
+  font-family: monospace, monospace; /* 1 */
+  font-size: 1em; /* 2 */
+}
+
+/**
+ * Add the correct margin in IE 8.
+ */
+
+figure {
+  margin: 1em 40px;
+}
+
+/**
+ * 1. Add the correct box sizing in Firefox.
+ * 2. Show the overflow in Edge and IE.
+ */
+
+hr {
+  box-sizing: content-box; /* 1 */
+  height: 0; /* 1 */
+  overflow: visible; /* 2 */
+}
+
+/* Forms
+   ========================================================================== */
+
+/**
+ * 1. Change font properties to `inherit` in all browsers (opinionated).
+ * 2. Remove the margin in Firefox and Safari.
+ */
+
+button, input, optgroup, select, textarea {
+  font: inherit; /* 1 */
+  margin: 0; /* 2 */
+}
+
+/**
+ * Restore the font weight unset by the previous rule.
+ */
+
+optgroup {
+  font-weight: bold;
+}
+
+/**
+ * Show the overflow in IE.
+ * 1. Show the overflow in Edge.
+ */
+
+button, input { /* 1 */
+  overflow: visible;
+}
+
+/**
+ * Remove the inheritance of text transform in Edge, Firefox, and IE.
+ * 1. Remove the inheritance of text transform in Firefox.
+ */
+
+button, select { /* 1 */
+  text-transform: none;
+}
+
+/**
+ * 1. Prevent a WebKit bug where (2) destroys native `audio` and `video`
+ *    controls in Android 4.
+ * 2. Correct the inability to style clickable types in iOS and Safari.
+ */
+
+button, html [type="button"], [type="reset"], [type="submit"] {
+  -webkit-appearance: button; /* 2 */
+}
+
+/**
+ * Remove the inner border and padding in Firefox.
+ */
+
+button::-moz-focus-inner, [type="button"]::-moz-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+/**
+ * Restore the focus styles unset by the previous rule.
+ */
+
+button:-moz-focusring, [type="button"]:-moz-focusring, [type="reset"]:-moz-focusring, [type="submit"]:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+/**
+ * Change the border, margin, and padding in all browsers (opinionated).
+ */
+
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+
+/**
+ * 1. Correct the text wrapping in Edge and IE.
+ * 2. Correct the color inheritance from `fieldset` elements in IE.
+ * 3. Remove the padding so developers are not caught out when they zero out
+ *    `fieldset` elements in all browsers.
+ */
+
+legend {
+  box-sizing: border-box; /* 1 */
+  color: inherit; /* 2 */
+  display: table; /* 1 */
+  max-width: 100%; /* 1 */
+  padding: 0; /* 3 */
+  white-space: normal; /* 1 */
+}
+
+/**
+ * Remove the default vertical scrollbar in IE.
+ */
+
+textarea {
+  overflow: auto;
+}
+
+/**
+ * 1. Add the correct box sizing in IE 10-.
+ * 2. Remove the padding in IE 10-.
+ */
+
+[type="checkbox"], [type="radio"] {
+  box-sizing: border-box; /* 1 */
+  padding: 0; /* 2 */
+}
+
+/**
+ * Correct the cursor style of increment and decrement buttons in Chrome.
+ */
+
+[type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+
+/**
+ * 1. Correct the odd appearance in Chrome and Safari.
+ * 2. Correct the outline style in Safari.
+ */
+
+[type="search"] {
+  -webkit-appearance: textfield; /* 1 */
+  outline-offset: -2px; /* 2 */
+}
+
+/**
+ * Remove the inner padding and cancel buttons in Chrome and Safari on OS X.
+ */
+
+[type="search"]::-webkit-search-cancel-button, [type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+/**
+ * Correct the text style of placeholders in Chrome, Edge, and Safari.
+ */
+
+::-webkit-input-placeholder {
+  color: inherit;
+  opacity: 0.54;
+}
+
+/**
+ * 1. Correct the inability to style clickable types in iOS and Safari.
+ * 2. Change font properties to `inherit` in Safari.
+ */
+
+::-webkit-file-upload-button {
+  -webkit-appearance: button; /* 1 */
+  font: inherit; /* 2 */
+}
+
+@font-face {
+  font-family: 'minecraftiaregular';
+  src: url('fonts/files/minecraftia-regular-webfont.eot');
+  src:
+    url('fonts/files/minecraftia-regular-webfont.eot?#iefix') format('embedded-opentype'),
+    url('fonts/files/minecraftia-regular-webfont.woff2') format('woff2'),
+    url('fonts/files/minecraftia-regular-webfont.woff') format('woff'),
+    url('fonts/files/minecraftia-regular-webfont.ttf') format('truetype'),
+    url('fonts/files/minecraftia-regular-webfont.svg#minecraftiaregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('fonts/files/fontawesome-webfont.eot?v=4.5.0');
+  src:
+    url('fonts/files/fontawesome-webfont.eot?#iefix&v=4.5.0') format('embedded-opentype'),
+    url('fonts/files/fontawesome-webfont.woff2?v=4.5.0') format('woff2'),
+    url('fonts/files/fontawesome-webfont.woff?v=4.5.0') format('woff'),
+    url('fonts/files/fontawesome-webfont.ttf?v=4.5.0') format('truetype'),
+    url('fonts/files/fontawesome-webfont.svg?v=4.5.0#fontawesomeregular') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.eyedropper::before{
+  content: "\f1fb";
+}
+
+.color-picker .color-picker__button::before{
+  content: "\f1fc";
+}
+
+.eraser::before{
+  content: "\f12d";
+}
+
+.load-drawing .load-drawing__container .load-drawing__drawing .drawing__delete::before, .frame .delete::before{
+  content: "\f014";
+}
+
+.frame .duplicate::before{
+  content: "\f0c5";
+}
+
+#app .app__social-container .app__download-button::before{
+  content: "\f019";
+}
+
+.twitter-form .twitter-form__tweet span::before, #app .app__social-container .app__twitter-button::before{
+  content: "\f099";
+}
+
+.undo-redo .undo-redo__icon--undo::before{
+  content: "\f0e2";
+}
+
+.undo-redo .undo-redo__icon--redo::before{
+  content: "\f01e";
+}
+
+.picker label.picker__columns::before{
+  content: "\f07e";
+}
+
+.picker label.picker__rows::before{
+  content: "\f07d";
+}
+
+#app .app__social-container .app__toggle-help-button::before{
+  content: "\f128";
+}
+
+.bucket::before{
+  content: "\f0f4";
+}
+
+/* Button colors */
+
+/**
+ * Tooltip
+ */
+
+[data-tooltip] {
+  position: relative;
+  cursor: pointer;
+  text-align: center;
+}
+
+[data-tooltip]::before, [data-tooltip]::after {
+  position: absolute;
+  opacity: 0;
+  transition:
+    opacity 0.2s ease-in-out,
+    visibility 0.2s ease-in-out,
+    transform 0.2s cubic-bezier(0.71, 1.7, 0.77, 1.24);
+  transform: translate3d(0, 0, 0);
+  pointer-events: none;
+}
+
+[data-tooltip]:hover::before, [data-tooltip]:hover::after, [data-tooltip]:focus::before, [data-tooltip]:focus::after {
+  visibility: visible;
+  opacity: 1;
+}
+
+[data-tooltip]::before {
+  z-index: 1001;
+  border: 6px solid transparent;
+  background: transparent;
+  content: "";
+}
+
+[data-tooltip]::after {
+  z-index: 1000;
+  padding: 8px;
+  width: 160px;
+  background-color: black;
+  background-color: #4caf50;
+  color: white;
+  content: attr(data-tooltip);
+  font-size: 14px;
+  line-height: 1.2;
+  font-weight: normal;
+}
+
+[data-tooltip]::before, [data-tooltip]::after {
+  bottom: 100%;
+  left: 50%;
+}
+
+[data-tooltip]::before {
+  margin-left: -6px;
+  margin-bottom: -12px;
+  border-top-color: black;
+  border-top-color: #4caf50;
+}
+
+[data-tooltip]::after {
+  margin-left: -80px;
+}
+
+[data-tooltip]:hover::before, [data-tooltip]:hover::after, [data-tooltip]:focus::before, [data-tooltip]:focus::after {
+  -ms-transform: translateY(-12px);
+      transform: translateY(-12px);
+}
+
+html {
+  box-sizing: border-box;
+  background-color: #585858;
+  overflow-x: hidden;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+}
+
+html, body {
+  height: 100%;
+  width: 90%;
+  margin: 0 auto;
+  padding: 0;
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2 {
+  font-size: 0.8em;
+  padding-right: 1em;
+  display: inline;
+  position: relative;
+  top: -0.9em;
+}
+
+h3 {
+  font-size: 1em;
+}
+
+input[type=number]::-webkit-outer-spin-button, input[type=number]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.clearfix:before {
+  content: '';
+  display: table;
+}
+
+.clearfix:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.col-1-3 {
+  width: calc(99.9% * 1/3 - (30px - 30px * 1/3));
+}
+
+.col-1-3:nth-child(1n) {
+  float: left;
+  margin-right: 30px;
+  clear: none;
+}
+
+.col-1-3:last-child {
+  margin-right: 0;
+}
+
+.col-1-3:nth-child(3n) {
+  margin-right: 0;
+  float: right;
+}
+
+.col-1-3:nth-child(3n + 1) {
+  clear: both;
+}
+
+.col-2-3 {
+  width: calc(99.9% * 2/3 - (30px - 30px * 2/3));
+}
+
+.col-2-3:nth-child(1n) {
+  float: left;
+  margin-right: 30px;
+  clear: none;
+}
+
+.col-2-3:last-child {
+  margin-right: 0;
+}
+
+.col-2-3:nth-child(3n) {
+  margin-right: 0;
+  float: right;
+}
+
+.col-2-3:nth-child(3n + 1) {
+  clear: both;
+}
+
+.col-1-2 {
+  width: calc(99.9% * 1/2 - (30px - 30px * 1/2));
+}
+
+.col-1-2:nth-child(1n) {
+  float: left;
+  margin-right: 30px;
+  clear: none;
+}
+
+.col-1-2:last-child {
+  margin-right: 0;
+}
+
+.col-1-2:nth-child(2n) {
+  margin-right: 0;
+  float: right;
+}
+
+.col-1-2:nth-child(2n + 1) {
+  clear: both;
+}
+
+.col-1-4 {
+  width: calc(99.9% * 1/4 - (30px - 30px * 1/4));
+}
+
+.col-1-4:nth-child(1n) {
+  float: left;
+  margin-right: 30px;
+  clear: none;
+}
+
+.col-1-4:last-child {
+  margin-right: 0;
+}
+
+.col-1-4:nth-child(4n) {
+  margin-right: 0;
+  float: right;
+}
+
+.col-1-4:nth-child(4n + 1) {
+  clear: both;
+}
+
+.col-2-4 {
+  width: calc(99.9% * 2/4 - (30px - 30px * 2/4));
+}
+
+.col-2-4:nth-child(1n) {
+  float: left;
+  margin-right: 30px;
+  clear: none;
+}
+
+.col-2-4:last-child {
+  margin-right: 0;
+}
+
+.col-2-4:nth-child(4n) {
+  margin-right: 0;
+  float: right;
+}
+
+.col-2-4:nth-child(4n + 1) {
+  clear: both;
+}
+
+.col-3-4, .col-6-8 {
+  width: calc(99.9% * 3/4 - (30px - 30px * 3/4));
+}
+
+.col-3-4:nth-child(1n), .col-6-8:nth-child(1n) {
+  float: left;
+  margin-right: 30px;
+  clear: none;
+}
+
+.col-3-4:last-child, .col-6-8:last-child {
+  margin-right: 0;
+}
+
+.col-3-4:nth-child(4n), .col-6-8:nth-child(4n) {
+  margin-right: 0;
+  float: right;
+}
+
+.col-3-4:nth-child(4n + 1), .col-6-8:nth-child(4n + 1) {
+  clear: both;
+}
+
+.col-1-8 {
+  width: calc(99.9% * 1/8 - (30px - 30px * 1/8));
+}
+
+.col-1-8:nth-child(1n) {
+  float: left;
+  margin-right: 30px;
+  clear: none;
+}
+
+.col-1-8:last-child {
+  margin-right: 0;
+}
+
+.col-1-8:nth-child(8n) {
+  margin-right: 0;
+  float: right;
+}
+
+.col-1-8:nth-child(8n + 1) {
+  clear: both;
+}
+
+.col-7-8 {
+  width: calc(99.9% * 7/8 - (30px - 30px * 7/8));
+}
+
+.col-7-8:nth-child(1n) {
+  float: left;
+  margin-right: 30px;
+  clear: none;
+}
+
+.col-7-8:last-child {
+  margin-right: 0;
+}
+
+.col-7-8:nth-child(8n) {
+  margin-right: 0;
+  float: right;
+}
+
+.col-7-8:nth-child(8n + 1) {
+  clear: both;
+}
+
+.grid-3:before {
+  content: '';
+  display: table
+}
+
+.grid-3:after {
+  content: '';
+  display: table;
+  clear: both
+}
+
+.grid-3 > div {
+  width: calc(99.9% * 1/3);
+}
+
+.grid-3 > div:nth-child(1n) {
+  float: left;
+  margin-right: 0;
+  clear: none;
+}
+
+.grid-3 > div:last-child {
+  margin-right: 0;
+}
+
+.grid-3 > div:nth-child(3n) {
+  margin-right: 0;
+  float: right;
+}
+
+.grid-3 > div:nth-child(3n + 1) {
+  clear: both;
+}
+
+.grid-4:before {
+  content: '';
+  display: table
+}
+
+.grid-4:after {
+  content: '';
+  display: table;
+  clear: both
+}
+
+.grid-4 > div {
+  width: calc(99.9% * 1/4);
+}
+
+.grid-4 > div:nth-child(1n) {
+  float: left;
+  margin-right: 0;
+  clear: none;
+}
+
+.grid-4 > div:last-child {
+  margin-right: 0;
+}
+
+.grid-4 > div:nth-child(4n) {
+  margin-right: 0;
+  float: right;
+}
+
+.grid-4 > div:nth-child(4n + 1) {
+  clear: both;
+}
+
+.grid-2:before {
+  content: '';
+  display: table
+}
+
+.grid-2:after {
+  content: '';
+  display: table;
+  clear: both
+}
+
+.grid-2 > div {
+  width: calc(99.9% * 1/2);
+}
+
+.grid-2 > div:nth-child(1n) {
+  float: left;
+  margin-right: 0;
+  clear: none;
+}
+
+.grid-2 > div:last-child {
+  margin-right: 0;
+}
+
+.grid-2 > div:nth-child(2n) {
+  margin-right: 0;
+  float: right;
+}
+
+.grid-2 > div:nth-child(2n + 1) {
+  clear: both;
+}
+
+header {
+  padding: 0 1.4em;
+  color: #bbb;
+}
+
+header:before {
+  content: '';
+  display: table;
+}
+
+header:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+header .header__credits {
+    text-align: right;
+    margin-top: 1em;
+    top: 1em;
+    position: relative;
+  }
+
+header .header__credits a {
+      text-decoration: none;
+      color: #b17e7e;
+    }
+
+header .header__credits h2 {
+      display: block;
+      font-size: 0.8em;
+      padding-right: 1.3em;
+      position: relative;
+      margin: 0;
+      top: 0;
+    }
+
+@media only screen and (max-width: 1250px) {
+  .app__left-side, .app__right-side {
+    width: 100% !important;
+  }
+}
+
+@media only screen and (max-width: 780px) {
+    .dimensions label {
+      font-size: 1.5em !important;
+      top: -0.2em;
+    }
+}
+
+@media only screen and (min-width: 730px) {
+  /*
+    Fix small vertical scrollbar glitch for some resolutions
+    inside frames-handler
+    Detected in Chrome
+  */
+  .app__frames-container::-webkit-scrollbar, .app__frames-container div::-webkit-scrollbar {
+    width: 1em !important;
+  }
+}
+
+@media only screen and (max-width: 730px) {
+    .app__central-container .col-1-4.left {
+    width: auto;
+  }
+    .app__central-container .col-1-4.left:last-child {
+    float: none;
+    clear: none;
+    margin-right: 0;
+    width: auto;
+  }
+    .app__central-container .col-1-4.left:nth-child(1n) {
+    float: none;
+    clear: none;
+    margin-right: 0;
+    width: auto;
+  }
+    .app__central-container .col-1-4.left:nth-child(1n + 1) {
+    float: none;
+    clear: none;
+    margin-right: 0;
+    width: auto;
+  }
+    .app__central-container .col-1-4.left .app__copycss-button {
+          padding: 4px !important;
+  }
+    .app__central-container .col-1-4.left .palette-grid {
+          margin: 0;
+  }
+    .app__central-container .col-1-4.right {
+    width: auto;
+  }
+    .app__central-container .col-1-4.right:last-child {
+    float: none;
+    clear: none;
+    margin-right: 0;
+    width: auto;
+  }
+    .app__central-container .col-1-4.right:nth-child(1n) {
+    float: none;
+    clear: none;
+    margin-right: 0;
+    width: auto;
+  }
+    .app__central-container .col-1-4.right:nth-child(1n + 1) {
+    float: none;
+    clear: none;
+    margin-right: 0;
+    width: auto;
+  }
+
+    .app__central-container .col-2-4.center {
+    width: auto;
+  }
+
+    .app__central-container .col-2-4.center:last-child {
+    float: none;
+    clear: none;
+    margin-right: 0;
+    width: auto;
+  }
+
+    .app__central-container .col-2-4.center:nth-child(1n) {
+    float: none;
+    clear: none;
+    margin-right: 0;
+    width: auto;
+  }
+
+    .app__central-container .col-2-4.center:nth-child(1n + 1) {
+    float: none;
+    clear: none;
+    margin-right: 0;
+    width: auto;
+  }
+
+    .app__central-container .col-2-4.center .grid-container {
+          margin: 1em auto !important;
+  }
+
+  .app__mobile--container:before {
+    content: '';
+    display: table;
+  }
+
+  .app__mobile--container:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+    .app__mobile--container .app__mobile--group {
+      width: calc(99.9% * 1/2 - (30px - 30px * 1/2));
+    }
+
+    .app__mobile--container .app__mobile--group:nth-child(1n) {
+      float: left;
+      margin-right: 30px;
+      clear: none;
+    }
+
+    .app__mobile--container .app__mobile--group:last-child {
+      margin-right: 0;
+    }
+
+    .app__mobile--container .app__mobile--group:nth-child(2n) {
+      margin-right: 0;
+      float: right;
+    }
+
+    .app__mobile--container .app__mobile--group:nth-child(2n + 1) {
+      clear: both;
+    }
+
+  .app__preview-button {
+    margin-top: 1em !important;
+  }
+
+  .app__copycss-button {
+    margin-top: 1.4em !important;
+  }
+
+  body {
+    width: 100% !important;
+  }
+
+  /* Avoid button hover effect in mobile devices */
+    .undo-redo button:hover, .undo-redo button.selected, .app__load-save-container button:hover, .app__load-save-container button.selected, .new-project button:hover, .new-project button.selected, .frames-handler button:hover, .frames-handler button.selected, .app__right-side button:hover, .app__right-side button.selected {
+      background-color: #313131 !important;
+    }
+
+  button.app__copycss-button:hover, button.app__copycss-button.selected {
+    background-color: #e0e0e0 !important;
+  }
+
+  .app__toggle-help-button:hover, .app__toggle-help-button.selected {
+    background-color: #164075 !important;
+  }
+
+  .load-drawing__import {
+    height: 10em !important;
+  }
+}
+
+@media only screen and (max-width: 360px) {
+  button, .dimensions {
+    font-size: 0.8em !important;
+  }
+}
+
+.react-cookie-banner {
+  position: relative;
+  background-color: #313131;
+  width: 100%;
+  z-index: 0;
+  clear: both;
+  display: table;
+  padding: 0.5em;
+  font-size: 0.9em;
+}
+
+.react-cookie-banner .button-close {
+    position: relative;
+    line-height: 24px;
+    opacity: 0.5;
+    background-color: white;
+    font-weight: 500;
+    color: #313131;
+    cursor: pointer;
+    text-align: center;
+    padding: 0.2em;
+    margin: 0.5em auto;
+    width: 11em;
+  }
+
+.react-cookie-banner .cookie-message {
+    font-weight: 500;
+    color: #bbb;
+    text-align: center;
+    position: relative;
+    display: block;
+  }
+
+.react-cookie-banner .cookie-message a {
+      text-decoration: none;
+      color: #5786c1;
+    }
+
+input[type="text"], input[type="number"] {
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  box-shadow: none;
+  border-radius: none;
+  text-align: center;
+  font-size: 1em;
+  color: #bbb;
+  border: none;
+  width: 100%;
+  background-color: #4b4949;
+  transition: background-color 0.3s
+}
+
+input[type="text"]:focus, input[type="number"]:focus {
+  color: #313131;
+  background-color: #969696;
+  outline: none;
+}
+
+.grid-container {
+  line-height: 0;
+  min-height: 1px;
+  margin: 0 auto;
+  width: 90%;
+}
+
+.grid-container:before {
+  content: '';
+  display: table;
+}
+
+.grid-container:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.grid-container div {
+    float: left;
+    border: 1px solid #585858;
+    border-width: 0 1px 1px 0;
+  }
+
+.grid-container.cell {
+  cursor: cell;
+}
+
+.grid-container.context-menu {
+  cursor: context-menu;
+}
+
+.grid-container.copy {
+  cursor: copy;
+}
+
+.simple-notification {
+  background-color: #313131;
+  color: #bbb;
+  width: 250px;
+  text-align: center;
+  padding: 1em;
+  position: fixed;
+  z-index: 1;
+  left: 50%;
+  margin-left: -125px;
+  top: 1em;
+  border: 1px solid orange;
+}
+
+/* ReactCSSTransitionGroup related rules */
+
+.simple-notification-enter {
+  opacity: 0.01;
+}
+
+.simple-notification-enter.simple-notification-enter-active {
+  opacity: 1;
+  transition: opacity 1000ms ease-in;
+}
+
+.simple-notification-exit {
+  opacity: 1;
+}
+
+.simple-notification-exit.simple-notification-exit-active {
+  opacity: 0.01;
+  transition: opacity 1000ms ease-out;
+}
+
+.simple-spinner {
+  position: absolute;
+  z-index: 1;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  opacity: 0.4;
+  top: 0;
+  display: none
+}
+
+.simple-spinner.display {
+  display: block;
+}
+
+.simple-spinner .circle {
+    height: 60px;
+    width: 60px;
+    margin: 94px auto 0;
+    position: fixed;
+    animation: spin-rotation 0.6s infinite linear;
+    border-left: 6px solid rgba(239, 149, 50, 0.35);
+    border-right: 6px solid rgba(239, 149, 50, 0.35);
+    border-bottom: 6px solid rgba(239, 149, 50, 0.35);
+    border-top: 6px solid rgba(219, 109, 26, 1);
+    border-radius: 100%;
+    top: 50%;
+    left: 50%;
+    margin-top: -30px;
+    margin-left: -30px;
+}
+
+@keyframes spin-rotation {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(359deg);
+  }
+}
+
+.load-drawing h2 {
+    padding: 2em 0 0;
+    margin-bottom: 0;
+    font-size: 1em;
+    display: block;
+    text-align: center;
+  }
+
+.load-drawing .load-drawing__container {
+    max-height: 400;
+    overflow-x: hidden;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: row;
+        flex-direction: row;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+    text-align: center
+  }
+
+.load-drawing .load-drawing__container.empty {
+  overflow-y: hidden;
+  display: block;
+}
+
+.load-drawing .load-drawing__container .load-drawing__drawing {
+      position: relative;
+      border: 3px solid black;
+      cursor: pointer;
+      -ms-flex: 1 1 25%;
+          flex: 1 1 25%;
+      min-height: 200;
+      margin: 1em;
+      padding: 0.5em 0;
+}
+
+.load-drawing .load-drawing__container .load-drawing__drawing .drawing__delete {
+        display: inline-block;
+        font: normal normal normal 14px/1 FontAwesome;
+        font-size: inherit;
+        text-rendering: auto;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+.load-drawing .load-drawing__container .load-drawing__drawing .drawing__delete {
+  position: absolute;
+  font-size: 1.7em;
+  color: white;
+  top: 0;
+  right: 0;
+  cursor: no-drop;
+  padding: 0.1em;
+  background-color: #313131;
+  border: 2px solid black;
+  border-width: 0 0 2px 2px;
+}
+
+.load-drawing .load-drawing__container .load-drawing__drawing .preview {
+        margin: 0 auto;
+      }
+
+.load-drawing .load-drawing__export {
+    overflow-y: scroll;
+    background-color: #313131;
+    color: #bbb;
+    padding: 0.5em;
+    text-align: left;
+  }
+
+.load-drawing .load-drawing__import {
+    font-family: 'monospace';
+    width: 100%;
+    resize: none;
+    height: 25em;
+    margin: 1em 0 0;
+    padding: 0.5em;
+    background-color: #313131;
+    color: #bbb;
+  }
+
+.load-drawing .import__button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #961818;
+    box-shadow: 0 5px 0 0 #6b1010;
+  }
+
+.load-drawing .import__button:hover, .load-drawing .import__button.selected {
+  background-color: #741515;
+}
+
+.load-drawing .import__button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #741515;
+  background-color: #741515;
+}
+
+.load-drawing .import__button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  margin: 1.5em auto;
+  display: table;
+}
+
+.save-drawing button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #313131;
+    box-shadow: 0 5px 0 0 #707070;
+  }
+
+.save-drawing button:hover, .save-drawing button.selected {
+  background-color: #4b4949;
+}
+
+.save-drawing button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #4b4949;
+  background-color: #4b4949;
+}
+
+.save-drawing button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  width: 100%;
+}
+
+.new-project button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #313131;
+    box-shadow: 0 5px 0 0 #707070;
+  }
+
+.new-project button:hover, .new-project button.selected {
+  background-color: #4b4949;
+}
+
+.new-project button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #4b4949;
+  background-color: #4b4949;
+}
+
+.new-project button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  width: 100%;
+  padding: 0.5em;
+  margin-bottom: 0.6em;
+}
+
+.twitter-form {
+  text-align: center;
+  margin: '0 auto';
+  display: 'table';
+}
+
+.twitter-form h2, .twitter-form h3 {
+    padding: 1em 0;
+    font-size: 1.5em;
+    display: block;
+    width: 80%;
+    margin: 1em auto;
+  }
+
+.twitter-form h3 {
+    font-size: 1em;
+  }
+
+.twitter-form textarea {
+    width: 80%;
+    resize: none;
+    height: 6em;
+  }
+
+.twitter-form .twitter-form__count {
+    margin: 1em auto
+  }
+
+.twitter-form .twitter-form__count.max-reached {
+  color: #961818;
+}
+
+.twitter-form .twitter-form__tweet {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #5786c1;
+    box-shadow: 0 5px 0 0 #4171ae
+  }
+
+.twitter-form .twitter-form__tweet:hover, .twitter-form .twitter-form__tweet.selected {
+  background-color: #3a587f;
+}
+
+.twitter-form .twitter-form__tweet:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #3a587f;
+  background-color: #3a587f;
+}
+
+.twitter-form .twitter-form__tweet {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+}
+
+.twitter-form .twitter-form__tweet span {
+      display: inline-block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: inherit;
+      text-rendering: auto;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+}
+
+.twitter-form .twitter-form__tweet span {
+  font-size: 2.3em;
+  padding: 0 0.2em;
+}
+
+.undo-redo:before {
+  content: '';
+  display: table;
+}
+
+.undo-redo:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.undo-redo button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #313131;
+    box-shadow: 0 5px 0 0 #707070;
+  }
+
+.undo-redo button:hover, .undo-redo button.selected {
+  background-color: #4b4949;
+}
+
+.undo-redo button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #4b4949;
+  background-color: #4b4949;
+}
+
+.undo-redo button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  width: calc(99.9% * 1/2 - (0.5em - 0.5em * 1/2));
+  font-size: 1.2em;
+}
+
+.undo-redo button:nth-child(1n) {
+  float: left;
+  margin-right: 0.5em;
+  clear: none;
+}
+
+.undo-redo button:last-child {
+  margin-right: 0;
+}
+
+.undo-redo button:nth-child(0n) {
+  float: right;
+}
+
+.undo-redo .undo-redo__icon--undo {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+.undo-redo .undo-redo__icon--undo {
+  display: block;
+}
+
+.undo-redo .undo-redo__icon--redo {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+.undo-redo .undo-redo__icon--redo {
+  display: block;
+}
+
+#app .app__main-container:before, #app .app__central-container:before {
+    content: '';
+    display: table;
+  }
+
+#app .app__main-container:after, #app .app__central-container:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+#app .app__main, #app .app__central-container {
+    margin-bottom: 2em;
+  }
+
+#app .app__frames-container {
+    margin-bottom: 1em;
+  }
+
+#app .app__frames-container[data-tooltip]::after {
+    width: 80%;
+  }
+
+#app .app__frames-container[data-tooltip]::after {
+    margin-left: -40%;
+  }
+
+#app .app__load-save-container {
+    margin-bottom: 2em;
+  }
+
+#app .app__load-save-container:before {
+
+    content: '';
+
+    display: table;
+  }
+
+#app .app__load-save-container:after {
+
+    content: '';
+
+    display: table;
+
+    clear: both;
+  }
+
+#app .app__load-save-container .app__load-button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #313131;
+    box-shadow: 0 5px 0 0 #707070;
+    }
+
+#app .app__load-save-container .app__load-button:hover, #app .app__load-save-container .app__load-button.selected {
+  background-color: #4b4949;
+}
+
+#app .app__load-save-container .app__load-button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #4b4949;
+  background-color: #4b4949;
+}
+
+#app .app__load-save-container .app__load-button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+}
+
+#app .app__load-save-container > div, #app .app__load-save-container > button {
+      width: calc(99.9% * 1/2 - (0.5em - 0.5em * 1/2));
+    }
+
+#app .app__load-save-container > div:nth-child(1n), #app .app__load-save-container > button:nth-child(1n) {
+      float: left;
+      margin-right: 0.5em;
+      clear: none;
+    }
+
+#app .app__load-save-container > div:last-child, #app .app__load-save-container > button:last-child {
+      margin-right: 0;
+    }
+
+#app .app__load-save-container > div:nth-child(0n), #app .app__load-save-container > button:nth-child(0n) {
+      float: right;
+    }
+
+#app .app__social-container {
+    margin: 1em 0;
+  }
+
+#app .app__social-container:before {
+    content: '';
+    display: table;
+  }
+
+#app .app__social-container:after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+
+#app .app__social-container > div {
+      width: calc(99.9% * 1/3 - (0.5em - 0.5em * 1/3));
+    }
+
+#app .app__social-container > div:nth-child(1n) {
+      float: left;
+      margin-right: 0.5em;
+      clear: none;
+    }
+
+#app .app__social-container > div:last-child {
+      margin-right: 0;
+    }
+
+#app .app__social-container > div:nth-child(0n) {
+      float: right;
+    }
+
+#app .app__social-container .app__twitter-button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #5786c1;
+    box-shadow: 0 5px 0 0 #4171ae;
+    }
+
+#app .app__social-container .app__twitter-button:hover, #app .app__social-container .app__twitter-button.selected {
+  background-color: #3a587f;
+}
+
+#app .app__social-container .app__twitter-button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #3a587f;
+  background-color: #3a587f;
+}
+
+#app .app__social-container .app__twitter-button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app .app__social-container .app__twitter-button {
+  width: 100%;
+}
+
+#app .app__social-container .app__download-button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #803c3c;
+    box-shadow: 0 5px 0 0 #733939;
+    }
+
+#app .app__social-container .app__download-button:hover, #app .app__social-container .app__download-button.selected {
+  background-color: #552a2a;
+}
+
+#app .app__social-container .app__download-button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #552a2a;
+  background-color: #552a2a;
+}
+
+#app .app__social-container .app__download-button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app .app__social-container .app__download-button {
+  width: 100%;
+}
+
+#app .app__social-container .app__toggle-help-button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #164075;
+    box-shadow: 0 5px 0 0 #2f5382;
+    }
+
+#app .app__social-container .app__toggle-help-button:hover, #app .app__social-container .app__toggle-help-button.selected {
+  background-color: #253c5a;
+}
+
+#app .app__social-container .app__toggle-help-button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #253c5a;
+  background-color: #253c5a;
+}
+
+#app .app__social-container .app__toggle-help-button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app .app__social-container .app__toggle-help-button.selected {
+  box-shadow: 0 0 0 2px #bbb;
+}
+
+#app .app__social-container .app__toggle-help-button {
+  width: 100%;
+}
+
+#app .app__copycss-button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: black;
+    background-color: #e0e0e0;
+    box-shadow: 0 5px 0 0 #a0a0a0;
+  }
+
+#app .app__copycss-button:hover, #app .app__copycss-button.selected {
+  background-color: #b7b7b7;
+}
+
+#app .app__copycss-button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #b7b7b7;
+  background-color: #b7b7b7;
+}
+
+#app .app__copycss-button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  width: 100%;
+  margin-top: 1em;
+  font-weight: bold !important;
+  color: #313131;
+}
+
+#app .app__preview-button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #313131;
+    box-shadow: 0 5px 0 0 #707070;
+  }
+
+#app .app__preview-button:hover, #app .app__preview-button.selected {
+  background-color: #4b4949;
+}
+
+#app .app__preview-button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #4b4949;
+  background-color: #4b4949;
+}
+
+#app .app__preview-button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  width: 100%;
+  margin: 0 0 0.6em;
+  display: table;
+}
+
+#app .app__tools-wrapper {
+    text-align: center;
+    margin: 1em 0 0.6em;
+  }
+
+#app .app__tools-wrapper > div button {
+        font-size: 1.8em;
+        text-align: center;
+        color: #313131;
+        padding: 0.4em 0;
+        width: 100%;
+        border: none;
+        background-color: transparent
+      }
+
+#app .app__tools-wrapper > div button:focus {
+  outline: 0;
+}
+
+#app .app__tools-wrapper > div button.selected {
+  color: #bbb;
+  background-color: #313131;
+}
+
+#app .app__tools-wrapper > div button.selected > div {
+  background-color: #313131;
+}
+
+#app .app__left-side, #app .app__right-side {
+    width: 60%;
+  }
+
+#app .app__right-side {
+    margin-left: auto;
+    margin-right: 0;
+  }
+
+.reset {
+  width: 100%;
+  margin: 0.5em auto;
+  display: table;
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #313131;
+    box-shadow: 0 5px 0 0 #707070;
+}
+
+.reset:hover, .reset.selected {
+  background-color: #4b4949;
+}
+
+.reset:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #4b4949;
+  background-color: #4b4949;
+}
+
+.reset {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+}
+
+.radio-selector {
+  border: none;
+  text-align: center;
+  margin: 0 auto;
+}
+
+.radio-selector label {
+
+    margin: 0 0.5em;
+  }
+
+.radio-selector label input {
+      display: none
+    }
+
+.radio-selector label input:checked + span {
+  color: white;
+  background-color: black;
+}
+
+.radio-selector label input:not(:checked) + span:hover {
+  box-shadow: 0 0 0 2px #585858 inset;
+}
+
+.radio-selector label span {
+      padding: 0.6em 1em;
+      border: 1px solid #585858;
+      transition: all 0.3s;
+    }
+
+.palette-grid {
+  text-align: center;
+  margin: 0.5em 0;
+}
+
+.palette-grid:before {
+  content: '';
+  display: table;
+}
+
+.palette-grid:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.palette-color {
+  float: left;
+  border: 2px solid #585858;
+  border-width: 2px
+}
+
+.palette-color.selected {
+  border-color: white;
+}
+
+.modal button.close {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #5786c1;
+    box-shadow: 0 5px 0 0 #4171ae;
+  }
+
+.modal button.close:hover, .modal button.close.selected {
+  background-color: #3a587f;
+}
+
+.modal button.close:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #3a587f;
+  background-color: #3a587f;
+}
+
+.modal button.close {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+}
+
+.modal .modal__preview, .modal .modal__load {
+    margin: 2em 0 1em;
+  }
+
+.modal .modal__preview .modal__preview--wrapper, .modal .modal__load .modal__preview--wrapper {
+      margin: 1em auto;
+      display: table;
+    }
+
+.modal .modal__preview fieldset, .modal .modal__load fieldset {
+      padding: 1em 0;
+    }
+
+.modal .modal__preview fieldset label, .modal .modal__load fieldset label {
+        margin: 1em 0.5em;
+        display: inline-block;
+      }
+
+.frames-handler:before {
+  content: '';
+  display: table;
+}
+
+.frames-handler:after {
+  content: '';
+  display: table;
+  clear: both;
+}
+
+.frames-handler .frames-handler__add {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #313131;
+    box-shadow: 0 5px 0 0 #707070;
+  }
+
+.frames-handler .frames-handler__add:hover, .frames-handler .frames-handler__add.selected {
+  background-color: #4b4949;
+}
+
+.frames-handler .frames-handler__add:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #4b4949;
+  background-color: #4b4949;
+}
+
+.frames-handler .frames-handler__add {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  height: 86px;
+  float: left;
+}
+
+.frames-handler .frame-handler__list {
+    display: -ms-flexbox;
+    display: flex;
+    background-color: rgba(51, 50, 50, 0.2);
+    padding: 0.2em;
+  }
+
+.frames-handler .frame-handler__list .list__container {
+      height: 85px;
+      display: -ms-flexbox;
+      display: flex;
+      -ms-flex-wrap: nowrap;
+          flex-wrap: nowrap;
+      padding-bottom: 0.5em;
+    }
+
+.frame {
+  border: 1px solid #313131;
+  background-color: #bbb;
+  color: white;
+  width: 70px;
+  height: 84px;
+  margin: 0 0.3em;
+  -ms-flex: 0 0 auto;
+      flex: 0 0 auto;
+  position: relative;
+  overflow: hidden;
+  opacity: 0.4;
+}
+
+.frame .delete, .frame .duplicate {
+    position: absolute;
+    color: white;
+    right: 0;
+    background-color: #313131;
+    border: 1px solid #4b4949;
+    padding: 0.1em;
+  }
+
+.frame .delete {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+.frame .delete {
+  font-size: 1.2em;
+  top: 0;
+  border-width: 0 0 2px 2px;
+}
+
+.frame .duplicate {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+.frame .duplicate {
+  bottom: 23px;
+  border-width: 2px 0 0 2px;
+}
+
+.frame.active {
+  border: 2px solid #961818;
+  opacity: 1;
+}
+
+.frame.active .delete {
+      cursor: no-drop;
+}
+
+.frame.active .duplicate {
+      cursor: copy;
+}
+
+.frame.active .delete, .frame.active .duplicate {
+      border-color: #961818;
+}
+
+.frame.active .frame__percentage {
+      border-color: #961818;
+}
+
+.frame .frame__percentage {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 23px;
+    border-top: 2px solid #4b4949;
+}
+
+.eyedropper {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
+
+.eyedropper:hover {
+  cursor: pointer;
+}
+
+.eraser {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
+
+.eraser:hover {
+  cursor: pointer;
+}
+
+.bucket {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale
+}
+
+.bucket:hover {
+  cursor: pointer;
+}
+
+.download-drawing {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #803c3c;
+    box-shadow: 0 5px 0 0 #733939;
+}
+
+.download-drawing:hover, .download-drawing.selected {
+  background-color: #552a2a;
+}
+
+.download-drawing:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #552a2a;
+  background-color: #552a2a;
+}
+
+.download-drawing {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+  margin: 1.5em auto;
+  display: table;
+}
+
+.dimensions {
+  margin: 1em 0 0;
+  padding: 0.5em 0;
+}
+
+.picker {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
+  text-align: center;
+  margin-bottom: 2em;
+}
+
+.picker label.picker__columns {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+.picker label.picker__rows {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+.picker label {
+    -ms-flex: 0.5;
+        flex: 0.5;
+    font-size: 2em !important;
+    color: #313131;
+    position: relative;
+    margin: 0 auto;
+    text-align: center;
+  }
+
+.picker .picker__container, .picker label {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+        align-items: center;
+    -ms-flex-pack: center;
+        justify-content: center;
+  }
+
+.picker .picker__value, .picker .picker__buttons {
+    -ms-flex: 1;
+        flex: 1;
+  }
+
+.picker .picker__container {
+    color: #bbb;
+    background-color: #4b4949;
+    border: 3px solid #757575;
+    -ms-flex: 1;
+        flex: 1;
+  }
+
+.picker .picker__container button {
+      color: #bbb;
+      background-color: #313131;
+      border: none;
+      outline: none;
+      display: block;
+      width: 100%;
+      height: 2em;
+      border-left: 3px solid #757575;
+    }
+
+.picker .picker__container button:hover {
+      background-color: #4b4949;
+    }
+
+.picker .picker__container .button-add {
+      border-bottom: 1px solid #757575;
+    }
+
+.cell-size {
+  margin-top: 1em;
+  border: 3px solid #757575;
+  background-color: #313131;
+  color: #bbb;
+  text-align: center;
+}
+
+.cell-size label, .cell-size input {
+    padding: 0.2em 0;
+  }
+
+.cell-size label {
+    display: block;
+  }
+
+.css-display {
+  position: absolute;
+  top: -1.6em;
+  left: 0;
+  opacity: 0.1;
+  z-index: -1;
+  padding: 1em;
+  margin-top: 1em;
+  color: black;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  font-size: 0.8em;
+}
+
+.copy-css h2 {
+    padding: 2em 0 1em;
+    margin-bottom: 0;
+    font-size: 1em;
+    display: block;
+    text-align: center;
+  }
+
+.copy-css h2 span {
+      color: #961818;
+    }
+
+.copy-css .copy-css__string {
+    overflow-y: scroll;
+    height: 20em;
+    background-color: #313131;
+    color: #bbb;
+    padding: 0.5em;
+    text-align: left;
+  }
+
+.color-picker .color-picker__button {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+.color-picker .color-picker__button {
+  display: block;
+}
+
+.color-picker:hover {
+  cursor: pointer;
+}
+
+.duration {
+  margin-top: 1em;
+  border: 3px solid #757575;
+  background-color: #313131;
+  color: #bbb;
+  text-align: center;
+}
+
+.duration label, .duration input {
+    padding: 0.2em 0;
+  }
+
+.duration label {
+    display: block;
+  }

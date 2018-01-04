@@ -1701,7 +1701,7 @@ cheerio@^0.20.0:
   optionalDependencies:
     jsdom "^7.0.2"
 
-chokidar@^1.6.0, chokidar@^1.7.0:
+chokidar@^1.6.0, chokidar@^1.6.1, chokidar@^1.7.0:
   version "1.7.0"
   resolved "https://registry.yarnpkg.com/chokidar/-/chokidar-1.7.0.tgz#798e689778151c8076b4b360e5edd28cda2bb468"
   dependencies:
@@ -2522,6 +2522,10 @@ delimit-stream@0.1.0:
 depd@1.1.1, depd@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/depd/-/depd-1.1.1.tgz#5783b4e1c459f06fa5ca27f991f3d06e7a310359"
+
+dependency-graph@^0.5.0:
+  version "0.5.2"
+  resolved "https://registry.yarnpkg.com/dependency-graph/-/dependency-graph-0.5.2.tgz#c10e03652b653b8bcd4b09b63a175fae323da131"
 
 des.js@^1.0.0:
   version "1.0.0"
@@ -4134,6 +4138,10 @@ get-package-info@^1.0.0:
 get-stdin@^4.0.1:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-4.0.1.tgz#b968c6b0a04384324902e8bf1a5df32579a450fe"
+
+get-stdin@^5.0.1:
+  version "5.0.1"
+  resolved "https://registry.yarnpkg.com/get-stdin/-/get-stdin-5.0.1.tgz#122e161591e21ff4c52530305693f20e6393a398"
 
 get-stream@^3.0.0:
   version "3.0.0"
@@ -7871,6 +7879,24 @@ postcss-calc@^5.2.0:
     postcss-message-helpers "^2.0.0"
     reduce-css-calc "^1.2.6"
 
+postcss-cli@^4.1.1:
+  version "4.1.1"
+  resolved "https://registry.yarnpkg.com/postcss-cli/-/postcss-cli-4.1.1.tgz#b94bd8fffbb7ac1f62f2607e78fc9397f7f63a5d"
+  dependencies:
+    chalk "^2.1.0"
+    chokidar "^1.6.1"
+    dependency-graph "^0.5.0"
+    fs-extra "^4.0.1"
+    get-stdin "^5.0.1"
+    globby "^6.1.0"
+    ora "^1.1.0"
+    postcss "^6.0.1"
+    postcss-load-config "^1.1.0"
+    postcss-reporter "^5.0.0"
+    pretty-hrtime "^1.0.3"
+    read-cache "^1.0.0"
+    yargs "^8.0.1"
+
 postcss-color-function@^4.0.0:
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/postcss-color-function/-/postcss-color-function-4.0.1.tgz#402b3f2cebc3f6947e618fb6be3654fbecef6444"
@@ -7985,7 +8011,7 @@ postcss-js@^1.0.1:
     camelcase-css "^1.0.1"
     postcss "^6.0.11"
 
-postcss-load-config@^1.2.0:
+postcss-load-config@^1.1.0, postcss-load-config@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/postcss-load-config/-/postcss-load-config-1.2.0.tgz#539e9afc9ddc8620121ebf9d8c3673e0ce50d28a"
   dependencies:
@@ -8344,6 +8370,10 @@ pretty-error@^2.0.2:
   dependencies:
     renderkid "^2.0.1"
     utila "~0.4"
+
+pretty-hrtime@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/pretty-hrtime/-/pretty-hrtime-1.0.3.tgz#b7e3ea42435a4c9b2759d99e0f201eb195802ee1"
 
 priorityqueue@^0.2.0:
   version "0.2.0"
@@ -11454,7 +11484,7 @@ yargs@^7.0.2:
     y18n "^3.2.1"
     yargs-parser "^5.0.0"
 
-yargs@^8.0.2:
+yargs@^8.0.1, yargs@^8.0.2:
   version "8.0.2"
   resolved "https://registry.yarnpkg.com/yargs/-/yargs-8.0.2.tgz#6299a9055b1cefc969ff7e79c1d918dceb22c360"
   dependencies:
