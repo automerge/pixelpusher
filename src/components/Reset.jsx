@@ -16,7 +16,7 @@ const Reset = (props) => {
       className="reset"
       onClick={() => { handleClick(); }}
     >
-      RESET
+      Reset
     </button>
   );
 };

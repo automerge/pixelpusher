@@ -50,6 +50,11 @@
     }
   }
 
+  &__spacer {
+    flex: 1 1 25%;
+    margin: 0 1em;
+  }
+
   &__export {
     overflow-y: scroll;
     background-color: $color-mineShaft;

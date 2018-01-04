@@ -1303,6 +1303,12 @@ input[type="text"]:focus, input[type="number"]:focus {
       margin: 0 auto;
     }
 
+.load-drawing__spacer {
+    -ms-flex: 1 1 25%;
+        flex: 1 1 25%;
+    margin: 0 1em;
+  }
+
 .load-drawing__export {
     overflow-y: scroll;
     background-color: #313131;

@@ -155,7 +155,7 @@ export default class App extends React.Component {
                       onClick={() => { this.changeModalType('preview'); }}
                       data-tooltip={this.tip('Show a preview of your project')}
                     >
-                      PREVIEW
+                      Preview
                     </button>
                     <div data-tooltip={this.tip('Reset the selected frame')}>
                       <ResetContainer />

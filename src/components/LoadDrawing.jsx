@@ -153,6 +153,9 @@ export default class LoadDrawing extends React.Component {
                 ${!drawingsStored ? 'empty' : ''}`}
             >
               {drawingsStored ? this.giveMeDrawings() : 'Nothing awesome yet...'}
+              <div className="load-drawing__spacer" />
+              <div className="load-drawing__spacer" />
+              <div className="load-drawing__spacer" />
             </div>
           </div>
         );

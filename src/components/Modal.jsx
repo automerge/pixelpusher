@@ -177,7 +177,7 @@ class Modal extends React.Component {
     return (
       <div className="modal">
         <button className="close" onClick={() => { props.close(); }}>
-          CLOSE
+          Close
         </button>
         {radioOptions}
         {content}
