@@ -7,8 +7,8 @@ const STORAGE_KEY = 'pixelart-react-v2-1-2';
  *
  *  {
  *   stored: [
- *     { frames: [],paletteGridData, cellSize, columns, rows, animate},
- *     { frames: [],paletteGridData, cellSize, columns, rows, animate},
+ *     { frames: [],paletteGridData, cellSize, columns, rows},
+ *     { frames: [],paletteGridData, cellSize, columns, rows},
  *     ...
  *   ]
  *   current: position

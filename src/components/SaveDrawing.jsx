@@ -13,7 +13,6 @@ const SaveDrawing = (props) => {
       cellSize: props.cellSize,
       columns: props.columns,
       rows: props.rows,
-      animate: props.frames.size > 1,
       id: shortid.generate()
     };
 

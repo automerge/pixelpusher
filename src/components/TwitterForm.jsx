@@ -31,7 +31,6 @@ export default class TwitterForm extends React.Component {
         cellSize,
         columns,
         rows,
-        animate: frames.size > 1
       };
       if (saveProjectToStorage(localStorage, drawingToSave)) {
         this.props.actions.showSpinner();

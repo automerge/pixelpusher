@@ -9,8 +9,8 @@ import Animation from './Animation';
 
 const Preview = (props) => {
   const generatePreview = () => {
-    const { activeFrameIndex, duration } = props;
-    const { frames, columns, rows, cellSize, animate } =
+    const { activeFrameIndex, duration, animate } = props;
+    const { frames, columns, rows, cellSize } =
       props.storedData || props;
     const animation = frames.size > 1 && animate;
     let animationData;

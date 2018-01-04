@@ -20,7 +20,6 @@ export default class LoadDrawing extends React.Component {
       cellSize: this.props.cellSize,
       columns: this.props.columns,
       rows: this.props.rows,
-      animate: this.props.frames.size > 1
     };
     return generateExportString(projectData);
   }
@@ -78,7 +77,6 @@ export default class LoadDrawing extends React.Component {
         if (dataStored.stored.length > 0) {
           return dataStored.stored.map((data, i) => {
             const elem = {
-              animate: data.animate,
               cellSize: 5, // Unify cellsize for load preview
               columns: data.columns,
               frames: fromJS(data.frames), // Parse to immutable
@@ -94,6 +92,7 @@ export default class LoadDrawing extends React.Component {
                 className="load-drawing__drawing"
               >
                 <Preview
+                  animate
                   key={elem.id}
                   storedData={elem}
                   activeFrameIndex={0}
