@@ -142,7 +142,15 @@ export default class LoadDrawing extends React.Component {
           </div>
         );
       }
-      default: {
+
+      case 'shared': {
+        return (
+          <input className="input" placeholder="Paste share link here..." />
+        );
+      }
+
+      default:
+      case 'load': {
         const drawings = this.giveMeDrawings();
         const drawingsStored = drawings.length > 0;
         return (
