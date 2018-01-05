@@ -4,9 +4,12 @@ import {AppContainer} from 'react-hot-loader';
 import {Provider} from 'react-redux';
 
 import configureStore from './store/configureStore';
+import autoSave from './store/autoSave';
 
 const devMode = true;
 const store = configureStore(devMode);
+
+// autoSave(store)
 
 const render = () => {
   const App = require('./components/App').default;

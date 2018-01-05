@@ -66,6 +66,7 @@
     "ipfs": "^0.27.3",
     "ipfs-pubsub-room": "^1.1.2",
     "js-cookie": "^2.2.0",
+    "lodash": "^4.17.4",
     "lost": "^8.2.0",
     "node-localstorage": "^1.3.0",
     "oauth": "^0.9.15",

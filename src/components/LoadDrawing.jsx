@@ -126,11 +126,12 @@ export default class LoadDrawing extends React.Component {
               className="import__button"
               onClick={() => { this.importProject(); }}
             >
-              IMPORT
+              Import
             </button>
           </div>
         );
       }
+
       case 'export': {
         return (
           <div className="load-drawing">
