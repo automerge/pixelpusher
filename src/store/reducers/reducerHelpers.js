@@ -42,7 +42,7 @@ export function resizePixels(pixels, dimension, behavior, color, columns) {
 
       return pixels
     } else {
-      return pixels.filterNot((_, i) => i % columns === 0)
+      return pixels.filterNot((_, i) => (i + 1) % columns === 0)
     }
   } else if (dimension === 'rows') {
     if (behavior === 'add') {

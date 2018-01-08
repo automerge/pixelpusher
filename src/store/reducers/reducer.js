@@ -5,6 +5,8 @@ import {
   applyBucket, cloneFrame, addFrameToProject,
 } from './reducerHelpers';
 import {project} from '../../records/Project'
+import {emptyPixel} from '../../records/Pixel';
+
 
 const GRID_INITIAL_COLOR = '#313131';
 
@@ -179,18 +181,10 @@ function setCellSize(state, cellSize) {
   return mergeProject(state, { cellSize });
 }
 
-function resetGrid(state, columns, rows, activeFrameIndex) {
-  const frames = getFrames(state)
-  const currentInterval = frames.get(activeFrameIndex).get('interval');
-  const newGrid = createGrid(
-    columns * rows,
-    GRID_INITIAL_COLOR,
-    currentInterval
-  );
-
-  return state.merge({
-    frames: state.get('frames').update(activeFrameIndex, () => newGrid)
-  });
+function resetFrame(state, columns, rows, activeFrameIndex) {
+  const color = state.getIn(['currentProject', 'defaultColor'])
+  return state.updateIn(['currentProject', 'frames', activeFrameIndex, 'pixels'], pixels =>
+    pixels.map(_ => emptyPixel(color)))
 }
 
 function showSpinner(state) {
@@ -294,7 +288,7 @@ export default function (state = Map(), action) {
     case 'SET_CELL_SIZE':
       return setCellSize(state, action.cellSize);
     case 'SET_RESET_GRID':
-      return resetGrid(
+      return resetFrame(
         state, action.columns, action.rows,
         action.activeFrameIndex);
     case 'SHOW_SPINNER':
