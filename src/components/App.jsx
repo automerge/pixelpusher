@@ -110,15 +110,6 @@ export default class App extends React.Component {
                 </div>
                 <div className="app__mobile--container">
                   <div className="app__mobile--group">
-                    <button
-                      className="app__copycss-button"
-                      onClick={() => { this.changeModalType('copycss'); }}
-                      data-tooltip={this.tip('Check your CSS generated code')}
-                    >
-                      css
-                    </button>
-                  </div>
-                  <div className="app__mobile--group">
                     <div className="app__social-container">
                       <div data-tooltip={this.tip('Tweet your creation in different formats')}>
                         <button
