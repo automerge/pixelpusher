@@ -139,8 +139,8 @@ function getSameColorAdjacentCells(frameGrid, columns, rows, id, color) {
 }
 
 export function applyBucket(state, activeFrameIndex, id, sourceColor) {
-  const columns = state.get('columns');
-  const rows = state.get('rows');
+  const columns = state.getIn(['currentProject', 'columns']);
+  const rows = state.getIn(['currentProject', 'rows']);
   const queue = [id];
   let currentColor = state.get('currentColor').get('color');
   let currentId;
@@ -151,7 +151,7 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
 
   if (!currentColor) {
     // If there is no color selected in the palette, it will choose the first one
-    currentColor = newState.getIn(['palette', 0, 'color']);
+    currentColor = newState.getIn(['currentProject', 'palette', 0, 'color']);
     newState = newState.set('currentColor', Map({ color: currentColor, position: 0 }));
   }
 
@@ -160,7 +160,7 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
     newState = setGridCellValue(newState, currentColor, true, currentId);
     adjacents = getSameColorAdjacentCells(
       newState.getIn(
-        ['frames', activeFrameIndex, 'pixels']
+        ['currentProject', 'frames', activeFrameIndex, 'pixels']
       ),
       columns, rows, currentId, sourceColor
     );
@@ -168,7 +168,7 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
     for (let i = 0; i < adjacents.length; i++) {
       auxAdjacentId = adjacents[i];
       auxAdjacentColor = newState.getIn(
-        ['frames', activeFrameIndex, 'pixels', auxAdjacentId, 'color']
+        ['currentProject', 'frames', activeFrameIndex, 'pixels', auxAdjacentId, 'color']
       );
       // Avoid introduce repeated or painted already cell into the queue
       if (
