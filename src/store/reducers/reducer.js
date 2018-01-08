@@ -101,7 +101,7 @@ function setCustomColor(state, customColor) {
     );
   }
 
-  return mergeProject(state, {})
+  return mergeProject(state, {palette})
     .setIn(['currentColor', 'color'], customColor);
 }
 
