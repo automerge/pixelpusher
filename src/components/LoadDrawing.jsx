@@ -2,7 +2,7 @@ import React from 'react';
 import Preview from './Preview';
 import {
   getProjectsFromStorage, removeProjectFromStorage,
-  generateExportString, exportedStringToProjectData
+  generateExportString, exportedStringToProject
 } from '../utils/storage';
 
 /*
@@ -13,34 +13,16 @@ const browserStorage = (typeof localStorage === 'undefined') ? null : localStora
 
 export default class LoadDrawing extends React.Component {
 
-  // TODO refactor this for Project
   getExportCode() {
-    const projectData = {
-      frames: this.props.frames,
-      palette: this.props.palette,
-      cellSize: this.props.cellSize,
-      columns: this.props.columns,
-      rows: this.props.rows,
-    };
-    return generateExportString(projectData);
+    return generateExportString(this.props.project);
   }
 
   importProject() {
-    const importedProject =
-      exportedStringToProjectData(this.importProjectData.value);
+    const project =
+      exportedStringToProject(this.importProjectData.value);
 
-    if (importedProject) {
-      const {
-        frames, palette, columns, rows, cellSize
-      } = importedProject;
-
-      this.props.actions.setDrawing(
-        frames,
-        palette,
-        cellSize,
-        columns,
-        rows
-      );
+    if (project) {
+      this.props.actions.setProject(project);
       this.props.close();
       this.props.actions.sendNotification('Project successfully imported');
     } else {

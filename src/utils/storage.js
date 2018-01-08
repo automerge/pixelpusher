@@ -107,20 +107,20 @@ export function removeProjectFromStorage(storage, id) {
   return saveDataToStorage(storage, data);
 }
 
-export function generateExportString(projectData) {
+export function generateExportString(project) {
   try {
-    return JSON.stringify(projectData);
+    return JSON.stringify(project.toJS());
   } catch (e) {
     return 'Sorry, there was an error';
   }
 }
 
-export function exportedStringToProjectData(projectData) {
-  if (projectData === '') {
+export function exportedStringToProject(str) {
+  if (str === '') {
     return false;
   }
   try {
-    return JSON.parse(projectData);
+    return deserializeProject(JSON.parse(str));
   } catch (e) {
     return false;
   }

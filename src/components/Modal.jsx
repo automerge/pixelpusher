@@ -68,6 +68,7 @@ class Modal extends React.Component {
             loadType={this.state.loadType}
             close={props.close}
             open={props.open}
+            project={props.project}
             actions={{
               setProject: props.actions.setProject,
               sendNotification: props.actions.sendNotification
