@@ -17,8 +17,8 @@ export const frame = () =>
     id: shortid.generate(),
   })
 
-export const frameOfSize = (rows, columns) =>
+export const frameOfSize = (rows, columns, color) =>
   Frame({
     id: shortid.generate(),
-    pixels: emptyPixels(),
+    pixels: emptyPixels(rows * columns, color),
   })

@@ -1,6 +1,7 @@
 import { List, Map, fromJS } from 'immutable';
 import shortid from 'shortid';
 import Pixel, { emptyPixel, emptyPixels } from '../../records/Pixel';
+import { frameOfSize } from '../../records/Frame';
 
 export function createGrid(cellsCount, initialColor, intervalPercentage) {
   let newGrid = List();
@@ -13,7 +14,8 @@ export function createGrid(cellsCount, initialColor, intervalPercentage) {
 }
 
 export function addFrameToProject(project) {
-  // TODO finish
+  return project.update('frames', frames =>
+    resetIntervals(frames.push(frameOfSize(project.get('rows'), project.get('columns'), project.get('defaultColor')))))
 }
 
 export function resizeProject(project, dimension, behavior) {
@@ -51,8 +53,8 @@ export function resizePixels(pixels, dimension, behavior, color, columns) {
   }
 }
 
-export function cloneGrid(grid, interval) {
-  return Map({ grid, interval, key: shortid.generate() });
+export function cloneFrame(frame) {
+  return frame.set('id', shortid.generate())
 }
 
 export function checkColorInPalette(palette, color) {
@@ -85,11 +87,12 @@ export function addColorToLastCellInPalette(palette, newColor) {
 export function resetIntervals(frames) {
   const equalPercentage = 100 / frames.size;
 
-  return frames.reduce((acc, frame, index) => {
+  return frames.map((frame, index) => {
     const percentage = index ===
       frames.size - 1 ? 100 : Math.round(((index + 1) * equalPercentage) * 10) / 10;
-    return acc.push(Map({ grid: frame.get('pixels'), interval: percentage, key: frame.get('key') }));
-  }, List([]));
+
+    return frame.set('interval', percentage);
+  });
 }
 
 export function setGridCellValue(state, color, used, id) {

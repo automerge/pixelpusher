@@ -22,7 +22,7 @@ export const emptyPixel = (color = DEFAULT_COLOR) =>
   })
 
 export const pixels = (n, color = DEFAULT_COLOR) =>
-  Repeat(pixel(color), n)
+  Repeat(pixel(color), n).toList()
 
 export const emptyPixels = (n, color = DEFAULT_COLOR) =>
-  Repeat(emptyPixel(color), n)
+  Repeat(emptyPixel(color), n).toList()

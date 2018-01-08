@@ -140,17 +140,17 @@ export function createNewFrame() {
   };
 }
 
-export function deleteFrame(frameId) {
+export function deleteFrame(frameIndex) {
   return {
     type: 'DELETE_FRAME',
-    frameId
+    frameIndex
   };
 }
 
-export function duplicateFrame(frameId) {
+export function duplicateFrame(frameIndex) {
   return {
     type: 'DUPLICATE_FRAME',
-    frameId
+    frameIndex
   };
 }
 

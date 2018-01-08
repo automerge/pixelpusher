@@ -63,23 +63,17 @@ class Modal extends React.Component {
 
     switch (props.type) {
       case 'load':
-        // TODO
-        // content = (
-        //   <LoadDrawing
-        //     loadType={this.state.loadType}
-        //     close={props.close}
-        //     open={props.open}
-        //     frames={props.frames}
-        //     columns={props.columns}
-        //     rows={props.rows}
-        //     cellSize={props.cellSize}
-        //     palette={props.palette}
-        //     actions={{
-        //       setDrawing: props.actions.setDrawing,
-        //       sendNotification: props.actions.sendNotification
-        //     }}
-        //   />
-        // );
+        content = (
+          <LoadDrawing
+            loadType={this.state.loadType}
+            close={props.close}
+            open={props.open}
+            actions={{
+              setProject: props.actions.setProject,
+              sendNotification: props.actions.sendNotification
+            }}
+          />
+        );
         break;
       case 'copycss':
         content = (

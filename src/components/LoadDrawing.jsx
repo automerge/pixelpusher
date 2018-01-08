@@ -1,8 +1,7 @@
 import React from 'react';
-import { fromJS } from 'immutable';
 import Preview from './Preview';
 import {
-  getDataFromStorage, removeProjectFromStorage,
+  getProjectsFromStorage, removeProjectFromStorage,
   generateExportString, exportedStringToProjectData
 } from '../utils/storage';
 
@@ -13,6 +12,8 @@ import {
 const browserStorage = (typeof localStorage === 'undefined') ? null : localStorage;
 
 export default class LoadDrawing extends React.Component {
+
+  // TODO refactor this for Project
   getExportCode() {
     const projectData = {
       frames: this.props.frames,
@@ -47,71 +48,45 @@ export default class LoadDrawing extends React.Component {
     }
   }
 
-  removeFromStorage(key, e) {
+  removeFromStorage(id, e) {
     e.stopPropagation();
-    if (browserStorage) {
-      const removed = removeProjectFromStorage(browserStorage, key);
-      if (removed) {
-        this.props.actions.sendNotification('Drawing deleted');
-        this.props.close();
-        this.props.open();
-      }
+    if (removeProjectFromStorage(browserStorage, id)) {
+      this.props.actions.sendNotification('Project deleted');
+      this.props.close();
+      this.props.open();
     }
   }
 
-  drawingClick(data) {
-    this.props.actions.setDrawing(
-      data.frames,
-      data.palette,
-      data.cellSize,
-      data.columns,
-      data.rows
-    );
+  projectClick(project) {
+    this.props.actions.setProject(project);
     this.props.close();
   }
 
-  giveMeDrawings() {
-    const drawings = browserStorage && getDataFromStorage(browserStorage).stored;
-    if (browserStorage) {
+  giveMeProjects() {
+    const projects = getProjectsFromStorage(browserStorage);
 
-      if (dataStored) {
-        if (dataStored.stored.length > 0) {
-          return dataStored.stored.map((data, i) => {
-            const elem = {
-              cellSize: 5, // Unify cellsize for load preview
-              columns: data.columns,
-              frames: fromJS(data.frames), // Parse to immutable
-              palette: fromJS(data.palette),
-              rows: data.rows,
-              id: data.id
-            };
-
-            return null // TODO fix below:
-
-            return (
-              <div
-                key={elem.id}
-                onClick={() => { this.drawingClick(elem); }}
-                className="load-drawing__drawing"
-              >
-                <Preview
-                  animate
-                  key={elem.id}
-                  {...elem}
-                  activeFrameIndex={0}
-                  duration={1}
-                />
-                <button
-                  className="drawing__delete"
-                  onClick={(event) => { this.removeFromStorage(i, event); }}
-                />
-              </div>
-            );
-          });
-        }
-      }
-    }
-    return [];
+    return projects.map(project => {
+      const id = project.get('id')
+      return (
+        <div
+          key={id}
+          onClick={() => { this.projectClick(project); }}
+          className="load-drawing__drawing"
+        >
+          <Preview
+            animate
+            key={id}
+            project={project}
+            frameIndex={0}
+            duration={1}
+          />
+          <button
+            className="drawing__delete"
+            onClick={(event) => { this.removeFromStorage(id, event); }}
+          />
+        </div>
+      );
+    });
   }
 
   giveMeOptions(type) {
@@ -154,7 +129,7 @@ export default class LoadDrawing extends React.Component {
 
       default:
       case 'load': {
-        const drawings = this.giveMeDrawings();
+        const drawings = this.giveMeProjects();
         const drawingsStored = drawings.length > 0;
         return (
           <div className="load-drawing">
@@ -164,7 +139,7 @@ export default class LoadDrawing extends React.Component {
                 `load-drawing__container
                 ${!drawingsStored ? 'empty' : ''}`}
             >
-              {drawingsStored ? this.giveMeDrawings() : 'Nothing awesome yet...'}
+              {drawingsStored ? drawings : 'Nothing awesome yet...'}
               <div className="load-drawing__spacer" />
               <div className="load-drawing__spacer" />
               <div className="load-drawing__spacer" />

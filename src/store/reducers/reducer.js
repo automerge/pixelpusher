@@ -2,7 +2,7 @@ import { List, Map } from 'immutable';
 import {
   createGrid, resizeProject, createPalette, resetIntervals, setGridCellValue,
   checkColorInPalette, addColorToLastCellInPalette, getPositionFirstMatchInPalette,
-  applyBucket, cloneGrid, addFrameToProject,
+  applyBucket, cloneFrame, addFrameToProject,
 } from './reducerHelpers';
 import {project} from '../../records/Project'
 
@@ -217,34 +217,36 @@ function createNewFrame(state) {
     .set('activeFrameIndex', getFrames(state).size)
 }
 
-function deleteFrame(state, frameId) {
-  const activeFrameIndex = state.get('activeFrameIndex');
-  const newState = {};
-  let frames = state.get('frames');
+function deleteFrame(state, frameIndex) {
+  let activeFrameIndex = state.get('activeFrameIndex');
+  let frames = getFrames(state);
 
   if (frames.size > 1) {
     const reduceFrameIndex =
-      (activeFrameIndex >= frameId) &&
+      (activeFrameIndex >= frameIndex) &&
       (activeFrameIndex > 0);
 
-    frames = frames.splice(frameId, 1);
-    newState.frames = resetIntervals(frames);
+    frames = resetIntervals(frames.delete(frameIndex));
 
     if (reduceFrameIndex) {
-      newState.activeFrameIndex = frames.size - 1;
+      activeFrameIndex = frames.size - 1;
     }
   }
-  return state.merge(newState);
+  return mergeProject(state, {frames}).merge({
+    activeFrameIndex
+  });
 }
 
-function duplicateFrame(state, frameId) {
+function duplicateFrame(state, frameIndex) {
   const frames = getFrames(state);
-  const prevFrame = frames.get(frameId);
-  return state.merge({
-    frames: resetIntervals(frames.splice(
-      frameId, 0, cloneGrid(prevFrame.get('pixels'), prevFrame.get('interval'))
-    )),
-    activeFrameIndex: frameId + 1
+  const prevFrame = frames.get(frameIndex);
+
+  const frame = cloneFrame(prevFrame);
+
+  return mergeProject(state, {
+    frames: resetIntervals(frames.insert(frameIndex, frame)),
+  }).merge({
+    activeFrameIndex: frameIndex + 1,
   });
 }
 
@@ -306,9 +308,9 @@ export default function (state = Map(), action) {
     case 'CREATE_NEW_FRAME':
       return createNewFrame(state);
     case 'DELETE_FRAME':
-      return deleteFrame(state, action.frameId);
+      return deleteFrame(state, action.frameIndex);
     case 'DUPLICATE_FRAME':
-      return duplicateFrame(state, action.frameId);
+      return duplicateFrame(state, action.frameIndex);
     case 'SET_DURATION':
       return setDuration(state, action.duration);
     case 'CHANGE_FRAME_INTERVAL':

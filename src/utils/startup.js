@@ -10,7 +10,10 @@ const initialSetup = (dispatch, storage) => {
   dispatch(actionCreators.hideSpinner());
 
   const project = getCurrentProjectFromStorage(storage);
-  dispatch(actionCreators.setProject(project));
+
+  if (project) {
+    dispatch(actionCreators.setProject(project));
+  }
 };
 
 export default initialSetup;

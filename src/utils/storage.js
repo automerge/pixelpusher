@@ -55,6 +55,14 @@ export function getProjectFromStorage(storage, id) {
     : false
 }
 
+export function getProjectsFromStorage(storage) {
+  const data = getDataFromStorage(storage)
+
+  if (!data) return false
+
+  return Object.values(data.projects).map(deserializeProject)
+}
+
 export function getCurrentProjectFromStorage(storage) {
   const data = getDataFromStorage(storage)
 
