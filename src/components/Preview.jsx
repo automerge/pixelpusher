@@ -8,10 +8,14 @@ import {
 import Animation from './Animation';
 
 const Preview = (props) => {
+  const { frameIndex, duration, animate } = props;
+  const {project} = props;
+  const frames = project.get('frames')
+  const columns = project.get('columns')
+  const rows = project.get('rows')
+  const cellSize = project.get('cellSize')
+
   const generatePreview = () => {
-    const { activeFrameIndex, duration, animate } = props;
-    const { frames, columns, rows, cellSize } =
-      props.storedData || props;
     const animation = frames.size > 1 && animate;
     let animationData;
     let cssString;
@@ -31,7 +35,7 @@ const Preview = (props) => {
       );
     } else {
       cssString = generatePixelDrawCss(
-        frames.get(activeFrameIndex),
+        frames.get(frameIndex),
         columns, rows, cellSize, 'string'
       );
 
@@ -55,7 +59,6 @@ const Preview = (props) => {
     );
   };
 
-  const { columns, rows, cellSize } = props.storedData || props;
   const style = {
     width: columns * cellSize,
     height: rows * cellSize

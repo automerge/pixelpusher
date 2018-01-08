@@ -20,6 +20,9 @@ class Modal extends React.Component {
   }
 
   getModalContent(props) {
+    const project = props.project.update("cellSize", x =>
+      props.type === 'preview' ? x : 5)
+
     const options = generateRadioOptions(props);
     let content;
     const radioOptions = props.type !== 'load' ?
@@ -35,12 +38,9 @@ class Modal extends React.Component {
             <div className="modal__preview--wrapper">
               <Preview
                 key="0"
-                frames={props.frames}
-                columns={props.columns}
-                rows={props.rows}
-                cellSize={props.type === 'preview' ? props.cellSize : 5}
+                project={project}
                 duration={props.duration}
-                activeFrameIndex={props.activeFrameIndex}
+                frameIndex={props.activeFrameIndex}
                 animate={this.state.previewType === 'animation'}
               />
             </div>
@@ -63,22 +63,23 @@ class Modal extends React.Component {
 
     switch (props.type) {
       case 'load':
-        content = (
-          <LoadDrawing
-            loadType={this.state.loadType}
-            close={props.close}
-            open={props.open}
-            frames={props.frames}
-            columns={props.columns}
-            rows={props.rows}
-            cellSize={props.cellSize}
-            paletteGridData={props.paletteGridData}
-            actions={{
-              setDrawing: props.actions.setDrawing,
-              sendNotification: props.actions.sendNotification
-            }}
-          />
-        );
+        // TODO
+        // content = (
+        //   <LoadDrawing
+        //     loadType={this.state.loadType}
+        //     close={props.close}
+        //     open={props.open}
+        //     frames={props.frames}
+        //     columns={props.columns}
+        //     rows={props.rows}
+        //     cellSize={props.cellSize}
+        //     palette={props.palette}
+        //     actions={{
+        //       setDrawing: props.actions.setDrawing,
+        //       sendNotification: props.actions.sendNotification
+        //     }}
+        //   />
+        // );
         break;
       case 'copycss':
         content = (
@@ -117,7 +118,7 @@ class Modal extends React.Component {
             rows={props.rows}
             cellSize={props.cellSize}
             duration={props.duration}
-            paletteGridData={props.paletteGridData}
+            palette={props.palette}
             tweetType={this.state.previewType}
             actions={{
               showSpinner: props.actions.showSpinner,
@@ -187,6 +188,8 @@ class Modal extends React.Component {
 }
 
 function generateRadioOptions(props) {
+  const project = props.project;
+  const frames = project.get('frames');
   let options;
 
   if (props.type !== 'load') {
@@ -196,7 +199,7 @@ function generateRadioOptions(props) {
       id: 3
     }];
 
-    if (props.frames.size > 1) {
+    if (frames.size > 1) {
       const spritesheetSupport =
       props.type === 'download' ||
       props.type === 'twitter';
@@ -229,16 +232,9 @@ function generateRadioOptions(props) {
 }
 
 const mapStateToProps = (state) => {
-  const frames = state.present.get('frames');
-  const activeFrameIndex = state.present.get('activeFrameIndex');
   return {
-    frames,
-    activeFrameIndex,
-    activeFrame: frames.get(activeFrameIndex),
-    paletteGridData: state.present.get('paletteGridData'),
-    columns: state.present.get('columns'),
-    rows: state.present.get('rows'),
-    cellSize: state.present.get('cellSize'),
+    activeFrameIndex: state.present.get('activeFrameIndex'),
+    project: state.present.get('currentProject'),
     duration: state.present.get('duration')
   };
 };

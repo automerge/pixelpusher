@@ -9,7 +9,7 @@ import autoSave from './store/autoSave';
 const devMode = true;
 const store = configureStore(devMode);
 
-// autoSave(store)
+autoSave(store)
 
 const render = () => {
   const App = require('./components/App').default;

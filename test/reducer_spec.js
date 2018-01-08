@@ -87,7 +87,7 @@ describe('reducer: SET_COLOR_SELECTED', () => {
     };
     const nextState = reducer(dummyState, action);
     expect(nextState.get('currentColor').get('position')).to.equal(
-      nextState.get('paletteGridData').size - 1
+      nextState.get('palette').size - 1
     );
   });
 });
@@ -132,7 +132,7 @@ describe('reducer: SET_CUSTOM_COLOR', () => {
       '#ff0000'
     );
     expect(nextState.get('currentColor').get('position')).to.equal(
-      nextState.get('paletteGridData').size - 1
+      nextState.get('palette').size - 1
     );
   });
 });
@@ -149,7 +149,7 @@ describe('reducer: DRAW_CELL', () => {
       id: 0
     };
     const nextState = reducer(dummyState, action);
-    expect(nextState.getIn(['frames', 0, 'grid', 0, 'color'])).to.equal(
+    expect(nextState.getIn(['frames', 0, 'pixels', 0, 'color'])).to.equal(
       nextState.get('currentColor').get('color')
     );
   });
@@ -172,7 +172,7 @@ describe('reducer: DRAW_CELL', () => {
     nextState = reducer(nextState, action);
 
     // Last cell should have the same color than the first one
-    expect(nextState.getIn(['frames', 0, 'grid', 399, 'color'])).to.equal(
+    expect(nextState.getIn(['frames', 0, 'pixels', 399, 'color'])).to.equal(
       nextState.get('currentColor').get('color')
     );
   });

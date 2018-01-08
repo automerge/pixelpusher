@@ -9,7 +9,7 @@ const SaveDrawing = (props) => {
   const save = () => {
     const drawingToSave = {
       frames: props.frames,
-      paletteGridData: props.paletteGridData,
+      palette: props.palette,
       cellSize: props.cellSize,
       columns: props.columns,
       rows: props.rows,
@@ -35,7 +35,7 @@ const mapStateToProps = state => ({
   columns: state.present.get('columns'),
   rows: state.present.get('rows'),
   cellSize: state.present.get('cellSize'),
-  paletteGridData: state.present.get('paletteGridData')
+  palette: state.present.get('palette')
 });
 
 const mapDispatchToProps = dispatch => ({

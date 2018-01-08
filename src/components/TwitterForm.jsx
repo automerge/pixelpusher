@@ -20,14 +20,14 @@ export default class TwitterForm extends React.Component {
   tweetDrawing(type) {
     if (this.state.charsLeft >= 0) {
       const {
-        frames, activeFrame, paletteGridData,
+        frames, activeFrame, palette,
         columns, rows, cellSize, duration
       } = this.props;
 
       // Store current drawing in the storage
       const drawingToSave = {
         frames,
-        paletteGridData,
+        palette,
         cellSize,
         columns,
         rows,

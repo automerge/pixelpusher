@@ -1,17 +1,19 @@
 import { exampleCat } from '../../examples/import-export/json-cat';
+import Project from '../records/Project'
+import { deserializeProject } from './serialization';
 
-const STORAGE_KEY = 'pixelart-react-v2-1-2';
+const STORAGE_KEY = 'pixelpusher-v1';
 
 /*
  *  Storage data structure
  *
  *  {
- *   stored: [
- *     { frames: [],paletteGridData, cellSize, columns, rows},
- *     { frames: [],paletteGridData, cellSize, columns, rows},
+ *   projects: {
+ *     [id]: { id, frames, palette, cellSize, columns, rows},
+ *     [id]: { id, frames, palette, cellSize, columns, rows},
  *     ...
  *   ]
- *   current: position
+ *   currentProjectId: position
  *  }
  *
 */
@@ -25,72 +27,78 @@ function saveDataToStorage(storage, data) {
   }
 }
 
-/*
-  Storage initialization
-*/
-export function initStorage(storage) {
-  storage.setItem(STORAGE_KEY, JSON.stringify({
-    stored: [exampleCat], // Load an example project data by default
-    current: 0
-  }));
-}
-
-/*
-  Get stored data from the storage
-*/
 export function getDataFromStorage(storage) {
-  try {
-    const data = storage.getItem(STORAGE_KEY);
-    return data ? JSON.parse(data) : false;
-  } catch (e) {
-    return false; // There was an error
-  }
+  const dataString = storage.getItem(STORAGE_KEY);
+  return dataString ? JSON.parse(dataString) : initStorage(storage);
 }
 
-/*
-  Save a project into the stored data collection
-*/
-export function saveProjectToStorage(storage, projectData) {
+export function initStorage(storage) {
+  const id = exampleCat.id
+  const data = {
+    projects: {[id]: exampleCat}, // Load an example project data by default
+    currentProjectId: id,
+  }
+
+  storage.setItem(STORAGE_KEY, JSON.stringify(data));
+  return data
+}
+
+export function getProjectFromStorage(storage, id) {
+  const data = getDataFromStorage(storage)
+
+  if (!data) return false
+
+  const projectData = data.projects[id]
+
+  return projectData
+    ? deserializeProject(projectData)
+    : false
+}
+
+export function getCurrentProjectFromStorage(storage) {
+  const data = getDataFromStorage(storage)
+
+  if (!data) return false
+
+  const id = data.currentProjectId || Object.keys(data.projects)[0]
+
+  if (!id) return false
+
+  const projectData = data.projects[id]
+
+  return projectData
+    ? deserializeProject(projectData)
+    : false
+}
+
+export function saveProjectToStorage(storage, project) {
   try {
-    let dataStored = getDataFromStorage(storage);
-    if (dataStored) {
-      dataStored.stored.push(projectData);
-      dataStored.current = dataStored.stored.length - 1;
-    } else {
-      dataStored = {
-        stored: [projectData],
-        current: 0
-      };
-    }
-    storage.setItem(STORAGE_KEY, JSON.stringify(dataStored));
+    const data = getDataFromStorage(storage) || { projects: {} };
+
+    data.projects[project.get('id')] = project.toJS()
+    data.currentProjectId = project.get('id')
+
+    storage.setItem(STORAGE_KEY, JSON.stringify(data));
     return true;
   } catch (e) {
     return false;  // There was an error
   }
 }
 
-/*
-  Remove a project from the stored data collection
-*/
-export function removeProjectFromStorage(storage, indexToRemove) {
-  const dataStored = getDataFromStorage(storage);
-  if (dataStored) {
-    let newCurrent = 0;
-    dataStored.stored.splice(indexToRemove, 1);
-    if (dataStored.stored.length === 0) {
-      newCurrent = -1; // Empty collection
-    } else if (dataStored.current > indexToRemove) {
-      newCurrent = dataStored.current - 1; // Current is greater than the one to remove
-    }
-    dataStored.current = newCurrent;
-    return saveDataToStorage(storage, dataStored);
+export function removeProjectFromStorage(storage, id) {
+  const data = getDataFromStorage(storage);
+
+  if (!data) return false
+
+  delete data.projects[id]
+
+  if (data.currentProjectId === id) {
+    data.currentProjectId = null
   }
-  return false; // There was an error if it reaches this code
+
+  return saveDataToStorage(storage, data);
 }
 
-/*
-  Returns the export code
-*/
 export function generateExportString(projectData) {
   try {
     return JSON.stringify(projectData);
@@ -99,9 +107,6 @@ export function generateExportString(projectData) {
   }
 }
 
-/*
-  Returns project data ready from a exported data string
-*/
 export function exportedStringToProjectData(projectData) {
   if (projectData === '') {
     return false;

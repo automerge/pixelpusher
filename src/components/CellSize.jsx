@@ -26,7 +26,7 @@ const CellSize = (props) => {
 };
 
 const mapStateToProps = state => ({
-  cellSize: state.present.get('cellSize')
+  cellSize: state.present.getIn(['currentProject', 'cellSize'])
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -5,7 +5,7 @@ import * as actionCreators from '../store/actions/actionCreators';
 import GridWrapper from './GridWrapper';
 
 const PixelCanvas = (props) => {
-  const cells = props.activeFrame.get('grid').map((currentCell, i) => {
+  const cells = props.activeFrame.get('pixels').map((currentCell, i) => {
     const color = currentCell.get('color');
     return {
       id: i,
@@ -33,11 +33,13 @@ const PixelCanvas = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const frames = state.present.get('frames');
+  const project = state.present.get('currentProject');
+  const frames = project.get('frames');
   const activeFrameIndex = state.present.get('activeFrameIndex');
+
   return {
     activeFrame: frames.get(activeFrameIndex),
-    columns: state.present.get('columns'),
+    columns: project.get('columns'),
     eyedropperOn: state.present.get('eyedropperOn'),
     eraserOn: state.present.get('eraserOn')
   };

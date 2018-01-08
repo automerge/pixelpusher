@@ -1,5 +1,6 @@
-import { List, Map } from 'immutable';
+import { List, Map, fromJS } from 'immutable';
 import shortid from 'shortid';
+import Pixel, { emptyPixel, emptyPixels } from '../../records/Pixel';
 
 export function createGrid(cellsCount, initialColor, intervalPercentage) {
   let newGrid = List();
@@ -7,85 +8,51 @@ export function createGrid(cellsCount, initialColor, intervalPercentage) {
   for (let i = 0; i < cellsCount; i++) {
     newGrid = newGrid.push(Map({ color: initialColor, used: false }));
   }
+
   return Map({ grid: newGrid, interval: intervalPercentage, key: shortid.generate() });
 }
 
-export function resizeGrid(frame, gridProperty, behaviour, initialColor, dimensions) {
-  const totalCells = dimensions.rows * dimensions.columns;
-  let currentFrameGrid = frame;
+export function addFrameToProject(project) {
+  // TODO finish
+}
 
-  if (gridProperty === 'columns') {
-    // Resize by columns
-    if (behaviour === 'add') {
-      // Add a row at the end
-      for (let i = totalCells; i > 0; i -= dimensions.columns) {
-        currentFrameGrid = currentFrameGrid.splice(i, 0, Map({ color: initialColor, used: false }));
+export function resizeProject(project, dimension, behavior) {
+  const delta = behavior === 'add' ? 1 : -1
+  const color = project.get('defaultColor')
+  const columns = project.get('columns')
+
+  return project
+    .update(dimension, d => d + delta)
+    .update('frames', frames =>
+      frames.map(frame =>
+        frame.update('pixels', pixels =>
+          resizePixels(pixels, dimension, behavior, color, columns))))
+}
+
+export function resizePixels(pixels, dimension, behavior, color, columns) {
+  if (dimension === 'columns') {
+    if (behavior === 'add') {
+      const size = pixels.size;
+
+      for (let i = size; i > 0; i -= columns) {
+        pixels = pixels.splice(i, 0, emptyPixel(color));
       }
+
+      return pixels
     } else {
-      for (let i = totalCells; i > 0; i -= dimensions.columns) {
-        currentFrameGrid = currentFrameGrid.splice(i - 1, 1);
-      }
+      return pixels.filterNot((_, i) => i % columns === 0)
     }
-  } else if (gridProperty === 'rows') {
-    // Resize by rows
-    if (behaviour === 'add') {
-      // Add a row at the end
-      for (let i = 0; i < dimensions.columns; i++) {
-        currentFrameGrid = currentFrameGrid.push(Map({ color: initialColor, used: false }));
-      }
+  } else if (dimension === 'rows') {
+    if (behavior === 'add') {
+      return pixels.concat(emptyPixels(columns, color))
     } else {
-      // Remove the last row
-      for (let i = 0; i < dimensions.columns; i++) {
-        currentFrameGrid = currentFrameGrid.splice(-1, 1);
-      }
+      return pixels.skipLast(columns)
     }
   }
-
-  return currentFrameGrid;
 }
 
 export function cloneGrid(grid, interval) {
   return Map({ grid, interval, key: shortid.generate() });
-}
-
-export function createPalette() {
-  const paletteColors = [
-    { color: '#000000', id: 0 },
-    { color: '#ff0000', id: 1 },
-    { color: '#e91e63', id: 2 },
-    { color: '#9c27b0', id: 3 },
-    { color: '#673ab7', id: 4 },
-    { color: '#3f51b5', id: 5 },
-    { color: '#2196f3', id: 6 },
-    { color: '#03a9f4', id: 7 },
-    { color: '#00bcd4', id: 8 },
-    { color: '#009688', id: 9 },
-    { color: '#4caf50', id: 10 },
-    { color: '#8bc34a', id: 11 },
-    { color: '#cddc39', id: 12 },
-    { color: '#9ee07a', id: 13 },
-    { color: '#ffeb3b', id: 14 },
-    { color: '#ffc107', id: 15 },
-    { color: '#ff9800', id: 16 },
-    { color: '#ffcdd2', id: 17 },
-    { color: '#ff5722', id: 18 },
-    { color: '#795548', id: 19 },
-    { color: '#9e9e9e', id: 20 },
-    { color: '#607d8b', id: 21 },
-    { color: '#303f46', id: 22 },
-    { color: '#ffffff', id: 23 },
-    { color: '#383535', id: 24 },
-    { color: '#383534', id: 25 },
-    { color: '#383533', id: 26 },
-    { color: '#383532', id: 27 },
-    { color: '#383531', id: 28 },
-    { color: '#383530', id: 29 }
-  ];
-  let newGrid = List();
-  for (let i = 0; i < paletteColors.length; i++) {
-    newGrid = newGrid.push(Map(paletteColors[i]));
-  }
-  return newGrid;
 }
 
 export function checkColorInPalette(palette, color) {
@@ -121,14 +88,14 @@ export function resetIntervals(frames) {
   return frames.reduce((acc, frame, index) => {
     const percentage = index ===
       frames.size - 1 ? 100 : Math.round(((index + 1) * equalPercentage) * 10) / 10;
-    return acc.push(Map({ grid: frame.get('grid'), interval: percentage, key: frame.get('key') }));
+    return acc.push(Map({ grid: frame.get('pixels'), interval: percentage, key: frame.get('key') }));
   }, List([]));
 }
 
 export function setGridCellValue(state, color, used, id) {
   return state.setIn(
-    ['frames', state.get('activeFrameIndex'), 'grid', id],
-    Map({ color, used })
+    ['currentProject', 'frames', state.get('activeFrameIndex'), 'pixels', id],
+    Pixel({ color, used })
   );
 }
 
@@ -181,7 +148,7 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
 
   if (!currentColor) {
     // If there is no color selected in the palette, it will choose the first one
-    currentColor = newState.getIn(['paletteGridData', 0, 'color']);
+    currentColor = newState.getIn(['palette', 0, 'color']);
     newState = newState.set('currentColor', Map({ color: currentColor, position: 0 }));
   }
 
@@ -190,7 +157,7 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
     newState = setGridCellValue(newState, currentColor, true, currentId);
     adjacents = getSameColorAdjacentCells(
       newState.getIn(
-        ['frames', activeFrameIndex, 'grid']
+        ['frames', activeFrameIndex, 'pixels']
       ),
       columns, rows, currentId, sourceColor
     );
@@ -198,7 +165,7 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
     for (let i = 0; i < adjacents.length; i++) {
       auxAdjacentId = adjacents[i];
       auxAdjacentColor = newState.getIn(
-        ['frames', activeFrameIndex, 'grid', auxAdjacentId, 'color']
+        ['frames', activeFrameIndex, 'pixels', auxAdjacentId, 'color']
       );
       // Avoid introduce repeated or painted already cell into the queue
       if (

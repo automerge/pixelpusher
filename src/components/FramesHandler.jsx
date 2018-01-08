@@ -6,10 +6,7 @@ import * as actionCreators from '../store/actions/actionCreators';
 import Frame from './Frame';
 
 class FramesHandler extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { newFrame: false };
-  }
+  state = { newFrame: false }
 
   onScrollbarUpdate() {
     if (this.state.newFrame) {
@@ -18,16 +15,16 @@ class FramesHandler extends React.Component {
     }
   }
 
-  getFrames() {
-    return this.props.frames.map((frameData, index) =>
+  renderFrames() {
+    const project = this.props.project
+
+    return project.get('frames').map((frame, index, frames) =>
       <Frame
-        key={frameData.get('key')}
-        data-id={index}
-        frame={frameData}
-        columns={this.props.columns}
-        rows={this.props.rows}
+        key={frame.get('id')}
+        project={project}
+        frameIndex={index}
         active={this.props.activeFrameIndex === index}
-        lastFrame={this.props.frames.size - 1 === index}
+        lastFrame={frames.size - 1 === index}
         actions={{
           changeActiveFrame: this.props.actions.changeActiveFrame,
           deleteFrame: this.props.actions.deleteFrame,
@@ -61,7 +58,7 @@ class FramesHandler extends React.Component {
             onUpdate={() => { this.onScrollbarUpdate(); }}
           >
             <div className="list__container">
-              {this.getFrames()}
+              {this.renderFrames()}
             </div>
           </Scrollbars>
         </div>
@@ -71,9 +68,7 @@ class FramesHandler extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  frames: state.present.get('frames'),
-  columns: state.present.get('columns'),
-  rows: state.present.get('rows'),
+  project: state.present.get('currentProject'),
   activeFrameIndex: state.present.get('activeFrameIndex')
 });
 

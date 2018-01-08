@@ -4,20 +4,20 @@ import Preview from './Preview';
 
 export default class Frame extends React.Component {
   handleClick() {
-    this.props.actions.changeActiveFrame(this.props['data-id']);
+    this.props.actions.changeActiveFrame(this.props.frameIndex);
   }
 
   deleteFrame(e) {
     e.stopPropagation();
     if (this.props.active) {
-      this.props.actions.deleteFrame(this.props['data-id']);
+      this.props.actions.deleteFrame(this.props.frameIndex);
     }
   }
 
   duplicateFrame(e) {
     e.stopPropagation();
     if (this.props.active) {
-      this.props.actions.duplicateFrame(this.props['data-id']);
+      this.props.actions.duplicateFrame(this.props.frameIndex);
     }
   }
 
@@ -25,24 +25,25 @@ export default class Frame extends React.Component {
     e.stopPropagation();
     if (this.props.active) {
       this.props.actions.changeFrameInterval(
-        this.props['data-id'],
+        this.props.frameIndex,
         this.percentage.value
       );
     }
   }
 
   render() {
+    const {active, lastFrame, frameIndex} = this.props;
+    const project = this.props.project.set('cellSize', 2)
+    const frame = project.getIn(['frames', frameIndex]);
+
     return (
       <div
-        className={`frame${this.props.active ? ' active' : ''}`}
+        className={`frame${active ? ' active' : ''}`}
         onClick={() => { this.handleClick(); }}
       >
         <Preview
-          frames={List([this.props.frame])}
-          columns={this.props.columns}
-          rows={this.props.rows}
-          cellSize={2}
-          activeFrameIndex={0}
+          project={project}
+          frameIndex={frameIndex}
         />
         <button
           className="delete"
@@ -54,11 +55,11 @@ export default class Frame extends React.Component {
         />
         <input
           type="number"
-          value={this.props.frame.get('interval')}
+          value={frame.get('interval')}
           onChange={(event) => { this.changeInterval(event); }}
           className="frame__percentage"
           ref={(c) => { this.percentage = c; }}
-          disabled={this.props.lastFrame || !this.props.active}
+          disabled={lastFrame || !active}
         />
       </div>
     );

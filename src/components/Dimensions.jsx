@@ -28,8 +28,8 @@ const Dimensions = (props) => {
 };
 
 const mapStateToProps = state => ({
-  columns: state.present.get('columns'),
-  rows: state.present.get('rows')
+  columns: state.present.getIn(['currentProject', 'columns']),
+  rows: state.present.getIn(['currentProject', 'rows']),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -25,13 +25,15 @@ const CssDisplay = (props) => {
 };
 
 function mapStateToProps(state) {
-  const frames = state.present.get('frames');
+  const project = state.present.get('currentProject');
+  const frames = project.get('frames');
   const activeFrameIndex = state.present.get('activeFrameIndex');
+
   return {
     activeFrame: frames.get(activeFrameIndex),
-    columns: state.present.get('columns'),
-    rows: state.present.get('rows'),
-    cellSize: state.present.get('cellSize')
+    columns: project.get('columns'),
+    rows: project.get('rows'),
+    cellSize: project.get('cellSize')
   };
 }
 

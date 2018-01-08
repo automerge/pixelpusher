@@ -3,7 +3,7 @@ import {throttle} from 'lodash/fp'
 import {saveProjectToStorage} from '../utils/storage'
 
 export default store => {
-  const save = throttle(1000, saveNow)
+  const save = throttle(2000, saveNow)
   let pState = store.getState()
 
   store.subscribe(() => {
@@ -15,26 +15,14 @@ export default store => {
   })
 }
 
-// in the future this will simply compare two Project records
 export const hasProjectChanged = (a, b) =>
   a && b && a != b
-  && !(
-    is(a.get('frames'), b.get('frames'))
-    && is(a.get('paletteGridData'), b.get('paletteGridData'))
-    && is(a.get('cellSize'), b.get('cellSize'))
-  )
+  && !is(a.get('currentProject'), b.get('currentProject'))
 
 export const saveNow = state => {
   console.log("Auto-saving")
 
-  const projectData = {
-    frames: state.get('frames'),
-    paletteGridData: state.get('paletteGridData'),
-    cellSize: state.get('cellSize'),
-    columns: state.get('columns'),
-    rows: state.get('rows'),
-    id: state.get('currentProjectId'),
-  }
+  const project = state.get('currentProject')
 
-  saveProjectToStorage(localStorage, projectData)
+  saveProjectToStorage(localStorage, project)
 }

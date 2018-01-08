@@ -6,12 +6,12 @@ import PaletteColor from './PaletteColor';
 
 const PaletteGrid = (props) => {
   const getColors = () => {
-    const { paletteGridData, currentColor } = props;
+    const { palette, currentColor } = props;
     const width = 100 / 6;
 
-    return paletteGridData.map((color, i) =>
+    return palette.map((color, i) =>
       <PaletteColor
-        key={color.get('id')}
+        key={i}
         positionInPalette={i}
         width={width}
         color={color.get('color')}
@@ -29,7 +29,7 @@ const PaletteGrid = (props) => {
 };
 
 const mapStateToProps = state => ({
-  paletteGridData: state.present.get('paletteGridData'),
+  palette: state.present.getIn(['currentProject', 'palette']),
   currentColor: state.present.get('currentColor')
 });
 

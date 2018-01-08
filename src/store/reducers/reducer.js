@@ -1,26 +1,18 @@
 import { List, Map } from 'immutable';
 import {
-  createGrid, resizeGrid, createPalette, resetIntervals, setGridCellValue,
+  createGrid, resizeProject, createPalette, resetIntervals, setGridCellValue,
   checkColorInPalette, addColorToLastCellInPalette, getPositionFirstMatchInPalette,
-  applyBucket, cloneGrid
+  applyBucket, cloneGrid, addFrameToProject,
 } from './reducerHelpers';
+import {project} from '../../records/Project'
 
 const GRID_INITIAL_COLOR = '#313131';
 
 function setInitialState(state) {
-  const cellSize = 10;
-  const columns = 20;
-  const rows = 20;
   const currentColor = { color: '#000000', position: 0 };
-  const frame = createGrid(columns * rows, GRID_INITIAL_COLOR, 100);
-  const paletteGrid = createPalette();
 
   const initialState = {
-    frames: [frame],
-    paletteGridData: paletteGrid,
-    cellSize,
-    columns,
-    rows,
+    currentProject: project(),
     currentColor,
     initialColor: GRID_INITIAL_COLOR,
     eraserOn: false,
@@ -36,92 +28,79 @@ function setInitialState(state) {
   return state.merge(initialState);
 }
 
-function changeDimensions(state, gridProperty, behaviour) {
-  const framesCount = state.get('frames').size;
-  const propertyValue = state.get(gridProperty);
-  let newFrames = List();
+const getPalette = state =>
+  state.getIn(['currentProject', 'palette']);
 
-  for (let i = 0; i < framesCount; i++) {
-    newFrames = newFrames.push(
-      Map(
-        {
-          grid:
-            resizeGrid(
-              state.getIn(['frames', i, 'grid']),
-              gridProperty,
-              behaviour,
-              GRID_INITIAL_COLOR,
-              { columns: state.get('columns'), rows: state.get('rows') }
-            ),
-          interval: state.getIn(['frames', i, 'interval']),
-          key: state.getIn(['frames', i, 'key'])
-        }
-      )
-    );
-  }
+const getFrames = state =>
+  state.getIn(['currentProject', 'frames']);
 
-  const newValues = {
-    frames: newFrames
-  };
-  newValues[gridProperty] = parseInt(
-    behaviour === 'add' ? propertyValue + 1 : propertyValue - 1,
-    10
-  );
-  return state.merge(newValues);
+const getDimension = (type, state) =>
+  state.getIn(['currentProject', type]);
+
+const getColumns = state =>
+  getDimension('columns', state);
+
+const getRows = state =>
+  getDimension('rows', state);
+
+const setProject = (state, project) =>
+  state.set('currentProject', project).set('activeFrameIndex', 0)
+
+const mergeProject = (state, props) =>
+  state.mergeIn(['currentProject'], props).set('activeFrameIndex', 0)
+
+function changeDimensions(state, dimension, behavior) {
+  return state.update('currentProject', project =>
+    resizeProject(project, dimension, behavior))
 }
 
 function setColorSelected(state, newColorSelected, positionInPalette) {
   const newColor = { color: newColorSelected, position: positionInPalette };
-  const newState = {
-    eraserOn: false,
-    eyedropperOn: false,
-    colorPickerOn: false
-  };
-  let paletteGridData = state.get('paletteGridData');
+  let palette = getPalette(state);
 
-  if (!checkColorInPalette(paletteGridData, newColorSelected)) {
+  if (!checkColorInPalette(palette, newColorSelected)) {
     // If there is no newColorSelected in the palette it will create one
-    paletteGridData = addColorToLastCellInPalette(
-      paletteGridData, newColorSelected
+    palette = addColorToLastCellInPalette(
+      palette, newColorSelected
     );
-    newColor.position = paletteGridData.size - 1;
+    newColor.position = palette.size - 1;
   } else if (positionInPalette === null) {
     // Eyedropper called this function, the color position is unknown
     newColor.position =
-      getPositionFirstMatchInPalette(paletteGridData, newColorSelected);
+      getPositionFirstMatchInPalette(palette, newColorSelected);
   }
-  newState.currentColor = newColor;
-  newState.paletteGridData = paletteGridData;
 
-  return state.merge(newState);
+  return mergeProject(state, {
+    palette,
+  }).merge({
+    eraserOn: false,
+    eyedropperOn: false,
+    colorPickerOn: false,
+    currentColor: newColor,
+  });
 }
 
 function setCustomColor(state, customColor) {
   const currentColor = state.get('currentColor');
-  const paletteGridData = state.get('paletteGridData');
-  const newState = {
-    currentColor: {
-      color: customColor,
-      position: currentColor.get('position')
-    }
-  };
+  let palette = getPalette(state);
 
-  if (!checkColorInPalette(paletteGridData, currentColor.get('color'))) {
+  if (!checkColorInPalette(palette, currentColor.get('color'))) {
     // If there is no colorSelected in the palette it will create one
-    newState.paletteGridData = addColorToLastCellInPalette(
-      paletteGridData, customColor
+    palette = addColorToLastCellInPalette(
+      palette, customColor
     );
-    newState.currentColor.position = newState.paletteGridData.size - 1;
+    newState.currentColor.position = newState.palette.size - 1;
   } else {
     // There is a color selected in the palette
-    newState.paletteGridData = paletteGridData.set(
+    palette = palette.set(
       currentColor.get('position'), Map({
         color: customColor, id: currentColor.get('color')
       })
     );
   }
 
-  return state.merge(newState);
+  return mergeProject(state, {})
+    .setIn(['currentColor', 'color'], customColor);
 }
 
 function drawCell(state, id) {
@@ -131,9 +110,7 @@ function drawCell(state, id) {
 
   if (bucketOn || eyedropperOn) {
     const activeFrameIndex = state.get('activeFrameIndex');
-    const cellColor = state.getIn(
-      ['frames', activeFrameIndex, 'grid', id, 'color']
-    );
+    const cellColor = getFrames(state).getIn([activeFrameIndex, 'pixels', id, 'color']);
 
     if (eyedropperOn) {
       return setColorSelected(state, cellColor, null);
@@ -146,13 +123,14 @@ function drawCell(state, id) {
   const color = eraserOn ?
   state.get('initialColor') :
   state.get('currentColor').get('color');
+
   return setGridCellValue(state, color, used, id);
 }
 
-function setDrawing(state, frames, paletteGridData, cellSize, columns, rows) {
+function setDrawing(state, frames, palette, cellSize, columns, rows) {
   return state.merge({
     frames,
-    paletteGridData,
+    palette,
     cellSize,
     columns,
     rows,
@@ -198,13 +176,14 @@ function setColorPicker(state) {
 }
 
 function setCellSize(state, cellSize) {
-  return state.merge({ cellSize });
+  return mergeProject(state, { cellSize });
 }
 
 function resetGrid(state, columns, rows, activeFrameIndex) {
-  const currentInterval = state.get('frames').get(activeFrameIndex).get('interval');
+  const frames = getFrames(state)
+  const currentInterval = frames.get(activeFrameIndex).get('interval');
   const newGrid = createGrid(
-    parseInt(columns, 10) * parseInt(rows, 10),
+    columns * rows,
     GRID_INITIAL_COLOR,
     currentInterval
   );
@@ -233,15 +212,9 @@ function changeActiveFrame(state, frameIndex) {
 }
 
 function createNewFrame(state) {
-  const newFrames = state.get('frames').push(createGrid(
-    parseInt(state.get('columns'), 10) * parseInt(state.get('rows'), 10),
-    GRID_INITIAL_COLOR,
-    100
-  ));
-  return state.merge({
-    frames: resetIntervals(newFrames),
-    activeFrameIndex: newFrames.size - 1
-  });
+  return state
+    .update('currentProject', addFrameToProject)
+    .set('activeFrameIndex', getFrames(state).size)
 }
 
 function deleteFrame(state, frameId) {
@@ -265,11 +238,11 @@ function deleteFrame(state, frameId) {
 }
 
 function duplicateFrame(state, frameId) {
-  const frames = state.get('frames');
+  const frames = getFrames(state);
   const prevFrame = frames.get(frameId);
   return state.merge({
     frames: resetIntervals(frames.splice(
-      frameId, 0, cloneGrid(prevFrame.get('grid'), prevFrame.get('interval'))
+      frameId, 0, cloneGrid(prevFrame.get('pixels'), prevFrame.get('interval'))
     )),
     activeFrameIndex: frameId + 1
   });
@@ -304,8 +277,10 @@ export default function (state = Map(), action) {
       return drawCell(state, action.id);
     case 'SET_DRAWING':
       return setDrawing(
-        state, action.frames, action.paletteGridData,
+        state, action.frames, action.palette,
         action.cellSize, action.columns, action.rows);
+    case 'SET_PROJECT':
+      return setProject(state, action.project);
     case 'SET_ERASER':
       return setEraser(state);
     case 'SET_BUCKET':

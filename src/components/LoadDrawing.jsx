@@ -16,7 +16,7 @@ export default class LoadDrawing extends React.Component {
   getExportCode() {
     const projectData = {
       frames: this.props.frames,
-      paletteGridData: this.props.paletteGridData,
+      palette: this.props.palette,
       cellSize: this.props.cellSize,
       columns: this.props.columns,
       rows: this.props.rows,
@@ -30,12 +30,12 @@ export default class LoadDrawing extends React.Component {
 
     if (importedProject) {
       const {
-        frames, paletteGridData, columns, rows, cellSize
+        frames, palette, columns, rows, cellSize
       } = importedProject;
 
       this.props.actions.setDrawing(
         frames,
-        paletteGridData,
+        palette,
         cellSize,
         columns,
         rows
@@ -62,7 +62,7 @@ export default class LoadDrawing extends React.Component {
   drawingClick(data) {
     this.props.actions.setDrawing(
       data.frames,
-      data.paletteGridData,
+      data.palette,
       data.cellSize,
       data.columns,
       data.rows
@@ -71,8 +71,9 @@ export default class LoadDrawing extends React.Component {
   }
 
   giveMeDrawings() {
+    const drawings = browserStorage && getDataFromStorage(browserStorage).stored;
     if (browserStorage) {
-      const dataStored = getDataFromStorage(browserStorage);
+
       if (dataStored) {
         if (dataStored.stored.length > 0) {
           return dataStored.stored.map((data, i) => {
@@ -80,10 +81,12 @@ export default class LoadDrawing extends React.Component {
               cellSize: 5, // Unify cellsize for load preview
               columns: data.columns,
               frames: fromJS(data.frames), // Parse to immutable
-              paletteGridData: fromJS(data.paletteGridData),
+              palette: fromJS(data.palette),
               rows: data.rows,
               id: data.id
             };
+
+            return null // TODO fix below:
 
             return (
               <div
@@ -94,7 +97,7 @@ export default class LoadDrawing extends React.Component {
                 <Preview
                   animate
                   key={elem.id}
-                  storedData={elem}
+                  {...elem}
                   activeFrameIndex={0}
                   duration={1}
                 />
