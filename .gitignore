@@ -8,3 +8,4 @@ public
 routes
 npm-debug.log
 .directory
+/.data

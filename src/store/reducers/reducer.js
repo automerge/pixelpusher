@@ -6,12 +6,14 @@ import {
   applyBucket, cloneFrame, addFrameToProject,
 } from './reducerHelpers';
 import {project} from '../../records/Project'
+import Peer from '../../records/Peer'
 
 function setInitialState(state) {
   const currentColor = { color: '#000000', position: 0 };
 
   const initialState = {
     currentProject: project(),
+    peers: Map(),
     currentColor,
     eraserOn: false,
     eyedropperOn: false,
@@ -240,6 +242,12 @@ function changeFrameInterval(state, frameIndex, interval) {
   return state.setIn(['currentProject', 'frames', frameIndex, 'interval'], interval)
 }
 
+const peerConnected = (state, id) =>
+  state.setIn(['peers', id], Peer({id, isConnected: true}))
+
+const peerDisconnected = (state, id) =>
+  state.setIn(['peers', id, 'isConnected'], false)
+
 export default function (state = Map(), action) {
   switch (action.type) {
     case 'SET_INITIAL_STATE':
@@ -292,7 +300,14 @@ export default function (state = Map(), action) {
       return setInitialState(state);
     case 'CLONE_PROJECT':
       return cloneProject(state);
+    case 'PEER_CONNECTED':
+    case 'SELF_CONNECTED':
+      return peerConnected(state, action.id)
+    case 'PEER_DISCONNECTED':
+    case 'SELF_DISCONNECTED':
+      return peerDisconnected(state, action.id)
     default:
   }
+
   return state;
 }
