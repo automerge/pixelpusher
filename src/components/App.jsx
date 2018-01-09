@@ -84,64 +84,16 @@ export default class App extends React.Component {
           </div>
           <div className="app__central-container">
             <div className="left col-1-4">
-              <div className="app__left-side">
-                <div className="app__mobile--container">
-                  <div className="app__mobile--group">
-                    <div data-tooltip={this.tip('Undo Redo actions')}>
-                      <UndoRedoContainer />
-                    </div>
-                    <div className="app__tools-wrapper grid-2">
-                      <div data-tooltip={this.tip('Remove colors')}>
-                        <EraserContainer />
-                      </div>
-                      <div data-tooltip={this.tip('Sample a color from your drawing')}>
-                        <EyedropperContainer />
-                      </div>
-                      <div data-tooltip={this.tip('It fills an area of the current frame based on color similarity')}>
-                        <BucketContainer />
-                      </div>
-                      <div data-tooltip={this.tip('Choose a new color that is not in your palette')}>
-                        <ColorPickerContainer />
-                      </div>
-                    </div>
-                  </div>
-                  <div className="app__mobile--group">
-                    <PaletteGridContainer />
-                  </div>
-                </div>
-              </div>
+              {this.renderLeftSide()}
             </div>
             <div className="center col-2-4">
               <PixelCanvasContainer />
+              <div data-tooltip={this.tip('Number of columns and rows')}>
+                <DimensionsContainer />
+              </div>
             </div>
             <div className="right col-1-4">
-              <div className="app__right-side">
-                <div className="app__mobile--container">
-                  <div className="app__mobile--group">
-                    <button
-                      className="app__preview-button"
-                      onClick={() => { this.changeModalType('preview'); }}
-                      data-tooltip={this.tip('Show a preview of your project')}
-                    >
-                      Preview
-                    </button>
-                    <div data-tooltip={this.tip('Reset the selected frame')}>
-                      <ResetContainer />
-                    </div>
-                    <div data-tooltip={this.tip('Number of columns and rows')}>
-                      <DimensionsContainer />
-                    </div>
-                  </div>
-                  <div className="app__mobile--group">
-                    <div data-tooltip={this.tip('Size of one tile in px')}>
-                      <CellSizeContainer />
-                    </div>
-                    <div data-tooltip={this.tip('Animation duration in seconds')}>
-                      <DurationContainer />
-                    </div>
-                  </div>
-                </div>
-              </div>
+              {this.renderRightSide()}
             </div>
           </div>
           <div className="css-container">
@@ -189,6 +141,67 @@ export default class App extends React.Component {
           </button>
         </div>
       </header>
+    );
+  }
+
+  renderLeftSide() {
+    return (
+      <div className="app__left-side">
+        <div className="app__mobile--container">
+          <div className="app__mobile--group">
+            <button
+              className="app__preview-button"
+              onClick={() => { this.changeModalType('preview'); }}
+              data-tooltip={this.tip('Show a preview of your project')}
+            >
+              Preview
+            </button>
+            <div data-tooltip={this.tip('Reset the selected frame')}>
+              <ResetContainer />
+            </div>
+          </div>
+
+          <div className="app__mobile--group">
+            <div data-tooltip={this.tip('Undo Redo actions')}>
+              <UndoRedoContainer />
+            </div>
+            <div className="app__tools-wrapper grid-2">
+              <div data-tooltip={this.tip('Remove colors')}>
+                <EraserContainer />
+              </div>
+              <div data-tooltip={this.tip('Sample a color from your drawing')}>
+                <EyedropperContainer />
+              </div>
+              <div data-tooltip={this.tip('It fills an area of the current frame based on color similarity')}>
+                <BucketContainer />
+              </div>
+              <div data-tooltip={this.tip('Choose a new color that is not in your palette')}>
+                <ColorPickerContainer />
+              </div>
+            </div>
+          </div>
+          <div className="app__mobile--group">
+            <PaletteGridContainer />
+          </div>
+        </div>
+        <div className="app__mobile--group">
+          <div data-tooltip={this.tip('Size of one tile in px')}>
+            <CellSizeContainer />
+          </div>
+          <div data-tooltip={this.tip('Animation duration in seconds')}>
+            <DurationContainer />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  renderRightSide() {
+    return (
+      <div className="app__right-side">
+        <div className="app__mobile--container">
+        </div>
+      </div>
     );
   }
 }

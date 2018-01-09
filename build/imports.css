@@ -1128,8 +1128,6 @@ input[type="text"]:focus, input[type="number"]:focus {
 .grid-container {
   line-height: 0;
   min-height: 1px;
-  margin: 0 auto;
-  width: 90%;
 }
 
 .grid-container:before {
@@ -2280,6 +2278,8 @@ input[type="text"]:focus, input[type="number"]:focus {
 .dimensions {
   margin: 1em 0 0;
   padding: 0.5em 0;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .picker {
@@ -2291,6 +2291,8 @@ input[type="text"]:focus, input[type="number"]:focus {
       justify-content: center;
   text-align: center;
   margin-bottom: 2em;
+  -ms-flex-positive: 1;
+      flex-grow: 1;
 }
 
 label.picker__columns {
