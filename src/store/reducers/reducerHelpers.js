@@ -1,6 +1,6 @@
 import { List, Map, fromJS } from 'immutable';
 import shortid from 'shortid';
-import Pixel, { emptyPixel, emptyPixels } from '../../records/Pixel';
+import { pixels } from '../../records/Pixel';
 import { frameOfSize } from '../../records/Frame';
 
 export function createGrid(cellsCount, initialColor, intervalPercentage) {
@@ -20,7 +20,6 @@ export function addFrameToProject(project) {
 
 export function resizeProject(project, dimension, behavior) {
   const delta = behavior === 'add' ? 1 : -1
-  const color = project.get('defaultColor')
   const columns = project.get('columns')
 
   return project
@@ -28,16 +27,16 @@ export function resizeProject(project, dimension, behavior) {
     .update('frames', frames =>
       frames.map(frame =>
         frame.update('pixels', pixels =>
-          resizePixels(pixels, dimension, behavior, color, columns))))
+          resizePixels(pixels, dimension, behavior, columns))))
 }
 
-export function resizePixels(pixels, dimension, behavior, color, columns) {
+export function resizePixels(pixels, dimension, behavior, columns) {
   if (dimension === 'columns') {
     if (behavior === 'add') {
       const size = pixels.size;
 
       for (let i = size; i > 0; i -= columns) {
-        pixels = pixels.splice(i, 0, emptyPixel(color));
+        pixels = pixels.splice(i, 0, null);
       }
 
       return pixels
@@ -46,7 +45,7 @@ export function resizePixels(pixels, dimension, behavior, color, columns) {
     }
   } else if (dimension === 'rows') {
     if (behavior === 'add') {
-      return pixels.concat(emptyPixels(columns, color))
+      return pixels.concat(pixels(columns, null))
     } else {
       return pixels.skipLast(columns)
     }
@@ -98,7 +97,7 @@ export function resetIntervals(frames) {
 export function setGridCellValue(state, color, used, id) {
   return state.setIn(
     ['currentProject', 'frames', state.get('activeFrameIndex'), 'pixels', id],
-    Pixel({ color, used })
+    color
   );
 }
 
@@ -109,28 +108,28 @@ function getSameColorAdjacentCells(frameGrid, columns, rows, id, color) {
   if ((id + 1) % columns !== 0) {
     // Not at the very right
     auxId = id + 1;
-    if (frameGrid.get(auxId).get('color') === color) {
+    if (frameGrid.get(auxId) === color) {
       adjacentCollection.push(auxId);
     }
   }
   if (id % columns !== 0) {
     // Not at the very left
     auxId = id - 1;
-    if (frameGrid.get(auxId).get('color') === color) {
+    if (frameGrid.get(auxId) === color) {
       adjacentCollection.push(auxId);
     }
   }
   if (id >= columns) {
     // Not at the very top
     auxId = id - columns;
-    if (frameGrid.get(auxId).get('color') === color) {
+    if (frameGrid.get(auxId) === color) {
       adjacentCollection.push(auxId);
     }
   }
   if (id < (columns * rows) - columns) {
     // Not at the very bottom
     auxId = id + columns;
-    if (frameGrid.get(auxId).get('color') === color) {
+    if (frameGrid.get(auxId) === color) {
       adjacentCollection.push(auxId);
     }
   }
@@ -168,7 +167,7 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
     for (let i = 0; i < adjacents.length; i++) {
       auxAdjacentId = adjacents[i];
       auxAdjacentColor = newState.getIn(
-        ['currentProject', 'frames', activeFrameIndex, 'pixels', auxAdjacentId, 'color']
+        ['currentProject', 'frames', activeFrameIndex, 'pixels', auxAdjacentId]
       );
       // Avoid introduce repeated or painted already cell into the queue
       if (

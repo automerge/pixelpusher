@@ -1,7 +1,6 @@
 import {fromJS} from 'immutable'
 import Project from '../records/Project'
 import Palette from '../records/Palette'
-import Pixel from '../records/Pixel'
 import Frame from '../records/Frame'
 
 export const deserializeProject = json =>
@@ -26,7 +25,4 @@ export const deserializeFrame = json =>
   })
 
 export const deserializePalette = json =>
-  fromJS(json.map(deserializePixel))
-
-export const deserializePixel = json =>
-  Pixel(json)
+  fromJS(json)

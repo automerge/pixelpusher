@@ -1,12 +1,12 @@
 import shortid from 'shortid'
 import {Record, List, Repeat} from 'immutable'
-import Pixel, {emptyPixels} from './Pixel'
+import {pixels} from './Pixel'
 
 const Frame = Record({
   id: null, // required
   rows: 20,
   columns: 20,
-  pixels: Repeat(Pixel(), 400).toList(),
+  pixels: Repeat(null, 400).toList(),
   interval: 0, // 0 - 100
 }, "Frame")
 
@@ -17,8 +17,8 @@ export const frame = () =>
     id: shortid.generate(),
   })
 
-export const frameOfSize = (rows, columns, color) =>
+export const frameOfSize = (rows, columns) =>
   Frame({
     id: shortid.generate(),
-    pixels: emptyPixels(rows * columns, color),
+    pixels: pixels(rows * columns, null),
   })

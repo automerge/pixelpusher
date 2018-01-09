@@ -5,10 +5,6 @@ import {
   applyBucket, cloneFrame, addFrameToProject,
 } from './reducerHelpers';
 import {project} from '../../records/Project'
-import {emptyPixel} from '../../records/Pixel';
-
-
-const GRID_INITIAL_COLOR = '#313131';
 
 function setInitialState(state) {
   const currentColor = { color: '#000000', position: 0 };
@@ -16,7 +12,6 @@ function setInitialState(state) {
   const initialState = {
     currentProject: project(),
     currentColor,
-    initialColor: GRID_INITIAL_COLOR,
     eraserOn: false,
     eyedropperOn: false,
     colorPickerOn: false,
@@ -112,7 +107,7 @@ function drawCell(state, id) {
 
   if (bucketOn || eyedropperOn) {
     const activeFrameIndex = state.get('activeFrameIndex');
-    const cellColor = getFrames(state).getIn([activeFrameIndex, 'pixels', id, 'color']);
+    const cellColor = getFrames(state).getIn([activeFrameIndex, 'pixels', id]);
 
     if (eyedropperOn) {
       return setColorSelected(state, cellColor, null);
@@ -123,21 +118,10 @@ function drawCell(state, id) {
   // eraserOn or regular cell paint
   const used = !eraserOn;
   const color = eraserOn ?
-  state.get('initialColor') :
+  null :
   state.get('currentColor').get('color');
 
   return setGridCellValue(state, color, used, id);
-}
-
-function setDrawing(state, frames, palette, cellSize, columns, rows) {
-  return state.merge({
-    frames,
-    palette,
-    cellSize,
-    columns,
-    rows,
-    activeFrameIndex: 0
-  });
 }
 
 function setEraser(state) {
@@ -184,7 +168,7 @@ function setCellSize(state, cellSize) {
 function resetFrame(state, columns, rows, activeFrameIndex) {
   const color = state.getIn(['currentProject', 'defaultColor'])
   return state.updateIn(['currentProject', 'frames', activeFrameIndex, 'pixels'], pixels =>
-    pixels.map(_ => emptyPixel(color)))
+    pixels.map(_ => null))
 }
 
 function showSpinner(state) {
@@ -266,10 +250,6 @@ export default function (state = Map(), action) {
       return setCustomColor(state, action.customColor);
     case 'DRAW_CELL':
       return drawCell(state, action.id);
-    case 'SET_DRAWING':
-      return setDrawing(
-        state, action.frames, action.palette,
-        action.cellSize, action.columns, action.rows);
     case 'SET_PROJECT':
       return setProject(state, action.project);
     case 'SET_ERASER':

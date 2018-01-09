@@ -44,17 +44,6 @@ export function drawCell(id) {
   };
 }
 
-export function setDrawing(frames, palette, cellSize, columns, rows) {
-  return {
-    type: 'SET_DRAWING',
-    frames,
-    palette,
-    cellSize,
-    columns,
-    rows
-  };
-}
-
 export function setProject(project) {
   return {
     type: 'SET_PROJECT',

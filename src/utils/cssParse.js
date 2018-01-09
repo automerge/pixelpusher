@@ -2,8 +2,8 @@ export function generatePixelDrawCss(frame, columns, rows, cellSize, type) {
   switch (type) {
     case 'array': {
       // Returns frame data as an array
-      const frameData = frame.get('pixels').reduce((accumulator, currentValue, i) => {
-        if (currentValue.get('used')) {
+      const frameData = frame.get('pixels').reduce((accumulator, pixel, i) => {
+        if (pixel) {
           const xCoord = ((i % columns) * cellSize) + cellSize;
           const yCoord = (parseInt(i / columns, 10) * cellSize) + cellSize;
           const pixelInfo = [];
@@ -11,7 +11,7 @@ export function generatePixelDrawCss(frame, columns, rows, cellSize, type) {
           pixelInfo.push(`${xCoord}`);
           pixelInfo.push(`${yCoord}`);
           pixelInfo.push('0');
-          pixelInfo.push(currentValue.get('color'));
+          pixelInfo.push(pixel);
           accumulator.push(pixelInfo);
         }
 
@@ -21,12 +21,12 @@ export function generatePixelDrawCss(frame, columns, rows, cellSize, type) {
     }
     default: {
       // Returns frame data as CSS string. Value: 'string'
-      const cssString = frame.get('pixels').reduce((accumulator, currentValue, i) => {
-        if (currentValue.get('used')) {
+      const cssString = frame.get('pixels').reduce((accumulator, pixel, i) => {
+        if (pixel) {
           const xCoord = ((i % columns) * cellSize) + cellSize;
           const yCoord = (parseInt(i / columns, 10) * cellSize) + cellSize;
 
-          return `${accumulator} ${xCoord}px ${yCoord}px 0 ${currentValue.get('color')},`;
+          return `${accumulator} ${xCoord}px ${yCoord}px 0 ${pixel},`;
         }
 
         return accumulator;

@@ -2,7 +2,8 @@ import shortid from 'shortid'
 import {Record, List} from 'immutable'
 import {frame} from './Frame'
 import {palette} from './Palette'
-import { DEFAULT_COLOR } from './Pixel';
+
+export const DEFAULT_COLOR = '#313131';
 
 const Project = Record({
   id: null, // required

@@ -5,12 +5,13 @@ import * as actionCreators from '../store/actions/actionCreators';
 import GridWrapper from './GridWrapper';
 
 const PixelCanvas = (props) => {
-  const cells = props.activeFrame.get('pixels').map((currentCell, i) => {
-    const color = currentCell.get('color');
+  const {emptyColor} = props;
+
+  const cells = props.activeFrame.get('pixels').map((color, i) => {
     return {
       id: i,
       width: 100 / props.columns,
-      color,
+      color: color || emptyColor,
     };
   });
 
@@ -40,6 +41,7 @@ const mapStateToProps = (state) => {
   return {
     activeFrame: frames.get(activeFrameIndex),
     columns: project.get('columns'),
+    emptyColor: project.get('defaultColor'),
     eyedropperOn: state.present.get('eyedropperOn'),
     eraserOn: state.present.get('eraserOn')
   };

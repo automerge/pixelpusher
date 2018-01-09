@@ -10,7 +10,7 @@ const configureStore = (devMode) => {
       filter: includeAction([
         'CHANGE_DIMENSIONS',
         'DRAW_CELL',
-        'SET_DRAWING',
+        'SET_PROJECT',
         'SET_CELL_SIZE',
         'SET_RESET_GRID',
         'NEW_PROJECT'
@@ -41,7 +41,7 @@ const configureStore = (devMode) => {
       filter: includeAction([
         'CHANGE_DIMENSIONS',
         'DRAW_CELL',
-        'SET_DRAWING',
+        'SET_PROJECT',
         'SET_CELL_SIZE',
         'SET_RESET_GRID',
         'NEW_PROJECT'

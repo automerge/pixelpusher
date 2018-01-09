@@ -2,7 +2,8 @@ import React from 'react';
 import PixelCell from './PixelCell';
 
 const PixelGrid = ({
-  cells, onMouseUp, onMouseDown, onMouseOver, onTouchMove, extraClass
+  cells, onMouseUp, onMouseDown, onMouseOver, onTouchMove, extraClass,
+  emptyColor,
 }) => (
   <div className={`grid-container ${extraClass}`}>
     {cells.map(cell => (

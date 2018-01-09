@@ -2,7 +2,7 @@ import { exampleCat } from '../../examples/import-export/json-cat';
 import Project from '../records/Project'
 import { deserializeProject } from './serialization';
 
-const STORAGE_KEY = 'pixelpusher-v1';
+const STORAGE_KEY = 'pixelpusher-v2';
 
 /*
  *  Storage data structure
