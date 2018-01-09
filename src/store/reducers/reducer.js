@@ -249,12 +249,7 @@ function setDuration(state, duration) {
 }
 
 function changeFrameInterval(state, frameIndex, interval) {
-  return state.merge({
-    frames: state.get('frames').updateIn(
-      [frameIndex, 'interval'],
-      () => interval
-     )
-  });
+  return state.setIn(['currentProject', 'frames', frameIndex, 'interval'], interval)
 }
 
 export default function (state = Map(), action) {
