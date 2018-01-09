@@ -49,7 +49,7 @@ const setProject = (state, project) =>
   state.set('currentProject', project).set('activeFrameIndex', 0)
 
 const mergeProject = (state, props) =>
-  state.mergeIn(['currentProject'], props).set('activeFrameIndex', 0)
+  state.mergeIn(['currentProject'], props)
 
 function changeDimensions(state, dimension, behavior) {
   return state.update('currentProject', project =>
