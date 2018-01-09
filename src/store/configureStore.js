@@ -9,6 +9,7 @@ const configureStore = (devMode) => {
     store = createStore(undoable(reducer, {
       filter: includeAction([
         'CHANGE_DIMENSIONS',
+        'CLONE_PROJECT',
         'DRAW_CELL',
         'SET_PROJECT',
         'SET_CELL_SIZE',
@@ -40,6 +41,7 @@ const configureStore = (devMode) => {
     store = createStore(undoable(reducer, {
       filter: includeAction([
         'CHANGE_DIMENSIONS',
+        'CLONE_PROJECT',
         'DRAW_CELL',
         'SET_PROJECT',
         'SET_CELL_SIZE',

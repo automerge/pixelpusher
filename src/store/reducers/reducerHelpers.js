@@ -1,6 +1,6 @@
 import { List, Map, fromJS } from 'immutable';
 import shortid from 'shortid';
-import { pixels } from '../../records/Pixel';
+import { pixels as pixelList } from '../../records/Pixel';
 import { frameOfSize } from '../../records/Frame';
 
 export function createGrid(cellsCount, initialColor, intervalPercentage) {
@@ -45,7 +45,7 @@ export function resizePixels(pixels, dimension, behavior, columns) {
     }
   } else if (dimension === 'rows') {
     if (behavior === 'add') {
-      return pixels.concat(pixels(columns, null))
+      return pixels.concat(pixelList(columns, null))
     } else {
       return pixels.skipLast(columns)
     }

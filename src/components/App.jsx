@@ -14,6 +14,7 @@ import PaletteGridContainer from './PaletteGrid';
 import ResetContainer from './Reset';
 import SaveDrawingContainer from './SaveDrawing';
 import NewProjectContainer from './NewProject';
+import CloneProjectContainer from './CloneProject';
 import SimpleNotificationContainer from './SimpleNotification';
 import SimpleSpinnerContainer from './SimpleSpinner';
 import UndoRedoContainer from './UndoRedo';
@@ -198,6 +199,10 @@ export default class App extends React.Component {
 
           <div data-tooltip={this.tip('New project')}>
             <NewProjectContainer />
+          </div>
+
+          <div data-tooltip={this.tip('Clone project')}>
+            <CloneProjectContainer />
           </div>
 
           <button

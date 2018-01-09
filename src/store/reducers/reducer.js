@@ -1,4 +1,5 @@
 import { List, Map } from 'immutable';
+import shortid from 'shortid';
 import {
   createGrid, resizeProject, createPalette, resetIntervals, setGridCellValue,
   checkColorInPalette, addColorToLastCellInPalette, getPositionFirstMatchInPalette,
@@ -42,6 +43,9 @@ const getRows = state =>
 
 const setProject = (state, project) =>
   state.set('currentProject', project).set('activeFrameIndex', 0)
+
+const cloneProject = (state) =>
+  state.setIn(['currentProject', 'id'], shortid.generate())
 
 const mergeProject = (state, props) =>
   state.mergeIn(['currentProject'], props)
@@ -286,6 +290,8 @@ export default function (state = Map(), action) {
       return changeFrameInterval(state, action.frameIndex, action.interval);
     case 'NEW_PROJECT':
       return setInitialState(state);
+    case 'CLONE_PROJECT':
+      return cloneProject(state);
     default:
   }
   return state;
