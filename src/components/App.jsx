@@ -109,30 +109,6 @@ export default class App extends React.Component {
                     <PaletteGridContainer />
                   </div>
                 </div>
-                <div className="app__mobile--container">
-                  <div className="app__mobile--group">
-                    <div className="app__social-container">
-                      <div data-tooltip={this.tip('Tweet your creation in different formats')}>
-                        <button
-                          className="app__twitter-button"
-                          onClick={() => { this.changeModalType('twitter'); }}
-                        />
-                      </div>
-                      <div data-tooltip={this.tip('Download your creation in different formats')}>
-                        <button
-                          className="app__download-button"
-                          onClick={() => { this.changeModalType('download'); }}
-                        />
-                      </div>
-                      <div data-tooltip="Toggle help tooltips">
-                        <button
-                          className={`app__toggle-help-button ${this.tip(' selected')}`}
-                          onClick={() => { this.toggleHelp(); }}
-                        />
-                      </div>
-                    </div>
-                  </div>
-                </div>
               </div>
             </div>
             <div className="center col-2-4">
