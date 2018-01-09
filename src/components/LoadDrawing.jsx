@@ -1,7 +1,9 @@
 import React from 'react';
+import Input from './Input';
 import Preview from './Preview';
 import {
   getProjectsFromStorage, removeProjectFromStorage,
+  getProjectFromStorage,
   generateExportString, exportedStringToProject
 } from '../utils/storage';
 
@@ -12,6 +14,10 @@ import {
 const browserStorage = (typeof localStorage === 'undefined') ? null : localStorage;
 
 export default class LoadDrawing extends React.Component {
+
+  state = {
+    shareLink: "",
+  }
 
   getExportCode() {
     return generateExportString(this.props.project);
@@ -42,6 +48,18 @@ export default class LoadDrawing extends React.Component {
   projectClick(project) {
     this.props.actions.setProject(project);
     this.props.close();
+  }
+
+  shareLinkChanged = shareLink => {
+    this.setState({shareLink})
+
+    const id = shareLink.slice(10)
+
+    const project = getProjectFromStorage(browserStorage, id)
+
+    if (project) {
+      this.projectClick(project);
+    }
   }
 
   giveMeProjects() {
@@ -105,7 +123,13 @@ export default class LoadDrawing extends React.Component {
 
       case 'shared': {
         return (
-          <input className="input" placeholder="Paste share link here..." />
+          <div className="center">
+            <div>Paste share link here:</div>
+            <Input
+              value={this.state.shareLink}
+              onChange={this.shareLinkChanged}
+            />
+          </div>
         );
       }
 

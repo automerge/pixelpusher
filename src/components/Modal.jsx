@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import ModalReact from 'react-modal';
 import * as actionCreators from '../store/actions/actionCreators';
 
+import Input from './Input';
 import RadioSelector from './RadioSelector';
 import LoadDrawing from './LoadDrawing';
 import Preview from './Preview';
@@ -124,8 +125,9 @@ class Modal extends React.Component {
         break;
       case 'share':
         content = (
-          <div>
-            Share your drawing soon.
+          <div style={{textAlign: 'center'}}>
+            <div>Share this link:</div>
+            <Input readOnly defaultValue={"pxlpshr://" + props.project.get('id')} />
           </div>
         );
         break;
