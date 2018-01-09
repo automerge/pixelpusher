@@ -44,17 +44,12 @@ class FramesHandler extends React.Component {
   render() {
     return (
       <div className="frames-handler">
-        <button
-          className="frames-handler__add"
-          onClick={() => { this.handleClick(); }}
-        >
-          +
-        </button>
         <div className="frames-handler__list">
           <Scrollbars
             autoHeight
             ref={(c) => { this.scrollbars = c; }}
             universal
+            autoHide
             onUpdate={() => { this.onScrollbarUpdate(); }}
           >
             <div className="list__container">
@@ -62,6 +57,12 @@ class FramesHandler extends React.Component {
             </div>
           </Scrollbars>
         </div>
+        <button
+          className="frames-handler__add"
+          onClick={() => { this.handleClick(); }}
+        >
+          +
+      </button>
       </div>
     );
   }
