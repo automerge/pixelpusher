@@ -18,6 +18,7 @@ import CloneProjectContainer from './CloneProject';
 import SimpleNotificationContainer from './SimpleNotification';
 import SimpleSpinnerContainer from './SimpleSpinner';
 import UndoRedoContainer from './UndoRedo';
+import PresenceContainer from './PresenceContainer';
 import initialSetup from '../utils/startup';
 
 export default class App extends React.Component {
@@ -200,6 +201,7 @@ export default class App extends React.Component {
     return (
       <div className="app__right-side">
         <div className="app__mobile--container">
+          <PresenceContainer />
         </div>
       </div>
     );

@@ -1,7 +1,8 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import undoable, { includeAction } from 'redux-undo';
 import { fromJS } from 'immutable';
 import reducer from '../store/reducers/reducer';
+import hyperSync from '../store/middleware/hyperSync';
 
 const configureStore = (devMode) => {
   let store;
@@ -17,7 +18,10 @@ const configureStore = (devMode) => {
         'NEW_PROJECT'
       ]),
       debug: true
-    }));
+    }),
+    applyMiddleware(
+      hyperSync,
+    ));
 
     /*
       In production mode, the following actions are already dispatched

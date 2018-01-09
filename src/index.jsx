@@ -5,13 +5,11 @@ import {Provider} from 'react-redux';
 
 import configureStore from './store/configureStore';
 import autoSave from './store/autoSave';
-import hyperSync from './store/hyperSync';
 
 const devMode = true;
 const store = configureStore(devMode);
 
 autoSave(store)
-hyperSync(store)
 
 const render = () => {
   const App = require('./components/App').default;
