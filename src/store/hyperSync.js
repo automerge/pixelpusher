@@ -15,6 +15,9 @@ export default store => {
     if (!id) return
 
     const key = project.get('key')
+    const userData = JSON.stringify({
+      name: `client id ${clientId}`,
+    })
 
     console.log('project.key', key)
 
@@ -36,17 +39,26 @@ export default store => {
           dispatch({type: 'REMOTE_PROJECT_UPDATED', project})
         })
 
-        const sw = swarm(feed, {port})
+        const sw = swarm(feed, {
+          port,
+          stream: _peer =>
+            feed.replicate({
+              live: true,
+              upload: true,
+              download: true,
+              userData,
+            }),
+        })
 
         sw.on('listening', () => {
           dispatch({type: 'SELF_CONNECTED', key, id: selfId.toString('hex'), writable: feed.writable})
         })
 
-        sw.on('connection', (conn, peer) => {
-          const id = peer.id.toString('hex')
+        sw.on('connection', (conn, type) => {
+          const id = conn.remoteId.toString('hex')
+          const info = JSON.parse(conn.remoteUserData)
 
-          console.log(peer)
-          dispatch({type: 'PEER_CONNECTED', key, id})
+          dispatch({type: 'PEER_CONNECTED', key, id, info})
 
           conn.on('close', () => {
             dispatch({type: 'PEER_DISCONNECTED', key, id})

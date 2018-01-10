@@ -242,11 +242,11 @@ function changeFrameInterval(state, frameIndex, interval) {
   return state.setIn(['currentProject', 'frames', frameIndex, 'interval'], interval)
 }
 
-const peerConnected = (state, key, id) =>
-  state.setIn(['peers', id], Peer({key, id, isConnected: true}))
+const peerConnected = (state, key, id, info) =>
+  state.setIn(['peers', id], Peer({key, id, isConnected: true}).merge(info))
 
 const selfConnected = (state, key, id, canEdit) =>
-  state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit}))
+  state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit, name: "me"}))
 
 const peerDisconnected = (state, key, id) =>
   state.setIn(['peers', id, 'isConnected'], false)
@@ -310,7 +310,7 @@ export default function (state = Map(), action) {
     case 'REPLICATION_STARTED':
       return replicationStarted(state, action.key)
     case 'PEER_CONNECTED':
-      return peerConnected(state, action.key, action.id)
+      return peerConnected(state, action.key, action.id, action.info)
     case 'SELF_CONNECTED':
       return selfConnected(state, action.key, action.id, action.writable)
     case 'PEER_DISCONNECTED':

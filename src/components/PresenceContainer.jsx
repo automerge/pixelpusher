@@ -13,7 +13,7 @@ class Presence extends React.Component {
     return (
       <div>
         {peers.map(peer =>
-          <div key={peer.id} style={{
+          <div data-tooltip={peer.name} key={peer.id} style={{
             opacity: peer.isConnected ? 1 : 0.3
           }}>
             {peer.canEdit ? "+" : null}
