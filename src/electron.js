@@ -10,6 +10,8 @@ const isDevMode = process.execPath.match(/[\\/]electron/);
 
 if (isDevMode) enableLiveReload({ strategy: 'react-hmr' });
 
+app.setAsDefaultProtocolClient('pxlpshr')
+
 const createWindow = async () => {
   // Create the browser window.
   mainWindow = new BrowserWindow({
@@ -57,5 +59,8 @@ app.on('activate', () => {
   }
 });
 
+app.on('open-url', (_event, url) => {
+  mainWindow.webContents.send('open-url', url)
+});
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
