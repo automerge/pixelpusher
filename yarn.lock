@@ -36,6 +36,10 @@
   version "7.0.49"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-7.0.49.tgz#f43777edd31822d6bcb50735a76c7f301d7b3121"
 
+"@types/node@^8.0.24":
+  version "8.5.8"
+  resolved "https://registry.yarnpkg.com/@types/node/-/node-8.5.8.tgz#92509422653f10e9c0ac18d87e0610b39f9821c7"
+
 abab@^1.0.0:
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/abab/-/abab-1.0.4.tgz#5faad9c2c07f60dd76770f71cf025b62a63cfd4e"
@@ -3176,15 +3180,15 @@ electron-packager@^10.1.0:
     semver "^5.3.0"
     yargs-parser "^8.0.0"
 
-electron-prebuilt-compile@1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/electron-prebuilt-compile/-/electron-prebuilt-compile-1.6.2.tgz#22b8ab92718e24dd9d1c9cb21d371c727b172a9d"
+electron-prebuilt-compile@1.8.2-beta.3:
+  version "1.8.2-beta.3"
+  resolved "https://registry.yarnpkg.com/electron-prebuilt-compile/-/electron-prebuilt-compile-1.8.2-beta.3.tgz#ff910d3d3567e4fe106bfe2285bd30b06c63add5"
   dependencies:
     babel-plugin-array-includes "^2.0.3"
     babel-plugin-transform-async-to-generator "^6.8.0"
     babel-preset-es2016-node5 "^1.1.2"
     babel-preset-react "^6.11.1"
-    electron "1.6.2"
+    electron "1.8.2-beta.3"
     electron-compile "*"
     electron-compilers "*"
     yargs "^6.6.0"
@@ -3239,10 +3243,11 @@ electron-winstaller@^2.5.0:
     lodash.template "^4.2.2"
     temp "^0.8.3"
 
-electron@1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.6.2.tgz#b0ccd7703f86d09c4d2a7273455c3f993f158994"
+electron@1.8.2-beta.3:
+  version "1.8.2-beta.3"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-1.8.2-beta.3.tgz#2e391ccbd62768a3b3b260b8f2e3f16473567aec"
   dependencies:
+    "@types/node" "^8.0.24"
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
 
