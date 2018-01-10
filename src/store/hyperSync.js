@@ -1,7 +1,6 @@
 import hypercore from 'hypercore'
 import swarm from 'hyperdiscovery'
 import whenChanged from './whenChanged'
-import ram from 'random-access-memory'
 import { deserializeProject } from '../utils/serialization';
 
 export default store => {
