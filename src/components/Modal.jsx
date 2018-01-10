@@ -70,6 +70,7 @@ class Modal extends React.Component {
             close={props.close}
             open={props.open}
             project={props.project}
+            dispatch={props.dispatch}
             actions={{
               setProject: props.actions.setProject,
               sendNotification: props.actions.sendNotification
@@ -127,7 +128,7 @@ class Modal extends React.Component {
         content = (
           <div style={{textAlign: 'center'}}>
             <div>Share this link:</div>
-            <Input readOnly defaultValue={"pxlpshr://" + props.project.get('id')} />
+            <Input readOnly defaultValue={"pxlpshr://" + props.project.get('id') + "/" + props.project.get('key')} />
           </div>
         );
         break;
@@ -237,7 +238,8 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actionCreators, dispatch)
+  actions: bindActionCreators(actionCreators, dispatch),
+  dispatch,
 });
 
 const ModalContainer = connect(

@@ -242,11 +242,17 @@ function changeFrameInterval(state, frameIndex, interval) {
   return state.setIn(['currentProject', 'frames', frameIndex, 'interval'], interval)
 }
 
-const peerConnected = (state, id, isSelf) =>
-  state.setIn(['peers', id], Peer({id, isSelf, isConnected: true}))
+const peerConnected = (state, key, id) =>
+  state.setIn(['peers', id], Peer({key, id, isConnected: true}))
 
-const peerDisconnected = (state, id) =>
+const selfConnected = (state, key, id, canEdit) =>
+  state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit}))
+
+const peerDisconnected = (state, key, id) =>
   state.setIn(['peers', id, 'isConnected'], false)
+
+const replicationStarted = (state, key) =>
+  state.setIn(['currentProject', 'key'], key)
 
 export default function (state = Map(), action) {
   switch (action.type) {
@@ -262,6 +268,7 @@ export default function (state = Map(), action) {
       return setCustomColor(state, action.customColor);
     case 'DRAW_CELL':
       return drawCell(state, action.id);
+    case 'REMOTE_PROJECT_UPDATED':
     case 'SET_PROJECT':
       return setProject(state, action.project);
     case 'SET_ERASER':
@@ -300,10 +307,14 @@ export default function (state = Map(), action) {
       return setInitialState(state);
     case 'CLONE_PROJECT':
       return cloneProject(state);
+    case 'REPLICATION_STARTED':
+      return replicationStarted(state, action.key)
     case 'PEER_CONNECTED':
-      return peerConnected(state, action.id, action.isSelf)
+      return peerConnected(state, action.key, action.id)
+    case 'SELF_CONNECTED':
+      return selfConnected(state, action.key, action.id, action.writable)
     case 'PEER_DISCONNECTED':
-      return peerDisconnected(state, action.id)
+      return peerDisconnected(state, action.key, action.id)
     default:
   }
 

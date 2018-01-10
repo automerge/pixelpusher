@@ -7,6 +7,8 @@ import {
   generateExportString, exportedStringToProject
 } from '../utils/storage';
 
+import Project from '../records/Project'
+
 /*
   Avoid error when server-side render doesn't recognize
   localstorage (browser feature)
@@ -53,13 +55,11 @@ export default class LoadDrawing extends React.Component {
   shareLinkChanged = shareLink => {
     this.setState({shareLink})
 
-    const id = shareLink.slice(10)
+    const [id, key] = shareLink.slice(10).split('/')
 
-    const project = getProjectFromStorage(browserStorage, id)
+    const project = Project({id, key})
 
-    if (project) {
-      this.projectClick(project);
-    }
+    this.projectClick(project)
   }
 
   giveMeProjects() {

@@ -7,6 +7,7 @@ export const DEFAULT_COLOR = '#313131';
 
 const Project = Record({
   id: null, // required
+  key: null,
   rows: 20,
   columns: 20,
   cellSize: 10,
