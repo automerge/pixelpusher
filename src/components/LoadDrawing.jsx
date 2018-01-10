@@ -8,6 +8,7 @@ import {
 } from '../utils/storage';
 
 import Project from '../records/Project'
+import { keyFromShareLink } from '../utils/shareLink';
 
 /*
   Avoid error when server-side render doesn't recognize
@@ -55,7 +56,7 @@ export default class LoadDrawing extends React.Component {
   shareLinkChanged = shareLink => {
     this.setState({shareLink})
 
-    const [id, key] = shareLink.slice(10).split('/')
+    const [id, key] = keyFromShareLink(shareLink)
 
     const project = Project({id, key})
 

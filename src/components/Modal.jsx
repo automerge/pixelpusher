@@ -11,6 +11,7 @@ import Preview from './Preview';
 import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import TwitterForm from './TwitterForm';
+import { shareLinkForProject } from '../utils/shareLink';
 
 ModalReact.setAppElement('#app');
 
@@ -128,7 +129,7 @@ class Modal extends React.Component {
         content = (
           <div style={{textAlign: 'center'}}>
             <div>Share this link:</div>
-            <Input readOnly defaultValue={"pxlpshr://" + props.project.get('id') + "/" + props.project.get('key')} />
+            <Input readOnly defaultValue={shareLinkForProject(props.project)} />
           </div>
         );
         break;

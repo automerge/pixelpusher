@@ -1208,6 +1208,12 @@ balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
 
+base-emoji@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/base-emoji/-/base-emoji-2.0.1.tgz#5092c28b58eb2d46a3e1f2917d20b8963e339cf6"
+  dependencies:
+    bitparser "~0.1.1"
+
 base-x@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/base-x/-/base-x-3.0.0.tgz#77b56f0311070b780b3c8a5f534beac47e506702"
@@ -1310,6 +1316,10 @@ bitfield-rle@^2.0.0:
   resolved "https://registry.yarnpkg.com/bitfield-rle/-/bitfield-rle-2.1.0.tgz#ae29e9382a7ba4898de9f48bb23fd338c4fbdcf8"
   dependencies:
     varint "^4.0.0"
+
+bitparser@~0.1.1:
+  version "0.1.1"
+  resolved "https://registry.yarnpkg.com/bitparser/-/bitparser-0.1.1.tgz#8ce89e9d988657e97723974e8145fa924c5ba7e3"
 
 bittorrent-dht@^7.2.1:
   version "7.8.2"
