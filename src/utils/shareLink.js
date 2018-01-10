@@ -1,19 +1,18 @@
-import Emoji from 'base-emoji'
-
+import Base58 from 'bs58'
 export const shareLinkForProjectId = id =>
-  "pxlpshr://" + keyToEmoji(id)
+  "pxlpshr://" + encodeKey(id)
 
 export const shareLinkForProject = project =>
   shareLinkForProjectId(project.get('id'))
 
 export const keyFromShareLink = link => {
-  const emojiKey = link.slice(10)
+  const encodedKey = link.slice(10)
 
-  return keyHex(Emoji.fromUnicode(emojiKey))
+  return keyHex(Base58.decode(encodedKey))
 }
 
-export const keyToEmoji = key =>
-  Emoji.toUnicode(keyBuffer(key))
+export const encodeKey = key =>
+  Base58.encode(keyBuffer(key))
 
 export const keyBuffer = key =>
   Buffer.isBuffer(key)
