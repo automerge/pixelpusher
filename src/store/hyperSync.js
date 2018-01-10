@@ -34,9 +34,11 @@ export default store => {
 
         dispatch({type: 'REPLICATION_STARTED', key})
 
-        feed.on('download', (index, data) => {
-          const project = deserializeProject(JSON.parse(data))
-          dispatch({type: 'REMOTE_PROJECT_UPDATED', project})
+        feed.on('sync', () => {
+          feed.head((err, data) => {
+            const project = deserializeProject(data)
+            dispatch({type: 'REMOTE_PROJECT_UPDATED', project})
+          })
         })
 
         const sw = swarm(feed, {
