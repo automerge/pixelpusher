@@ -47,7 +47,10 @@ const setProject = (state, project) =>
   state.set('currentProject', project).set('activeFrameIndex', 0)
 
 const cloneProject = (state) =>
-  state.setIn(['currentProject', 'id'], shortid.generate())
+  state.update('currentProject', project =>
+    project
+      .set('id', shortid.generate())
+      .set('key', null))
 
 const mergeProject = (state, props) =>
   state.mergeIn(['currentProject'], props)
