@@ -4,14 +4,12 @@ import { bindActionCreators } from 'redux';
 import ModalReact from 'react-modal';
 import * as actionCreators from '../store/actions/actionCreators';
 
-import Input from './Input';
 import RadioSelector from './RadioSelector';
 import LoadDrawing from './LoadDrawing';
 import Preview from './Preview';
 import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import TwitterForm from './TwitterForm';
-import { shareLinkForProject } from '../utils/shareLink';
 
 ModalReact.setAppElement('#app');
 
@@ -123,14 +121,6 @@ class Modal extends React.Component {
               sendNotification: props.actions.sendNotification
             }}
           />
-        );
-        break;
-      case 'share':
-        content = (
-          <div style={{textAlign: 'center'}}>
-            <div>Share this link:</div>
-            <Input readOnly defaultValue={shareLinkForProject(props.project)} />
-          </div>
         );
         break;
       default:

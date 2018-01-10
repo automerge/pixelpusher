@@ -56,9 +56,9 @@ export default class LoadDrawing extends React.Component {
   shareLinkChanged = shareLink => {
     this.setState({shareLink})
 
-    const [id, key] = keyFromShareLink(shareLink)
+    const id = keyFromShareLink(shareLink)
 
-    const project = Project({id, key})
+    const project = Project({id})
 
     this.projectClick(project)
   }

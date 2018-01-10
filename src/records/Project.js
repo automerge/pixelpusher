@@ -1,4 +1,3 @@
-import shortid from 'shortid'
 import {Record, List} from 'immutable'
 import {frame} from './Frame'
 import {palette} from './Palette'
@@ -19,6 +18,4 @@ const Project = Record({
 export default Project
 
 export const project = () =>
-  Project({
-    id: shortid.generate(),
-  })
+  Project({})

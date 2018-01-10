@@ -6,7 +6,6 @@ import Frame from '../records/Frame'
 export const deserializeProject = json =>
   Project({
     id: json.id,
-    key: json.key,
     rows: json.rows,
     columns: json.columns,
     cellSize: json.cellSize,

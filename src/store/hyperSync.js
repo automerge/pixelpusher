@@ -1,76 +1,94 @@
+import {keyPair} from 'hypercore/lib/crypto'
 import hypercore from 'hypercore'
 import swarm from 'hyperdiscovery'
 import whenChanged from './whenChanged'
 import { deserializeProject } from '../utils/serialization';
+import Project from '../records/Project'
+
+const MAX_LOCAL_CLIENTS = 5
+
+const clientId = +(process.env.CLIENT_ID || 1)
+let currentPort = 3282 + clientId
 
 export default store => {
   const {dispatch} = store
   const feeds = {}
-  const clientId = +(process.env.CLIENT_ID || 1)
-  const port = 3282 + clientId
 
   whenChanged(store, ['currentProject'], project => {
-    const id = project.get('id')
-    if (!id) return
+    const key = project.get('id')
 
-    const key = project.get('key')
-    const userData = JSON.stringify({
-      name: `client id ${clientId}`,
+    if (!key) {
+      const keys = keyPair()
+
+      const project = Project({
+        id: keys.publicKey.toString('hex'),
+      })
+
+      addFeedForProject(feeds, dispatch, project, keys.secretKey)
+
+      dispatch({type: "SET_PROJECT", project})
+    } else if (feeds[key]) {
+      append(feeds[key], project.toJS())
+    } else {
+      addFeedForProject(feeds, dispatch, project)
+    }
+  })
+}
+
+const addFeedForProject = (feeds, dispatch, project, secretKey) => {
+  const key = project.get('id')
+
+  const userData = JSON.stringify({
+    name: `client id ${clientId}`,
+  })
+
+  const feed = feeds[key] = hypercore(`./.data/pixelpusher/${clientId}/${key}`, key, {
+    valueEncoding: 'json',
+    secretKey,
+  })
+
+  feed.on('ready', () => {
+    const selfId = feed.id
+
+    feed.on('sync', () => {
+      feed.head((err, data) => {
+        const project = deserializeProject(data)
+        dispatch({type: 'REMOTE_PROJECT_UPDATED', project})
+      })
     })
 
-    console.log('project.key', key)
+    const port = currentPort
+    currentPort += MAX_LOCAL_CLIENTS
 
-    if (feeds[id]) {
-      append(feeds[id], project.toJS())
-    } else {
-      const feed = feeds[id] = hypercore(`./.data/pixelpusher/${clientId}/${id}`, key, {
-        valueEncoding: 'json',
+    const sw = swarm(feed, {
+      port,
+      stream: _peer =>
+        feed.replicate({
+          live: true,
+          upload: true,
+          download: true,
+          userData,
+        }),
+    })
+
+    sw.on('listening', () => {
+      dispatch({type: 'SELF_CONNECTED', key, id: selfId.toString('hex'), writable: feed.writable})
+    })
+
+    sw.on('connection', (conn, type) => {
+      const id = conn.remoteId.toString('hex')
+      const info = JSON.parse(conn.remoteUserData)
+
+      dispatch({type: 'PEER_CONNECTED', key, id, info})
+
+      conn.on('close', () => {
+        dispatch({type: 'PEER_DISCONNECTED', key, id})
       })
+    })
 
-      feed.on('ready', () => {
-        const key = feed.key.toString('hex')
-        const selfId = feed.id
-
-        dispatch({type: 'REPLICATION_STARTED', key})
-
-        feed.on('sync', () => {
-          feed.head((err, data) => {
-            const project = deserializeProject(data)
-            dispatch({type: 'REMOTE_PROJECT_UPDATED', project})
-          })
-        })
-
-        const sw = swarm(feed, {
-          port,
-          stream: _peer =>
-            feed.replicate({
-              live: true,
-              upload: true,
-              download: true,
-              userData,
-            }),
-        })
-
-        sw.on('listening', () => {
-          dispatch({type: 'SELF_CONNECTED', key, id: selfId.toString('hex'), writable: feed.writable})
-        })
-
-        sw.on('connection', (conn, type) => {
-          const id = conn.remoteId.toString('hex')
-          const info = JSON.parse(conn.remoteUserData)
-
-          dispatch({type: 'PEER_CONNECTED', key, id, info})
-
-          conn.on('close', () => {
-            dispatch({type: 'PEER_DISCONNECTED', key, id})
-          })
-        })
-
-        sw.on('error', err => {
-          console.error('Discovery error', err)
-        })
-      })
-    }
+    sw.on('error', err => {
+      console.error('Discovery error', err)
+    })
   })
 }
 

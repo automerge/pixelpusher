@@ -89,9 +89,6 @@ export default class App extends React.Component {
             </div>
             <div className="center col-2-4">
               <PixelCanvasContainer />
-              <div data-tooltip={this.tip('Number of columns and rows')}>
-                <DimensionsContainer />
-              </div>
             </div>
             <div className="right col-1-4">
               {this.renderRightSide()}
@@ -133,13 +130,6 @@ export default class App extends React.Component {
           <div data-tooltip={this.tip('Clone project')}>
             <CloneProjectContainer />
           </div>
-
-          <button
-            className="app__load-button"
-            onClick={() => { this.changeModalType('share'); }}
-            data-tooltip={this.tip('Share your project with others')}>
-            Share
-          </button>
         </div>
       </header>
     );
@@ -163,9 +153,6 @@ export default class App extends React.Component {
           </div>
 
           <div className="app__mobile--group">
-            <div data-tooltip={this.tip('Undo Redo actions')}>
-              <UndoRedoContainer />
-            </div>
             <div className="app__tools-wrapper grid-2">
               <div data-tooltip={this.tip('Remove colors')}>
                 <EraserContainer />
@@ -192,6 +179,9 @@ export default class App extends React.Component {
           <div data-tooltip={this.tip('Animation duration in seconds')}>
             <DurationContainer />
           </div>
+          <div data-tooltip={this.tip('Number of columns and rows')}>
+            <DimensionsContainer />
+          </div>
         </div>
       </div>
     );
@@ -200,6 +190,11 @@ export default class App extends React.Component {
   renderRightSide() {
     return (
       <div className="app__right-side">
+        <div className="app__mobile--container">
+          <div data-tooltip={this.tip('Undo Redo actions')}>
+            <UndoRedoContainer />
+          </div>
+        </div>
         <div className="app__mobile--container">
           <PresenceContainer />
         </div>

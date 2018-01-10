@@ -10,6 +10,7 @@ export default store => {
 }
 
 export const saveNow = project => {
+  if (!project.get('id')) return
   console.log("Auto-saving")
   saveProjectToStorage(localStorage, project)
 }

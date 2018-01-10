@@ -2,7 +2,7 @@ import { exampleCat } from '../../examples/import-export/json-cat';
 import Project from '../records/Project'
 import { deserializeProject } from './serialization';
 
-const STORAGE_KEY = 'pixelpusher-v2';
+const STORAGE_KEY = 'pixelpusher-v3';
 
 /*
  *  Storage data structure
@@ -33,10 +33,9 @@ export function getDataFromStorage(storage) {
 }
 
 export function initStorage(storage) {
-  const id = exampleCat.id
   const data = {
-    projects: {[id]: exampleCat}, // Load an example project data by default
-    currentProjectId: id,
+    projects: {},
+    currentProjectId: null,
   }
 
   storage.setItem(STORAGE_KEY, JSON.stringify(data));

@@ -1,12 +1,15 @@
 import Emoji from 'base-emoji'
 
+export const shareLinkForProjectId = id =>
+  "pxlpshr://" + keyToEmoji(id)
+
 export const shareLinkForProject = project =>
-  "pxlpshr://" + project.get('id') + "/" + keyToEmoji(project.get('key'))
+  shareLinkForProjectId(project.get('id'))
 
 export const keyFromShareLink = link => {
-  const [id, emojiKey] = link.slice(10).split('/')
+  const emojiKey = link.slice(10)
 
-  return [id, keyHex(Emoji.fromUnicode(emojiKey))]
+  return keyHex(Emoji.fromUnicode(emojiKey))
 }
 
 export const keyToEmoji = key =>

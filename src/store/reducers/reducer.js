@@ -44,13 +44,12 @@ const getRows = state =>
   getDimension('rows', state);
 
 const setProject = (state, project) =>
-  state.set('currentProject', project).set('activeFrameIndex', 0)
+  state.set('currentProject', project).merge({
+    activeFrameIndex: 0,
+  })
 
 const cloneProject = (state) =>
-  state.update('currentProject', project =>
-    project
-      .set('id', shortid.generate())
-      .set('key', null))
+  state.setIn(['currentProject', 'id'], null)
 
 const mergeProject = (state, props) =>
   state.mergeIn(['currentProject'], props)
@@ -237,6 +236,13 @@ function duplicateFrame(state, frameIndex) {
   });
 }
 
+const newProject = state =>
+  state.merge({
+    currentProject: project(),
+    activeFrameIndex: 0,
+    currentColor: {color: '#000000', position: 0},
+  })
+
 function setDuration(state, duration) {
   return state.merge({ duration });
 }
@@ -253,9 +259,6 @@ const selfConnected = (state, key, id, canEdit) =>
 
 const peerDisconnected = (state, key, id) =>
   state.setIn(['peers', id, 'isConnected'], false)
-
-const replicationStarted = (state, key) =>
-  state.setIn(['currentProject', 'key'], key)
 
 export default function (state = Map(), action) {
   switch (action.type) {
@@ -307,11 +310,9 @@ export default function (state = Map(), action) {
     case 'CHANGE_FRAME_INTERVAL':
       return changeFrameInterval(state, action.frameIndex, action.interval);
     case 'NEW_PROJECT':
-      return setInitialState(state);
+      return newProject(state);
     case 'CLONE_PROJECT':
       return cloneProject(state);
-    case 'REPLICATION_STARTED':
-      return replicationStarted(state, action.key)
     case 'PEER_CONNECTED':
       return peerConnected(state, action.key, action.id, action.info)
     case 'SELF_CONNECTED':

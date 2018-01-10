@@ -3,24 +3,34 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../store/actions/actionCreators';
 
+import Input from './Input';
+
+import { shareLinkForProjectId } from '../utils/shareLink';
+
 class Presence extends React.Component {
   render() {
-    const {projectKey} = this.props
-    if (!projectKey) return null
+    const {projectId} = this.props
+    if (!projectId) return null
 
-    const peers = this.props.peers.valueSeq().filter(({key}) => key === projectKey)
+    const peers = this.props.peers.valueSeq().filter(({key}) => key === projectId)
 
     return (
       <div>
+        <h3>Collaborators:</h3>
         {peers.map(peer =>
           <div data-tooltip={peer.name} key={peer.id} style={{
             opacity: peer.isConnected ? 1 : 0.3
           }}>
-            {peer.canEdit ? "+" : null}
-            {peer.id.slice(0, 8)}
-            {peer.isSelf ? " (you)" : null}
+          {peer.canEdit ? "+" : null}
+          {peer.id.slice(0, 8)}
+          {peer.isSelf ? " (you)" : null}
           </div>
         )}
+
+        <h3>Share link:</h3>
+        <div style={{textAlign: 'center'}}>
+          <Input readOnly autoCopy value={shareLinkForProjectId(projectId)} />
+        </div>
       </div>
     )
   }
@@ -28,7 +38,7 @@ class Presence extends React.Component {
 
 const mapStateToProps = state => ({
   peers: state.present.get('peers'),
-  projectKey: state.present.getIn(['currentProject', 'key']),
+  projectId: state.present.getIn(['currentProject', 'id']),
 });
 
 const mapDispatchToProps = dispatch => ({
