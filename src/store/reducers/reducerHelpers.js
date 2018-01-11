@@ -109,9 +109,13 @@ export function resetIntervals(frames) {
 }
 
 export function setGridCellValue(state, color, used, id) {
-  return setInProject(state, ['frames', state.activeFrameIndex, 'pixels', id],
-    color
-  );
+  // return setInProject(state, ['frames', state.activeFrameIndex, 'pixels', id], color);
+
+  // HACK:
+  return state.updateIn(['currentProject', 'frames', state.activeFrameIndex], frame =>
+    Automerge.change(frame, frame => {
+      frame[id] = color
+    }))
 }
 
 function getSameColorAdjacentCells(frameGrid, columns, rows, id, color) {

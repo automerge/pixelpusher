@@ -47,7 +47,6 @@
     }
   },
   "dependencies": {
-    "automerge": "https://github.com/automerge/automerge.git#immutable-api",
     "base-emoji": "^2.0.1",
     "body-parser": "^1.18.2",
     "bs58": "^4.0.1",
@@ -66,6 +65,7 @@
     "html-webpack-plugin": "^2.30.1",
     "hypercore": "^6.11.0",
     "hyperdiscovery": "^7.0.0",
+    "hypermerge": "../hypermerge",
     "immutable": "^3.8.2",
     "ipfs": "^0.27.3",
     "ipfs-pubsub-room": "^1.1.2",

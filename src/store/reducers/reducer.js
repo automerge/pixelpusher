@@ -250,6 +250,8 @@ export default function (state = State(), action) {
       return setCustomColor(state, action.customColor);
     case 'DRAW_CELL':
       return drawCell(state, action.id);
+
+    case 'PROJECT_CREATED':
     case 'REMOTE_PROJECT_UPDATED':
     case 'SET_PROJECT':
       return setProjectId(state, action.id);
