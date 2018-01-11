@@ -18,15 +18,6 @@ const configureStore = (devMode) => {
       ]),
       debug: true
     }));
-
-    /*
-      In production mode, the following actions are already dispatched
-      (Isomorphic app)
-    */
-
-    store.dispatch({
-      type: 'SHOW_SPINNER'
-    });
   } else {
     // Collects initial state created in the server side
     const initialState = window.__INITIAL_STATE__;

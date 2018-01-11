@@ -3,6 +3,7 @@ import hypercore from 'hypercore'
 import swarm from 'hyperdiscovery'
 import whenChanged from './whenChanged'
 import { deserializeProject } from '../utils/serialization';
+import {getProject} from '../store/reducers/reducerHelpers'
 import Project from '../records/Project'
 
 const MAX_LOCAL_CLIENTS = 5
@@ -14,7 +15,7 @@ export default store => {
   const {dispatch} = store
   const feeds = {}
 
-  whenChanged(store, ['currentProject'], project => {
+  whenChanged(store, getProject, project => {
     const key = project.get('id')
 
     if (!key) {

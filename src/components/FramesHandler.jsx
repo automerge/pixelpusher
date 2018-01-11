@@ -4,6 +4,7 @@ import { bindActionCreators } from 'redux';
 import { Scrollbars } from 'react-custom-scrollbars';
 import * as actionCreators from '../store/actions/actionCreators';
 import Frame from './Frame';
+import { getProject } from '../store/reducers/reducerHelpers';
 
 class FramesHandler extends React.Component {
   state = { newFrame: false }
@@ -69,7 +70,7 @@ class FramesHandler extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  project: state.present.get('currentProject'),
+  project: getProject(state.present),
   activeFrameIndex: state.present.get('activeFrameIndex')
 });
 

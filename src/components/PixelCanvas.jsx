@@ -3,11 +3,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../store/actions/actionCreators';
 import GridWrapper from './GridWrapper';
+import { getProject } from '../store/reducers/reducerHelpers';
 
 const PixelCanvas = (props) => {
-  const {emptyColor} = props;
+  const {emptyColor, activeFrame} = props;
 
-  const cells = props.activeFrame.get('pixels').map((color, i) => {
+  if (!activeFrame) return <div>Loading...</div>;
+
+  const cells = activeFrame.get('pixels').map((color, i) => {
     return {
       id: i,
       width: 100 / props.columns,
@@ -34,7 +37,10 @@ const PixelCanvas = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const project = state.present.get('currentProject');
+  const project = getProject(state.present);
+
+  if (!project) return {}
+
   const frames = project.get('frames');
   const activeFrameIndex = state.present.get('activeFrameIndex');
 

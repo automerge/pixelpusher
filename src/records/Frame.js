@@ -4,8 +4,6 @@ import {pixels} from './Pixel'
 
 const Frame = Record({
   id: null, // required
-  rows: 20,
-  columns: 20,
   pixels: Repeat(null, 400).toList(),
   interval: 0, // 0 - 100
 }, "Frame")

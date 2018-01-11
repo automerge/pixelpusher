@@ -3,20 +3,21 @@ import shortid from 'shortid';
 import {
   resizeProject, createPalette, resetIntervals, setGridCellValue,
   checkColorInPalette, addColorToLastCellInPalette, getPositionFirstMatchInPalette,
-  applyBucket, cloneFrame, addFrameToProject,
+  applyBucket, cloneFrame, addFrameToProject, getProject, updateProject, updateInProject,
+  setInProject, mergeProject,
 } from './reducerHelpers';
 import {project} from '../../records/Project'
 import State from '../../records/State'
 import Peer from '../../records/Peer'
 
 const getPalette = state =>
-  state.getIn(['currentProject', 'palette']);
+  getProject(state).get('palette');
 
 const getFrames = state =>
-  state.getIn(['currentProject', 'frames']);
+  getProject(state).get('frames');
 
 const getDimension = (type, state) =>
-  state.getIn(['currentProject', type]);
+  getProject(state).get(type);
 
 const getColumns = state =>
   getDimension('columns', state);
@@ -24,19 +25,16 @@ const getColumns = state =>
 const getRows = state =>
   getDimension('rows', state);
 
-const setProject = (state, project) =>
-  state.set('currentProject', project).merge({
+const setProject = (state, id) =>
+  state.set('currentProjectId', id).merge({
     activeFrameIndex: 0,
   })
 
 const cloneProject = (state) =>
   state.setIn(['currentProject', 'id'], null)
 
-const mergeProject = (state, props) =>
-  state.mergeIn(['currentProject'], props)
-
 function changeDimensions(state, dimension, behavior) {
-  return state.update('currentProject', project =>
+  return updateProject(state, project =>
     resizeProject(project, dimension, behavior))
 }
 
@@ -155,8 +153,8 @@ function setCellSize(state, cellSize) {
 }
 
 function resetFrame(state, columns, rows, activeFrameIndex) {
-  const color = state.getIn(['currentProject', 'defaultColor'])
-  return state.updateIn(['currentProject', 'frames', activeFrameIndex, 'pixels'], pixels =>
+  const color = getProject(state).get('defaultColor')
+  return updateInProject(state, ['frames', activeFrameIndex, 'pixels'], pixels =>
     pixels.map(_ => null))
 }
 
@@ -179,8 +177,7 @@ function changeActiveFrame(state, frameIndex) {
 }
 
 function createNewFrame(state) {
-  return state
-    .update('currentProject', addFrameToProject)
+  return updateProject(state, addFrameToProject)
     .set('activeFrameIndex', getFrames(state).size)
 }
 
@@ -229,7 +226,7 @@ function setDuration(state, duration) {
 }
 
 function changeFrameInterval(state, frameIndex, interval) {
-  return state.setIn(['currentProject', 'frames', frameIndex, 'interval'], interval)
+  return setInProject(state, ['frames', frameIndex, 'interval'], interval)
 }
 
 const peerConnected = (state, key, id, info) =>
@@ -255,7 +252,7 @@ export default function (state = State(), action) {
       return drawCell(state, action.id);
     case 'REMOTE_PROJECT_UPDATED':
     case 'SET_PROJECT':
-      return setProject(state, action.project);
+      return setProject(state, action.id);
     case 'SET_ERASER':
       return setEraser(state);
     case 'SET_BUCKET':
@@ -298,6 +295,8 @@ export default function (state = State(), action) {
       return selfConnected(state, action.key, action.id, action.writable)
     case 'PEER_DISCONNECTED':
       return peerDisconnected(state, action.key, action.id)
+    case 'STATE_LOADED':
+      return action.state
     default:
   }
 

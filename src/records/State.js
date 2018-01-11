@@ -4,7 +4,8 @@ import Project from './Project'
 export const DEFAULT_COLOR = '#313131';
 
 const State = Record({
-  currentProject: Project(),
+  currentProjectId: null,
+  projects: Map(),
   peers: Map(),
   currentColor: Map({color: '#000000', position: 0}),
   eraserOn: false,

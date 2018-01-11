@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { generatePixelDrawCss } from '../utils/cssParse';
+import { getProject } from '../store/reducers/reducerHelpers';
 
 const CssDisplay = (props) => {
   const generateCss = () => {
     const { activeFrame, columns, rows, cellSize } = props;
+
+    if (!activeFrame) return null;
+
     let cssString = generatePixelDrawCss(
       activeFrame, columns, rows, cellSize, 'string'
     );
@@ -25,7 +29,10 @@ const CssDisplay = (props) => {
 };
 
 function mapStateToProps(state) {
-  const project = state.present.get('currentProject');
+  const project = getProject(state.present);
+
+  if (!project) return {}
+
   const frames = project.get('frames');
   const activeFrameIndex = state.present.get('activeFrameIndex');
 

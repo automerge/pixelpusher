@@ -27,8 +27,7 @@ export default class LoadDrawing extends React.Component {
   }
 
   importProject() {
-    const project =
-      exportedStringToProject(this.importProjectData.value);
+    const project = exportedStringToProject(this.importProjectData.value);
 
     if (project) {
       this.props.actions.setProject(project);
@@ -49,7 +48,7 @@ export default class LoadDrawing extends React.Component {
   }
 
   projectClick(project) {
-    this.props.actions.setProject(project);
+    this.props.actions.setProject(project.get('id'));
     this.props.close();
   }
 
@@ -64,7 +63,7 @@ export default class LoadDrawing extends React.Component {
   }
 
   giveMeProjects() {
-    const projects = getProjectsFromStorage(browserStorage);
+    const projects = this.props.projects.valueSeq();
 
     return projects.map(project => {
       const id = project.get('id')
@@ -137,7 +136,7 @@ export default class LoadDrawing extends React.Component {
       default:
       case 'load': {
         const drawings = this.giveMeProjects();
-        const drawingsStored = drawings.length > 0;
+        const drawingsStored = drawings.size > 0;
         return (
           <div className="load-drawing">
             <h2>Select one of your awesome drawings</h2>

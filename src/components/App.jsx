@@ -19,7 +19,6 @@ import SimpleNotificationContainer from './SimpleNotification';
 import SimpleSpinnerContainer from './SimpleSpinner';
 import UndoRedoContainer from './UndoRedo';
 import PresenceContainer from './PresenceContainer';
-import initialSetup from '../utils/startup';
 
 export default class App extends React.Component {
   constructor() {
@@ -30,10 +29,6 @@ export default class App extends React.Component {
       helpOn: false,
       showCookiesBanner: false
     };
-  }
-
-  componentDidMount() {
-    initialSetup(this.props.dispatch, localStorage);
   }
 
   changeModalType(type) {

@@ -1,12 +1,12 @@
 import {is} from 'immutable'
 
-export default (store, path, f) => {
-  let pState = store.getState().present.getIn(path)
+export default (store, getter, f) => {
+  let pState = getter(store.getState().present)
 
-  f(pState)
+  if (pState != null) f(pState)
 
   store.subscribe(() => {
-    const state = store.getState().present.getIn(path)
+    const state = getter(store.getState().present)
 
     if (state != null && !is(pState, state)) {
       f(state, pState)

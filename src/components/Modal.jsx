@@ -10,6 +10,7 @@ import Preview from './Preview';
 import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import TwitterForm from './TwitterForm';
+import { getProject } from '../store/reducers/reducerHelpers';
 
 ModalReact.setAppElement('#app');
 
@@ -68,6 +69,7 @@ class Modal extends React.Component {
             loadType={this.state.loadType}
             close={props.close}
             open={props.open}
+            projects={props.projects}
             project={props.project}
             dispatch={props.dispatch}
             actions={{
@@ -223,7 +225,8 @@ function generateRadioOptions(props) {
 const mapStateToProps = (state) => {
   return {
     activeFrameIndex: state.present.get('activeFrameIndex'),
-    project: state.present.get('currentProject'),
+    project: getProject(state.present),
+    projects: state.present.projects,
     duration: state.present.get('duration')
   };
 };

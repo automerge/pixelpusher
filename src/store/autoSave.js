@@ -1,16 +1,23 @@
 import {is} from 'immutable'
 import {throttle} from 'lodash/fp'
-import {saveProjectToStorage} from '../utils/storage'
+import {saveStateToStorage, getStateFromStorage} from '../utils/storage'
 import whenChanged from './whenChanged'
+import { getProject } from './reducers/reducerHelpers';
 
 export default store => {
   const save = throttle(2000, saveNow)
 
-  whenChanged(store, ['currentProject'], save)
+  const state = getStateFromStorage(localStorage)
+
+  store.dispatch({type: "STATE_LOADED", state})
+
+  whenChanged(store, getProject, () => {
+    save(store.getState().present)
+  })
 }
 
-export const saveNow = project => {
-  if (!project.get('id')) return
+export const saveNow = data => {
   console.log("Auto-saving")
-  saveProjectToStorage(localStorage, project)
+
+  saveStateToStorage(localStorage, data)
 }

@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../store/actions/actionCreators';
 import PaletteColor from './PaletteColor';
+import { getProject } from '../store/reducers/reducerHelpers';
 
 const PaletteGrid = (props) => {
   const getColors = () => {
@@ -29,7 +30,7 @@ const PaletteGrid = (props) => {
 };
 
 const mapStateToProps = state => ({
-  palette: state.present.getIn(['currentProject', 'palette']),
+  palette: getProject(state.present).get('palette'),
   currentColor: state.present.get('currentColor')
 });
 

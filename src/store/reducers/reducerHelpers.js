@@ -2,6 +2,25 @@ import { List, Map, fromJS } from 'immutable';
 import shortid from 'shortid';
 import { pixels as pixelList } from '../../records/Pixel';
 import { frameOfSize } from '../../records/Frame';
+import Project from '../../records/Project';
+
+export const getProjectId = state =>
+  state.currentProjectId || state.projects.keySeq().first()
+
+export const getProject = state =>
+  state.projects.get(getProjectId(state)) || Project()
+
+export const updateProject = (state, f) =>
+  state.updateIn(['projects', getProjectId(state)], f)
+
+export const mergeProject = (state, obj) =>
+  updateProject(state, project => project.merge(obj))
+
+export const updateInProject = (state, path, f) =>
+  updateProject(state, project => project.updateIn(path, f))
+
+export const setInProject = (state, path, value) =>
+  updateInProject(state, path, () => value)
 
 export function addFrameToProject(project) {
   return project.update('frames', frames =>
@@ -85,8 +104,7 @@ export function resetIntervals(frames) {
 }
 
 export function setGridCellValue(state, color, used, id) {
-  return state.setIn(
-    ['currentProject', 'frames', state.get('activeFrameIndex'), 'pixels', id],
+  return setInProject(state, ['frames', state.activeFrameIndex, 'pixels', id],
     color
   );
 }
@@ -128,8 +146,8 @@ function getSameColorAdjacentCells(frameGrid, columns, rows, id, color) {
 }
 
 export function applyBucket(state, activeFrameIndex, id, sourceColor) {
-  const columns = state.getIn(['currentProject', 'columns']);
-  const rows = state.getIn(['currentProject', 'rows']);
+  const columns = getProject(state).get('columns');
+  const rows = getProject(state).get('rows');
   const queue = [id];
   let currentColor = state.get('currentColor').get('color');
   let currentId;
@@ -140,7 +158,7 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
 
   if (!currentColor) {
     // If there is no color selected in the palette, it will choose the first one
-    currentColor = newState.getIn(['currentProject', 'palette', 0, 'color']);
+    currentColor = getProject(newState).getIn(['palette', 0, 'color']);
     newState = newState.set('currentColor', Map({ color: currentColor, position: 0 }));
   }
 
@@ -148,16 +166,14 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
     currentId = queue.shift();
     newState = setGridCellValue(newState, currentColor, true, currentId);
     adjacents = getSameColorAdjacentCells(
-      newState.getIn(
-        ['currentProject', 'frames', activeFrameIndex, 'pixels']
-      ),
+      getProject(newState).getIn(['frames', activeFrameIndex, 'pixels']),
       columns, rows, currentId, sourceColor
     );
 
     for (let i = 0; i < adjacents.length; i++) {
       auxAdjacentId = adjacents[i];
-      auxAdjacentColor = newState.getIn(
-        ['currentProject', 'frames', activeFrameIndex, 'pixels', auxAdjacentId]
+      auxAdjacentColor = getProject(newState).getIn(
+        ['frames', activeFrameIndex, 'pixels', auxAdjacentId]
       );
       // Avoid introduce repeated or painted already cell into the queue
       if (

@@ -1,6 +1,6 @@
 import { exampleCat } from '../../examples/import-export/json-cat';
-import Project from '../records/Project'
-import { deserializeProject } from './serialization';
+import { deserializeState, serializeState } from './serialization';
+import State from '../records/State'
 
 const STORAGE_KEY = 'pixelpusher-v3';
 
@@ -32,78 +32,21 @@ export function getDataFromStorage(storage) {
   return dataString ? JSON.parse(dataString) : initStorage(storage);
 }
 
+export function saveStateToStorage(storage, state) {
+  return saveDataToStorage(storage, serializeState(state))
+}
+
+export function getStateFromStorage(storage) {
+  const data = getDataFromStorage(storage)
+  return data && deserializeState(data)
+}
+
 export function initStorage(storage) {
-  const data = {
-    projects: {},
-    currentProjectId: null,
-  }
+  const data = serializeState(State())
 
   storage.setItem(STORAGE_KEY, JSON.stringify(data));
+
   return data
-}
-
-export function getProjectFromStorage(storage, id) {
-  const data = getDataFromStorage(storage)
-
-  if (!data) return false
-
-  const projectData = data.projects[id]
-
-  return projectData
-    ? deserializeProject(projectData)
-    : false
-}
-
-export function getProjectsFromStorage(storage) {
-  const data = getDataFromStorage(storage)
-
-  if (!data) return false
-
-  return Object.values(data.projects).map(deserializeProject)
-}
-
-export function getCurrentProjectFromStorage(storage) {
-  const data = getDataFromStorage(storage)
-
-  if (!data) return false
-
-  const id = data.currentProjectId || Object.keys(data.projects)[0]
-
-  if (!id) return false
-
-  const projectData = data.projects[id]
-
-  return projectData
-    ? deserializeProject(projectData)
-    : false
-}
-
-export function saveProjectToStorage(storage, project) {
-  try {
-    const data = getDataFromStorage(storage) || { projects: {} };
-
-    data.projects[project.get('id')] = project.toJS()
-    data.currentProjectId = project.get('id')
-
-    storage.setItem(STORAGE_KEY, JSON.stringify(data));
-    return true;
-  } catch (e) {
-    return false;  // There was an error
-  }
-}
-
-export function removeProjectFromStorage(storage, id) {
-  const data = getDataFromStorage(storage);
-
-  if (!data) return false
-
-  delete data.projects[id]
-
-  if (data.currentProjectId === id) {
-    data.currentProjectId = null
-  }
-
-  return saveDataToStorage(storage, data);
 }
 
 export function generateExportString(project) {

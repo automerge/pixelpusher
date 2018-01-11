@@ -38,10 +38,10 @@ export function drawCell(id) {
   };
 }
 
-export function setProject(project) {
+export function setProject(id) {
   return {
     type: 'SET_PROJECT',
-    project,
+    id,
   };
 }
 
