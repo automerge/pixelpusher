@@ -1,32 +1,13 @@
 import { List, Map } from 'immutable';
 import shortid from 'shortid';
 import {
-  createGrid, resizeProject, createPalette, resetIntervals, setGridCellValue,
+  resizeProject, createPalette, resetIntervals, setGridCellValue,
   checkColorInPalette, addColorToLastCellInPalette, getPositionFirstMatchInPalette,
   applyBucket, cloneFrame, addFrameToProject,
 } from './reducerHelpers';
 import {project} from '../../records/Project'
+import State from '../../records/State'
 import Peer from '../../records/Peer'
-
-function setInitialState(state) {
-  const currentColor = { color: '#000000', position: 0 };
-
-  const initialState = {
-    currentProject: project(),
-    peers: Map(),
-    currentColor,
-    eraserOn: false,
-    eyedropperOn: false,
-    colorPickerOn: false,
-    bucketOn: false,
-    loading: false,
-    notifications: List(),
-    activeFrameIndex: 0,
-    duration: 1
-  };
-
-  return state.merge(initialState);
-}
 
 const getPalette = state =>
   state.getIn(['currentProject', 'palette']);
@@ -260,10 +241,8 @@ const selfConnected = (state, key, id, canEdit) =>
 const peerDisconnected = (state, key, id) =>
   state.setIn(['peers', id, 'isConnected'], false)
 
-export default function (state = Map(), action) {
+export default function (state = State(), action) {
   switch (action.type) {
-    case 'SET_INITIAL_STATE':
-      return setInitialState(state);
     case 'CHANGE_DIMENSIONS':
       return changeDimensions(state, action.gridProperty, action.behaviour);
     case 'SET_COLOR_SELECTED':

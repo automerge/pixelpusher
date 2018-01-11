@@ -83,11 +83,6 @@ function handleRender(req, res) {
     debug: false
   }));
 
-  // Dispatch initial state
-  store.dispatch({
-    type: 'SET_INITIAL_STATE',
-    state: {}
-  });
   store.dispatch({
     type: 'SHOW_SPINNER'
   });

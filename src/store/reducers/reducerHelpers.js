@@ -3,16 +3,6 @@ import shortid from 'shortid';
 import { pixels as pixelList } from '../../records/Pixel';
 import { frameOfSize } from '../../records/Frame';
 
-export function createGrid(cellsCount, initialColor, intervalPercentage) {
-  let newGrid = List();
-  // Set every cell with the initial color
-  for (let i = 0; i < cellsCount; i++) {
-    newGrid = newGrid.push(Map({ color: initialColor, used: false }));
-  }
-
-  return Map({ grid: newGrid, interval: intervalPercentage, key: shortid.generate() });
-}
-
 export function addFrameToProject(project) {
   return project.update('frames', frames =>
     resetIntervals(frames.push(frameOfSize(project.get('rows'), project.get('columns'), project.get('defaultColor')))))

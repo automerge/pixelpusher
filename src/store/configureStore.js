@@ -23,10 +23,7 @@ const configureStore = (devMode) => {
       In production mode, the following actions are already dispatched
       (Isomorphic app)
     */
-    store.dispatch({
-      type: 'SET_INITIAL_STATE',
-      state: {}
-    });
+
     store.dispatch({
       type: 'SHOW_SPINNER'
     });
