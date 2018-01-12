@@ -36,7 +36,7 @@ const cloneProject = (state) =>
 const stateLoaded = state =>
   state.projects.size
     ? state
-    : state.set('creatingProject', true)
+    : state.update('createdProjectCount', x => x + 1)
 
 function changeDimensions(state, dimension, behavior) {
   return updateProject(state, project =>
@@ -311,10 +311,9 @@ export default function (state = State(), action) {
     case 'PEER_DISCONNECTED':
       return peerDisconnected(state, action.key, action.id)
     case 'NEW_PROJECT_CLICKED':
-      return state.set('creatingProject', true)
+      return state.update('createdProjectCount', x => x + 1)
     case 'PROJECT_CREATED':
       return setProject(state, action.project)
-        .set('creatingProject', false)
     case 'CLONE_CURRENT_PROJECT_CLICKED':
       return state.set('clonedProjectId', getProjectId(state))
     case 'PROJECT_CLONED':
@@ -324,7 +323,9 @@ export default function (state = State(), action) {
       return sendNotification(state, 'Project deleted').update('projects', projects => projects.delete(action.id))
         .update('currentProjectId', cId => cId === action.id ? null : cId)
     case 'SHARED_PROJECT_ID_ENTERED':
-      return state.set('openingProjectId', action.id)
+      return state.projects.has(action.id)
+        ? state.set('currentProjectId', action.id)
+        : state.set('openingProjectId', action.id)
     case 'REMOTE_PROJECT_OPENED':
       return setProject(state, action.project).delete('openingProjectId')
 

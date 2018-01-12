@@ -11,7 +11,6 @@ import * as Init from '../logic/Init'
 export default store => {
   const {dispatch} = store
 
-
   const clientId = +(process.env.CLIENT_ID || 0)
 
   const sync = global.sync = new HyperSync({
@@ -19,7 +18,7 @@ export default store => {
     startingPort: 3282 + clientId,
   })
 
-  whenChanged(store, state => state.creatingProject, shouldCreate => {
+  whenChanged(store, state => state.createdProjectCount, shouldCreate => {
     if (shouldCreate) sync.createDocument()
   })
 
@@ -100,7 +99,6 @@ class HyperSync extends EventEmitter {
   }
 
   openDocument(key) {
-    console.log('opening', key)
     const feed = this.feeds[key] = hypermerge({
       name: this.name,
       key,
@@ -113,7 +111,6 @@ class HyperSync extends EventEmitter {
   }
 
   addDocument(doc) {
-
     const key = doc._actorId
 
     const feed = this.feeds[key] = hypermerge({
@@ -156,7 +153,7 @@ class HyperSync extends EventEmitter {
           live: true,
           upload: true,
           download: true,
-          userData,
+          userData: JSON.stringify(userData),
         }),
     })
 

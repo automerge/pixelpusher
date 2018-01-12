@@ -6,7 +6,6 @@ export const DEFAULT_COLOR = '#313131';
 const State = Record({
   currentProjectId: null,
   projects: Map(),
-  creatingProject: false,
   peers: Map(),
   currentColor: Map({color: '#000000', position: 0}),
   eraserOn: false,
@@ -14,7 +13,7 @@ const State = Record({
   colorPickerOn: false,
   bucketOn: false,
   loading: false,
-  creatingProject: false,
+  createdProjectCount: 0,
   clonedProjectId: null,
   openingProjectId: null,
   notifications: List(),

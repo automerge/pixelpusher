@@ -9,7 +9,7 @@ export default (store, getter, f) => {
     const pState = state
     const newState = getter(store.getState().present)
 
-    if (newState != null && !is(pState, newState)) {
+    if (!is(pState, newState)) {
       f(state = newState, pState)
     }
   })
