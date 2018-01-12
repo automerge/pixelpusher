@@ -15,20 +15,40 @@ export default store => {
   const {dispatch} = store
   const feeds = {}
 
+  whenChanged(store, state => state.creatingProject, shouldCreate => {
+    if (!shouldCreate) return
+
+    const keys = keyPair()
+
+    const project = Project({
+      id: keys.publicKey.toString('hex'),
+    })
+
+    addFeedForProject(feeds, dispatch, project, keys.secretKey)
+
+    dispatch({type: "PROJECT_CREATED", project})
+  })
+
+  whenChanged(store, state => state.clonedProjectId, id => {
+    if (!id) return
+
+    const originalProject = store.getState().present.projects.get(id)
+
+    const keys = keyPair()
+
+    const project = originalProject.merge({
+      id: keys.publicKey.toString('hex'),
+    })
+
+    addFeedForProject(feeds, dispatch, project, keys.secretKey)
+
+    dispatch({type: "PROJECT_CLONED", project})
+  })
+
   whenChanged(store, getProject, project => {
     const key = project.get('id')
 
-    if (!key) {
-      const keys = keyPair()
-
-      const project = Project({
-        id: keys.publicKey.toString('hex'),
-      })
-
-      addFeedForProject(feeds, dispatch, project, keys.secretKey)
-
-      dispatch({type: "SET_PROJECT", project})
-    } else if (feeds[key]) {
+    if (feeds[key]) {
       append(feeds[key], project.toJS())
     } else {
       addFeedForProject(feeds, dispatch, project)

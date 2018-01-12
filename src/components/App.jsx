@@ -12,7 +12,6 @@ import EyedropperContainer from './Eyedropper';
 import FramesHandlerContainer from './FramesHandler';
 import PaletteGridContainer from './PaletteGrid';
 import ResetContainer from './Reset';
-import SaveDrawingContainer from './SaveDrawing';
 import NewProjectContainer from './NewProject';
 import CloneProjectContainer from './CloneProject';
 import SimpleNotificationContainer from './SimpleNotification';

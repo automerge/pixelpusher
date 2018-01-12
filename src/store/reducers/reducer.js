@@ -4,7 +4,7 @@ import {
   resizeProject, createPalette, resetIntervals, setGridCellValue,
   checkColorInPalette, addColorToLastCellInPalette, getPositionFirstMatchInPalette,
   applyBucket, cloneFrame, addFrameToProject, getProject, updateProject, updateInProject,
-  setInProject, mergeProject,
+  setInProject, mergeProject, setProject, getProjectId,
 } from './reducerHelpers';
 import {project} from '../../records/Project'
 import State from '../../records/State'
@@ -25,7 +25,7 @@ const getColumns = state =>
 const getRows = state =>
   getDimension('rows', state);
 
-const setProject = (state, id) =>
+const setProjectId = (state, id) =>
   state.set('currentProjectId', id).merge({
     activeFrameIndex: 0,
   })
@@ -252,7 +252,7 @@ export default function (state = State(), action) {
       return drawCell(state, action.id);
     case 'REMOTE_PROJECT_UPDATED':
     case 'SET_PROJECT':
-      return setProject(state, action.id);
+      return setProjectId(state, action.id);
     case 'SET_ERASER':
       return setEraser(state);
     case 'SET_BUCKET':
@@ -297,8 +297,21 @@ export default function (state = State(), action) {
       return peerDisconnected(state, action.key, action.id)
     case 'STATE_LOADED':
       return action.state
-    default:
-  }
+    case 'NEW_PROJECT_CLICKED':
+      return state.set('creatingProject', true)
+    case 'PROJECT_CREATED':
+      return setProject(state, action.project)
+        .set('creatingProject', false)
+    case 'CLONE_CURRENT_PROJECT_CLICKED':
+      return state.set('clonedProjectId', getProjectId(state))
+    case 'PROJECT_CLONED':
+      return sendNotification(setProject(state, action.project), "Cloned project.")
+        .delete('clonedProjectId')
+    case 'DELETE_PROJECT_CLICKED':
+      return sendNotification(state, 'Project deleted').update('projects', projects => projects.delete(action.id))
+        .update('currentProjectId', cId => cId === action.id ? null : cId)
 
-  return state;
+    default:
+      return state;
+  }
 }

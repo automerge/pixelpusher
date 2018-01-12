@@ -10,6 +10,11 @@ export const getProjectId = state =>
 export const getProject = state =>
   state.projects.get(getProjectId(state)) || Project()
 
+export const setProject = (state, project) =>
+  state
+  .setIn(['projects', project.get('id')], project)
+  .set('currentProjectId', project.get('id'))
+
 export const updateProject = (state, f) =>
   state.updateIn(['projects', getProjectId(state)], f)
 

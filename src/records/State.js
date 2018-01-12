@@ -13,6 +13,8 @@ const State = Record({
   colorPickerOn: false,
   bucketOn: false,
   loading: false,
+  creatingProject: false,
+  clonedProjectId: null,
   notifications: List(),
   activeFrameIndex: 0,
   duration: 1

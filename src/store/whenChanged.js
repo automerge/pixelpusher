@@ -1,16 +1,16 @@
 import {is} from 'immutable'
 
 export default (store, getter, f) => {
-  let pState = getter(store.getState().present)
+  let state = getter(store.getState().present)
 
-  if (pState != null) f(pState)
+  if (state != null) f(state)
 
   store.subscribe(() => {
-    const state = getter(store.getState().present)
+    const pState = state
+    const newState = getter(store.getState().present)
 
-    if (state != null && !is(pState, state)) {
-      f(state, pState)
-      pState = state
+    if (newState != null && !is(pState, newState)) {
+      f(state = newState, pState)
     }
   })
 }

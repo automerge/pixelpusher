@@ -2,8 +2,6 @@ import React from 'react';
 import Input from './Input';
 import Preview from './Preview';
 import {
-  getProjectsFromStorage, removeProjectFromStorage,
-  getProjectFromStorage,
   generateExportString, exportedStringToProject
 } from '../utils/storage';
 
@@ -38,13 +36,10 @@ export default class LoadDrawing extends React.Component {
     }
   }
 
-  removeFromStorage(id, e) {
+  deleteProject(id, e) {
     e.stopPropagation();
-    if (removeProjectFromStorage(browserStorage, id)) {
-      this.props.actions.sendNotification('Project deleted');
-      this.props.close();
-      this.props.open();
-    }
+
+    this.props.dispatch({type: 'DELETE_PROJECT_CLICKED', id});
   }
 
   projectClick(project) {
@@ -82,7 +77,7 @@ export default class LoadDrawing extends React.Component {
           />
           <button
             className="drawing__delete"
-            onClick={(event) => { this.removeFromStorage(id, event); }}
+            onClick={(event) => { this.deleteProject(id, event); }}
           />
         </div>
       );

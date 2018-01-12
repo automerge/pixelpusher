@@ -1,28 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actionCreators from '../store/actions/actionCreators';
 
 const CloneProject = (props) => {
   const cloneProject = () => {
-    props.actions.cloneProject();
-    props.actions.sendNotification("Project cloned.");
+    props.dispatch({type: 'CLONE_CURRENT_PROJECT_CLICKED'});
   };
 
   return (
     <div className="new-project">
-      <button
-        onClick={() => { cloneProject(); }}
-      >
+      <button onClick={cloneProject}>
         Clone
       </button>
     </div>
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actionCreators, dispatch)
-});
+const mapDispatchToProps = dispatch => ({dispatch});
 
 const CloneProjectContainer = connect(
   null,
