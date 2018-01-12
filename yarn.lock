@@ -5006,11 +5006,12 @@ hyperdiscovery@^7.0.0:
 
 "hypermerge@github:inkandswitch/hypermerge#immutable-api":
   version "0.0.1"
-  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#ec258d6fa36246ab426c81cfa922c73d92e052ac"
+  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#7525f0e5555021a18128c5cfca614129825d8697"
   dependencies:
     automerge "github:automerge/automerge#hypermerge-support"
     hypercore "^6.11.0"
     random-access-file "^1.8.1"
+    random-access-memory "^2.4.0"
     thunky "^1.0.2"
     to-buffer "^1.1.0"
 
@@ -9255,6 +9256,12 @@ random-access-file@^1.5.0, random-access-file@^1.8.1:
     inherits "^2.0.1"
     mkdirp "^0.5.1"
     thunky "^1.0.1"
+
+random-access-memory@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/random-access-memory/-/random-access-memory-2.4.0.tgz#72f3d865b4b55a259879473e2fb2de3569c69ee2"
+  dependencies:
+    process-nextick-args "^1.0.7"
 
 random-bytes@~1.0.0:
   version "1.0.0"
