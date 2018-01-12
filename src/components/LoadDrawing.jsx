@@ -52,9 +52,8 @@ export default class LoadDrawing extends React.Component {
 
     const id = keyFromShareLink(shareLink)
 
-    const project = Project({id})
-
-    this.projectClick(project)
+    this.props.dispatch({type: 'SHARED_PROJECT_ID_ENTERED', id})
+    this.props.close()
   }
 
   giveMeProjects() {

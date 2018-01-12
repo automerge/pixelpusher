@@ -35,13 +35,23 @@ export default store => {
     sync.cloneDocumentFromId(id)
   })
 
+  whenChanged(store, state => state.openingProjectId, id => {
+    if (!id) return
+    sync.openDocument(id)
+  })
+
   sync.on('document:created', project => {
     project = Init.project(project)
 
     dispatch({type: "PROJECT_CREATED", project})
   })
 
+  sync.on('document:opened', project => {
+    dispatch({type: "REMOTE_PROJECT_OPENED", project})
+  })
+
   sync.on('document:updated', project => {
+    // TODO this fires for my changes too
     dispatch({type: "REMOTE_PROJECT_UPDATED", project})
   })
 
@@ -86,6 +96,19 @@ class HyperSync extends EventEmitter {
       this.feeds[key] = feed
       this._onFeedReady(feed)
       this.emit('document:created', feed.doc.get())
+    })
+  }
+
+  openDocument(key) {
+    console.log('opening', key)
+    const feed = this.feeds[key] = hypermerge({
+      name: this.name,
+      key,
+    })
+
+    feed.on('ready', () => {
+      this._onFeedReady(feed)
+      this.emit('document:opened', feed.doc.get())
     })
   }
 

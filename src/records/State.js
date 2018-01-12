@@ -16,6 +16,7 @@ const State = Record({
   loading: false,
   creatingProject: false,
   clonedProjectId: null,
+  openingProjectId: null,
   notifications: List(),
   activeFrameIndex: 0,
   duration: 1

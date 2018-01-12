@@ -323,6 +323,10 @@ export default function (state = State(), action) {
     case 'DELETE_PROJECT_CLICKED':
       return sendNotification(state, 'Project deleted').update('projects', projects => projects.delete(action.id))
         .update('currentProjectId', cId => cId === action.id ? null : cId)
+    case 'SHARED_PROJECT_ID_ENTERED':
+      return state.set('openingProjectId', action.id)
+    case 'REMOTE_PROJECT_OPENED':
+      return setProject(state, action.project).delete('openingProjectId')
 
     default:
       return state;
