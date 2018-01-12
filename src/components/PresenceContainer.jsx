@@ -6,7 +6,7 @@ import * as actionCreators from '../store/actions/actionCreators';
 import Input from './Input';
 
 import { shareLinkForProjectId } from '../utils/shareLink';
-import { getProject } from '../store/reducers/reducerHelpers';
+import { getProjectId } from '../store/reducers/reducerHelpers';
 
 class Presence extends React.Component {
   render() {
@@ -39,7 +39,7 @@ class Presence extends React.Component {
 
 const mapStateToProps = state => ({
   peers: state.present.get('peers'),
-  projectId: getProject(state.present).get('id'),
+  projectId: getProjectId(state.present),
 });
 
 const mapDispatchToProps = dispatch => ({

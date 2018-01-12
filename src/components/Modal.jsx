@@ -152,6 +152,8 @@ class Modal extends React.Component {
   }
 
   render() {
+    if (!this.props.project) return null;
+
     const styles = {
       modal: {
         top: '50%',

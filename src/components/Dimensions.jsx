@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Picker from './Picker';
 import * as actionCreators from '../store/actions/actionCreators';
-import { getProject } from '../store/reducers/reducerHelpers';
+import { getInProject } from '../store/reducers/reducerHelpers';
 
 const Dimensions = (props) => {
   const changeDimensions = (gridProperty, behaviour) => {
@@ -29,8 +29,8 @@ const Dimensions = (props) => {
 };
 
 const mapStateToProps = state => ({
-  columns: getProject(state.present).get('columns'),
-  rows: getProject(state.present).get('rows'),
+  columns: getInProject(state.present, ['columns']),
+  rows: getInProject(state.present, ['rows']),
 });
 
 const mapDispatchToProps = dispatch => ({

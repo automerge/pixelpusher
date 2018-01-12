@@ -7,7 +7,7 @@ import { getProject } from '../store/reducers/reducerHelpers';
 
 const PaletteGrid = (props) => {
   const getColors = () => {
-    const { palette, currentColor } = props;
+    const { palette = [], currentColor } = props;
     const width = 100 / 6;
 
     return palette.map((color, i) =>
@@ -29,10 +29,16 @@ const PaletteGrid = (props) => {
   );
 };
 
-const mapStateToProps = state => ({
-  palette: getProject(state.present).get('palette'),
-  currentColor: state.present.get('currentColor')
-});
+const mapStateToProps = state => {
+  const project = getProject(state.present);
+
+  if (!project) return {}
+
+  return {
+    palette: project.get('palette'),
+    currentColor: state.present.get('currentColor')
+  };
+}
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actionCreators, dispatch)

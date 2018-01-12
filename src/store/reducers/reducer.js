@@ -33,6 +33,11 @@ const setProjectId = (state, id) =>
 const cloneProject = (state) =>
   state.setIn(['currentProject', 'id'], null)
 
+const stateLoaded = state =>
+  state.projects.size
+    ? state
+    : state.set('creatingProject', true)
+
 function changeDimensions(state, dimension, behavior) {
   return updateProject(state, project =>
     resizeProject(project, dimension, behavior))
@@ -108,7 +113,7 @@ function drawCell(state, id) {
   null :
   state.get('currentColor').get('color');
 
-  return setGridCellValue(state, color, used, id);
+  return setGridCellValue(state, color, id);
 }
 
 function setEraser(state) {
@@ -240,6 +245,8 @@ const peerDisconnected = (state, key, id) =>
 
 export default function (state = State(), action) {
   switch (action.type) {
+    case 'STATE_LOADED':
+      return stateLoaded(action.state)
     case 'CHANGE_DIMENSIONS':
       return changeDimensions(state, action.gridProperty, action.behaviour);
     case 'SET_COLOR_SELECTED':
@@ -250,11 +257,6 @@ export default function (state = State(), action) {
       return setCustomColor(state, action.customColor);
     case 'DRAW_CELL':
       return drawCell(state, action.id);
-
-    case 'PROJECT_CREATED':
-    case 'REMOTE_PROJECT_UPDATED':
-    case 'SET_PROJECT':
-      return setProjectId(state, action.id);
     case 'SET_ERASER':
       return setEraser(state);
     case 'SET_BUCKET':
@@ -291,14 +293,23 @@ export default function (state = State(), action) {
       return newProject(state);
     case 'CLONE_PROJECT':
       return cloneProject(state);
+
+    case 'PROJECT_CREATED':
+      return state.setIn(['projects', action.project.get('id')], action.project)
+        .set('currentProjectId', action.project.get('id'))
+
+    case 'REMOTE_PROJECT_UPDATED':
+      return state.setIn(['projects', action.project.get('id')], action.project)
+
+    case 'SET_PROJECT':
+      return setProjectId(state, action.id);
+
     case 'PEER_CONNECTED':
       return peerConnected(state, action.key, action.id, action.info)
     case 'SELF_CONNECTED':
       return selfConnected(state, action.key, action.id, action.writable)
     case 'PEER_DISCONNECTED':
       return peerDisconnected(state, action.key, action.id)
-    case 'STATE_LOADED':
-      return action.state
     case 'NEW_PROJECT_CLICKED':
       return state.set('creatingProject', true)
     case 'PROJECT_CREATED':

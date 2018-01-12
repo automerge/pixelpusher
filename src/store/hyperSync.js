@@ -1,10 +1,12 @@
 import EventEmitter from 'events'
+import Automerge from 'automerge'
 import hypermerge from 'hypermerge'
 import swarm from 'hyperdiscovery'
 import whenChanged from './whenChanged'
 import { deserializeProject } from '../utils/serialization';
 import {getProject} from '../store/reducers/reducerHelpers'
 import Project from '../records/Project'
+import * as Init from '../logic/Init'
 
 export default store => {
   const {dispatch} = store
@@ -12,7 +14,7 @@ export default store => {
 
   const clientId = +(process.env.CLIENT_ID || 0)
 
-  const sync = new HyperSync({
+  const sync = global.sync = new HyperSync({
     name: `client id ${clientId}`,
     startingPort: 3282 + clientId,
   })
@@ -21,42 +23,21 @@ export default store => {
     if (shouldCreate) sync.createDocument()
   })
 
-  whenChanged(store, ['currentProject'], project => {
+  whenChanged(store, getProject, project => {
+    // NOTE whenChanged uses Immutable.is. This might not capture all changes
     sync.updateDocument(project)
-  })
-
-  whenChanged(store, state => state.creatingProject, shouldCreate => {
-    if (!shouldCreate) return
-
-    const keys = keyPair()
-
-    const project = Project({
-      id: keys.publicKey.toString('hex'),
-    })
-
-    addFeedForProject(feeds, dispatch, project, keys.secretKey)
-
-    dispatch({type: "PROJECT_CREATED", project})
   })
 
   whenChanged(store, state => state.clonedProjectId, id => {
     if (!id) return
 
-    const originalProject = store.getState().present.projects.get(id)
-
-    const keys = keyPair()
-
-    const project = originalProject.merge({
-      id: keys.publicKey.toString('hex'),
-    })
-
-    addFeedForProject(feeds, dispatch, project, keys.secretKey)
-
-    dispatch({type: "PROJECT_CLONED", project})
+    // TODO make this real:
+    sync.cloneDocumentFromId(id)
   })
 
   sync.on('document:created', project => {
-    // TODO assign project _actorId to project.id
+    project = Init.project(project)
+
     dispatch({type: "PROJECT_CREATED", project})
   })
 
@@ -66,7 +47,7 @@ export default store => {
 
   sync.on('feed:listening', feed => {
     const key = feed.key.toString('hex')
-    const id = feed.id.toString('hex')
+    const id = feed.source.id.toString('hex')
     const writable = feed.source.writable
 
     dispatch({type: 'SELF_CONNECTED', key, id, writable})
@@ -102,13 +83,14 @@ class HyperSync extends EventEmitter {
     feed.on('ready', () => {
       const key = feed.key.toString('hex')
 
-      feeds[key] = feed
+      this.feeds[key] = feed
       this._onFeedReady(feed)
-      feed.emit('document:created', this.doc.get())
+      this.emit('document:created', feed.doc.get())
     })
   }
 
   addDocument(doc) {
+
     const key = doc._actorId
 
     const feed = this.feeds[key] = hypermerge({
@@ -183,7 +165,7 @@ class HyperSync extends EventEmitter {
 
   _newPort() {
     const port = this.currentPort
-    currentPort += this.maxLocalClients
+    this.currentPort += this.maxLocalClients
     return port
   }
 }

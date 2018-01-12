@@ -19,6 +19,8 @@ class FramesHandler extends React.Component {
   renderFrames() {
     const project = this.props.project
 
+    if (!project) return null
+
     return project.get('frames').map((frame, index, frames) =>
       <Frame
         key={frame.get('id')}

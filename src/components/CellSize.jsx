@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../store/actions/actionCreators';
-import { getProject } from '../store/reducers/reducerHelpers';
+import { getInProject } from '../store/reducers/reducerHelpers';
 
 const CellSize = (props) => {
   const handleCellSizeChange = (event) => {
@@ -27,7 +27,7 @@ const CellSize = (props) => {
 };
 
 const mapStateToProps = state => ({
-  cellSize: getProject(state.present).get('cellSize')
+  cellSize: getInProject(state.present, ['cellSize']) || 0
 });
 
 const mapDispatchToProps = dispatch => ({

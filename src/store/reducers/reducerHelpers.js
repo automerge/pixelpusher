@@ -2,13 +2,18 @@ import { List, Map, fromJS } from 'immutable';
 import shortid from 'shortid';
 import { pixels as pixelList } from '../../records/Pixel';
 import { frameOfSize } from '../../records/Frame';
-import Project from '../../records/Project';
+import * as Mutation from '../../logic/Mutation'
 
 export const getProjectId = state =>
   state.currentProjectId || state.projects.keySeq().first()
 
 export const getProject = state =>
-  state.projects.get(getProjectId(state)) || Project()
+  state.projects.get(getProjectId(state))
+
+export const getInProject = (state, path, value) => {
+  const project = getProject(state)
+  return project ? project.getIn(path) : null
+}
 
 export const setProject = (state, project) =>
   state
@@ -108,14 +113,8 @@ export function resetIntervals(frames) {
   });
 }
 
-export function setGridCellValue(state, color, used, id) {
-  // return setInProject(state, ['frames', state.activeFrameIndex, 'pixels', id], color);
-
-  // HACK:
-  return state.updateIn(['currentProject', 'frames', state.activeFrameIndex], frame =>
-    Automerge.change(frame, frame => {
-      frame[id] = color
-    }))
+export function setGridCellValue(state, color, index) {
+  return updateProject(state, Mutation.setPixel(state.activeFrameIndex, index, color))
 }
 
 function getSameColorAdjacentCells(frameGrid, columns, rows, id, color) {
@@ -173,7 +172,7 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
 
   while (queue.length > 0) {
     currentId = queue.shift();
-    newState = setGridCellValue(newState, currentColor, true, currentId);
+    newState = setGridCellValue(newState, currentColor, currentId);
     adjacents = getSameColorAdjacentCells(
       getProject(newState).getIn(['frames', activeFrameIndex, 'pixels']),
       columns, rows, currentId, sourceColor
