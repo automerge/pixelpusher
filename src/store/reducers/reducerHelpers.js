@@ -32,9 +32,8 @@ export const updateInProject = (state, path, f) =>
 export const setInProject = (state, path, value) =>
   updateInProject(state, path, () => value)
 
-export function addFrameToProject(project) {
-  return project.update('frames', frames =>
-    resetIntervals(frames.push(frameOfSize(project.get('rows'), project.get('columns'), project.get('defaultColor')))))
+export function addFrameToProject(state) {
+  return updateProject(state, Mutation.addFrame())
 }
 
 export function resizeProject(project, dimension, behavior) {

@@ -15,7 +15,7 @@ export const project = init(pro => {
   pro.palette = palette()
 })
 
-const frame = n => ({
+export const frame = n => ({
   id: shortid.generate(),
   pixels: pixels(n),
   interval: 0,

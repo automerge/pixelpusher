@@ -182,7 +182,7 @@ function changeActiveFrame(state, frameIndex) {
 }
 
 function createNewFrame(state) {
-  return updateProject(state, addFrameToProject)
+  return addFrameToProject(state)
     .set('activeFrameIndex', getFrames(state).size)
 }
 
