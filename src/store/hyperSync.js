@@ -24,7 +24,7 @@ export default store => {
 
   whenChanged(store, getProject, project => {
     // NOTE whenChanged uses Immutable.is. This might not capture all changes
-    sync.updateDocument(project)
+    sync.updateDocument(project.get('id'), project)
   })
 
   whenChanged(store, state => state.clonedProjectId, id => {
@@ -45,30 +45,31 @@ export default store => {
     dispatch({type: "PROJECT_CREATED", project})
   })
 
-  sync.on('document:opened', project => {
-    dispatch({type: "REMOTE_PROJECT_OPENED", project})
-  })
+  // TODO this fires before the project has an id:
+  // sync.on('document:opened', project => {
+  //   dispatch({type: "REMOTE_PROJECT_OPENED", project})
+  // })
 
   sync.on('document:updated', project => {
     // TODO this fires for my changes too
     dispatch({type: "REMOTE_PROJECT_UPDATED", project})
   })
 
-  sync.on('feed:listening', feed => {
-    const key = feed.key.toString('hex')
-    const id = feed.source.id.toString('hex')
-    const writable = feed.source.writable
+  sync.on('merge:listening', merge => {
+    const key = merge.key.toString('hex')
+    const id = merge.source.id.toString('hex')
+    const writable = merge.source.writable
 
     dispatch({type: 'SELF_CONNECTED', key, id, writable})
   })
 
-  sync.on('feed:joined', (feed, {id, info}) => {
-    const key = feed.key.toString('hex')
+  sync.on('merge:joined', (merge, {id, info}) => {
+    const key = merge.key.toString('hex')
     dispatch({type: 'PEER_CONNECTED', key, id, info})
   })
 
-  sync.on('feed:left', (feed, {id}) => {
-    const key = feed.key.toString('hex')
+  sync.on('merge:left', (merge, {id}) => {
+    const key = merge.key.toString('hex')
     dispatch({type: 'PEER_DISCONNECTED', key, id})
   })
 }
@@ -77,64 +78,63 @@ class HyperSync extends EventEmitter {
   constructor({name, maxLocalClients, startingPort}) {
     super()
 
-    this.feeds = {}
-    // TODO add pending feed queue
+    this.merges = {}
+    // TODO add pending merge queue
     this.name = name || "unnamed user"
     this.currentPort = startingPort || 3282
     this.maxLocalClients = maxLocalClients || 5
   }
 
   createDocument() {
-    const feed = hypermerge({
+    const merge = hypermerge({
       name: this.name,
     })
 
-    feed.on('ready', () => {
-      const key = feed.key.toString('hex')
+    merge.on('ready', () => {
+      const key = merge.key.toString('hex')
 
-      this.feeds[key] = feed
-      this._onFeedReady(feed)
-      this.emit('document:created', feed.doc.get())
+      this.merges[key] = merge
+      this._onMergeReady(merge)
+      this.emit('document:created', merge.doc.get())
     })
   }
 
   openDocument(key) {
-    const feed = this.feeds[key] = hypermerge({
+    const merge = this.merges[key] = hypermerge({
       name: this.name,
       key,
     })
 
-    feed.on('ready', () => {
-      this._onFeedReady(feed)
-      this.emit('document:opened', feed.doc.get())
+    merge.on('ready', () => {
+      this._onMergeReady(merge)
+
+      this.emit('document:opened', merge.doc.get())
     })
   }
 
   addDocument(doc) {
     const key = doc._actorId
 
-    const feed = this.feeds[key] = hypermerge({
+    const merge = this.merges[key] = hypermerge({
       name: this.name,
       key,
     })
 
-    feed.on('ready', () => {
-      this._onFeedReady(feed)
+    merge.on('ready', () => {
+      this._onMergeReady(merge)
     })
   }
 
-  updateDocument(doc) {
-    const key = doc._actorId
-
-    if (this.feeds[key]) {
-      this.feeds[key].doc.set(doc)
+  updateDocument(key, doc) {
+    if (this.merges[key]) {
+      this.merges[key].doc.set(doc)
     } else {
       this.addDocument(doc)
     }
   }
 
-  _onFeedReady = feed => {
-    feed.doc.registerHandler(doc => {
+  _onMergeReady = merge => {
+    merge.doc.registerHandler(doc => {
       this.emit('document:updated', doc)
     })
 
@@ -142,14 +142,14 @@ class HyperSync extends EventEmitter {
       name: this.name
     }
 
-    if (feed.local) {
-      userData.key = feed.local.key.toString('hex')
+    if (merge.local) {
+      userData.key = merge.local.key.toString('hex')
     }
 
-    const sw = swarm(feed, {
+    const sw = swarm(merge, {
       port: this._newPort(),
       stream: _peer =>
-        feed.replicate({
+        merge.replicate({
           live: true,
           upload: true,
           download: true,
@@ -158,28 +158,22 @@ class HyperSync extends EventEmitter {
     })
 
     sw.on('listening', () => {
-      this.emit('feed:listening', feed)
+      this.emit('merge:listening', merge)
     })
 
     sw.on('connection', (peer, type) => {
-      try {
-        const info = JSON.parse(peer.remoteUserData.toString())
-        const id = peer.remoteId.toString('hex')
+      const info = JSON.parse(peer.remoteUserData.toString())
+      const id = peer.remoteId.toString('hex')
 
-        if (info.key) {
-          feed.connectPeer(info.key)
-        }
-
-        this.emit('feed:joined', feed, {id, info})
-
-        peer.on('close', () => {
-          this.emit('feed:left', feed, {id, info})
-        })
-
-      } catch (e) {
-        // TODO emit error
-        console.error('Error parsing userData JSON', e)
+      if (info.key) {
+        merge.connectPeer(info.key)
       }
+
+      this.emit('merge:joined', merge, {id, info})
+
+      peer.on('close', () => {
+        this.emit('merge:left', merge, {id, info})
+      })
     })
   }
 

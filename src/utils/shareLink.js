@@ -1,4 +1,5 @@
 import Base58 from 'bs58'
+
 export const shareLinkForProjectId = id =>
   "pxlpshr://" + encodeKey(id)
 

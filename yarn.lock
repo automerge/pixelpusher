@@ -520,9 +520,9 @@ author-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/author-regex/-/author-regex-1.0.0.tgz#d08885be6b9bbf9439fe087c76287245f0a81450"
 
-"automerge@github:automerge/automerge#hypermerge-support":
+"automerge@github:inkandswitch/automerge#pixelpusher-support":
   version "0.6.0"
-  resolved "https://codeload.github.com/automerge/automerge/tar.gz/c17d9872e1dc0d9c38f9c1b61a0ae5beceb82c17"
+  resolved "https://codeload.github.com/inkandswitch/automerge/tar.gz/173436a663f83e2467966550f13f741fc6c0537d"
   dependencies:
     immutable "^3.8.1"
     transit-immutable-js "^0.7.0"
@@ -5006,9 +5006,9 @@ hyperdiscovery@^7.0.0:
 
 "hypermerge@github:inkandswitch/hypermerge#immutable-api":
   version "0.0.1"
-  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#7525f0e5555021a18128c5cfca614129825d8697"
+  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#4d4af016fdf075a2ad10d5d2683d68a0fade099f"
   dependencies:
-    automerge "github:automerge/automerge#hypermerge-support"
+    automerge "github:inkandswitch/automerge#pixelpusher-support"
     hypercore "^6.11.0"
     random-access-file "^1.8.1"
     random-access-memory "^2.4.0"

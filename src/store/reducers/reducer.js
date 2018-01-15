@@ -299,7 +299,9 @@ export default function (state = State(), action) {
         .set('currentProjectId', action.project.get('id'))
 
     case 'REMOTE_PROJECT_UPDATED':
-      return state.setIn(['projects', action.project.get('id')], action.project)
+      return state
+        .setIn(['projects', action.project.get('id')], action.project)
+        .set('currentProjectId', action.project.get('id'))
 
     case 'SET_PROJECT':
       return setProjectId(state, action.id);
