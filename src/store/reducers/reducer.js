@@ -3,9 +3,10 @@ import shortid from 'shortid';
 import {
   resizeProject, createPalette, resetIntervals, setGridCellValue,
   checkColorInPalette, addColorToLastCellInPalette, getPositionFirstMatchInPalette,
-  applyBucket, cloneFrame, addFrameToProject, getProject, updateProject, updateInProject,
-  setInProject, mergeProject, setProject, getProjectId,
+  applyBucket, cloneFrame, addFrameToProject, getProject, updateProject,
+  mergeProject, setProject, getProjectId,
 } from './reducerHelpers';
+import * as Mutation from '../../logic/Mutation'
 import {project} from '../../records/Project'
 import State from '../../records/State'
 import Peer from '../../records/Peer'
@@ -156,10 +157,9 @@ function setCellSize(state, cellSize) {
   return mergeProject(state, { cellSize });
 }
 
-function resetFrame(state, columns, rows, activeFrameIndex) {
+function resetFrame(state, activeFrameIndex) {
   const color = getProject(state).get('defaultColor')
-  return updateInProject(state, ['frames', activeFrameIndex, 'pixels'], pixels =>
-    pixels.map(_ => null))
+  return updateProject(state, Mutation.resetFrame(activeFrameIndex))
 }
 
 function showSpinner(state) {
@@ -230,7 +230,7 @@ function setDuration(state, duration) {
 }
 
 function changeFrameInterval(state, frameIndex, interval) {
-  return setInProject(state, ['frames', frameIndex, 'interval'], interval)
+  return updateProject(state, Mutation.setFrameInterval(frameIndex, interval))
 }
 
 const peerConnected = (state, key, id, info) =>
@@ -267,9 +267,7 @@ export default function (state = State(), action) {
     case 'SET_CELL_SIZE':
       return setCellSize(state, action.cellSize);
     case 'SET_RESET_GRID':
-      return resetFrame(
-        state, action.columns, action.rows,
-        action.activeFrameIndex);
+      return resetFrame(state, action.activeFrameIndex);
     case 'SHOW_SPINNER':
       return showSpinner(state);
     case 'HIDE_SPINNER':

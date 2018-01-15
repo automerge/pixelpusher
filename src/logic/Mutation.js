@@ -24,6 +24,16 @@ export const resize = (dimension, behavior) =>
     })
   })
 
+export const resetFrame = (frameIndex) =>
+  change(pro => {
+    pro.frames[frameIndex].pixels.fill(null)
+  })
+
+export const setFrameInterval = (frameIndex, interval) =>
+  change(pro => {
+    pro.frames[frameIndex].interval = interval
+  })
+
 const resizePixels = (pixels, dimension, behavior, columns) => {
     if (dimension === 'columns') {
       if (behavior === 'add') {

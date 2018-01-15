@@ -26,12 +26,6 @@ export const updateProject = (state, f) =>
 export const mergeProject = (state, obj) =>
   updateProject(state, project => project.merge(obj))
 
-export const updateInProject = (state, path, f) =>
-  updateProject(state, project => project.updateIn(path, f))
-
-export const setInProject = (state, path, value) =>
-  updateInProject(state, path, () => value)
-
 export function addFrameToProject(state) {
   return updateProject(state, Mutation.addFrame())
 }
