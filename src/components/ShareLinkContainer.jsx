@@ -33,6 +33,7 @@ class ShareLink extends React.Component {
 
   setShareLink = e => {
     e.preventDefault()
+    e.target.elements[0].blur()
 
     const {shareLink} = this.state
     const id = keyFromShareLink(shareLink)
