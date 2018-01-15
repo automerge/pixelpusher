@@ -35,7 +35,6 @@ class ShareLink extends React.Component {
   }
 
   copyClicked = e => {
-    e.preventDefault()
     clipboard.writeText(this.state.shareLink)
     this.props.dispatch({type: 'SEND_NOTIFICATION', message: "Share link copied."})
   }

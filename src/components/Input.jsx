@@ -38,7 +38,7 @@ export class Button extends React.Component {
     const {type, ...rest} = this.props
 
     return (
-      <button className={`input__button input__button-${type}`} {...rest} />
+      <button type="button" className={`input__button input__button-${type}`} {...rest} />
     )
   }
 }
