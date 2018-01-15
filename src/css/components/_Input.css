@@ -1,9 +1,26 @@
 .input {
-  appearance: none;
-  background-color: #313131;
-  cursor: text;
-  color: #bbb;
-  padding: 5px;
-  width: 100%;
-  border: 3px solid #757575;
+  display: flex;
+
+  &__input {
+    appearance: none;
+    background-color: #313131;
+    cursor: text;
+    color: #bbb;
+    padding: 5px;
+    width: 100%;
+    border: 3px solid #757575;
+  }
+
+  &__button {
+    display: block;
+    cursor: pointer;
+    border: 3px solid #757575;
+    border-left: 0;
+    background-color: #313131;
+    color: #bbb;
+
+    &-copy {
+      @mixin icon copy;
+    }
+  }
 }

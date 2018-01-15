@@ -1,5 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
+import {clipboard} from 'electron'
 
 import Input from './Input';
 
@@ -25,10 +26,18 @@ class ShareLink extends React.Component {
     return (
       <div>
         <form onSubmit={this.setShareLink}>
-          <Input autoSelect value={shareLink} onChange={this.shareLinkChanged} />
+          <Input autoSelect value={shareLink} onChange={this.shareLinkChanged}>
+            <Input.Button type="copy" onClick={this.copyClicked} />
+          </Input>
         </form>
       </div>
     )
+  }
+
+  copyClicked = e => {
+    e.preventDefault()
+    clipboard.writeText(this.state.shareLink)
+    this.props.dispatch({type: 'SEND_NOTIFICATION', message: "Share link copied."})
   }
 
   setShareLink = e => {

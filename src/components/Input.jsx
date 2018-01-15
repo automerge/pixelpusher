@@ -3,7 +3,7 @@ import {clipboard} from 'electron'
 
 export default class Input extends React.Component {
   render() {
-    const {onChange, autoCopy, autoSelect, onClick, ...props} = this.props
+    const {onChange, autoCopy, autoSelect, onClick, children, ...props} = this.props
     const click =
         onClick ? onClick
       : autoCopy ? this.copySelf
@@ -11,12 +11,15 @@ export default class Input extends React.Component {
       : null
 
     return (
-      <input
-        className="input"
-        onClick={click}
-        onChange={e => onChange(e.target.value)}
-        {...props}
-      />
+      <div className="input">
+        <input
+          className="input__input"
+          onClick={click}
+          onChange={e => onChange(e.target.value)}
+          {...props}
+        />
+        {children}
+      </div>
     )
   }
 
@@ -29,3 +32,15 @@ export default class Input extends React.Component {
     e.target.select()
   }
 }
+
+export class Button extends React.Component {
+  render() {
+    const {type, ...rest} = this.props
+
+    return (
+      <button className={`input__button input__button-${type}`} {...rest} />
+    )
+  }
+}
+
+Input.Button = Button

@@ -29,6 +29,10 @@
   content: "\f1fb";
 }
 
+@define-extend copy {
+  content: "\f0c5";
+}
+
 @define-extend paint-brush {
   content: "\f1fc";
 }
