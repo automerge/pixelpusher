@@ -7,11 +7,11 @@ const init = f => doc =>
 
 export const project = init(pro => {
   pro.id = pro._actorId
-  pro.rows = 20
-  pro.columns = 20
+  pro.rows = 16
+  pro.columns = 16
   pro.cellSize = 10
   pro.defaultColor = DEFAULT_COLOR
-  pro.frames = [emptyFrame(20 * 20)]
+  pro.frames = [emptyFrame(16 * 16)]
   pro.palette = palette()
 })
 
