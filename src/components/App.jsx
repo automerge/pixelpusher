@@ -16,7 +16,6 @@ import NewProjectContainer from './NewProject';
 import CloneProjectContainer from './CloneProject';
 import SimpleNotificationContainer from './SimpleNotification';
 import SimpleSpinnerContainer from './SimpleSpinner';
-import UndoRedoContainer from './UndoRedo';
 import PresenceContainer from './PresenceContainer';
 
 export default class App extends React.Component {
@@ -184,11 +183,6 @@ export default class App extends React.Component {
   renderRightSide() {
     return (
       <div className="app__right-side">
-        <div className="app__mobile--container">
-          <div data-tooltip={this.tip('Undo Redo actions')}>
-            <UndoRedoContainer />
-          </div>
-        </div>
         <div className="app__mobile--container">
           <PresenceContainer />
         </div>
