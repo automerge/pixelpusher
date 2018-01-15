@@ -49,6 +49,11 @@ export const cloneFrame = frameIndex =>
     resetFrameIntervals(pro.frames)
   })
 
+export const setCellSize = cellSize =>
+  change(pro => {
+    pro.cellSize = cellSize
+  })
+
 const resizePixels = (pixels, dimension, behavior, columns) => {
     if (dimension === 'columns') {
       if (behavior === 'add') {

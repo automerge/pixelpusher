@@ -154,7 +154,7 @@ function setColorPicker(state) {
 }
 
 function setCellSize(state, cellSize) {
-  return mergeProject(state, { cellSize });
+  return updateProject(state, Mutation.setCellSize(cellSize))
 }
 
 function resetFrame(state, activeFrameIndex) {
