@@ -27,11 +27,6 @@ class Presence extends React.Component {
           {peer.isSelf ? " (you)" : null}
           </div>
         )}
-
-        <h3>Share link:</h3>
-        <div style={{textAlign: 'center'}}>
-          <Input readOnly autoCopy value={shareLinkForProjectId(projectId)} />
-        </div>
       </div>
     )
   }

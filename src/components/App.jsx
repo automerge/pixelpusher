@@ -17,6 +17,7 @@ import CloneProjectContainer from './CloneProject';
 import SimpleNotificationContainer from './SimpleNotification';
 import SimpleSpinnerContainer from './SimpleSpinner';
 import PresenceContainer from './PresenceContainer';
+import ShareLinkContainer from './ShareLinkContainer';
 
 export default class App extends React.Component {
   constructor() {
@@ -101,10 +102,11 @@ export default class App extends React.Component {
   renderHeader() {
     return (
       <header>
-        <div className="col-1-3">
-          <h1>PIXELPUSHER</h1>
+        <h1>PIXELPUSHER</h1>
+        <div className="sharelink">
+          <ShareLinkContainer />
         </div>
-        <div className="menu col-2-3">
+        <div className="menu">
           <button
             className="app__load-button"
             onClick={() => { this.changeModalType('load'); }}

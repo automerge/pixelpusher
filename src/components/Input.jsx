@@ -3,12 +3,17 @@ import {clipboard} from 'electron'
 
 export default class Input extends React.Component {
   render() {
-    const {onChange, autoCopy, ...props} = this.props
+    const {onChange, autoCopy, autoSelect, onClick, ...props} = this.props
+    const click =
+        onClick ? onClick
+      : autoCopy ? this.copySelf
+      : autoSelect ? this.selectSelf
+      : null
 
     return (
       <input
         className="input"
-        onFocus={autoCopy ? this.copySelf : null}
+        onClick={click}
         onChange={e => onChange(e.target.value)}
         {...props}
       />
@@ -16,7 +21,11 @@ export default class Input extends React.Component {
   }
 
   copySelf = e => {
-    e.target.select()
+    selectSelf(e)
     clipboard.writeText(e.target.value)
+  }
+
+  selectSelf = e => {
+    e.target.select()
   }
 }

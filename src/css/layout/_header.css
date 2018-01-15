@@ -2,4 +2,11 @@ header {
   padding: 0;
   color: $color-silver;
   lost-utility: clearfix;
+  display: flex;
+  align-items: center;
+
+  .sharelink {
+    flex-grow: 1;
+    margin: 0 10px;
+  }
 }

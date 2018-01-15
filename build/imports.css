@@ -858,6 +858,10 @@ input[type=number] {
 header {
   padding: 0;
   color: #bbb;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
 }
 
 header:before {
@@ -870,6 +874,12 @@ header:after {
   display: table;
   clear: both;
 }
+
+header .sharelink {
+    -ms-flex-positive: 1;
+        flex-grow: 1;
+    margin: 0 10px;
+  }
 
 @media only screen and (max-width: 780px) {
     .dimensions label {
@@ -2433,6 +2443,7 @@ label.picker__rows {
   color: #bbb;
   padding: 5px;
   width: 100%;
+  border: 3px solid #757575;
 }
 
 .menu {
