@@ -36,16 +36,8 @@ export function addFrameToProject(state) {
   return updateProject(state, Mutation.addFrame())
 }
 
-export function resizeProject(project, dimension, behavior) {
-  const delta = behavior === 'add' ? 1 : -1
-  const columns = project.get('columns')
-
-  return project
-    .update(dimension, d => d + delta)
-    .update('frames', frames =>
-      frames.map(frame =>
-        frame.update('pixels', pixels =>
-          resizePixels(pixels, dimension, behavior, columns))))
+export function resizeProject(state, dimension, behavior) {
+  return updateProject(state, Mutation.resize(dimension, behavior))
 }
 
 export function resizePixels(pixels, dimension, behavior, columns) {

@@ -39,8 +39,7 @@ const stateLoaded = state =>
     : state.update('createdProjectCount', x => x + 1)
 
 function changeDimensions(state, dimension, behavior) {
-  return updateProject(state, project =>
-    resizeProject(project, dimension, behavior))
+  return resizeProject(state, dimension, behavior)
 }
 
 function setColorSelected(state, newColorSelected, positionInPalette) {

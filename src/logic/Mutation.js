@@ -12,6 +12,41 @@ export const addFrame = () =>
     resetFrameIntervals(pro.frames)
   })
 
+export const resize = (dimension, behavior) =>
+  change(pro => {
+    const delta = behavior === 'add' ? 1 : -1
+    const columns = pro.columns
+
+    pro[dimension] += delta
+
+    pro.frames.forEach(frame => {
+      frame.pixels = resizePixels(frame.pixels, dimension, behavior, columns)
+    })
+  })
+
+const resizePixels = (pixels, dimension, behavior, columns) => {
+    if (dimension === 'columns') {
+      if (behavior === 'add') {
+        const size = pixels.length;
+
+        for (let i = size; i > 0; i -= columns) {
+          pixels.splice(i, 0, null);
+        }
+
+        return pixels
+      } else {
+        return pixels.filter((_, i) => (i + 1) % columns !== 0)
+      }
+    } else if (dimension === 'rows') {
+      if (behavior === 'add') {
+        return pixels.concat(Init.pixels(columns))
+      } else {
+        pixels.splice(-columns, columns)
+        return pixels
+      }
+    }
+  }
+
 const resetFrameIntervals = frames => {
   const equalPercentage = 100 / frames.length;
 

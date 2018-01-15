@@ -21,7 +21,7 @@ export const frame = n => ({
   interval: 0,
 })
 
-const pixels = n =>
+export const pixels = n =>
   Array(n).fill(null)
 
 const palette = () =>
