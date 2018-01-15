@@ -41,8 +41,7 @@ const resizePixels = (pixels, dimension, behavior, columns) => {
       if (behavior === 'add') {
         return pixels.concat(Init.pixels(columns))
       } else {
-        pixels.splice(-columns, columns)
-        return pixels
+        return pixels.slice(0, -columns)
       }
     }
   }
