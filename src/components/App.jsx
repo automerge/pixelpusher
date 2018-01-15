@@ -171,6 +171,12 @@ export default class App extends React.Component {
           <div data-tooltip={this.tip('Number of columns and rows')}>
             <DimensionsContainer />
           </div>
+          <div className="credits">
+            <h2>
+              Originally by <a target="_blank" href="http://www.jvalen.com/">JVALEN</a>
+            </h2>
+            <iframe src="https://ghbtns.com/github-btn.html?user=jvalen&amp;repo=pixel-art-react&amp;type=star&amp;count=true" frameBorder="0" scrolling="0" width="100px" height="20px"></iframe>
+          </div>
         </div>
       </div>
     );

@@ -2,25 +2,4 @@ header {
   padding: 0;
   color: $color-silver;
   lost-utility: clearfix;
-
-  .header__credits {
-    text-align: right;
-    margin-top: 1em;
-    top: 1em;
-    position: relative;
-
-    a {
-      text-decoration: none;
-      color: $color-brandyRose;
-    }
-
-    h2 {
-      display: block;
-      font-size: 0.8em;
-      padding-right: 1.3em;
-      position: relative;
-      margin: 0;
-      top: 0;
-    }
-  }
 }

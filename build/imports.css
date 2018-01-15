@@ -871,27 +871,6 @@ header:after {
   clear: both;
 }
 
-header .header__credits {
-    text-align: right;
-    margin-top: 1em;
-    top: 1em;
-    position: relative;
-  }
-
-header .header__credits a {
-      text-decoration: none;
-      color: #b17e7e;
-    }
-
-header .header__credits h2 {
-      display: block;
-      font-size: 0.8em;
-      padding-right: 1.3em;
-      position: relative;
-      margin: 0;
-      top: 0;
-    }
-
 @media only screen and (max-width: 780px) {
     .dimensions label {
       font-size: 1.5em !important;
@@ -2471,4 +2450,18 @@ label.picker__rows {
 
 .menu > * + * {
     margin-left: 10px;
+  }
+
+.credits a {
+    text-decoration: none;
+    color: #b17e7e;
+  }
+
+.credits h2 {
+    display: block;
+    font-size: 0.8em;
+    padding-right: 1.3em;
+    position: relative;
+    margin: 0;
+    top: 0;
   }
