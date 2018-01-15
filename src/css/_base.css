@@ -13,9 +13,8 @@ html {
 html,
 body {
   height: 100%;
-  width: 90%;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 10px;
   font-family: $font-pixel;
 }
 

@@ -67,25 +67,21 @@ export default class App extends React.Component {
             fadeOutTime={1500}
             duration={1500}
           />
-          <div
-            className="app__frames-container"
-            data-tooltip={this.tip(
-              `Create an awesome animation secuence.
-              You can modify the duration of each frame, changing its own value.
-              The number indicates where the frame ends in a range from 0 to 100.
-              `)}>
-            <FramesHandlerContainer />
-          </div>
           <div className="app__central-container">
-            <div className="left col-1-4">
-              {this.renderLeftSide()}
-            </div>
-            <div className="center col-2-4">
+            {this.renderLeftSide()}
+            <div className="app__center">
               <PixelCanvasContainer />
+              <div
+                className="app__frames-container"
+                data-tooltip={this.tip(
+                  `Create an awesome animation secuence.
+                  You can modify the duration of each frame, changing its own value.
+                  The number indicates where the frame ends in a range from 0 to 100.
+                  `)}>
+                <FramesHandlerContainer />
+              </div>
             </div>
-            <div className="right col-1-4">
-              {this.renderRightSide()}
-            </div>
+            {this.renderRightSide()}
           </div>
           <div className="css-container">
             <CssDisplayContainer />
@@ -131,8 +127,8 @@ export default class App extends React.Component {
   renderLeftSide() {
     return (
       <div className="app__left-side">
-        <div className="app__mobile--container">
-          <div className="app__mobile--group">
+        <div>
+          <div>
             <button
               className="app__preview-button"
               onClick={() => { this.changeModalType('preview'); }}
@@ -145,7 +141,7 @@ export default class App extends React.Component {
             </div>
           </div>
 
-          <div className="app__mobile--group">
+          <div>
             <div className="app__tools-wrapper grid-2">
               <div data-tooltip={this.tip('Remove colors')}>
                 <EraserContainer />
@@ -161,11 +157,11 @@ export default class App extends React.Component {
               </div>
             </div>
           </div>
-          <div className="app__mobile--group">
+          <div>
             <PaletteGridContainer />
           </div>
         </div>
-        <div className="app__mobile--group">
+        <div>
           <div data-tooltip={this.tip('Size of one tile in px')}>
             <CellSizeContainer />
           </div>
@@ -183,7 +179,7 @@ export default class App extends React.Component {
   renderRightSide() {
     return (
       <div className="app__right-side">
-        <div className="app__mobile--container">
+        <div>
           <PresenceContainer />
         </div>
       </div>

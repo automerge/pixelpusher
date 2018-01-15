@@ -528,9 +528,8 @@ html {
 
 html, body {
   height: 100%;
-  width: 90%;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 10px;
   font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
 }
 
@@ -892,12 +891,6 @@ header .header__credits h2 {
       margin: 0;
       top: 0;
     }
-
-@media only screen and (max-width: 1250px) {
-  .app__left-side, .app__right-side {
-    width: 100% !important;
-  }
-}
 
 @media only screen and (max-width: 780px) {
     .dimensions label {
@@ -1585,12 +1578,21 @@ input[type="text"]:focus, input[type="number"]:focus {
     clear: both;
   }
 
-.app__main, .app__central-container {
-    margin-bottom: 2em;
+.app__central-container {
+    display: -ms-flexbox;
+    display: flex;
+  }
+
+.app__center {
+    -ms-flex-positive: 1;
+        flex-grow: 1;
+    padding: 0 10px;
+    margin: 0 auto;
+    max-width: calc(100vh - 260px);
   }
 
 .app__frames-container {
-    margin-bottom: 1em;
+    margin-top: 10px;
   }
 
 .app__frames-container[data-tooltip]::after {
@@ -1915,13 +1917,10 @@ input[type="text"]:focus, input[type="number"]:focus {
   background-color: #313131;
 }
 
-.app__left-side, .app__right-side {
-    width: 60%;
-  }
-
-.app__right-side {
-    margin-left: auto;
-    margin-right: 0;
+.app__right-side, .app__left-side {
+    width: 200px;
+    -ms-flex-positive: 0;
+        flex-grow: 0;
   }
 
 .reset {
@@ -2121,7 +2120,6 @@ input[type="text"]:focus, input[type="number"]:focus {
       display: flex;
       -ms-flex-wrap: nowrap;
           flex-wrap: nowrap;
-      padding-bottom: 0.5em;
     }
 
 .frame {

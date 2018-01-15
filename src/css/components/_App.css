@@ -5,13 +5,19 @@
     lost-utility: clearfix;
   }
 
-  &__main,
   &__central-container {
-    margin-bottom: 2em;
+    display: flex;
+  }
+
+  &__center {
+    flex-grow: 1;
+    padding: 0 10px;
+    margin: 0 auto;
+    max-width: calc(100vh - 260px);
   }
 
   &__frames-container {
-    margin-bottom: 1em;
+    margin-top: 10px;
   }
 
   &__frames-container[data-tooltip]::after {
@@ -118,13 +124,9 @@
     }
   }
 
-  &__left-side,
-  &__right-side {
-    width: 60%;
-  }
-
-  &__right-side {
-    margin-left: auto;
-    margin-right: 0;
+  &__right-side,
+  &__left-side {
+    width: 200px;
+    flex-grow: 0;
   }
 }
