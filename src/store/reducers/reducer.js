@@ -186,23 +186,9 @@ function createNewFrame(state) {
 }
 
 function deleteFrame(state, frameIndex) {
-  let activeFrameIndex = state.get('activeFrameIndex');
-  let frames = getFrames(state);
-
-  if (frames.size > 1) {
-    const reduceFrameIndex =
-      (activeFrameIndex >= frameIndex) &&
-      (activeFrameIndex > 0);
-
-    frames = resetIntervals(frames.delete(frameIndex));
-
-    if (reduceFrameIndex) {
-      activeFrameIndex = frames.size - 1;
-    }
-  }
-  return mergeProject(state, {frames}).merge({
-    activeFrameIndex
-  });
+  return updateProject(state, Mutation.deleteFrame(frameIndex, state.activeFrameIndex))
+    .update('activeFrameIndex', i =>
+      frameIndex > i ? i : i - 1)
 }
 
 function duplicateFrame(state, frameIndex) {

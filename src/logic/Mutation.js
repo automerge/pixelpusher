@@ -24,7 +24,13 @@ export const resize = (dimension, behavior) =>
     })
   })
 
-export const resetFrame = (frameIndex) =>
+export const deleteFrame = (frameIndex, activeFrameIndex) =>
+  change(pro => {
+    pro.frames.splice(frameIndex, 1)
+    resetFrameIntervals(pro.frames)
+  })
+
+export const resetFrame = frameIndex =>
   change(pro => {
     pro.frames[frameIndex].pixels.fill(null)
   })
