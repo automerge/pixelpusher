@@ -1,28 +1,26 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
 import Picker from 'react-color';
-import * as actionCreators from '../store/actions/actionCreators';
+import { getCurrentColor } from '../store/reducers/reducerHelpers';
 
 class ColorPicker extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       displayColorPicker: false,
-      background: '#ffffff'
     };
   }
 
   handleClick() {
-    this.props.actions.setColorPicker();
+    this.props.dispatch({type: 'SET_COLOR_PICKER'});
+
     if (!this.state.displayColorPicker) {
       this.setState({ displayColorPicker: !this.state.displayColorPicker });
     }
   }
 
   handleChange(color) {
-    this.setState({ background: color.hex });
-    this.props.actions.setCustomColor(color.hex);
+    this.props.dispatch({type: 'SET_SWATCH_COLOR', color: color.hex})
   }
 
   handleClose() {
@@ -64,7 +62,7 @@ class ColorPicker extends React.Component {
             <div style={styles.popover} is="popover">
               <div style={styles.cover} is="cover" onClick={() => { this.handleClose(); }} />
               <Picker
-                color={this.state.background}
+                color={this.props.currentColor}
                 onChange={(color) => { this.handleChange(color); }}
                 onClose={() => { this.handleClose(); }}
                 type="sketch"
@@ -79,11 +77,12 @@ class ColorPicker extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  colorPickerOn: state.present.get('colorPickerOn')
+  colorPickerOn: state.present.get('colorPickerOn'),
+  currentColor: getCurrentColor(state.present) || '#000',
 });
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actionCreators, dispatch)
+  dispatch
 });
 
 const ColorPickerContainer = connect(

@@ -1,23 +1,21 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import * as actionCreators from '../store/actions/actionCreators';
 import PaletteColor from './PaletteColor';
 import { getProject } from '../store/reducers/reducerHelpers';
 
 const PaletteGrid = (props) => {
   const getColors = () => {
-    const { palette = [], currentColor } = props;
+    const { palette = [], currentSwatchIndex } = props;
     const width = 100 / 6;
 
-    return palette.map((color, i) =>
+    return palette.map((swatch, i) =>
       <PaletteColor
         key={i}
-        positionInPalette={i}
+        position={i}
         width={width}
-        color={color.get('color')}
-        selected={currentColor.get('position') === i}
-        actions={{ setColorSelected: props.actions.setColorSelected }}
+        color={swatch.get('color')}
+        selected={currentSwatchIndex === i}
+        dispatch={props.dispatch}
       />
     );
   };
@@ -36,12 +34,12 @@ const mapStateToProps = state => {
 
   return {
     palette: project.get('palette'),
-    currentColor: state.present.get('currentColor')
+    currentSwatchIndex: state.present.currentSwatchIndex,
   };
 }
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actionCreators, dispatch)
+  dispatch,
 });
 
 const PaletteGridContainer = connect(

@@ -4,7 +4,7 @@ import {
   resizeProject, createPalette, resetIntervals, setGridCellValue,
   checkColorInPalette, addColorToLastCellInPalette, getPositionFirstMatchInPalette,
   applyBucket, cloneFrame, addFrameToProject, getProject, updateProject,
-  mergeProject, setProject, getProjectId,
+  setProject, getProjectId, getCurrentColor,
 } from './reducerHelpers';
 import * as Mutation from '../../logic/Mutation'
 import {project} from '../../records/Project'
@@ -44,52 +44,25 @@ function changeDimensions(state, dimension, behavior) {
 }
 
 function setColorSelected(state, newColorSelected, positionInPalette) {
-  const newColor = { color: newColorSelected, position: positionInPalette };
   let palette = getPalette(state);
+  let {currentSwatchIndex} = state
 
   if (!checkColorInPalette(palette, newColorSelected)) {
     // If there is no newColorSelected in the palette it will create one
-    palette = addColorToLastCellInPalette(
-      palette, newColorSelected
-    );
-    newColor.position = palette.size - 1;
+    state = updateProject(state, Mutation.addColorToPalette(newColorSelected))
+
+    currentSwatchIndex = palette.size;
   } else if (positionInPalette === null) {
     // Eyedropper called this function, the color position is unknown
-    newColor.position =
-      getPositionFirstMatchInPalette(palette, newColorSelected);
+    currentSwatchIndex = getPositionFirstMatchInPalette(palette, newColorSelected);
   }
 
-  return mergeProject(state, {
-    palette,
-  }).merge({
+  return state.merge({
     eraserOn: false,
     eyedropperOn: false,
     colorPickerOn: false,
-    currentColor: newColor,
+    currentSwatchIndex,
   });
-}
-
-function setCustomColor(state, customColor) {
-  const currentColor = state.get('currentColor');
-  let palette = getPalette(state);
-
-  if (!checkColorInPalette(palette, currentColor.get('color'))) {
-    // If there is no colorSelected in the palette it will create one
-    palette = addColorToLastCellInPalette(
-      palette, customColor
-    );
-    newState.currentColor.position = newState.palette.size - 1;
-  } else {
-    // There is a color selected in the palette
-    palette = palette.set(
-      currentColor.get('position'), Map({
-        color: customColor, id: currentColor.get('color')
-      })
-    );
-  }
-
-  return mergeProject(state, {palette})
-    .setIn(['currentColor', 'color'], customColor);
 }
 
 function drawCell(state, id) {
@@ -110,15 +83,14 @@ function drawCell(state, id) {
   // eraserOn or regular cell paint
   const used = !eraserOn;
   const color = eraserOn ?
-  null :
-  state.get('currentColor').get('color');
+  null : getCurrentColor(state);
 
   return setGridCellValue(state, color, id);
 }
 
 function setEraser(state) {
   return state.merge({
-    currentColor: { color: null, position: -1 },
+    currentSwatchIndex: null,
     eraserOn: true,
     eyedropperOn: false,
     colorPickerOn: false,
@@ -201,7 +173,7 @@ const newProject = state =>
   state.merge({
     currentProject: project(),
     activeFrameIndex: 0,
-    currentColor: {color: '#000000', position: 0},
+    currentSwatchIndex: 0,
   })
 
 function setDuration(state, duration) {
@@ -231,8 +203,13 @@ export default function (state = State(), action) {
       return setColorSelected(
         state, action.newColorSelected, action.paletteColorPosition
       );
-    case 'SET_CUSTOM_COLOR':
-      return setCustomColor(state, action.customColor);
+    case 'SWATCH_CLICKED':
+      return state.set('currentSwatchIndex', action.index)
+    case 'SET_SWATCH_COLOR':
+      return state.currentSwatchIndex != null
+        ? updateProject(state, Mutation.setSwatchColor(state.currentSwatchIndex, action.color))
+        : updateProject(state, Mutation.addColorToPalette(action.color))
+            .set('currentSwatchIndex', getPalette(state).size)
     case 'DRAW_CELL':
       return drawCell(state, action.id);
     case 'SET_ERASER':

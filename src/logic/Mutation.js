@@ -54,6 +54,16 @@ export const setCellSize = cellSize =>
     pro.cellSize = cellSize
   })
 
+export const setSwatchColor = (index, color) =>
+  change(pro => {
+    pro.palette[index].color = color
+  })
+
+export const addColorToPalette = color =>
+  change(pro => {
+    pro.palette.push({color})
+  })
+
 const resizePixels = (pixels, dimension, behavior, columns) => {
     if (dimension === 'columns') {
       if (behavior === 'add') {

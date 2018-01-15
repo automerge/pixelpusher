@@ -2405,9 +2405,6 @@ label.picker__rows {
 
 .color-picker__button {
   display: block;
-}
-
-.color-picker:hover {
   cursor: pointer;
 }
 

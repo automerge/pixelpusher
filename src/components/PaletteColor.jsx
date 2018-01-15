@@ -1,10 +1,10 @@
 import React from 'react';
 
 const PaletteColor = (props) => {
-  const { positionInPalette, width, color, selected, actions } = props;
+  const { position, width, color, selected, dispatch } = props;
 
   const handleClick = () => {
-    actions.setColorSelected(color, positionInPalette);
+    dispatch({type: 'SWATCH_CLICKED', index: position})
   };
 
   const cellColor = color;

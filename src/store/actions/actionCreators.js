@@ -24,13 +24,6 @@ export function setColorSelected(newColorSelected, paletteColorPosition) {
   };
 }
 
-export function setCustomColor(customColor) {
-  return {
-    type: 'SET_CUSTOM_COLOR',
-    customColor
-  };
-}
-
 export function drawCell(id) {
   return {
     type: 'DRAW_CELL',
@@ -66,12 +59,6 @@ export function setBucket() {
 export function setEyedropper() {
   return {
     type: 'SET_EYEDROPPER'
-  };
-}
-
-export function setColorPicker() {
-  return {
-    type: 'SET_COLOR_PICKER'
   };
 }
 

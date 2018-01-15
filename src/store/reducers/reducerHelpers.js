@@ -20,11 +20,14 @@ export const setProject = (state, project) =>
   .setIn(['projects', project.get('id')], project)
   .set('currentProjectId', project.get('id'))
 
+export const getCurrentSwatch = state =>
+  getInProject(state, ['palette', state.currentSwatchIndex]) || Map()
+
+export const getCurrentColor = state =>
+  getCurrentSwatch(state).get('color') || null
+
 export const updateProject = (state, f) =>
   state.updateIn(['projects', getProjectId(state)], f)
-
-export const mergeProject = (state, obj) =>
-  updateProject(state, project => project.merge(obj))
 
 export function addFrameToProject(state) {
   return updateProject(state, Mutation.addFrame())
@@ -61,16 +64,16 @@ export function cloneFrame(frame) {
 }
 
 export function checkColorInPalette(palette, color) {
-  const sameColors = palette.filter(currentColor =>
-    (currentColor.get('color') === color)
+  const sameColors = palette.filter(swatch =>
+    (swatch.get('color') === color)
   );
   return (sameColors.size > 0);
 }
 
 export function getPositionFirstMatchInPalette(palette, color) {
-  return palette.reduce((acc, currentColor, index) => {
+  return palette.reduce((acc, swatch, index) => {
     let currentPosition = acc;
-    if (currentPosition === -1 && currentColor.get('color') === color) {
+    if (currentPosition === -1 && swatch.get('color') === color) {
       currentPosition = index;
     }
     return currentPosition;
@@ -78,12 +81,12 @@ export function getPositionFirstMatchInPalette(palette, color) {
 }
 
 export function addColorToLastCellInPalette(palette, newColor) {
-  return palette.map((currentColor, i, collection) => {
+  return palette.map((swatch, i, collection) => {
     if (i === collection.size - 1) {
       // Last cell
       return (Map({ color: newColor }));
     }
-    return (Map({ color: currentColor.get('color') }));
+    return (Map({ color: swatch.get('color') }));
   });
 }
 
@@ -142,18 +145,12 @@ export function applyBucket(state, activeFrameIndex, id, sourceColor) {
   const columns = getProject(state).get('columns');
   const rows = getProject(state).get('rows');
   const queue = [id];
-  let currentColor = state.get('currentColor').get('color');
+  const currentColor = getCurrentColor(state);
   let currentId;
   let newState = state;
   let adjacents;
   let auxAdjacentId;
   let auxAdjacentColor;
-
-  if (!currentColor) {
-    // If there is no color selected in the palette, it will choose the first one
-    currentColor = getProject(newState).getIn(['palette', 0, 'color']);
-    newState = newState.set('currentColor', Map({ color: currentColor, position: 0 }));
-  }
 
   while (queue.length > 0) {
     currentId = queue.shift();

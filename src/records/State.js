@@ -7,7 +7,7 @@ const State = Record({
   currentProjectId: null,
   projects: Map(),
   peers: Map(),
-  currentColor: Map({color: '#000000', position: 0}),
+  currentSwatchIndex: 0,
   eraserOn: false,
   eyedropperOn: false,
   colorPickerOn: false,

@@ -3,9 +3,6 @@
     @mixin icon paint-brush;
 
     display: block;
-  }
-
-  &:hover {
     cursor: pointer;
   }
 }
