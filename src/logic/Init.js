@@ -11,15 +11,20 @@ export const project = init(pro => {
   pro.columns = 20
   pro.cellSize = 10
   pro.defaultColor = DEFAULT_COLOR
-  pro.frames = [frame(20 * 20)]
+  pro.frames = [emptyFrame(20 * 20)]
   pro.palette = palette()
 })
 
-export const frame = n => ({
-  id: shortid.generate(),
-  pixels: pixels(n),
-  interval: 0,
-})
+export const frame = frame => {
+  frame.id = shortid.generate()
+  return frame
+}
+
+export const emptyFrame = n =>
+  frame({
+    pixels: pixels(n),
+    interval: 0,
+  })
 
 export const pixels = n =>
   Array(n).fill(null)

@@ -192,16 +192,9 @@ function deleteFrame(state, frameIndex) {
 }
 
 function duplicateFrame(state, frameIndex) {
-  const frames = getFrames(state);
-  const prevFrame = frames.get(frameIndex);
+  return updateProject(state, Mutation.cloneFrame(frameIndex))
+    .update('activeFrameIndex', i => i + 1)
 
-  const frame = cloneFrame(prevFrame);
-
-  return mergeProject(state, {
-    frames: resetIntervals(frames.insert(frameIndex, frame)),
-  }).merge({
-    activeFrameIndex: frameIndex + 1,
-  });
 }
 
 const newProject = state =>

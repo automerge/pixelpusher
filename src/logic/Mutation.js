@@ -8,7 +8,7 @@ export const setPixel = (frameIndex, pixelIndex, color) =>
 
 export const addFrame = () =>
   change(pro => {
-    pro.frames.push(Init.frame(pro.columns * pro.rows))
+    pro.frames.push(Init.emptyFrame(pro.columns * pro.rows))
     resetFrameIntervals(pro.frames)
   })
 
@@ -38,6 +38,15 @@ export const resetFrame = frameIndex =>
 export const setFrameInterval = (frameIndex, interval) =>
   change(pro => {
     pro.frames[frameIndex].interval = interval
+  })
+
+export const cloneFrame = frameIndex =>
+  change(pro => {
+    const originalFrame = pro.frames[frameIndex]
+    const frame = Init.emptyFrame(pro.columns * pro.rows)
+    frame.pixels = originalFrame.pixels.map(x => x)
+    pro.frames.splice(frameIndex, 0, frame)
+    resetFrameIntervals(pro.frames)
   })
 
 const resizePixels = (pixels, dimension, behavior, columns) => {
