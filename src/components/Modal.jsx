@@ -215,7 +215,6 @@ function generateRadioOptions(props) {
   } else {
     options = [
       { value: 'storage', label: 'Stored', id: 0 },
-      { value: 'shared', label: 'Open from share link', id: 3 },
       { value: 'import', label: 'Import', id: 1 },
       { value: 'export', label: 'Export', id: 2 }
     ];

@@ -48,6 +48,14 @@
     .preview {
       margin: 0 auto;
     }
+
+    &.new {
+      opacity: 0.7;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
   }
 
   &__spacer {

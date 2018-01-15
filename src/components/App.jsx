@@ -114,10 +114,6 @@ export default class App extends React.Component {
             Projects
           </button>
 
-          <div data-tooltip={this.tip('New project')}>
-            <NewProjectContainer />
-          </div>
-
           <div data-tooltip={this.tip('Clone project')}>
             <CloneProjectContainer />
           </div>

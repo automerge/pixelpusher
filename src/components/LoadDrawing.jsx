@@ -15,11 +15,6 @@ import { keyFromShareLink } from '../utils/shareLink';
 const browserStorage = (typeof localStorage === 'undefined') ? null : localStorage;
 
 export default class LoadDrawing extends React.Component {
-
-  state = {
-    shareLink: "",
-  }
-
   getExportCode() {
     return generateExportString(this.props.project);
   }
@@ -42,18 +37,14 @@ export default class LoadDrawing extends React.Component {
     this.props.dispatch({type: 'DELETE_PROJECT_CLICKED', id});
   }
 
-  projectClick(project) {
-    this.props.actions.setProject(project.get('id'));
+  newProjectClicked = e => {
+    this.props.dispatch({type: 'NEW_PROJECT_CLICKED'});
     this.props.close();
   }
 
-  shareLinkChanged = shareLink => {
-    this.setState({shareLink})
-
-    const id = keyFromShareLink(shareLink)
-
-    this.props.dispatch({type: 'SHARED_PROJECT_ID_ENTERED', id})
-    this.props.close()
+  projectClick(project) {
+    this.props.actions.setProject(project.get('id'));
+    this.props.close();
   }
 
   giveMeProjects() {
@@ -115,18 +106,6 @@ export default class LoadDrawing extends React.Component {
         );
       }
 
-      case 'shared': {
-        return (
-          <div className="center">
-            <div>Paste share link here:</div>
-            <Input
-              value={this.state.shareLink}
-              onChange={this.shareLinkChanged}
-            />
-          </div>
-        );
-      }
-
       default:
       case 'load': {
         const drawings = this.giveMeProjects();
@@ -139,6 +118,13 @@ export default class LoadDrawing extends React.Component {
                 `load-drawing__container
                 ${!drawingsStored ? 'empty' : ''}`}
             >
+              <div
+                onClick={this.newProjectClicked}
+                className="load-drawing__drawing new"
+              >
+                <h1>+</h1>
+                Create new project
+              </div>
               {drawingsStored ? drawings : 'Nothing awesome yet...'}
               <div className="load-drawing__spacer" />
               <div className="load-drawing__spacer" />

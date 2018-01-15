@@ -1287,6 +1287,14 @@ input[type="text"]:focus, input[type="number"]:focus {
       margin: 0 auto;
     }
 
+.load-drawing__drawing.new {
+  opacity: 0.7;
+}
+
+.load-drawing__drawing.new:hover {
+  opacity: 1;
+}
+
 .load-drawing__spacer {
     -ms-flex: 1 1 25%;
         flex: 1 1 25%;
