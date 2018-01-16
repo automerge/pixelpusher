@@ -183,7 +183,7 @@ function changeFrameInterval(state, frameIndex, interval) {
 }
 
 const peerConnected = (state, key, id, info) =>
-  state.setIn(['peers', id], Peer({key, id, isConnected: true}).merge(info))
+  state.setIn(['peers', id], Peer({key, id, isConnected: true, name: info.name}))
 
 const selfConnected = (state, key, id, canEdit) =>
   state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit, name: "me"}))

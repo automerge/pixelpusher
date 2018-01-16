@@ -17,6 +17,7 @@ import CloneProjectContainer from './CloneProject';
 import SimpleNotificationContainer from './SimpleNotification';
 import SimpleSpinnerContainer from './SimpleSpinner';
 import PresenceContainer from './PresenceContainer';
+import DebugInfoContainer from './DebugInfoContainer';
 import ShareLinkContainer from './ShareLinkContainer';
 
 export default class App extends React.Component {
@@ -185,6 +186,7 @@ export default class App extends React.Component {
       <div className="app__right-side">
         <div>
           <PresenceContainer />
+          <DebugInfoContainer />
         </div>
       </div>
     );
