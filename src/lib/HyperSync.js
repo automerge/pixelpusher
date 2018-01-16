@@ -4,7 +4,7 @@ import swarm from 'hyperdiscovery'
 import shortid from 'shortid'
 
 export default class HyperSync extends EventEmitter {
-  constructor({name, path, maxLocalClients, startingPort}) {
+  constructor({name, path}) {
     super()
 
     this.path = path
@@ -13,8 +13,6 @@ export default class HyperSync extends EventEmitter {
     this._readIndex()
     // TODO add pending merge queue
     this.name = name || "unnamed user"
-    this.currentPort = startingPort || 3282
-    this.maxLocalClients = maxLocalClients || 5
   }
 
   createDocument() {
@@ -88,7 +86,7 @@ export default class HyperSync extends EventEmitter {
     }
 
     const sw = swarm(merge, {
-      port: this._newPort(),
+      port: 0,
       stream: _peer =>
         merge.replicate({
           live: true,
@@ -155,11 +153,5 @@ export default class HyperSync extends EventEmitter {
   _newPath() {
     const id = shortid.generate()
     return `${this.path}/docs/${id}`
-  }
-
-  _newPort() {
-    const port = this.currentPort
-    this.currentPort += this.maxLocalClients
-    return port
   }
 }
