@@ -58,10 +58,9 @@ export default store => {
 
   sync.on('merge:listening', merge => {
     const key = merge.key.toString('hex')
-    const id = merge.source.id.toString('hex')
-    const writable = merge.source.writable
+    const id = (merge.local || merge.source).id.toString('hex')
 
-    dispatch({type: 'SELF_CONNECTED', key, id, writable})
+    dispatch({type: 'SELF_CONNECTED', key, id})
   })
 
   sync.on('merge:joined', (merge, {id, info}) => {
