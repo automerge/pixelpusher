@@ -459,8 +459,6 @@ label.picker__rows::before{
 
 [data-tooltip] {
   position: relative;
-  cursor: pointer;
-  text-align: center;
 }
 
 [data-tooltip]::before, [data-tooltip]::after {

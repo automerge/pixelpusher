@@ -4,8 +4,6 @@
 
 [data-tooltip] {
   position: relative;
-  cursor: pointer;
-  text-align: center;
 }
 
 [data-tooltip]::before,
