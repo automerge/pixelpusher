@@ -5,13 +5,13 @@ import {Provider} from 'react-redux';
 
 import configureStore from './store/configureStore';
 import autoSave from './store/autoSave';
-import hyperSync from './store/hyperSync';
+import sync from './store/sync';
 import openUrlHandler from './store/openUrlHandler';
 
 const devMode = true;
 const store = configureStore(devMode);
 
-hyperSync(store)
+sync(store)
 autoSave(store)
 openUrlHandler(store)
 
