@@ -1,5 +1,5 @@
 import EventEmitter from 'events'
-import hypermerge from 'hypermerge/hypermerge'
+import hypermergeMicro from 'hypermerge/hypermerge-micro-immutable'
 import swarm from 'hyperdiscovery'
 import shortid from 'shortid'
 
@@ -20,7 +20,7 @@ export default class HyperSync extends EventEmitter {
   createDocument() {
     const path = this._newPath()
 
-    const merge = hypermerge(path, {
+    const merge = hypermergeMicro(path, {
       name: this.name,
     })
 
@@ -40,7 +40,7 @@ export default class HyperSync extends EventEmitter {
 
     const path = this._indexedPath(key)
 
-    const merge = this.merges[key] = hypermerge(path, {
+    const merge = this.merges[key] = hypermergeMicro(path, {
       name: this.name,
       key,
     })
@@ -56,7 +56,7 @@ export default class HyperSync extends EventEmitter {
     const key = doc._actorId
     const path = this._indexedPath(key)
 
-    const merge = this.merges[key] = hypermerge(path, {
+    const merge = this.merges[key] = hypermergeMicro(path, {
       name: this.name,
       key,
     })
