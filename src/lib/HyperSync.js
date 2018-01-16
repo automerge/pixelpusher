@@ -36,6 +36,8 @@ export default class HyperSync extends EventEmitter {
   }
 
   openDocument(key) {
+    if (this.merges[key]) return
+
     const path = this._indexedPath(key)
 
     const merge = this.merges[key] = hypermerge(path, {

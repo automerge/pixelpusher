@@ -46,9 +46,10 @@ export default store => {
   })
 
   // TODO this fires before the project has an id:
-  // sync.on('document:opened', project => {
-  //   dispatch({type: "REMOTE_PROJECT_OPENED", project})
-  // })
+  sync.on('document:opened', project => {
+    if (!project.get('id')) return
+    dispatch({type: "REMOTE_PROJECT_OPENED", project})
+  })
 
   sync.on('document:updated', project => {
     // TODO this fires for my changes too
