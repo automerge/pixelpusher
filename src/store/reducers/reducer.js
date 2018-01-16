@@ -204,7 +204,13 @@ export default function (state = State(), action) {
         state, action.newColorSelected, action.paletteColorPosition
       );
     case 'SWATCH_CLICKED':
-      return state.set('currentSwatchIndex', action.index)
+      return state.merge({
+        currentSwatchIndex: action.index,
+        eraserOn: false,
+        eyedropperOn: false,
+        colorPickerOn: false,
+        bucketOn: false,
+      })
     case 'SET_SWATCH_COLOR':
       return state.currentSwatchIndex != null
         ? updateProject(state, Mutation.setSwatchColor(state.currentSwatchIndex, action.color))
