@@ -35,9 +35,7 @@ const cloneProject = (state) =>
   state.setIn(['currentProject', 'id'], null)
 
 const stateLoaded = state =>
-  state.projects.size
-    ? state
-    : state.update('createdProjectCount', x => x + 1)
+  state.update('createdProjectCount', x => x + 1)
 
 function changeDimensions(state, dimension, behavior) {
   return resizeProject(state, dimension, behavior)

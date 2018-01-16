@@ -5275,9 +5275,9 @@ hyperdiscovery@^7.0.0:
     safe-buffer "^5.1.1"
     xtend "^4.0.1"
 
-"hypermerge@github:inkandswitch/hypermerge#immutable-api":
+"hypermerge@github:inkandswitch/hypermerge#more-apis":
   version "0.0.1"
-  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#4d4af016fdf075a2ad10d5d2683d68a0fade099f"
+  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#938a0773ad592d55de571e4fdb6ef22d96d3873b"
   dependencies:
     automerge "github:inkandswitch/automerge#pixelpusher-support"
     hypercore "^6.11.0"

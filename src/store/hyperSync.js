@@ -1,21 +1,21 @@
-import EventEmitter from 'events'
-import Automerge from 'automerge'
-import hypermerge from 'hypermerge'
-import swarm from 'hyperdiscovery'
 import whenChanged from './whenChanged'
 import { deserializeProject } from '../utils/serialization';
 import {getProject} from '../store/reducers/reducerHelpers'
 import Project from '../records/Project'
 import * as Init from '../logic/Init'
+import HyperSync from '../lib/HyperSync';
 
 export default store => {
   const {dispatch} = store
 
   const clientId = +(process.env.CLIENT_ID || 0)
 
+  document.title = `pixelpusher client ${clientId}`
+
   const sync = global.sync = new HyperSync({
     name: `client id ${clientId}`,
     startingPort: 3282 + clientId,
+    path: `./.data/pixelpusher`,
   })
 
   whenChanged(store, state => state.createdProjectCount, shouldCreate => {
@@ -72,114 +72,4 @@ export default store => {
     const key = merge.key.toString('hex')
     dispatch({type: 'PEER_DISCONNECTED', key, id})
   })
-}
-
-class HyperSync extends EventEmitter {
-  constructor({name, maxLocalClients, startingPort}) {
-    super()
-
-    this.merges = {}
-    // TODO add pending merge queue
-    this.name = name || "unnamed user"
-    this.currentPort = startingPort || 3282
-    this.maxLocalClients = maxLocalClients || 5
-  }
-
-  createDocument() {
-    const merge = hypermerge({
-      name: this.name,
-    })
-
-    merge.on('ready', () => {
-      const key = merge.key.toString('hex')
-
-      this.merges[key] = merge
-      this._onMergeReady(merge)
-      this.emit('document:created', merge.doc.get())
-    })
-  }
-
-  openDocument(key) {
-    const merge = this.merges[key] = hypermerge({
-      name: this.name,
-      key,
-    })
-
-    merge.on('ready', () => {
-      this._onMergeReady(merge)
-
-      this.emit('document:opened', merge.doc.get())
-    })
-  }
-
-  addDocument(doc) {
-    const key = doc._actorId
-
-    const merge = this.merges[key] = hypermerge({
-      name: this.name,
-      key,
-    })
-
-    merge.on('ready', () => {
-      this._onMergeReady(merge)
-    })
-  }
-
-  updateDocument(key, doc) {
-    if (this.merges[key]) {
-      this.merges[key].doc.set(doc)
-    } else {
-      this.addDocument(doc)
-    }
-  }
-
-  _onMergeReady = merge => {
-    merge.doc.registerHandler(doc => {
-      this.emit('document:updated', doc)
-    })
-
-    const userData = {
-      name: this.name
-    }
-
-    if (merge.local) {
-      userData.key = merge.local.key.toString('hex')
-    }
-
-    const sw = swarm(merge, {
-      port: this._newPort(),
-      stream: _peer =>
-        merge.replicate({
-          live: true,
-          upload: true,
-          download: true,
-          userData: JSON.stringify(userData),
-        }),
-    })
-
-    sw.on('listening', () => {
-      this.emit('merge:listening', merge)
-    })
-
-    sw.on('connection', (peer, type) => {
-      const info = JSON.parse(peer.remoteUserData.toString())
-      const id = peer.remoteId.toString('hex')
-
-      if (info.key) {
-        merge.connectPeer(info.key)
-      }
-
-      this.emit('merge:joined', merge, {id, info})
-
-      peer.on('close', () => {
-        this.emit('merge:left', merge, {id, info})
-      })
-    })
-  }
-
-  _newPort() {
-    const port = this.currentPort
-    this.currentPort += this.maxLocalClients
-    return port
-  }
 }
