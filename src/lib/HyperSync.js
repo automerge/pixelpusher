@@ -73,6 +73,7 @@ export default class HyperSync extends EventEmitter {
   }
 
   deleteDocument(key) {
+    // TODO delete the hypermerge directory
     this._deleteIndex(key)
   }
 
