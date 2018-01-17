@@ -16,6 +16,7 @@ body {
   margin: 0 auto;
   padding: 0 10px;
   font-family: $font-pixel;
+  -webkit-font-smoothing: none;
 }
 
 h1 {
