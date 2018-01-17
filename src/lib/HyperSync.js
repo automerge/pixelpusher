@@ -15,31 +15,13 @@ export default class HyperSync extends EventEmitter {
   }
 
   createDocument() {
-    const path = this._newPath()
-
-    const merge = hypermergeMicro(path)
-
-    merge.on('ready', () => {
-      const key = merge.key.toString('hex')
-
-      this._setIndex(key, path)
-
-      this.merges[key] = merge
-      this._onMergeReady(merge)
+    return this._createMerge(null, merge => {
       this.emit('document:created', merge.doc.get())
     })
   }
 
   openDocument(key) {
-    if (this.merges[key]) return
-
-    const path = this._indexedPath(key)
-
-    const merge = this.merges[key] = hypermergeMicro(path, {key})
-
-    merge.on('ready', () => {
-      this._onMergeReady(merge)
-
+    return this._createMerge(key, merge => {
       this.emit('document:opened', merge.doc.get(), merge)
     })
   }
@@ -47,6 +29,8 @@ export default class HyperSync extends EventEmitter {
   updateDocument(key, doc) {
     if (this.merges[key]) {
       this.merges[key].doc.set(doc)
+    } else {
+      throw new Error(`Merge has not been opened: ${key}`)
     }
   }
 
@@ -55,7 +39,29 @@ export default class HyperSync extends EventEmitter {
     this._deleteIndex(key)
   }
 
+  _createMerge(key, cb) {
+    if (key && this.merges[key]) return
+
+    const path = key
+      ? this._indexedPath(key)
+      : this._newPath()
+
+    const merge = hypermergeMicro(path, {key})
+
+    merge.path = path
+
+    return merge.on('ready', () => {
+      this._onMergeReady(merge)
+      cb(merge)
+    })
+  }
+
   _onMergeReady = merge => {
+    const key = merge.key.toString('hex')
+
+    this._setIndex(key, merge.path)
+    this.merges[key] = merge
+
     merge.doc.registerHandler(doc => {
       this.emit('document:updated', doc, merge)
     })
