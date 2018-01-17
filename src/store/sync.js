@@ -66,16 +66,9 @@ export default store => {
       dispatch({type: "PROJECT_CREATED", project})
     })
 
-    // TODO this fires before the project has an id:
     sync.on('document:opened', project => {
       if (!project.get('id')) return
       dispatch({type: "REMOTE_PROJECT_OPENED", project})
-    })
-
-    // TODO this fires before the project has an id:
-    sync.on('document:added', project => {
-      if (!project.get('id')) return
-      dispatch({type: "REMOTE_PROJECT_ADDED", project})
     })
 
     sync.on('document:updated', project => {
@@ -95,7 +88,7 @@ export default store => {
       dispatch({type: 'PEER_CONNECTED', key, id, info})
 
       const {avatarKey} = info.peerInfo || {}
-      if (avatarKey) sync.addDocument(avatarKey)
+      if (avatarKey) sync.openDocument(avatarKey)
     })
 
     sync.on('merge:left', (merge, {id}) => {

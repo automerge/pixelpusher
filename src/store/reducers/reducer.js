@@ -291,14 +291,11 @@ export default function (state = State(), action) {
       return state.projects.has(action.id)
         ? state.set('currentProjectId', action.id)
         : state.set('openingProjectId', action.id)
-    case 'REMOTE_PROJECT_OPENED':
-      return setProject(state, action.project).delete('openingProjectId')
-    case 'REMOTE_PROJECT_ADDED':
-      return addProject(state, action.project)
 
-    case 'REMOTE_PROJECT_UPDATED':
+      case 'REMOTE_PROJECT_OPENED':
+      case 'REMOTE_PROJECT_UPDATED':
       return state.openingProjectId === action.project.get('id')
-        ? setProject(state, action.project)
+        ? setProject(state, action.project).delete('openingProjectId')
         : addProject(state, action.project)
 
     default:

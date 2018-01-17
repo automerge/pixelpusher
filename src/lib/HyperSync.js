@@ -44,21 +44,6 @@ export default class HyperSync extends EventEmitter {
     })
   }
 
-  addDocument(key) {
-    if (this.merges[key]) return
-
-    const path = this._indexedPath(key)
-
-    const merge = this.merges[key] = hypermergeMicro(path, {key})
-
-    merge.on('ready', () => {
-      this._onMergeReady(merge)
-
-      this.emit('document:added', merge.doc.get(), merge)
-    })
-  }
-
-
   updateDocument(key, doc) {
     if (this.merges[key]) {
       this.merges[key].doc.set(doc)
@@ -135,7 +120,7 @@ export default class HyperSync extends EventEmitter {
 
   _readIndex() {
     for (const key in this.index) {
-      this.addDocument(key)
+      this.openDocument(key)
     }
   }
 
