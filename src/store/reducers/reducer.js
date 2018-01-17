@@ -193,7 +193,8 @@ const selfConnected = (state, key, id, canEdit) =>
   state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit, info: state.peerInfo}))
 
 const peerDisconnected = (state, key, id) =>
-  state.setIn(['peers', id, 'isConnected'], false)
+  state.deleteIn(['peers', id])
+  // state.setIn(['peers', id, 'isConnected'], false)
 
 export default function (state = State(), action) {
   switch (action.type) {
