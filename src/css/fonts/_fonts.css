@@ -80,3 +80,7 @@
 @define-extend bucket {
   content: "\f0f4";
 }
+
+@define-extend user-circle {
+  content: "\f007";
+}

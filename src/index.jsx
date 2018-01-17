@@ -11,8 +11,8 @@ import openUrlHandler from './store/openUrlHandler';
 const devMode = true;
 const store = configureStore(devMode);
 
-sync(store)
 autoSave(store)
+sync(store)
 openUrlHandler(store)
 
 const render = () => {

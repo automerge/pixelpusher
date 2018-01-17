@@ -1,5 +1,6 @@
 import React from 'react';
 import Preview from './Preview';
+import Button from './Button';
 import {
   generateExportString, exportedStringToProject
 } from '../utils/storage';
@@ -47,6 +48,7 @@ export default class LoadDrawing extends React.Component {
   }
 
   giveMeProjects() {
+    const {peerInfo} = this.props;
     const projects = this.props.projects.valueSeq();
 
     return projects.map(project => {
@@ -64,10 +66,16 @@ export default class LoadDrawing extends React.Component {
             frameIndex={0}
             duration={1}
           />
-          <button
-            className="drawing__delete"
-            onClick={(event) => { this.deleteProject(id, event); }}
-          />
+          <div className="load-drawing__buttons">
+            <button
+              className="drawing__delete"
+              onClick={(event) => { this.deleteProject(id, event); }}
+            />
+            { peerInfo.avatarKey === project.get('id')
+              ? null
+              : <Button tiny avatar onClick={this.setAvatar(project.get('id'))} />
+            }
+          </div>
           <h2>{project.get('title')}</h2>
         </div>
       );
@@ -138,5 +146,11 @@ export default class LoadDrawing extends React.Component {
 
   render() {
     return (this.giveMeOptions(this.props.loadType));
+  }
+
+  setAvatar = key => e => {
+    e.preventDefault();
+    e.stopPropagation();
+    this.props.dispatch({type: 'SELF_AVATAR_SET', key})
   }
 }

@@ -10,6 +10,7 @@ import * as Mutation from '../../logic/Mutation'
 import {project} from '../../records/Project'
 import State from '../../records/State'
 import Peer from '../../records/Peer'
+import PeerInfo from '../../records/PeerInfo'
 
 const getPalette = state =>
   getProject(state).get('palette');
@@ -35,7 +36,10 @@ const cloneProject = (state) =>
   state.setIn(['currentProject', 'id'], null)
 
 const stateLoaded = state =>
-  state
+  state.set('isLoaded', true)
+
+const addProject = (state, project) =>
+  state.setIn(['projects', project.get('id')], project)
 
 function changeDimensions(state, dimension, behavior) {
   return resizeProject(state, dimension, behavior)
@@ -183,10 +187,10 @@ function changeFrameInterval(state, frameIndex, interval) {
 }
 
 const peerConnected = (state, key, id, info) =>
-  state.setIn(['peers', id], Peer({key, id, isConnected: true, name: info.name}))
+  state.setIn(['peers', id], Peer({key, id, isConnected: true, info: PeerInfo(info.peerInfo)}))
 
 const selfConnected = (state, key, id, canEdit) =>
-  state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit, name: "me"}))
+  state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit, info: state.peerInfo}))
 
 const peerDisconnected = (state, key, id) =>
   state.setIn(['peers', id, 'isConnected'], false)
@@ -252,14 +256,13 @@ export default function (state = State(), action) {
       return cloneProject(state);
     case 'PROJECT_TITLE_CHANGED':
       return updateProject(state, Mutation.setTitle(action.title))
+    case 'SELF_NAME_CHANGED':
+      return state.setIn(['peerInfo', 'name'], action.name)
+    case 'SELF_AVATAR_SET':
+      return state.setIn(['peerInfo', 'avatarKey'], action.key)
 
     case 'PROJECT_CREATED':
       return state.setIn(['projects', action.project.get('id')], action.project)
-        .set('currentProjectId', action.project.get('id'))
-
-    case 'REMOTE_PROJECT_UPDATED':
-      return state
-        .setIn(['projects', action.project.get('id')], action.project)
         .set('currentProjectId', action.project.get('id'))
 
     case 'SET_PROJECT':
@@ -289,6 +292,13 @@ export default function (state = State(), action) {
         : state.set('openingProjectId', action.id)
     case 'REMOTE_PROJECT_OPENED':
       return setProject(state, action.project).delete('openingProjectId')
+    case 'REMOTE_PROJECT_ADDED':
+      return addProject(state, action.project)
+
+    case 'REMOTE_PROJECT_UPDATED':
+      return state.openingProjectId === action.project.get('id')
+        ? setProject(state, action.project)
+        : addProject(state, action.project)
 
     default:
       return state;

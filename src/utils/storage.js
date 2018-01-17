@@ -2,7 +2,8 @@ import { exampleCat } from '../../examples/import-export/json-cat';
 import { deserializeState, serializeState } from './serialization';
 import State from '../records/State'
 
-const STORAGE_KEY = 'pixelpusher-v4';
+const clientId = +(process.env.CLIENT_ID || 0)
+const STORAGE_KEY = `pixelpusher-v4/client-${clientId}`;
 
 /*
  *  Storage data structure

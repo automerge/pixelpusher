@@ -4,23 +4,20 @@ import swarm from 'hyperdiscovery'
 import shortid from 'shortid'
 
 export default class HyperSync extends EventEmitter {
-  constructor({name, path}) {
+  constructor({peerInfo, path}) {
     super()
 
     this.path = path
     this.merges = {}
     this._loadIndex()
     this._readIndex()
-    // TODO add pending merge queue
-    this.name = name || "unnamed user"
+    this.peerInfo = peerInfo || {name: "Unknown"}
   }
 
   createDocument() {
     const path = this._newPath()
 
-    const merge = hypermergeMicro(path, {
-      name: this.name,
-    })
+    const merge = hypermergeMicro(path)
 
     merge.on('ready', () => {
       const key = merge.key.toString('hex')
@@ -38,37 +35,33 @@ export default class HyperSync extends EventEmitter {
 
     const path = this._indexedPath(key)
 
-    const merge = this.merges[key] = hypermergeMicro(path, {
-      name: this.name,
-      key,
-    })
+    const merge = this.merges[key] = hypermergeMicro(path, {key})
 
     merge.on('ready', () => {
       this._onMergeReady(merge)
 
-      this.emit('document:opened', merge.doc.get())
+      this.emit('document:opened', merge.doc.get(), merge)
     })
   }
 
-  addDocument(doc) {
-    const key = doc._actorId
+  addDocument(key) {
+    if (this.merges[key]) return
+
     const path = this._indexedPath(key)
 
-    const merge = this.merges[key] = hypermergeMicro(path, {
-      name: this.name,
-      key,
-    })
+    const merge = this.merges[key] = hypermergeMicro(path, {key})
 
     merge.on('ready', () => {
       this._onMergeReady(merge)
+
+      this.emit('document:added', merge.doc.get(), merge)
     })
   }
+
 
   updateDocument(key, doc) {
     if (this.merges[key]) {
       this.merges[key].doc.set(doc)
-    } else {
-      this.addDocument(doc)
     }
   }
 
@@ -79,11 +72,11 @@ export default class HyperSync extends EventEmitter {
 
   _onMergeReady = merge => {
     merge.doc.registerHandler(doc => {
-      this.emit('document:updated', doc)
+      this.emit('document:updated', doc, merge)
     })
 
     const userData = {
-      name: this.name
+      peerInfo: this.peerInfo
     }
 
     if (merge.local) {
@@ -142,7 +135,7 @@ export default class HyperSync extends EventEmitter {
 
   _readIndex() {
     for (const key in this.index) {
-      this.openDocument(key)
+      this.addDocument(key)
     }
   }
 

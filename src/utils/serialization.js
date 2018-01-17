@@ -5,15 +5,18 @@ import State from '../records/State'
 import Project from '../records/Project'
 import Palette from '../records/Palette'
 import Frame from '../records/Frame'
+import PeerInfo from '../records/PeerInfo';
 
 export const serializeState = state =>
   ({
+    peerInfo: state.peerInfo.toJS(),
     // projects: state.projects.map(Automerge.save),
     // currentProjectId: state.currentProjectId,
   })
 
 export const deserializeState = json =>
   State({
+    peerInfo: deserializePeerInfo(json.peerInfo),
     // projects: deserializeProjects(json.projects),
     // currentProjectId: json.currentProjectId,
   })
@@ -33,6 +36,12 @@ export const deserializeFrame = json =>
     id: json.id,
     pixels: fromJS(json.pixels),
     interval: json.interval,
+  })
+
+export const deserializePeerInfo = json =>
+  PeerInfo(json && {
+    name: json.name,
+    avatarKey: json.avatarKey,
   })
 
 export const deserializePalette = json =>

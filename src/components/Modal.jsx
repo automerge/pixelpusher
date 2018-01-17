@@ -71,6 +71,7 @@ class Modal extends React.Component {
             open={props.open}
             projects={props.projects}
             project={props.project}
+            peerInfo={props.peerInfo}
             dispatch={props.dispatch}
             actions={{
               setProject: props.actions.setProject,
@@ -228,6 +229,7 @@ const mapStateToProps = (state) => {
     activeFrameIndex: state.present.get('activeFrameIndex'),
     project: getProject(state.present),
     projects: state.present.projects,
+    peerInfo: state.present.peerInfo,
     duration: state.present.get('duration')
   };
 };

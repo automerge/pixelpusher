@@ -11,7 +11,7 @@ export default store => {
 
   store.dispatch({type: "STATE_LOADED", state})
 
-  whenChanged(store, getProject, () => {
+  whenChanged(store, state => state.peerInfo, () => {
     save(store.getState().present)
   })
 }

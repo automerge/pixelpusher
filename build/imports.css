@@ -451,6 +451,10 @@ label.picker__rows::before{
   content: "\f0f4";
 }
 
+.button-avatar::before{
+  content: "\f007";
+}
+
 /* Button colors */
 
 /**
@@ -1269,11 +1273,8 @@ input[type="text"]:focus, input[type="number"]:focus {
     }
 
 .load-drawing__drawing .drawing__delete {
-  position: absolute;
   font-size: 1.7em;
   color: white;
-  top: 0;
-  right: 0;
   cursor: no-drop;
   padding: 0.1em;
   background-color: #313131;
@@ -1316,6 +1317,18 @@ input[type="text"]:focus, input[type="number"]:focus {
     padding: 0.5em;
     background-color: #313131;
     color: #bbb;
+  }
+
+.load-drawing__buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+        flex-direction: column;
+    -ms-flex-align: end;
+        align-items: flex-end;
   }
 
 .load-drawing .import__button {
@@ -2444,6 +2457,56 @@ label.picker__rows {
     display: block;
   }
 
+.button {
+    background: none;
+    border: none;
+    outline: none;
+    border-radius: 2px;
+    padding: 10px;
+    font-size: 1em;
+    text-decoration: none;
+    transition-duration: 0.1s;
+    color: #bbb;
+    background-color: #313131;
+    box-shadow: 0 5px 0 0 #707070
+}
+
+.button:hover, .button.selected {
+  background-color: #4b4949;
+}
+
+.button:active {
+  -ms-transform: translate(0, 5px);
+      transform: translate(0, 5px);
+  box-shadow: 0 1px 0 #4b4949;
+  background-color: #4b4949;
+}
+
+.button {
+  font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
+}
+
+.button-tiny {
+    font-size: 1.7em !important;
+    box-shadow: none;
+    color: white;
+    border-radius: 0;
+    cursor: pointer;
+    padding: 0.1em;
+    background-color: #313131;
+    border: 2px solid black;
+    border-width: 0 0 2px 2px;
+}
+
+.button-avatar {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .field {
   display: -ms-flexbox;
   display: flex;
@@ -2513,6 +2576,32 @@ label.picker__rows {
 
 .menu > * + * {
     margin-left: 10px;
+  }
+
+.peer {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-align: center;
+      align-items: center;
+  border: 3px solid #757575;
+  margin-top: 5px;
+  background-color: #4b4949;
+}
+
+.peer__avatar {
+    width: 48px;
+    height: 48px;
+    background-color: #313131;
+  }
+
+.peer__avatar .preview {
+      position: relative;
+      top: -3px;
+      left: -3px;
+    }
+
+.peer__text {
+    margin-left: 5px;
   }
 
 .credits a {

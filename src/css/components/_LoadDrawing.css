@@ -33,11 +33,8 @@
     .drawing__delete {
       @mixin icon trash-o;
 
-      position: absolute;
       font-size: 1.7em;
       color: white;
-      top: 0;
-      right: 0;
       cursor: no-drop;
       padding: 0.1em;
       background-color: $color-mineShaft;
@@ -80,6 +77,15 @@
     padding: 0.5em;
     background-color: $color-mineShaft;
     color: $color-silver;
+  }
+
+  &__buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
   }
 
   .import__button {
