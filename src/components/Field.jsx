@@ -1,9 +1,10 @@
 import React from 'react'
+import classnames from 'classnames'
 import {clipboard} from 'electron'
 
 export default class Field extends React.Component {
   render() {
-    const {label, onChange, autoCopy, autoSelect, onClick, children, ...props} = this.props
+    const {label, onChange, autoCopy, autoSelect, onClick, invalid, children, ...props} = this.props
     const click =
         onClick ? onClick
       : autoCopy ? this.copySelf
@@ -11,14 +12,17 @@ export default class Field extends React.Component {
       : null
 
     return (
-      <label className="input">
+      <label
+        className={classnames("field", {
+          "field-invalid": invalid
+        })}>
         { label
           ? <Field.Label>{label}</Field.Label>
           : null
         }
 
         <input
-          className="input__input"
+          className="field__input"
           onClick={click}
           onChange={e => onChange(e.target.value)}
           {...props}
@@ -43,7 +47,7 @@ export class Label extends React.Component {
     const {...rest} = this.props
 
     return (
-      <div className={`input__label`} {...rest} />
+      <div className={`field__label`} {...rest} />
     )
   }
 }
@@ -55,7 +59,7 @@ export class Button extends React.Component {
     const {type, ...rest} = this.props
 
     return (
-      <button type="button" className={`input__button input__button-${type}`} {...rest} />
+      <button type="button" className={`field__button field__button-${type}`} {...rest} />
     )
   }
 }

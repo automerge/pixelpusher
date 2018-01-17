@@ -399,7 +399,7 @@ textarea {
   content: "\f1fb";
 }
 
-.input__button-copy::before{
+.field__button-copy::before{
   content: "\f0c5";
 }
 
@@ -1165,7 +1165,7 @@ input[type="text"]:focus, input[type="number"]:focus {
 
 .simple-notification-enter.simple-notification-enter-active {
   opacity: 1;
-  transition: opacity 1000ms ease-in;
+  transition: opacity 100ms ease-in;
 }
 
 .simple-notification-exit {
@@ -2444,7 +2444,7 @@ label.picker__rows {
     display: block;
   }
 
-.input {
+.field {
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
@@ -2457,12 +2457,16 @@ label.picker__rows {
   text-align: center;
 }
 
-.input__label {
+.field-invalid {
+    border-color: #961818;
+  }
+
+.field__label {
     padding: 0.2em 0;
     width: 100%;
   }
 
-.input__input {
+.field__input {
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
@@ -2476,7 +2480,7 @@ label.picker__rows {
     width: 0;
   }
 
-.input__button {
+.field__button {
     display: block;
     cursor: pointer;
     border: 0;
@@ -2484,7 +2488,7 @@ label.picker__rows {
     color: #bbb;
   }
 
-.input__button-copy {
+.field__button-copy {
       display: inline-block;
       font: normal normal normal 14px/1 FontAwesome;
       font-size: inherit;
@@ -2493,7 +2497,7 @@ label.picker__rows {
       -moz-osx-font-smoothing: grayscale;
     }
 
-.input__label + .input__input {
+.field__label + .field__input {
     text-align: center;
   }
 

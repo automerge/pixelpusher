@@ -1,4 +1,4 @@
-.input {
+.field {
   display: flex;
   flex-wrap: wrap;
 
@@ -7,6 +7,10 @@
   background-color: $color-mineShaft;
   color: $color-silver;
   text-align: center;
+
+  &-invalid {
+    border-color: #961818;
+  }
 
   &__label {
     padding: 0.2em 0;

@@ -4,7 +4,7 @@ import {clipboard} from 'electron'
 
 import Field from './Field';
 
-import { shareLinkForProjectId, keyFromShareLink } from '../utils/shareLink';
+import { shareLinkForProjectId, keyFromShareLink, isValidShareLink } from '../utils/shareLink';
 import { getProjectId } from '../store/reducers/reducerHelpers';
 
 class ShareLink extends React.Component {
@@ -26,7 +26,12 @@ class ShareLink extends React.Component {
     return (
       <div>
         <form onSubmit={this.setShareLink}>
-          <Field autoSelect value={shareLink} onChange={this.shareLinkChanged}>
+          <Field
+            invalid={shareLink && !isValidShareLink(shareLink)}
+            autoSelect
+            value={shareLink}
+            onBlur={this.resetShareLink}
+            onChange={this.shareLinkChanged}>
             <Field.Button type="copy" onClick={this.copyClicked} />
           </Field>
         </form>
@@ -44,9 +49,20 @@ class ShareLink extends React.Component {
     e.target.elements[0].blur()
 
     const {shareLink} = this.state
-    const id = keyFromShareLink(shareLink)
 
-    this.props.dispatch({type: 'SHARED_PROJECT_ID_ENTERED', id})
+    if (isValidShareLink(shareLink)) {
+      const id = keyFromShareLink(shareLink)
+
+      this.props.dispatch({type: 'SHARED_PROJECT_ID_ENTERED', id})
+    } else {
+      this.props.dispatch({type: 'SEND_NOTIFICATION', message: "Share link is invalid."})
+    }
+  }
+
+  resetShareLink = () => {
+    this.setState({
+      shareLink: shareLinkForProjectId(this.props.projectId)
+    })
   }
 
   shareLinkChanged = shareLink => {

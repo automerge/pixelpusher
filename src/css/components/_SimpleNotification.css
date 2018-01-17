@@ -19,7 +19,7 @@
 
 .simple-notification-enter.simple-notification-enter-active {
   opacity: 1;
-  transition: opacity 1000ms ease-in;
+  transition: opacity 100ms ease-in;
 }
 
 .simple-notification-exit {
