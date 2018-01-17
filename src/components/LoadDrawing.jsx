@@ -68,6 +68,7 @@ export default class LoadDrawing extends React.Component {
             className="drawing__delete"
             onClick={(event) => { this.deleteProject(id, event); }}
           />
+          <h2>{project.get('title')}</h2>
         </div>
       );
     });
