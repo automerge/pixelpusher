@@ -153,7 +153,6 @@ export function applyBucket(state, activeFrameIndex, pixelIndex, sourceSwatchId)
   let auxAdjacentSwatchIndex;
 
   while (queue.length > 0) {
-    console.log(queue)
     currentIndex = queue.shift();
     newState = setGridCellValue(newState, currentIndex, currentSwatchIndex);
     adjacents = getSameColorAdjacentCells(
