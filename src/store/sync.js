@@ -15,7 +15,7 @@ export default store => {
   const sync = global.sync = new HyperSync({
     name: `client id ${clientId}`,
     startingPort: 3282 + clientId,
-    path: `./.data/pixelpusher`,
+    path: `./.data/pixelpusher/client-${clientId}`,
   })
 
   whenChanged(store, state => state.createdProjectCount, shouldCreate => {
