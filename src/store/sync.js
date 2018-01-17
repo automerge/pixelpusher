@@ -20,7 +20,7 @@ export default store => {
     const sync = global.sync = new HyperSync({
       peerInfo: store.getState().present.peerInfo.toJS(),
       startingPort: 3282 + clientId,
-      path: `./.data/pixelpusher/client-${clientId}`,
+      path: `./.data/pixelpusher-v5/client-${clientId}`,
     })
 
     if (Object.keys(sync.index).length === 0) {

@@ -3,7 +3,6 @@ import { StyleRoot } from 'radium';
 import {
   generatePixelDrawCss,
   generateAnimationCSSData,
-  generateAnimationIntervals
 } from '../utils/cssParse';
 import Animation from './Animation';
 
@@ -29,15 +28,9 @@ const Preview = (props) => {
 
     if (animation) {
       animationData =
-      generateAnimationCSSData(
-        frames, generateAnimationIntervals(frames),
-        columns, rows, cellSize
-      );
+      generateAnimationCSSData(project);
     } else {
-      cssString = generatePixelDrawCss(
-        frames.get(frameIndex),
-        columns, rows, cellSize, 'string'
-      );
+      cssString = generatePixelDrawCss(project, frameIndex, 'string');
 
       styles.previewWrapper.boxShadow = cssString;
       styles.previewWrapper.MozBoxShadow = cssString;

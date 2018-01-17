@@ -67,27 +67,27 @@ function setColorSelected(state, newColorSelected, positionInPalette) {
   });
 }
 
-function drawCell(state, id) {
+function drawCell(state, pixelIndex) {
   const bucketOn = state.get('bucketOn');
   const eyedropperOn = state.get('eyedropperOn');
   const eraserOn = state.get('eraserOn');
 
   if (bucketOn || eyedropperOn) {
     const activeFrameIndex = state.get('activeFrameIndex');
-    const cellColor = getFrames(state).getIn([activeFrameIndex, 'pixels', id]);
+    const pixelColorId = getFrames(state).getIn([activeFrameIndex, 'pixels', pixelIndex]);
 
     if (eyedropperOn) {
-      return setColorSelected(state, cellColor, null);
+      return setColorSelected(state, pixelColorId, null);
     }
     // bucketOn
-    return applyBucket(state, activeFrameIndex, id, cellColor);
+    return applyBucket(state, activeFrameIndex, pixelIndex, pixelColorId);
   }
   // eraserOn or regular cell paint
   const used = !eraserOn;
-  const color = eraserOn ?
-  null : getCurrentColor(state);
+  const swatchId = eraserOn ?
+  null : state.currentSwatchIndex;
 
-  return setGridCellValue(state, color, id);
+  return setGridCellValue(state, pixelIndex, swatchId);
 }
 
 function setEraser(state) {

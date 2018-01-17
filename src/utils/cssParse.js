@@ -1,9 +1,16 @@
-export function generatePixelDrawCss(frame, columns, rows, cellSize, type) {
+export function generatePixelDrawCss(project, frameIndex, type) {
+  const frame = project.getIn(['frames', frameIndex])
+  const columns = project.get('columns')
+  const rows = project.get('rows')
+  const cellSize = project.get('cellSize')
+  const palette = project.get('palette')
+
   switch (type) {
     case 'array': {
       // Returns frame data as an array
-      const frameData = frame.get('pixels').reduce((accumulator, pixel, i) => {
-        if (pixel) {
+      const frameData = frame.get('pixels').reduce((accumulator, swatchIndex, i) => {
+        if (swatchIndex) {
+          const pixel = palette.getIn([swatchIndex, 'color'])
           const xCoord = ((i % columns) * cellSize) + cellSize;
           const yCoord = (parseInt(i / columns, 10) * cellSize) + cellSize;
           const pixelInfo = [];
@@ -21,8 +28,9 @@ export function generatePixelDrawCss(frame, columns, rows, cellSize, type) {
     }
     default: {
       // Returns frame data as CSS string. Value: 'string'
-      const cssString = frame.get('pixels').reduce((accumulator, pixel, i) => {
-        if (pixel) {
+      const cssString = frame.get('pixels').reduce((accumulator, swatchIndex, i) => {
+        if (swatchIndex) {
+          const pixel = palette.getIn([swatchIndex, 'color'])
           const xCoord = ((i % columns) * cellSize) + cellSize;
           const yCoord = (parseInt(i / columns, 10) * cellSize) + cellSize;
 
@@ -87,10 +95,16 @@ export function exportAnimationData(keyframes, duration) {
  *
  * for intervalData like: [0, 25, 50, 75, 100]
 */
-export function generateAnimationCSSData(frames, intervalData, columns, rows, cellSize) {
+export function generateAnimationCSSData(project) {
+  const frames = project.get('frames');
+  const columns = project.get('columns');
+  const rows = project.get('rows');
+  const cellSize = project.get('cellSize');
+  const intervalData = generateAnimationIntervals(frames)
+
   const result = frames.reduce((acc, frame, index) => {
     const intervalAcc = acc;
-    const currentBoxShadow = generatePixelDrawCss(frame, columns, rows, cellSize, 'string');
+    const currentBoxShadow = generatePixelDrawCss(project, index, 'string');
     const minValue = index === 0 ? 0 : intervalData[index] + 0.01;
     const maxValue = intervalData[index + 1];
     intervalAcc[`${minValue}%, ${maxValue}%`] =

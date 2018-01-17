@@ -101,74 +101,75 @@ export function resetIntervals(frames) {
   });
 }
 
-export function setGridCellValue(state, color, index) {
-  return updateProject(state, Mutation.setPixel(state.activeFrameIndex, index, color))
+export function setGridCellValue(state, pixelIndex, colorId) {
+  return updateProject(state, Mutation.setPixel(state.activeFrameIndex, pixelIndex, colorId))
 }
 
-function getSameColorAdjacentCells(frameGrid, columns, rows, id, color) {
+function getSameColorAdjacentCells(pixels, columns, rows, index, sourceSwatchId) {
   const adjacentCollection = [];
-  let auxId;
+  let auxIndex;
 
-  if ((id + 1) % columns !== 0) {
+  if ((index + 1) % columns !== 0) {
     // Not at the very right
-    auxId = id + 1;
-    if (frameGrid.get(auxId) === color) {
-      adjacentCollection.push(auxId);
+    auxIndex = index + 1;
+    if (pixels.get(auxIndex) === sourceSwatchId) {
+      adjacentCollection.push(auxIndex);
     }
   }
-  if (id % columns !== 0) {
+  if (index % columns !== 0) {
     // Not at the very left
-    auxId = id - 1;
-    if (frameGrid.get(auxId) === color) {
-      adjacentCollection.push(auxId);
+    auxIndex = index - 1;
+    if (pixels.get(auxIndex) === sourceSwatchId) {
+      adjacentCollection.push(auxIndex);
     }
   }
-  if (id >= columns) {
+  if (index >= columns) {
     // Not at the very top
-    auxId = id - columns;
-    if (frameGrid.get(auxId) === color) {
-      adjacentCollection.push(auxId);
+    auxIndex = index - columns;
+    if (pixels.get(auxIndex) === sourceSwatchId) {
+      adjacentCollection.push(auxIndex);
     }
   }
-  if (id < (columns * rows) - columns) {
+  if (index < (columns * rows) - columns) {
     // Not at the very bottom
-    auxId = id + columns;
-    if (frameGrid.get(auxId) === color) {
-      adjacentCollection.push(auxId);
+    auxIndex = index + columns;
+    if (pixels.get(auxIndex) === sourceSwatchId) {
+      adjacentCollection.push(auxIndex);
     }
   }
 
   return adjacentCollection;
 }
 
-export function applyBucket(state, activeFrameIndex, id, sourceColor) {
+export function applyBucket(state, activeFrameIndex, pixelIndex, sourceSwatchId) {
   const columns = getProject(state).get('columns');
   const rows = getProject(state).get('rows');
-  const queue = [id];
-  const currentColor = getCurrentColor(state);
-  let currentId;
+  const queue = [pixelIndex];
+  const currentSwatchIndex = state.currentSwatchIndex;
+  let currentIndex;
   let newState = state;
   let adjacents;
   let auxAdjacentId;
-  let auxAdjacentColor;
+  let auxAdjacentSwatchIndex;
 
   while (queue.length > 0) {
-    currentId = queue.shift();
-    newState = setGridCellValue(newState, currentColor, currentId);
+    console.log(queue)
+    currentIndex = queue.shift();
+    newState = setGridCellValue(newState, currentIndex, currentSwatchIndex);
     adjacents = getSameColorAdjacentCells(
       getProject(newState).getIn(['frames', activeFrameIndex, 'pixels']),
-      columns, rows, currentId, sourceColor
+      columns, rows, currentIndex, sourceSwatchId
     );
 
     for (let i = 0; i < adjacents.length; i++) {
       auxAdjacentId = adjacents[i];
-      auxAdjacentColor = getProject(newState).getIn(
+      auxAdjacentSwatchIndex = getProject(newState).getIn(
         ['frames', activeFrameIndex, 'pixels', auxAdjacentId]
       );
       // Avoid introduce repeated or painted already cell into the queue
       if (
         (queue.indexOf(auxAdjacentId) === -1) &&
-        (auxAdjacentColor !== currentColor)
+        (auxAdjacentSwatchIndex !== currentSwatchIndex)
       ) {
         queue.push(auxAdjacentId);
       }

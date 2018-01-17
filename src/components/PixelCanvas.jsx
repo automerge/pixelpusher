@@ -6,15 +6,21 @@ import GridWrapper from './GridWrapper';
 import { getProject } from '../store/reducers/reducerHelpers';
 
 const PixelCanvas = (props) => {
-  const {emptyColor, activeFrame} = props;
+  const {project, activeFrameIndex} = props;
 
-  if (!activeFrame) return <div>Loading...</div>;
+  if (!project) return <div>Loading...</div>;
 
-  const cells = activeFrame.get('pixels').map((color, i) => {
+  const columns = project.get('columns');
+  const palette = project.get('palette');
+  const emptyColor = project.get('defaultColor');
+  const frames = project.get('frames');
+  const activeFrame = frames.get(activeFrameIndex);
+
+  const cells = activeFrame.get('pixels').map((swatchIndex, i) => {
     return {
       id: i,
-      width: 100 / props.columns,
-      color: color || emptyColor,
+      width: 100 / columns,
+      color: palette.getIn([swatchIndex, 'color']) || emptyColor,
     };
   });
 
@@ -39,17 +45,11 @@ const PixelCanvas = (props) => {
 const mapStateToProps = (state) => {
   const project = getProject(state.present);
 
-  if (!project) return {}
-
-  const frames = project.get('frames');
-  const activeFrameIndex = state.present.get('activeFrameIndex');
-
   return {
-    activeFrame: frames.get(activeFrameIndex),
-    columns: project.get('columns'),
-    emptyColor: project.get('defaultColor'),
-    eyedropperOn: state.present.get('eyedropperOn'),
-    eraserOn: state.present.get('eraserOn')
+    project,
+    activeFrameIndex: state.present.activeFrameIndex,
+    eyedropperOn: state.present.eyedropperOn,
+    eraserOn: state.present.eraserOn,
   };
 };
 

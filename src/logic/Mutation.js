@@ -1,9 +1,9 @@
 import Automerge from 'automerge'
 import * as Init from './Init'
 
-export const setPixel = (frameIndex, pixelIndex, color) =>
+export const setPixel = (frameIndex, pixelIndex, paletteId) =>
   change(pro => {
-    pro.frames[frameIndex].pixels[pixelIndex] = color
+    pro.frames[frameIndex].pixels[pixelIndex] = paletteId
   })
 
 export const addFrame = () =>
