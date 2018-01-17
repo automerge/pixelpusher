@@ -8,9 +8,8 @@ export default class Window extends Component {
     keydown: 'onKeyDown',
     keyup: 'onKeyUp',
     keypress: 'onKeyPress',
+    mouseup: 'onMouseUp',
   }
-
-
 
   componentDidMount() {
     eachEvent((prop, name) => {

@@ -18,7 +18,7 @@ export default class GridWrapper extends React.Component {
     return newProps.cells !== this.props.cells;
   }
 
-  handleMouseUp(id, ev) {
+  handleMouseUp(ev) {
     ev.preventDefault();
     this.setState({
       dragging: false
