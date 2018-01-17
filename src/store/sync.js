@@ -18,6 +18,10 @@ export default store => {
     path: `./.data/pixelpusher/client-${clientId}`,
   })
 
+  if (Object.keys(sync.index).length === 0) {
+    dispatch({type: 'NEW_PROJECT_CLICKED'})
+  }
+
   whenChanged(store, state => state.createdProjectCount, shouldCreate => {
     if (shouldCreate) sync.createDocument()
   })
