@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as actionCreators from '../store/actions/actionCreators';
 
-import Input from './Input';
-
 import { shareLinkForProjectId } from '../utils/shareLink';
 import { getProjectId } from '../store/reducers/reducerHelpers';
 

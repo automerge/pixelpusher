@@ -64,6 +64,11 @@ export const addColorToPalette = color =>
     pro.palette.push({color})
   })
 
+export const setTitle = title =>
+  change(pro => {
+    pro.title = title
+  })
+
 const resizePixels = (pixels, dimension, behavior, columns) => {
     if (dimension === 'columns') {
       if (behavior === 'add') {

@@ -2447,25 +2447,39 @@ label.picker__rows {
 .input {
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+
+  margin-top: 10px;
+  border: 3px solid #757575;
+  background-color: #313131;
+  color: #bbb;
+  text-align: center;
 }
+
+.input__label {
+    padding: 0.2em 0;
+    width: 100%;
+  }
 
 .input__input {
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
-    background-color: #313131;
+    background-color: #4b4949;
     cursor: text;
     color: #bbb;
+    border: 0;
     padding: 5px;
-    width: 100%;
-    border: 3px solid #757575;
+    -ms-flex-positive: 1;
+        flex-grow: 1;
+    width: 0;
   }
 
 .input__button {
     display: block;
     cursor: pointer;
-    border: 3px solid #757575;
-    border-left: 0;
+    border: 0;
     background-color: #313131;
     color: #bbb;
   }
@@ -2478,6 +2492,10 @@ label.picker__rows {
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+
+.input__label + .input__input {
+    text-align: center;
+  }
 
 .menu {
   padding: 10px 0;

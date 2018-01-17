@@ -1,9 +1,9 @@
 import React from 'react'
 import {clipboard} from 'electron'
 
-export default class Input extends React.Component {
+export default class Field extends React.Component {
   render() {
-    const {onChange, autoCopy, autoSelect, onClick, children, ...props} = this.props
+    const {label, onChange, autoCopy, autoSelect, onClick, children, ...props} = this.props
     const click =
         onClick ? onClick
       : autoCopy ? this.copySelf
@@ -11,7 +11,12 @@ export default class Input extends React.Component {
       : null
 
     return (
-      <div className="input">
+      <label className="input">
+        { label
+          ? <Field.Label>{label}</Field.Label>
+          : null
+        }
+
         <input
           className="input__input"
           onClick={click}
@@ -19,7 +24,7 @@ export default class Input extends React.Component {
           {...props}
         />
         {children}
-      </div>
+      </label>
     )
   }
 
@@ -33,6 +38,18 @@ export default class Input extends React.Component {
   }
 }
 
+export class Label extends React.Component {
+  render() {
+    const {...rest} = this.props
+
+    return (
+      <div className={`input__label`} {...rest} />
+    )
+  }
+}
+
+Field.Label = Label
+
 export class Button extends React.Component {
   render() {
     const {type, ...rest} = this.props
@@ -43,4 +60,4 @@ export class Button extends React.Component {
   }
 }
 
-Input.Button = Button
+Field.Button = Button

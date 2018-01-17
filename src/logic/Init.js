@@ -7,6 +7,7 @@ const init = f => doc =>
 
 export const project = init(pro => {
   pro.id = pro._actorId
+  pro.title = "Untitled"
   pro.rows = 16
   pro.columns = 16
   pro.cellSize = 10

@@ -1,5 +1,4 @@
 import React from 'react';
-import Input from './Input';
 import Preview from './Preview';
 import {
   generateExportString, exportedStringToProject

@@ -19,6 +19,7 @@ import SimpleSpinnerContainer from './SimpleSpinner';
 import PresenceContainer from './PresenceContainer';
 import DebugInfoContainer from './DebugInfoContainer';
 import ShareLinkContainer from './ShareLinkContainer';
+import ProjectInfoContainer from './ProjectInfoContainer';
 
 export default class App extends React.Component {
   constructor() {
@@ -161,6 +162,9 @@ export default class App extends React.Component {
           </div>
         </div>
         <div>
+          <div data-tooltip={this.tip('Set the project title')}>
+            <ProjectInfoContainer />
+          </div>
           <div data-tooltip={this.tip('Size of one tile in px')}>
             <CellSizeContainer />
           </div>

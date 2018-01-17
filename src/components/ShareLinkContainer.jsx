@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux';
 import {clipboard} from 'electron'
 
-import Input from './Input';
+import Field from './Field';
 
 import { shareLinkForProjectId, keyFromShareLink } from '../utils/shareLink';
 import { getProjectId } from '../store/reducers/reducerHelpers';
@@ -26,9 +26,9 @@ class ShareLink extends React.Component {
     return (
       <div>
         <form onSubmit={this.setShareLink}>
-          <Input autoSelect value={shareLink} onChange={this.shareLinkChanged}>
-            <Input.Button type="copy" onClick={this.copyClicked} />
-          </Input>
+          <Field autoSelect value={shareLink} onChange={this.shareLinkChanged}>
+            <Field.Button type="copy" onClick={this.copyClicked} />
+          </Field>
         </form>
       </div>
     )

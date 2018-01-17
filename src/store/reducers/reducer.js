@@ -250,6 +250,8 @@ export default function (state = State(), action) {
       return newProject(state);
     case 'CLONE_PROJECT':
       return cloneProject(state);
+    case 'PROJECT_TITLE_CHANGED':
+      return updateProject(state, Mutation.setTitle(action.title))
 
     case 'PROJECT_CREATED':
       return state.setIn(['projects', action.project.get('id')], action.project)

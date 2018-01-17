@@ -47,6 +47,7 @@ export default store => {
 
   // TODO this fires before the project has an id:
   sync.on('document:opened', project => {
+    console.log('project', project)
     if (!project.get('id')) return
     dispatch({type: "REMOTE_PROJECT_OPENED", project})
   })
