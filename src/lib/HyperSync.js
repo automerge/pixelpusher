@@ -72,6 +72,10 @@ export default class HyperSync extends EventEmitter {
     }
   }
 
+  deleteDocument(key) {
+    this._deleteIndex(key)
+  }
+
   _onMergeReady = merge => {
     merge.doc.registerHandler(doc => {
       this.emit('document:updated', doc)

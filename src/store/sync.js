@@ -31,6 +31,14 @@ export default store => {
     sync.updateDocument(project.get('id'), project)
   })
 
+  whenChanged(store, state => state.projects.keySeq(), (ids, pIds) => {
+    if (!pIds) return
+
+    pIds.forEach(id => {
+      if (!ids.includes(id)) sync.deleteDocument(id)
+    })
+  })
+
   whenChanged(store, state => state.clonedProjectId, id => {
     if (!id) return
 
