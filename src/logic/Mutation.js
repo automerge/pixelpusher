@@ -73,6 +73,9 @@ export const addFrameFromPixels = (pixels, width, height) =>
   change(pro => {
     const frame = Init.frame({interval: 0})
 
+    pro.columns = width
+    pro.rows = height
+
     frame.pixels = pixels.map(color => {
       if (color == null) return null
 

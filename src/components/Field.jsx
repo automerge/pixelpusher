@@ -24,7 +24,7 @@ export default class Field extends React.Component {
         <input
           className="field__input"
           onClick={click}
-          onChange={e => onChange(e.target.value)}
+          onChange={e => onChange(e.target.value, e)}
           {...props}
         />
         {children}
