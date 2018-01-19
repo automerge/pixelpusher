@@ -9,7 +9,7 @@ export function generatePixelDrawCss(project, frameIndex, type) {
     case 'array': {
       // Returns frame data as an array
       const frameData = frame.get('pixels').reduce((accumulator, swatchIndex, i) => {
-        if (swatchIndex) {
+        if (swatchIndex != null) {
           const pixel = palette.getIn([swatchIndex, 'color'])
           const xCoord = ((i % columns) * cellSize) + cellSize;
           const yCoord = (parseInt(i / columns, 10) * cellSize) + cellSize;
@@ -29,7 +29,7 @@ export function generatePixelDrawCss(project, frameIndex, type) {
     default: {
       // Returns frame data as CSS string. Value: 'string'
       const cssString = frame.get('pixels').reduce((accumulator, swatchIndex, i) => {
-        if (swatchIndex) {
+        if (swatchIndex != null) {
           const pixel = palette.getIn([swatchIndex, 'color'])
           const xCoord = ((i % columns) * cellSize) + cellSize;
           const yCoord = (parseInt(i / columns, 10) * cellSize) + cellSize;
