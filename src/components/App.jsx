@@ -105,7 +105,7 @@ export default class App extends React.Component {
   renderHeader() {
     return (
       <header>
-        <h1>PIXELPUSHER</h1>
+        <h1 className="logo">PIXELPUSHER</h1>
         <div className="sharelink">
           <ShareLinkContainer />
         </div>

@@ -888,6 +888,11 @@ header .sharelink {
     margin: 0 10px;
   }
 
+header .logo {
+    position: relative;
+    top: 12px;
+  }
+
 @media only screen and (max-width: 780px) {
     .dimensions label {
       font-size: 1.5em !important;

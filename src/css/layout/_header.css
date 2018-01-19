@@ -9,4 +9,9 @@ header {
     flex-grow: 1;
     margin: 0 10px;
   }
+
+  .logo {
+    position: relative;
+    top: 12px;
+  }
 }
