@@ -20,6 +20,7 @@ import PresenceContainer from './PresenceContainer';
 import DebugInfoContainer from './DebugInfoContainer';
 import ShareLinkContainer from './ShareLinkContainer';
 import ProjectInfoContainer from './ProjectInfoContainer';
+import ImportImageContainer from './ImportImageContainer';
 
 export default class App extends React.Component {
   constructor() {
@@ -173,6 +174,9 @@ export default class App extends React.Component {
           </div>
           <div data-tooltip={this.tip('Number of columns and rows')}>
             <DimensionsContainer />
+          </div>
+          <div data-tooltip={this.tip('Import an image')}>
+            <ImportImageContainer />
           </div>
           <div className="credits">
             <h2>

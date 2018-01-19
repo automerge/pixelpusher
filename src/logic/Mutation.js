@@ -69,6 +69,25 @@ export const setTitle = title =>
     pro.title = title
   })
 
+export const addFrameFromPixels = (pixels, width, height) =>
+  change(pro => {
+    const frame = Init.frame({interval: 0})
+
+    frame.pixels = pixels.map(color => {
+      if (color == null) return null
+
+      const i = pro.palette.findIndex(swatch => swatch.color === color)
+      if (i >= 0) {
+        return i
+      } else {
+        pro.palette.push({color})
+        return pro.palette.length - 1
+      }
+    })
+    pro.frames.push(frame)
+    resetFrameIntervals(pro.frames  )
+  })
+
 const resizePixels = (pixels, dimension, behavior, columns) => {
     if (dimension === 'columns') {
       if (behavior === 'add') {

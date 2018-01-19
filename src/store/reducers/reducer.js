@@ -298,6 +298,9 @@ export default function (state = State(), action) {
         ? setProject(state, action.project).delete('openingProjectId')
         : addProject(state, action.project)
 
+      case 'PIXELS_IMPORTED':
+        return updateProject(state, Mutation.addFrameFromPixels(action.pixels, action.width, action.height))
+
     default:
       return state;
   }
