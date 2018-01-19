@@ -2593,6 +2593,7 @@ label.picker__rows {
     width: 48px;
     height: 48px;
     background-color: #313131;
+    overflow: hidden;
   }
 
 .peer__avatar .preview {

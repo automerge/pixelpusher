@@ -9,6 +9,7 @@
     width: 48px;
     height: 48px;
     background-color: #313131;
+    overflow: hidden;
 
     .preview {
       position: relative;
