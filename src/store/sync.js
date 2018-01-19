@@ -19,7 +19,7 @@ export default store => {
   function initSync() {
     const sync = global.sync = new HyperSync({
       peerInfo: store.getState().present.peerInfo.toJS(),
-      startingPort: 3282 + clientId,
+      port: 3282 + clientId,
       path: `./.data/pixelpusher-v5/client-${clientId}`,
     })
 

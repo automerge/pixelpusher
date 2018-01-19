@@ -4,10 +4,11 @@ import swarm from 'hyperdiscovery'
 import shortid from 'shortid'
 
 export default class HyperSync extends EventEmitter {
-  constructor({peerInfo, path}) {
+  constructor({peerInfo, path, port}) {
     super()
 
     this.path = path
+    this.port = port || 0
     this.merges = {}
     this._loadIndex()
     this._readIndex()
@@ -42,15 +43,18 @@ export default class HyperSync extends EventEmitter {
   _createMerge(key, cb) {
     if (key && this.merges[key]) return
 
+
     const path = key
       ? this._indexedPath(key)
       : this._newPath()
 
     const merge = hypermergeMicro(path, {key})
 
+    if (key) this.merges[key] = merge
+
     merge.path = path
 
-    return merge.on('ready', () => {
+    return merge.once('ready', () => {
       this._onMergeReady(merge)
       cb(merge)
     })
@@ -74,8 +78,10 @@ export default class HyperSync extends EventEmitter {
       userData.key = merge.local.key.toString('hex')
     }
 
+    userData.id = (merge.local || merge.source).key.toString('hex')
+
     const sw = swarm(merge, {
-      port: 0,
+      port: this.port,
       stream: _peer =>
         merge.replicate({
           live: true,
@@ -85,13 +91,14 @@ export default class HyperSync extends EventEmitter {
         }),
     })
 
-    sw.on('listening', () => {
+    sw.once('listening', () => {
       this.emit('merge:listening', merge)
     })
 
     sw.on('connection', (peer, type) => {
       const info = JSON.parse(peer.remoteUserData.toString())
-      const id = peer.remoteId.toString('hex')
+      // const id = peer.remoteId.toString('hex')
+      const id = info.id
 
       if (info.key) {
         merge.connectPeer(info.key)
@@ -99,7 +106,7 @@ export default class HyperSync extends EventEmitter {
 
       this.emit('merge:joined', merge, {id, info})
 
-      peer.on('close', () => {
+      peer.once('close', () => {
         this.emit('merge:left', merge, {id, info})
       })
     })
