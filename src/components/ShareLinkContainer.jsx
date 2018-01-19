@@ -8,8 +8,16 @@ import { shareLinkForProjectId, keyFromShareLink, isValidShareLink } from '../ut
 import { getProjectId } from '../store/reducers/reducerHelpers';
 
 class ShareLink extends React.Component {
-  state = {
-    shareLink: ""
+  constructor(props) {
+    super();
+
+    const shareLink = props.projectId
+      ? shareLinkForProjectId(props.projectId)
+      : ""
+
+    this.state = {
+      shareLink,
+    }
   }
 
   componentWillReceiveProps(props) {
