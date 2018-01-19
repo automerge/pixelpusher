@@ -45,25 +45,12 @@ function changeDimensions(state, dimension, behavior) {
   return resizeProject(state, dimension, behavior)
 }
 
-function setColorSelected(state, newColorSelected, positionInPalette) {
-  let palette = getPalette(state);
-  let {currentSwatchIndex} = state
-
-  if (!checkColorInPalette(palette, newColorSelected)) {
-    // If there is no newColorSelected in the palette it will create one
-    state = updateProject(state, Mutation.addColorToPalette(newColorSelected))
-
-    currentSwatchIndex = palette.size;
-  } else if (positionInPalette === null) {
-    // Eyedropper called this function, the color position is unknown
-    currentSwatchIndex = getPositionFirstMatchInPalette(palette, newColorSelected);
-  }
-
+function setColorSelected(state, swatchId) {
   return state.merge({
     eraserOn: false,
     eyedropperOn: false,
     colorPickerOn: false,
-    currentSwatchIndex,
+    currentSwatchIndex: swatchId,
   });
 }
 
@@ -74,13 +61,13 @@ function drawCell(state, pixelIndex) {
 
   if (bucketOn || eyedropperOn) {
     const activeFrameIndex = state.get('activeFrameIndex');
-    const pixelColorId = getFrames(state).getIn([activeFrameIndex, 'pixels', pixelIndex]);
+    const swatchId = getFrames(state).getIn([activeFrameIndex, 'pixels', pixelIndex]);
 
     if (eyedropperOn) {
-      return setColorSelected(state, pixelColorId, null);
+      return setColorSelected(state, swatchId);
     }
     // bucketOn
-    return applyBucket(state, activeFrameIndex, pixelIndex, pixelColorId);
+    return applyBucket(state, activeFrameIndex, pixelIndex, swatchId);
   }
   // eraserOn or regular cell paint
   const used = !eraserOn;
@@ -203,9 +190,7 @@ export default function (state = State(), action) {
     case 'CHANGE_DIMENSIONS':
       return changeDimensions(state, action.gridProperty, action.behaviour);
     case 'SET_COLOR_SELECTED':
-      return setColorSelected(
-        state, action.newColorSelected, action.paletteColorPosition
-      );
+      return setColorSelected( state, action.newColorSelected);
     case 'SWATCH_CLICKED':
       return state.merge({
         currentSwatchIndex: action.index,

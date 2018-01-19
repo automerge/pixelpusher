@@ -19,7 +19,7 @@ class Presence extends React.Component {
       <div>
         <h3>Collaborators:</h3>
         {peers.map(peer =>
-          <div className="peer" data-tooltip={peer.id.slice(0, 8)} key={peer.id} style={{
+          <div className="peer" key={peer.id} style={{
             opacity: peer.isConnected ? 1 : 0.3
           }}>
             <div className="peer__avatar">
