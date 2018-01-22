@@ -10,6 +10,7 @@ module.exports = class HyperMerge extends EventEmitter {
     this.core = new MultiCore(path)
     this.onFork = onFork || (() => {})
     this.core.ready(this._ready)
+    this.core.joinSwarm()
     this.feeds = {}
     this.docs = {}
   }
