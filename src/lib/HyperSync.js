@@ -13,6 +13,23 @@ export default class HyperSync extends EventEmitter {
     this._loadIndex()
     this._readIndex()
     this.peerInfo = peerInfo || {name: "Unknown"}
+
+    if (peerInfo.identity) {
+      this.identityMerge = this.openDocument(peerInfo.identity)
+    } else {
+      this.identityMerge = this.createDocument()
+      this.emit('identity:created', this.identityMerge.key.toString("hex"))
+    }
+  }
+
+  setPeerInfo(pi) {
+    this.peerInfo = pi.toJS()
+    if (this.identityMerge) {
+      // FIXME - why does this get called when identity merge is null sometimes
+      var doc = this.identityMerge.doc.get()
+      doc.name = pi.name
+      doc.avatarKey = pi.avatarKey
+    }
   }
 
   createDocument() {
@@ -21,10 +38,10 @@ export default class HyperSync extends EventEmitter {
     })
   }
 
-  openDocument(key) {
+  openDocument(key, cb) {
     return this._createMerge(key, merge => {
       this.emit('document:opened', merge.doc.get(), merge)
-    })
+    }, cb)
   }
 
   updateDocument(key, doc) {
@@ -41,6 +58,7 @@ export default class HyperSync extends EventEmitter {
   }
 
   _createMerge(key, cb) {
+    // FIXME not sure why the callback is not called when the key exists - I didnt want to change this behavior so I added a second callback
     if (key && this.merges[key]) return
 
 
@@ -105,6 +123,8 @@ export default class HyperSync extends EventEmitter {
       }
 
       this.emit('merge:joined', merge, {id, info})
+
+      console.log("MERGE JOINED",info.peerInfo)
 
       peer.once('close', () => {
         this.emit('merge:left', merge, {id, info})

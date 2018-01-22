@@ -28,7 +28,7 @@ export default store => {
     }
 
     whenChanged(store, state => state.peerInfo, info => {
-      sync.peerInfo = info.toJS()
+      sync.setPeerInfo(info)
     })
 
     whenChanged(store, state => state.createdProjectCount, shouldCreate => {
@@ -60,6 +60,11 @@ export default store => {
       sync.openDocument(id)
     })
 
+    sync.on('identity:created', identity => {
+      console.log("sync: id created", identity)
+      dispatch({type: "IDENTITY_CREATED", identity})
+    })
+
     sync.on('document:created', project => {
       project = Init.project(project)
 
@@ -87,8 +92,9 @@ export default store => {
       const key = merge.key.toString('hex')
       dispatch({type: 'PEER_CONNECTED', key, id, info})
 
-      const {avatarKey} = info.peerInfo || {}
+      const {avatarKey,identity} = info.peerInfo || {}
       if (avatarKey) sync.openDocument(avatarKey)
+      if (identity) sync.openDocument(identity)
     })
 
     sync.on('merge:left', (merge, {id}) => {

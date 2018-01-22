@@ -184,6 +184,7 @@ const peerDisconnected = (state, key, id) =>
   // state.setIn(['peers', id, 'isConnected'], false)
 
 export default function (state = State(), action) {
+  console.log("DISPATCH",action)
   switch (action.type) {
     case 'STATE_LOADED':
       return stateLoaded(action.state)
@@ -246,6 +247,9 @@ export default function (state = State(), action) {
       return state.setIn(['peerInfo', 'name'], action.name)
     case 'SELF_AVATAR_SET':
       return state.setIn(['peerInfo', 'avatarKey'], action.key)
+    case 'IDENTITY_CREATED':
+      console.log("In reducer: identity", action)
+      return state.setIn(['peerInfo', 'identity'], action.identity)
 
     case 'PROJECT_CREATED':
       return state.setIn(['projects', action.project.get('id')], action.project)
@@ -255,6 +259,7 @@ export default function (state = State(), action) {
       return setProjectId(state, action.id);
 
     case 'PEER_CONNECTED':
+      console.log("PEER CONNECTED",action.info.peerInfo)
       return peerConnected(state, action.key, action.id, action.info)
     case 'SELF_CONNECTED':
       return selfConnected(state, action.key, action.id, action.writable)
