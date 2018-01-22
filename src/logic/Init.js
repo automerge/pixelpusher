@@ -3,10 +3,11 @@ import Automerge from 'automerge'
 import { DEFAULT_COLOR } from "../records/Project";
 
 const init = f => doc =>
-  Automerge.change(doc, f)
+  Automerge.change(doc, 'Initialize', f)
 
 export const project = init(pro => {
   pro.id = pro._actorId
+  pro.type = 'Project'
   pro.title = "Untitled"
   pro.rows = 16
   pro.columns = 16

@@ -2,18 +2,18 @@ import Automerge from 'automerge'
 import * as Init from './Init'
 
 export const setPixel = (frameIndex, pixelIndex, paletteId) =>
-  change(pro => {
+  change("Set pixel", pro => {
     pro.frames[frameIndex].pixels[pixelIndex] = paletteId
   })
 
 export const addFrame = () =>
-  change(pro => {
+  change("Add frame", pro => {
     pro.frames.push(Init.emptyFrame(pro.columns * pro.rows))
     resetFrameIntervals(pro.frames)
   })
 
 export const resize = (dimension, behavior) =>
-  change(pro => {
+  change("Resize", pro => {
     const delta = behavior === 'add' ? 1 : -1
     const columns = pro.columns
 
@@ -25,23 +25,23 @@ export const resize = (dimension, behavior) =>
   })
 
 export const deleteFrame = (frameIndex, activeFrameIndex) =>
-  change(pro => {
+  change("Delete frame", pro => {
     pro.frames.splice(frameIndex, 1)
     resetFrameIntervals(pro.frames)
   })
 
 export const resetFrame = frameIndex =>
-  change(pro => {
+  change("Reset frame", pro => {
     pro.frames[frameIndex].pixels.fill(null)
   })
 
 export const setFrameInterval = (frameIndex, interval) =>
-  change(pro => {
+  change("Set frame interval", pro => {
     pro.frames[frameIndex].interval = interval
   })
 
 export const cloneFrame = frameIndex =>
-  change(pro => {
+  change("Clone frame", pro => {
     const originalFrame = pro.frames[frameIndex]
     const frame = Init.emptyFrame(pro.columns * pro.rows)
     frame.pixels = originalFrame.pixels.map(x => x)
@@ -50,22 +50,22 @@ export const cloneFrame = frameIndex =>
   })
 
 export const setCellSize = cellSize =>
-  change(pro => {
+  change("Set cell size", pro => {
     pro.cellSize = cellSize
   })
 
 export const setSwatchColor = (index, color) =>
-  change(pro => {
+  change("Set swatch Color", pro => {
     pro.palette[index].color = color
   })
 
 export const addColorToPalette = color =>
-  change(pro => {
+  change("Add color to palette", pro => {
     pro.palette.push({color})
   })
 
 export const setTitle = title =>
-  change(pro => {
+  change("Set title", pro => {
     pro.title = title
   })
 
@@ -124,5 +124,5 @@ const resetFrameIntervals = frames => {
   });
 }
 
-const change = f => doc =>
-  Automerge.change(doc, f)
+const change = (message = null, f) => doc =>
+  Automerge.change(doc, message, f)
