@@ -1,18 +1,21 @@
 const EventEmitter = require('events')
 const Automerge = require('automerge')
-const MultiCore = require('hypermerge/multicore')
+const MultiCore = require('./MultiCore')
+const swarm = require('hypercore-archiver/swarm')
 
 module.exports = class HyperMerge extends EventEmitter {
-  constructor({path, onFork}) {
+  constructor({path, port, onFork}) {
     super()
 
     this.feeds = {}
     this.docs = {}
     // TODO allow ram:
     this.core = new MultiCore(path)
+    this._joinSwarm()
 
     // Allows setting a new id, etc when a document is forked:
     this.onFork = onFork || (() => {})
+    this.port = port || 3282
 
     this.core.ready(this._ready)
   }
@@ -94,6 +97,11 @@ module.exports = class HyperMerge extends EventEmitter {
 
   isOpened(hex) {
     return this.feed(hex).opened
+  }
+
+  isMissingDeps(hex) {
+    const deps = Automerge.getMissingDeps(this.document(hex))
+    return !!Object.keys(deps).length
   }
 
   document(hex = null) {
@@ -188,11 +196,34 @@ module.exports = class HyperMerge extends EventEmitter {
   }
 
   _applyChanges(hex, changes) {
-    return this.set(Automerge.applyChanges(this.document(hex), changes))
+    return this._setRemote(Automerge.applyChanges(this.document(hex), changes))
+  }
+
+  _setRemote(doc) {
+    this.set(doc)
+    if (!this.isMissingDeps(this.getHex(doc))) this.emit('document:updated', doc)
   }
 
   _ready = () => {
     this.emit('ready', this)
+  }
+
+  _joinSwarm() {
+    this.swarm = swarm(this.core.archiver, {
+      port: this.port,
+      encrypt: true,
+      userData: "foobar",
+    })
+    .on('listening', this._onListening)
+    .on('connection', this._onConnection)
+  }
+
+  _onConnection = (...args) => {
+    this._debug('_onConnection', ...args)
+  }
+
+  _onListening = (...args) => {
+    this._debug('_onListening', ...args)
   }
 
   _promise = f => {

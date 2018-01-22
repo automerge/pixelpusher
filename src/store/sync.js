@@ -47,7 +47,7 @@ export default store => {
     })
 
     whenChanged(store, getProject, project => {
-      sync.update(project)
+      if (sync.isWritable(project.get('id'))) sync.update(project)
     })
 
     whenChanged(store, state => state.projects.keySeq(), (ids, pIds) => {
@@ -76,7 +76,7 @@ export default store => {
     })
 
     sync.on('document:updated', project => {
-      // TODO this fires for my changes too
+      if (!project.get('id')) return
       dispatch({type: "REMOTE_PROJECT_UPDATED", project})
     })
 
