@@ -6,13 +6,15 @@ module.exports = class HyperMerge extends EventEmitter {
   constructor({path, onFork}) {
     super()
 
-    // TODO allow ram:
-    this.core = new MultiCore(path)
-    this.onFork = onFork || (() => {})
-    this.core.ready(this._ready)
-    this.core.joinSwarm()
     this.feeds = {}
     this.docs = {}
+    // TODO allow ram:
+    this.core = new MultiCore(path)
+
+    // Allows setting a new id, etc when a document is forked:
+    this.onFork = onFork || (() => {})
+
+    this.core.ready(this._ready)
   }
 
   any(f = () => true) {
