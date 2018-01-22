@@ -2,8 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 const CloneProject = (props) => {
-  // TODO fix cloning
-  return null
   const cloneProject = () => {
     props.dispatch({type: 'CLONE_CURRENT_PROJECT_CLICKED'});
   };

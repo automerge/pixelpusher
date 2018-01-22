@@ -3,7 +3,7 @@ import { deserializeState, serializeState } from './serialization';
 import State from '../records/State'
 
 const clientId = +(process.env.CLIENT_ID || 0)
-const STORAGE_KEY = `pixelpusher-v5/client-${clientId}`;
+const STORAGE_KEY = `pixelpusher-v6/client-${clientId}`;
 
 /*
  *  Storage data structure

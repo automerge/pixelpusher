@@ -47,6 +47,7 @@
     }
   },
   "dependencies": {
+    "automerge": "github:inkandswitch/automerge#pixelpusher-support",
     "base-emoji": "^2.0.1",
     "body-parser": "^1.18.2",
     "bs58": "^4.0.1",
@@ -67,7 +68,7 @@
     "html-webpack-plugin": "^2.30.1",
     "hypercore": "^6.11.0",
     "hyperdiscovery": "^7.0.0",
-    "hypermerge": "github:inkandswitch/hypermerge#89fc8e76b014e203923d7489f7c73a3edbce9cd9",
+    "hypermerge": "github:inkandswitch/hypermerge#using-hypercore-archiver",
     "immutable": "^3.8.2",
     "ipfs": "^0.27.3",
     "ipfs-pubsub-room": "^1.1.2",
@@ -83,6 +84,7 @@
     "precss": "^2.0.0",
     "pug": "^2.0.0-rc.4",
     "radium": "^0.19.6",
+    "random-access-file": "^1.8.1",
     "react": "^16.1.0",
     "react-addons-pure-render-mixin": "^15.6.2",
     "react-addons-shallow-compare": "^15.6.2",

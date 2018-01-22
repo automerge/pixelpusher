@@ -3,7 +3,7 @@ import { deserializeProject } from '../utils/serialization';
 import {getProject} from '../store/reducers/reducerHelpers'
 import Project from '../records/Project'
 import * as Init from '../logic/Init'
-import HyperSync from '../lib/HyperSync';
+import HyperMerge from '../lib/HyperMerge';
 
 export default store => {
   const {dispatch} = store
@@ -17,13 +17,20 @@ export default store => {
   })
 
   function initSync() {
-    const sync = global.sync = new HyperSync({
+    const sync = global.sync = new HyperMerge({
       peerInfo: store.getState().present.peerInfo.toJS(),
       port: 3282 + clientId,
-      path: `./.data/pixelpusher-v5/client-${clientId}`,
-    })
+      path: `./.data/pixelpusher-v6/client-${clientId}`,
+      onFork(project) {
+        project.id = project._actorId
+      },
+    }).once('ready', _syncReady)
+  }
 
-    if (Object.keys(sync.index).length === 0) {
+  function _syncReady(sync) {
+    sync.openAll()
+
+    if (!sync.any()) {
       dispatch({type: 'NEW_PROJECT_CLICKED'})
     }
 
@@ -32,41 +39,38 @@ export default store => {
     })
 
     whenChanged(store, state => state.createdProjectCount, shouldCreate => {
-      if (shouldCreate) sync.createDocument()
+      if (!shouldCreate) return
+
+      const project = Init.project(sync.create())
+
+      dispatch({type: "PROJECT_CREATED", project})
     })
 
     whenChanged(store, getProject, project => {
-      // NOTE whenChanged uses Immutable.is. This might not capture all changes
-      sync.updateDocument(project.get('id'), project)
+      sync.update(project)
     })
 
     whenChanged(store, state => state.projects.keySeq(), (ids, pIds) => {
       if (!pIds) return
 
       pIds.forEach(id => {
-        if (!ids.includes(id)) sync.deleteDocument(id)
+        if (!ids.includes(id)) sync.delete(id)
       })
     })
 
     whenChanged(store, state => state.clonedProjectId, id => {
       if (!id) return
 
-      // TODO make this real:
-      sync.cloneDocumentFromId(id)
+      const project = sync.fork(id)
+      dispatch({type: 'PROJECT_CLONED', project})
     })
 
     whenChanged(store, state => state.openingProjectId, id => {
       if (!id) return
-      sync.openDocument(id)
+      sync.open(id)
     })
 
-    sync.on('document:created', project => {
-      project = Init.project(project)
-
-      dispatch({type: "PROJECT_CREATED", project})
-    })
-
-    sync.on('document:opened', project => {
+    sync.on('document:ready', project => {
       if (!project.get('id')) return
       dispatch({type: "REMOTE_PROJECT_OPENED", project})
     })
