@@ -1,19 +1,34 @@
 .button {
   @mixin button gray;
 
-  &-tiny {
+  border-radius: 0;
+  cursor: pointer;
+
+  &-small {
     font-size: 1.7em !important;
     box-shadow: none;
-    color: white;
-    border-radius: 0;
-    cursor: pointer;
     padding: 0.1em;
     background-color: $color-mineShaft;
     border: 2px solid black;
-    border-width: 0 0 2px 2px;
+  }
+
+  &-tiny {
+    font-size: 1em !important;
+    box-shadow: none;
+    padding: 2px;
+    background-color: $color-mineShaft;
+    border: 1px solid black;
   }
 
   &-avatar {
     @mixin icon user-circle;
+  }
+
+  &-open {
+    @mixin icon open;
+  }
+
+  &-merge {
+    @mixin icon merge;
   }
 }

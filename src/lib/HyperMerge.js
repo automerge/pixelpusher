@@ -14,8 +14,6 @@ module.exports = class HyperMerge extends EventEmitter {
     this.core = new MultiCore(path)
     this._joinSwarm()
 
-    // Allows setting a new id, etc when a document is forked:
-    this.onFork = onFork || (() => {})
     this.port = port || 3282
 
     this.core.ready(this._ready)
@@ -78,7 +76,7 @@ module.exports = class HyperMerge extends EventEmitter {
   fork(hex) {
     let doc = this.find(hex)
     doc = Automerge.merge(this.create(), doc)
-    doc = Automerge.change(doc, `Forked from ${hex}`, this.onFork)
+    doc = Automerge.change(doc, `Forked from ${hex}`, () => {})
     this.update(doc)
     return doc
   }
@@ -154,7 +152,6 @@ module.exports = class HyperMerge extends EventEmitter {
 
     this._loadAllBlocks(hex)
     .then(() => {
-      this._debug('document:ready', hex)
       this.emit('document:ready', this.find(hex))
     })
 
@@ -234,7 +231,6 @@ module.exports = class HyperMerge extends EventEmitter {
     this.swarm = swarm(this.core.archiver, {
       port: this.port,
       encrypt: true,
-      userData: "foobar",
     })
     .on('listening', this._onListening)
     .on('connection', this._onConnection)
@@ -245,8 +241,8 @@ module.exports = class HyperMerge extends EventEmitter {
     this._loadMissingBlocks(hex)
   }
 
-  _onConnection = (...args) => {
-    this._debug('_onConnection', ...args)
+  _onConnection = (conn, info) => {
+    // this._debug('_onConnection', conn)
   }
 
   _onListening = (...args) => {

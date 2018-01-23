@@ -9,7 +9,7 @@ const CloneProject = (props) => {
   return (
     <div className="new-project">
       <button onClick={cloneProject}>
-        Clone
+        Fork
       </button>
     </div>
   );

@@ -21,7 +21,7 @@ class Modal extends React.Component {
   }
 
   getModalContent(props) {
-    const project = props.project.update("cellSize", x =>
+    const project = props.project && props.project.update("cellSize", x =>
       props.type === 'preview' ? x : 5)
 
     const options = generateRadioOptions(props);
@@ -35,7 +35,7 @@ class Modal extends React.Component {
             change={this.changeRadioType}
             options={options}
           />
-          {this.state.previewType !== 'spritesheet' ?
+          { project && this.state.previewType !== 'spritesheet' ?
             <div className="modal__preview--wrapper">
               <Preview
                 key="0"
@@ -153,8 +153,6 @@ class Modal extends React.Component {
   }
 
   render() {
-    if (!this.props.project) return null;
-
     const styles = {
       modal: {
         top: '50%',
@@ -183,6 +181,8 @@ class Modal extends React.Component {
 
 function generateRadioOptions(props) {
   const project = props.project;
+
+  if (!project) return []
   const frames = project.get('frames');
   let options;
 

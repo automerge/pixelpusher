@@ -84,3 +84,11 @@
 @define-extend user-circle {
   content: "\f007";
 }
+
+@define-extend open {
+  content: "\F0F6";
+}
+
+@define-extend merge {
+  content: "\F122";
+}

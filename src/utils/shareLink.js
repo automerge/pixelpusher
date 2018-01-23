@@ -5,7 +5,7 @@ export const shareLinkForProjectId = id =>
   withCrc("pxlpshr://" + encode(id))
 
 export const shareLinkForProject = project =>
-  shareLinkForProjectId(project.get('id'))
+  shareLinkForProjectId(project._actorId)
 
 export const keyFromShareLink = link => {
   const {key} = parts(link)

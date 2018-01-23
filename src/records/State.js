@@ -18,6 +18,8 @@ const State = Record({
   createdProjectCount: 0,
   clonedProjectId: null,
   openingProjectId: null,
+  mergingProjectId: null,
+  deletingProjectId: null,
   notifications: List(),
   activeFrameIndex: 0,
   duration: 1,

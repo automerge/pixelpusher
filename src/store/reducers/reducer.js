@@ -39,7 +39,7 @@ const stateLoaded = state =>
   state.set('isLoaded', true)
 
 const addProject = (state, project) =>
-  state.setIn(['projects', project.get('id')], project)
+  state.setIn(['projects', project._actorId], project)
 
 function changeDimensions(state, dimension, behavior) {
   return resizeProject(state, dimension, behavior)
@@ -248,8 +248,8 @@ export default function (state = State(), action) {
       return state.setIn(['peerInfo', 'avatarKey'], action.key)
 
     case 'PROJECT_CREATED':
-      return state.setIn(['projects', action.project.get('id')], action.project)
-        .set('currentProjectId', action.project.get('id'))
+      return state.setIn(['projects', action.project._actorId], action.project)
+        .set('currentProjectId', action.project._actorId)
 
     case 'SET_PROJECT':
       return setProjectId(state, action.id);
@@ -266,25 +266,32 @@ export default function (state = State(), action) {
       return setProject(state, action.project)
     case 'CLONE_CURRENT_PROJECT_CLICKED':
       return state.set('clonedProjectId', getProjectId(state))
+    case 'MERGE_PROJECT_CLICKED':
+      return state.set('mergingProjectId', action.id)
     case 'PROJECT_CLONED':
-      return sendNotification(setProject(state, action.project), "Cloned project.")
+      return setProject(state, action.project)
         .delete('clonedProjectId')
+    case 'PROJECT_MERGED':
+      return setProject(state, action.project)
+        .delete('mergedProjectId')
     case 'DELETE_PROJECT_CLICKED':
-      return sendNotification(state, 'Project deleted').update('projects', projects => projects.delete(action.id))
-        .update('currentProjectId', cId => cId === action.id ? null : cId)
+      return state.set('deletingProjectId', action.id)
+    case 'PROJECT_DELETED':
+      return sendNotification(state.update('projects', p => p.delete(action.id)), 'Project deleted')
+      .update('currentProjectId', cId => cId === action.id ? null : cId)
     case 'SHARED_PROJECT_ID_ENTERED':
       return state.projects.has(action.id)
         ? state.set('currentProjectId', action.id)
         : state.set('openingProjectId', action.id)
 
-      case 'REMOTE_PROJECT_OPENED':
-      case 'REMOTE_PROJECT_UPDATED':
-      return state.openingProjectId === action.project.get('id')
+    case 'REMOTE_PROJECT_OPENED':
+    case 'REMOTE_PROJECT_UPDATED':
+      return state.openingProjectId === action.project._actorId
         ? setProject(state, action.project).delete('openingProjectId')
         : addProject(state, action.project)
 
-      case 'PIXELS_IMPORTED':
-        return updateProject(state, Mutation.addFrameFromPixels(action.pixels, action.width, action.height))
+    case 'PIXELS_IMPORTED':
+      return updateProject(state, Mutation.addFrameFromPixels(action.pixels, action.width, action.height))
 
     default:
       return state;

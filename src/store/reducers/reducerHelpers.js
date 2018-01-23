@@ -17,8 +17,8 @@ export const getInProject = (state, path, value) => {
 
 export const setProject = (state, project) =>
   state
-  .setIn(['projects', project.get('id')], project)
-  .set('currentProjectId', project.get('id'))
+  .setIn(['projects', project._actorId], project)
+  .set('currentProjectId', project._actorId)
 
 export const getCurrentSwatch = state =>
   getInProject(state, ['palette', state.currentSwatchIndex]) || Map()

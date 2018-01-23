@@ -21,9 +21,6 @@ export default store => {
       peerInfo: store.getState().present.peerInfo.toJS(),
       port: 3282 + clientId,
       path: `./.data/pixelpusher-v6/client-${clientId}`,
-      onFork(project) {
-        project.id = project._actorId
-      },
     }).once('ready', _syncReady)
   }
 
@@ -47,15 +44,14 @@ export default store => {
     })
 
     whenChanged(store, getProject, project => {
-      if (sync.isWritable(project.get('id'))) sync.update(project)
+      if (sync.isWritable(project._actorId)) sync.update(project)
     })
 
-    whenChanged(store, state => state.projects.keySeq(), (ids, pIds) => {
-      if (!pIds) return
+    whenChanged(store, state => state.deletingProjectId, id => {
+      if (!id) return
 
-      pIds.forEach(id => {
-        if (!ids.includes(id)) sync.delete(id)
-      })
+      sync.delete(id)
+      dispatch({type: 'PROJECT_DELETED', id})
     })
 
     whenChanged(store, state => state.clonedProjectId, id => {
@@ -65,18 +61,27 @@ export default store => {
       dispatch({type: 'PROJECT_CLONED', project})
     })
 
+    whenChanged(store, state => state.mergingProjectId, id => {
+      if (!id) return
+
+      const currentId = store.getState().present.currentProjectId
+
+      const project = sync.merge(currentId, id)
+      dispatch({type: 'PROJECT_MERGED', project})
+    })
+
     whenChanged(store, state => state.openingProjectId, id => {
       if (!id) return
       sync.open(id)
     })
 
     sync.on('document:ready', project => {
-      if (!project.get('id')) return
+      if (!project._actorId) return
       dispatch({type: "REMOTE_PROJECT_OPENED", project})
     })
 
     sync.on('document:updated', project => {
-      if (!project.get('id')) return
+      if (!project._actorId) return
       dispatch({type: "REMOTE_PROJECT_UPDATED", project})
     })
 
