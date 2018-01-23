@@ -9,6 +9,7 @@ module.exports = class HyperMerge extends EventEmitter {
 
     this.feeds = {}
     this.docs = {}
+    this.requestedDeps = {}
     // TODO allow ram:
     this.core = new MultiCore(path)
     this._joinSwarm()
@@ -22,6 +23,10 @@ module.exports = class HyperMerge extends EventEmitter {
 
   any(f = () => true) {
     return Object.values(this.docs).some(f)
+  }
+
+  length(hex) {
+    return this.feed(hex).length
   }
 
   find(hex) {
@@ -147,8 +152,7 @@ module.exports = class HyperMerge extends EventEmitter {
 
     feed.on('download', this._onDownload(hex))
 
-    this._getAllBlocks(hex)
-    .then(blocks => this._applyBlocks(hex, blocks))
+    this._loadAllBlocks(hex)
     .then(() => {
       this._debug('document:ready', hex)
       this.emit('document:ready', this.find(hex))
@@ -157,21 +161,36 @@ module.exports = class HyperMerge extends EventEmitter {
     return feed
   }
 
-  _getAllBlocks(hex) {
+  _loadAllBlocks(hex) {
     return this._getOwnBlocks(hex)
-    .then(blocks =>
-      // TODO not efficient:
-      this._getDependentBlocks(hex)
-      .then(depBlocks =>
-        blocks.concat(depBlocks)))
+    .then(blocks => {
+      this._maxRequested(hex, hex, blocks.length - 1)
+      return this._applyBlocks(hex, blocks)
+    })
+    .then(() => this._loadMissingBlocks(hex))
   }
 
-  _getOwnBlocks(hex, last = null) {
-    const feed = this.feed(hex)
-    last = last || (feed.length - 1)
+  _loadMissingBlocks(hex) {
+    const deps = Automerge.getMissingDeps(this.document(hex))
 
-    return Promise.all(Array(last + 1).fill().map((_, i) =>
-      this._getBlock(hex, i)))
+    return Promise.all(Object.keys(deps).map(actor => {
+      const last = deps[actor]
+      const first = this._maxRequested(hex, actor, last)
+
+      return this._getBlockRange(actor, first, last)
+      .then(blocks => this._applyBlocks(hex, blocks))
+    }))
+  }
+
+  _getOwnBlocks(hex) {
+    return this._getBlockRange(hex, 0, this.length(hex) - 1)
+  }
+
+  _getBlockRange(hex, first, last) {
+    const length = last - first + 1
+
+    return Promise.all(Array(length).fill().map((_, i) =>
+      this._getBlock(hex, first + i)))
   }
 
   _getBlock(hex, index) {
@@ -184,11 +203,7 @@ module.exports = class HyperMerge extends EventEmitter {
     const deps = Automerge.getMissingDeps(this.document(hex))
 
     return Promise.all(Object.keys(deps).map(hx =>
-      this._getOwnBlocks(hx, deps[hx])))
-  }
-
-  _onDownload = hex => (index, data) => {
-    this._applyBlocks(hex, [data])
+      this._getBlocks(hx, deps[hx])))
   }
 
   _applyBlocks(hex, blocks) {
@@ -197,6 +212,13 @@ module.exports = class HyperMerge extends EventEmitter {
 
   _applyChanges(hex, changes) {
     return this._setRemote(Automerge.applyChanges(this.document(hex), changes))
+  }
+
+  _maxRequested(hex, actor, max) {
+    if (!this.requestedDeps[hex]) this.requestedDeps[hex] = {}
+    const current = this.requestedDeps[hex][actor] || 0
+    this.requestedDeps[hex][actor] = Math.max(max, current)
+    return current
   }
 
   _setRemote(doc) {
@@ -216,6 +238,11 @@ module.exports = class HyperMerge extends EventEmitter {
     })
     .on('listening', this._onListening)
     .on('connection', this._onConnection)
+  }
+
+  _onDownload = hex => (index, data) => {
+    this._applyBlocks(hex, [data])
+    this._loadMissingBlocks(hex)
   }
 
   _onConnection = (...args) => {
