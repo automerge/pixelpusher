@@ -16,18 +16,31 @@ export default store => {
     if (isLoaded) initSync()
   })
 
+  function identityPump(key, id) {
+    id.once('ready', () => {
+      dispatch({type: 'IDENTITY_UPDATE', key, identity: id.doc.get().toJS() })
+      id.doc.registerHandler(doc => {
+        dispatch({type: 'IDENTITY_UPDATE', key, identity: id.doc.get().toJS() })
+      })
+    })
+  }
+
   function initSync() {
     const sync = global.sync = new HyperSync({
       peerInfo: store.getState().present.peerInfo.toJS(),
       port: 3282 + clientId,
-      path: `./.data/pixelpusher-v5/client-${clientId}`,
+      path: `./.data/pixelpusher-v6/client-${clientId}`,
     })
+
+    sync.setupIdentity(identityPump)
 
     if (Object.keys(sync.index).length === 0) {
       dispatch({type: 'NEW_PROJECT_CLICKED'})
     }
 
+
     whenChanged(store, state => state.peerInfo, info => {
+      console.log("PEER INFO CHANGED")
       sync.setPeerInfo(info)
     })
 
@@ -62,7 +75,9 @@ export default store => {
 
     sync.on('identity:created', identity => {
       console.log("sync: id created", identity)
-      dispatch({type: "IDENTITY_CREATED", identity})
+      let key = identity.key.toString("hex")
+      identityPump(key, identity)
+      dispatch({type: "IDENTITY_CREATED", key})
     })
 
     sync.on('document:created', project => {
@@ -94,7 +109,7 @@ export default store => {
 
       const {avatarKey,identity} = info.peerInfo || {}
       if (avatarKey) sync.openDocument(avatarKey)
-      if (identity) sync.openDocument(identity)
+      if (identity) identityPump(identity, sync.openDocument(identity))
     })
 
     sync.on('merge:left', (merge, {id}) => {

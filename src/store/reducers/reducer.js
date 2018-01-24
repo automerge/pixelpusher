@@ -11,6 +11,7 @@ import {project} from '../../records/Project'
 import State from '../../records/State'
 import Peer from '../../records/Peer'
 import PeerInfo from '../../records/PeerInfo'
+import Identity from '../../records/Identity'
 
 const getPalette = state =>
   getProject(state).get('palette');
@@ -176,6 +177,10 @@ function changeFrameInterval(state, frameIndex, interval) {
 const peerConnected = (state, key, id, info) =>
   state.setIn(['peers', id], Peer({key, id, isConnected: true, info: PeerInfo(info.peerInfo)}))
 
+const identityUpdated = (state, key, identity) =>
+  state.setIn(['identities', key], Identity(identity))
+
+
 const selfConnected = (state, key, id, canEdit) =>
   state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit, info: state.peerInfo}))
 
@@ -258,8 +263,10 @@ export default function (state = State(), action) {
     case 'SET_PROJECT':
       return setProjectId(state, action.id);
 
+    case 'IDENTITY_UPDATE':
+      return identityUpdated(state, action.key, action.identity)
+
     case 'PEER_CONNECTED':
-      console.log("PEER CONNECTED",action.info.peerInfo)
       return peerConnected(state, action.key, action.id, action.info)
     case 'SELF_CONNECTED':
       return selfConnected(state, action.key, action.id, action.writable)

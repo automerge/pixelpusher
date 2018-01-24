@@ -13,22 +13,34 @@ export default class HyperSync extends EventEmitter {
     this._loadIndex()
     this._readIndex()
     this.peerInfo = peerInfo || {name: "Unknown"}
+  }
 
-    if (peerInfo.identity) {
-      this.identityMerge = this.openDocument(peerInfo.identity)
+  setupIdentity(cb) {
+    if (this.peerInfo.identity) {
+      this.identityMerge = this.openDocument(this.peerInfo.identity)
     } else {
       this.identityMerge = this.createDocument()
-      this.emit('identity:created', this.identityMerge.key.toString("hex"))
+      this.identityMerge.once('ready', () =>
+        this.emit('identity:created', this.identityMerge)
+      )
     }
+    cb(this.identityMerge.key.toString('hex'),this.identityMerge)
   }
 
   setPeerInfo(pi) {
     this.peerInfo = pi.toJS()
+    console.log("Inside set peer info")
     if (this.identityMerge) {
       // FIXME - why does this get called when identity merge is null sometimes
-      var doc = this.identityMerge.doc.get()
-      doc.name = pi.name
-      doc.avatarKey = pi.avatarKey
+      this.identityMerge.ready( () => {
+        console.log("ok its ready")
+//        var doc = this.identityMerge.doc.get()
+        this.identityMerge.change(doc => {
+          console.log("change!")
+          doc.name = pi.name
+          doc.avatarKey = pi.avatarKey
+        })
+      })
     }
   }
 
@@ -38,10 +50,10 @@ export default class HyperSync extends EventEmitter {
     })
   }
 
-  openDocument(key, cb) {
+  openDocument(key) {
     return this._createMerge(key, merge => {
       this.emit('document:opened', merge.doc.get(), merge)
-    }, cb)
+    })
   }
 
   updateDocument(key, doc) {
@@ -59,7 +71,7 @@ export default class HyperSync extends EventEmitter {
 
   _createMerge(key, cb) {
     // FIXME not sure why the callback is not called when the key exists - I didnt want to change this behavior so I added a second callback
-    if (key && this.merges[key]) return
+    if (key && this.merges[key]) return this.merges[key]
 
 
     const path = key
@@ -123,8 +135,6 @@ export default class HyperSync extends EventEmitter {
       }
 
       this.emit('merge:joined', merge, {id, info})
-
-      console.log("MERGE JOINED",info.peerInfo)
 
       peer.once('close', () => {
         this.emit('merge:left', merge, {id, info})
