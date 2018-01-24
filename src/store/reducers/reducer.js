@@ -180,7 +180,6 @@ const peerConnected = (state, key, id, info) =>
 const identityUpdated = (state, key, identity) =>
   state.setIn(['identities', key], Identity(identity))
 
-
 const selfConnected = (state, key, id, canEdit) =>
   state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit, info: state.peerInfo}))
 
@@ -189,7 +188,6 @@ const peerDisconnected = (state, key, id) =>
   // state.setIn(['peers', id, 'isConnected'], false)
 
 export default function (state = State(), action) {
-  console.log("DISPATCH",action)
   switch (action.type) {
     case 'STATE_LOADED':
       return stateLoaded(action.state)
@@ -253,8 +251,7 @@ export default function (state = State(), action) {
     case 'SELF_AVATAR_SET':
       return state.setIn(['peerInfo', 'avatarKey'], action.key)
     case 'IDENTITY_CREATED':
-      console.log("In reducer: identity", action)
-      return state.setIn(['peerInfo', 'identity'], action.identity)
+      return state.setIn(['peerInfo', 'identity'], action.key)
 
     case 'PROJECT_CREATED':
       return state.setIn(['projects', action.project.get('id')], action.project)
@@ -264,7 +261,7 @@ export default function (state = State(), action) {
       return setProjectId(state, action.id);
 
     case 'IDENTITY_UPDATE':
-      return identityUpdated(state, action.key, action.identity)
+      return identityUpdated(state, action.key, action.project)
 
     case 'PEER_CONNECTED':
       return peerConnected(state, action.key, action.id, action.info)

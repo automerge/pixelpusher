@@ -16,23 +16,19 @@ export default store => {
     if (isLoaded) initSync()
   })
 
-  function identityPump(key, id) {
-    id.once('ready', () => {
-      dispatch({type: 'IDENTITY_UPDATE', key, identity: id.doc.get().toJS() })
-      id.doc.registerHandler(doc => {
-        dispatch({type: 'IDENTITY_UPDATE', key, identity: id.doc.get().toJS() })
-      })
-    })
-  }
-
   function initSync() {
+    let _identities = []
+
     const sync = global.sync = new HyperSync({
       peerInfo: store.getState().present.peerInfo.toJS(),
       port: 3282 + clientId,
       path: `./.data/pixelpusher-v6/client-${clientId}`,
     })
 
-    sync.setupIdentity(identityPump)
+    sync.setupIdentity((key,_) => {
+      dispatch({type: "IDENTITY_CREATED", key})
+      _identities.push(key)
+    })
 
     if (Object.keys(sync.index).length === 0) {
       dispatch({type: 'NEW_PROJECT_CLICKED'})
@@ -40,7 +36,6 @@ export default store => {
 
 
     whenChanged(store, state => state.peerInfo, info => {
-      console.log("PEER INFO CHANGED")
       sync.setPeerInfo(info)
     })
 
@@ -73,13 +68,6 @@ export default store => {
       sync.openDocument(id)
     })
 
-    sync.on('identity:created', identity => {
-      console.log("sync: id created", identity)
-      let key = identity.key.toString("hex")
-      identityPump(key, identity)
-      dispatch({type: "IDENTITY_CREATED", key})
-    })
-
     sync.on('document:created', project => {
       project = Init.project(project)
 
@@ -91,9 +79,14 @@ export default store => {
       dispatch({type: "REMOTE_PROJECT_OPENED", project})
     })
 
-    sync.on('document:updated', project => {
+    sync.on('document:updated', (project,merge) => {
       // TODO this fires for my changes too
-      dispatch({type: "REMOTE_PROJECT_UPDATED", project})
+      let key = merge.key.toString('hex')
+      if (_identities.includes(key)) {
+        dispatch({type: 'IDENTITY_UPDATE', key, project })
+      } else {
+        dispatch({type: "REMOTE_PROJECT_UPDATED", project})
+      }
     })
 
     sync.on('merge:listening', merge => {
@@ -109,7 +102,7 @@ export default store => {
 
       const {avatarKey,identity} = info.peerInfo || {}
       if (avatarKey) sync.openDocument(avatarKey)
-      if (identity) identityPump(identity, sync.openDocument(identity))
+      if (identity) _identities.push(sync.openDocument(identity).key.toString('hex'))
     })
 
     sync.on('merge:left', (merge, {id}) => {
