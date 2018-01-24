@@ -270,7 +270,7 @@ export default function (state = State(), action) {
       return state.set('mergingProjectId', action.id)
     case 'PROJECT_CLONED':
       return setProject(state, action.project)
-        .delete('clonedProjectId')
+      .delete('clonedProjectId')
     case 'PROJECT_MERGED':
       return setProject(state, action.project)
         .delete('mergedProjectId')
@@ -281,14 +281,14 @@ export default function (state = State(), action) {
       .update('currentProjectId', cId => cId === action.id ? null : cId)
     case 'SHARED_PROJECT_ID_ENTERED':
       return state.projects.has(action.id)
-        ? state.set('currentProjectId', action.id)
-        : state.set('openingProjectId', action.id)
+      ? state.set('currentProjectId', action.id)
+      : state.set('openingProjectId', action.id)
 
     case 'REMOTE_PROJECT_OPENED':
     case 'REMOTE_PROJECT_UPDATED':
       return state.openingProjectId === action.project._actorId
-        ? setProject(state, action.project).delete('openingProjectId')
-        : addProject(state, action.project)
+      ? setProject(state, action.project).delete('openingProjectId')
+      : addProject(state, action.project)
 
     case 'PIXELS_IMPORTED':
       return updateProject(state, Mutation.addFrameFromPixels(action.pixels, action.width, action.height))

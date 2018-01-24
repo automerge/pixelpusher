@@ -22,7 +22,7 @@ class Presence extends React.Component {
 
     const relatedProjects = projects.valueSeq().filter(project =>
       project.get('relativeId') && project.get('relativeId') === currentProject.get('relativeId'))
-      .sortBy(project => [project !== currentProject, project._actorId])
+      .sortBy(project => project._actorId)
 
     return (
       <div>

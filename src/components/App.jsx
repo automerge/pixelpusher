@@ -17,6 +17,7 @@ import CloneProjectContainer from './CloneProject';
 import SimpleNotificationContainer from './SimpleNotification';
 import SimpleSpinnerContainer from './SimpleSpinner';
 import PresenceContainer from './PresenceContainer';
+import VersionsContainer from './VersionsContainer';
 import DebugInfoContainer from './DebugInfoContainer';
 import ShareLinkContainer from './ShareLinkContainer';
 import ProjectInfoContainer from './ProjectInfoContainer';
@@ -193,7 +194,7 @@ export default class App extends React.Component {
     return (
       <div className="app__right-side">
         <div>
-          <PresenceContainer />
+          <VersionsContainer />
           <DebugInfoContainer />
         </div>
       </div>

@@ -74,11 +74,10 @@ module.exports = class HyperMerge extends EventEmitter {
   }
 
   fork(hex) {
-    let doc = this.find(hex)
-    doc = Automerge.merge(this.create(), doc)
+    let doc = this.create()
+    doc = Automerge.merge(doc, this.find(hex))
     doc = Automerge.change(doc, `Forked from ${hex}`, () => {})
-    this.update(doc)
-    return doc
+    return this.update(doc)
   }
 
   merge(hex, hex2) {
@@ -219,8 +218,9 @@ module.exports = class HyperMerge extends EventEmitter {
   }
 
   _setRemote(doc) {
+    const hex = this.getHex(doc)
     this.set(doc)
-    if (!this.isMissingDeps(this.getHex(doc))) this.emit('document:updated', doc)
+    if (!this.isMissingDeps(hex)) this.emit('document:updated', doc)
   }
 
   _ready = () => {

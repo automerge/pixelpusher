@@ -1,0 +1,29 @@
+.version {
+  display: flex;
+  align-items: center;
+  border: 3px solid #757575;
+  margin-top: 5px;
+  background-color: #4b4949;
+
+  &-selected {
+    border-color: #FF9800;
+  }
+
+  &__preview {
+    width: 48px;
+    height: 48px;
+    background-color: #313131;
+    overflow: hidden;
+    border-right: 3px solid #555;
+
+    .preview {
+      position: relative;
+      top: -3px;
+      left: -3px;
+    }
+  }
+
+  &__text {
+    margin-left: 5px;
+  }
+}

@@ -76,12 +76,12 @@ export default store => {
     })
 
     sync.on('document:ready', project => {
-      if (!project._actorId) return
+      if (!project.get('relativeId')) return
       dispatch({type: "REMOTE_PROJECT_OPENED", project})
     })
 
     sync.on('document:updated', project => {
-      if (!project._actorId) return
+      if (!project.get('relativeId')) return
       dispatch({type: "REMOTE_PROJECT_UPDATED", project})
     })
 
