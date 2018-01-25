@@ -20,7 +20,7 @@ export default store => {
     const sync = global.sync = new HyperMerge({
       peerInfo: store.getState().present.peerInfo.toJS(),
       port: 3282 + clientId,
-      path: `./.data/pixelpusher-v6/client-${clientId}`,
+      path: `./.data/pixelpusher-v7/client-${clientId}`,
     }).once('ready', _syncReady)
   }
 
