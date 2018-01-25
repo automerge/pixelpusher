@@ -2687,7 +2687,7 @@ label.picker__rows {
   }
 
 .version__preview {
-    width: 48px;
+    width: 51px; // Includes border width
     height: 48px;
     background-color: #313131;
     overflow: hidden;
