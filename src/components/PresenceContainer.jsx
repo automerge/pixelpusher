@@ -22,7 +22,6 @@ class Presence extends React.Component {
 
           const avatarKey = (identities.get(peer.info.identity) || {}).avatarKey
           const name = (identities.get(peer.info.identity) || {}).name
-          console.log("ID",identities.toJS())
 
           return <div className="peer" key={peer.id} style={{
             opacity: peer.isConnected ? 1 : 0.3
