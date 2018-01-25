@@ -102,13 +102,21 @@ const resizePixels = (pixels, dimension, behavior, columns) => {
 
         return pixels
       } else {
-        return pixels.filter((_, i) => (i + 1) % columns !== 0)
+        const size = pixels.length - 1;
+
+        for (let i = size; i > 0; i -= columns) {
+          pixels.splice(i, 1);
+        }
+
+        return pixels
       }
     } else if (dimension === 'rows') {
       if (behavior === 'add') {
-        return pixels.concat(Init.pixels(columns))
+        pixels.push(...Init.pixels(columns))
+        return pixels
       } else {
-        return pixels.slice(0, -columns)
+        pixels.splice(-1, columns)
+        return pixels
       }
     }
   }
