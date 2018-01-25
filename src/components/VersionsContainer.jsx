@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { shareLinkForProjectId } from '../utils/shareLink';
 import { getProjectId } from '../store/reducers/reducerHelpers';
 import Version from './Version';
-import {related} from '../logic/Versions'
+import {related, clock} from '../logic/Versions'
 
 class Versions extends React.Component {
   render() {
-    const {projectId, projects, dispatch} = this.props
+    const {projectId, projects} = this.props
     if (!projectId) return null
 
     const currentProject = projects.get(projectId)
+    const baseIndent = projects.valueSeq().map(p => clock(p).size).min()
 
     if (!currentProject) return null
 
@@ -19,15 +20,24 @@ class Versions extends React.Component {
     return (
       <div>
         <h3>Versions:</h3>
-        {relatedProjects.map(project =>
-          <Version
-            key={project._actorId}
-            dispatch={dispatch}
-            currentProject={currentProject}
-            project={project}
-          />
-        )}
+        {relatedProjects.map(this.renderVersion(baseIndent))}
       </div>
+    )
+  }
+
+  renderVersion = baseIndent => project => {
+    const {dispatch, projects, projectId} = this.props
+    const currentProject = projects.get(projectId)
+    const indent = clock(project).size - baseIndent
+
+    return (
+      <Version
+        key={project._actorId}
+        indent={indent}
+        dispatch={dispatch}
+        currentProject={currentProject}
+        project={project}
+      />
     )
   }
 }

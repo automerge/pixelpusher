@@ -7,7 +7,7 @@ import * as Versions from '../logic/Versions'
 
 export default class Version extends React.Component {
   render() {
-    const {currentProject, project} = this.props
+    const {currentProject, project, indent} = this.props
     const isCurrent = currentProject === project
 
     const isSame = is(project, currentProject)
@@ -20,6 +20,7 @@ export default class Version extends React.Component {
         })}
         onClick={this.openProject(project._actorId)}
         key={project._actorId}
+        style={{marginLeft: indent * 5}}
       >
         <div className="version__preview" style={{borderColor: color}}>
           { project
