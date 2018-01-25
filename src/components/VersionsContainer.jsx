@@ -11,7 +11,6 @@ class Versions extends React.Component {
     if (!projectId) return null
 
     const currentProject = projects.get(projectId)
-    const baseIndent = projects.valueSeq().map(p => clock(p).size).min()
 
     if (!currentProject) return null
 
@@ -20,20 +19,18 @@ class Versions extends React.Component {
     return (
       <div>
         <h3>Versions:</h3>
-        {relatedProjects.map(this.renderVersion(baseIndent))}
+        {relatedProjects.map(this.renderVersion)}
       </div>
     )
   }
 
-  renderVersion = baseIndent => project => {
+  renderVersion = project => {
     const {dispatch, projects, projectId} = this.props
     const currentProject = projects.get(projectId)
-    const indent = clock(project).size - baseIndent
 
     return (
       <Version
         key={project._actorId}
-        indent={indent}
         dispatch={dispatch}
         currentProject={currentProject}
         project={project}

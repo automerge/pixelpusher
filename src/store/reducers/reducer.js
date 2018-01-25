@@ -293,6 +293,12 @@ export default function (state = State(), action) {
     case 'PIXELS_IMPORTED':
       return updateProject(state, Mutation.addFrameFromPixels(action.pixels, action.width, action.height))
 
+    case 'MERGE_PREVIEW_STARTED':
+      return state.set('mergePreviewProjectId', action.id)
+
+    case 'MERGE_PREVIEW_ENDED':
+      return state.delete('mergePreviewProjectId')
+
     default:
       return state;
   }

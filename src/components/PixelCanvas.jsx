@@ -1,4 +1,5 @@
 import React from 'react';
+import Automerge from 'automerge';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../store/actions/actionCreators';
@@ -6,7 +7,7 @@ import GridWrapper from './GridWrapper';
 import { getProject } from '../store/reducers/reducerHelpers';
 
 const PixelCanvas = (props) => {
-  const {project, activeFrameIndex} = props;
+  let {project, activeFrameIndex} = props;
 
   if (!project) return <div>Loading...</div>;
 
@@ -43,10 +44,15 @@ const PixelCanvas = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const project = getProject(state.present);
+  const {mergePreviewProjectId, projects} = state.present;
+  const project =
+    mergePreviewProjectId
+    ? Automerge.merge(getProject(state.present), projects.get(mergePreviewProjectId))
+    : getProject(state.present);
 
   return {
     project,
+    mergePreviewProjectId: state.present.mergePreviewProjectId,
     activeFrameIndex: state.present.activeFrameIndex,
     eyedropperOn: state.present.eyedropperOn,
     eraserOn: state.present.eraserOn,

@@ -7,11 +7,12 @@ import * as Versions from '../logic/Versions'
 
 export default class Version extends React.Component {
   render() {
-    const {currentProject, project, indent} = this.props
+    const {currentProject, project} = this.props
     const isCurrent = currentProject === project
 
     const isSame = is(project, currentProject)
     const color = Versions.color(project)
+    const id = project._actorId
 
     return (
       <div
@@ -20,7 +21,6 @@ export default class Version extends React.Component {
         })}
         onClick={this.openProject(project._actorId)}
         key={project._actorId}
-        style={{marginLeft: indent * 5}}
       >
         <div className="version__preview" style={{borderColor: color}}>
           { project
@@ -36,11 +36,17 @@ export default class Version extends React.Component {
 
           { isCurrent
             ? null
-            : <Button tiny icon="merge" disabled={isSame} onClick={this.mergeProject(project._actorId)} /> }
+            : <Button tiny
+                icon="merge"
+                disabled={isSame}
+                onClick={this.mergeProject(id)}
+                onMouseEnter={this.preview(id)}
+                onMouseLeave={this.cancelPreview(id)}
+              /> }
 
           { isCurrent
             ? null
-            : <Button tiny icon="delete" onClick={this.deleteProject(project._actorId)} /> }
+            : <Button tiny icon="delete" onClick={this.deleteProject(id)} /> }
         </div>
       </div>
     )
@@ -59,5 +65,15 @@ export default class Version extends React.Component {
   mergeProject = id => e => {
     e.stopPropagation()
     this.props.dispatch({type: 'MERGE_PROJECT_CLICKED', id})
+  }
+
+  preview = id => e => {
+    e.stopPropagation()
+    this.props.dispatch({type: 'MERGE_PREVIEW_STARTED', id})
+  }
+
+  cancelPreview = id => e => {
+    e.stopPropagation()
+    this.props.dispatch({type: 'MERGE_PREVIEW_ENDED', id})
   }
 }

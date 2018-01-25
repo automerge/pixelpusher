@@ -16,6 +16,7 @@ const State = Record({
   bucketOn: false,
   loading: false,
   createdProjectCount: 0,
+  mergePreviewProjectId: null,
   clonedProjectId: null,
   openingProjectId: null,
   mergingProjectId: null,
