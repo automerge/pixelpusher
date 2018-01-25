@@ -5,52 +5,37 @@ import { shareLinkForProjectId } from '../utils/shareLink';
 import { getProjectId } from '../store/reducers/reducerHelpers';
 import Field from './Field';
 import Preview from './Preview';
-import Button from './Button';
 
 class Presence extends React.Component {
   render() {
     const {projectId, projects, peerInfo, dispatch} = this.props
     if (!projectId) return null
 
-    const currentProject = projects.get(projectId)
-
-    if (!currentProject) return null
-
-    // const peers = this.props.peers.valueSeq()
-    //   .filter(({key}) => key === projectId)
-    //   .sortBy(p => !p.isSelf)
-
-    const relatedProjects = projects.valueSeq().filter(project =>
-      project.get('relativeId') && project.get('relativeId') === currentProject.get('relativeId'))
-      .sortBy(project => project._actorId)
+    const peers = this.props.peers.valueSeq()
+      .filter(({key}) => key === projectId)
+      .sortBy(p => !p.isSelf)
 
     return (
       <div>
-        <h3>Versions:</h3>
-        {relatedProjects.map(project =>
-          <div
-            className="peer"
-            onClick={this.openProject(project._actorId)}
-            key={project._actorId}
-            style={{
-              // opacity: peer.isConnected ? 1 : 0.3
-            }}
-          >
+        <h3>Collaborators:</h3>
+        {peers.map(peer =>
+          <div className="peer" key={peer.id} style={{
+            opacity: peer.isConnected ? 1 : 0.3
+          }}>
             <div className="peer__avatar">
-              { project
+              { peer.info.avatarKey && projects.get(peer.info.avatarKey)
                 ? <Preview
                     animate
                     frameIndex={0}
                     duration={1}
-                    project={project.set('cellSize', 3)}
+                    project={projects.get(peer.info.avatarKey).set('cellSize', 3)}
                   />
                 : null}
             </div>
             <div className="peer__text">
-
-              { currentProject === project
-                ? null
-                : <Button tiny icon="merge" onClick={this.mergeProject(project._actorId)} /> }
+              {peer.canEdit ? "+" : null}
+              {peer.info.name}
+              {peer.isSelf ? " (you)" : null}
             </div>
           </div>
         )}
@@ -61,16 +46,6 @@ class Presence extends React.Component {
         />
       </div>
     )
-  }
-
-  openProject = id => e => {
-    e.stopPropagation()
-    this.props.dispatch({type: 'SET_PROJECT', id})
-  }
-
-  mergeProject = id => e => {
-    e.stopPropagation()
-    this.props.dispatch({type: 'MERGE_PROJECT_CLICKED', id})
   }
 }
 
