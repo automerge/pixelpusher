@@ -18,6 +18,10 @@
     padding: 2px;
     background-color: $color-mineShaft;
     border: 1px solid black;
+
+    &:active {
+      transform: translate(0, 1px);
+    }
   }
 
   &-disabled,

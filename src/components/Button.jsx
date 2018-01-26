@@ -4,7 +4,7 @@ import {clipboard} from 'electron'
 
 export default class Button extends React.Component {
   render() {
-    const {tiny, icon, disabled, onClick, ...rest} = this.props
+    const {tiny, icon, disabled, onClick, onMouseEnter, onMouseLeave, ...rest} = this.props
 
     return (
       <button
@@ -14,6 +14,8 @@ export default class Button extends React.Component {
           [`button-${icon}`]: icon,
         })}
         onClick={disabled ? null : onClick}
+        onMouseEnter={disabled ? null : onMouseEnter}
+        onMouseLeave={disabled ? null : onMouseLeave}
         {...rest}
       />
     )

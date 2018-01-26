@@ -1,5 +1,4 @@
 import React from 'react'
-import {is} from 'immutable'
 import Preview from './Preview';
 import Button from './Button';
 import classnames from 'classnames'
@@ -10,7 +9,7 @@ export default class Version extends React.Component {
     const {currentProject, project} = this.props
     const isCurrent = currentProject === project
 
-    const isSame = is(project, currentProject)
+    const isUpstream = Versions.isUpstream(project, currentProject)
     const color = Versions.color(project)
     const id = project._actorId
 
@@ -32,21 +31,27 @@ export default class Version extends React.Component {
               />
             : null}
         </div>
-        <div className="version__text">
 
-          { isCurrent
-            ? null
-            : <Button tiny
-                icon="merge"
-                disabled={isSame}
-                onClick={this.mergeProject(id)}
-                onMouseEnter={this.preview(id)}
-                onMouseLeave={this.cancelPreview(id)}
-              /> }
+        <div className="version__main">
+          <div className="version__buttons">
+            { sync.isWritable(project._actorId)
+              ? " "
+              : "Read-only"}
 
-          { isCurrent
-            ? null
-            : <Button tiny icon="delete" onClick={this.deleteProject(id)} /> }
+            <Button tiny
+              icon="merge"
+              disabled={isUpstream}
+              onClick={this.mergeProject(id)}
+              onMouseEnter={this.preview(id)}
+              onMouseLeave={this.cancelPreview(id)}
+            />
+
+            <Button tiny icon="delete" onClick={this.deleteProject(id)} />
+          </div>
+          <div className="version__text">
+            {project._actorId.slice(0, 6)}
+          </div>
+
         </div>
       </div>
     )

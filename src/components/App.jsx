@@ -4,7 +4,6 @@ import CellSizeContainer from './CellSize';
 import ColorPickerContainer from './ColorPicker';
 import ModalContainer from './Modal';
 import DimensionsContainer from './Dimensions';
-import CssDisplayContainer from './CssDisplay';
 import DurationContainer from './Duration';
 import EraserContainer from './Eraser';
 import BucketContainer from './Bucket';
@@ -87,9 +86,6 @@ export default class App extends React.Component {
               </div>
             </div>
             {this.renderRightSide()}
-          </div>
-          <div className="css-container">
-            <CssDisplayContainer />
           </div>
 
           <ModalContainer
