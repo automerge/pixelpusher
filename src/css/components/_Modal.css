@@ -22,3 +22,7 @@
     display: table;
   }
 }
+
+.ReactModal__Overlay {
+  z-index: 100;
+}
