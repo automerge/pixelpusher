@@ -18,8 +18,11 @@ class Versions extends React.Component {
 
     return (
       <div>
-        <h3>Versions:</h3>
+        <h3>Versions</h3>
         {relatedProjects.map(this.renderVersion)}
+        <div className="version version-new" onClick={this.fork}>
+          + New version
+        </div>
       </div>
     )
   }
@@ -36,6 +39,10 @@ class Versions extends React.Component {
         project={project}
       />
     )
+  }
+
+  fork = e => {
+    this.props.dispatch({type: 'FORK_CURRENT_PROJECT_CLICKED'})
   }
 }
 

@@ -7,6 +7,7 @@ import {
   setProject, getProjectId, getCurrentColor,
 } from './reducerHelpers';
 import * as Mutation from '../../logic/Mutation'
+import * as Versions from '../../logic/Versions'
 import {project} from '../../records/Project'
 import State from '../../records/State'
 import Peer from '../../records/Peer'
@@ -31,9 +32,6 @@ const setProjectId = (state, id) =>
   state.set('currentProjectId', id).merge({
     activeFrameIndex: 0,
   })
-
-const cloneProject = (state) =>
-  state.setIn(['currentProject', 'id'], null)
 
 const stateLoaded = state =>
   state.set('isLoaded', true)
@@ -238,8 +236,6 @@ export default function (state = State(), action) {
       return changeFrameInterval(state, action.frameIndex, action.interval);
     case 'NEW_PROJECT':
       return newProject(state);
-    case 'CLONE_PROJECT':
-      return cloneProject(state);
     case 'PROJECT_TITLE_CHANGED':
       return updateProject(state, Mutation.setTitle(action.title))
     case 'SELF_NAME_CHANGED':
@@ -252,7 +248,7 @@ export default function (state = State(), action) {
         .set('currentProjectId', action.project._actorId)
 
     case 'SET_PROJECT':
-      return setProjectId(state, action.id);
+      return setProjectId(state, action.id)
 
     case 'PEER_CONNECTED':
       return peerConnected(state, action.key, action.id, action.info)
@@ -264,21 +260,25 @@ export default function (state = State(), action) {
       return state.update('createdProjectCount', x => x + 1)
     case 'PROJECT_CREATED':
       return setProject(state, action.project)
-    case 'CLONE_CURRENT_PROJECT_CLICKED':
-      return state.set('clonedProjectId', getProjectId(state))
+    case 'FORK_CURRENT_PROJECT_CLICKED':
+      return state.set('forkingProjectId', getProjectId(state))
     case 'MERGE_PROJECT_CLICKED':
       return state.set('mergingProjectId', action.id)
-    case 'PROJECT_CLONED':
+      .delete('mergePreviewProjectId')
+    case 'PROJECT_FORKED':
       return setProject(state, action.project)
-      .delete('clonedProjectId')
+      .delete('forkingProjectId')
     case 'PROJECT_MERGED':
       return setProject(state, action.project)
         .delete('mergedProjectId')
     case 'DELETE_PROJECT_CLICKED':
       return state.set('deletingProjectId', action.id)
+
     case 'PROJECT_DELETED':
-      return sendNotification(state.update('projects', p => p.delete(action.id)), 'Project deleted')
+      return sendNotification(state, 'Project deleted')
       .update('currentProjectId', cId => cId === action.id ? null : cId)
+      .update('projects', p => p.delete(action.id))
+
     case 'SHARED_PROJECT_ID_ENTERED':
       return state.projects.has(action.id)
       ? state.set('currentProjectId', action.id)
@@ -298,6 +298,9 @@ export default function (state = State(), action) {
 
     case 'MERGE_PREVIEW_ENDED':
       return state.delete('mergePreviewProjectId')
+
+    case 'PIXEL_CONFLICT_CLICKED':
+      return setGridCellValue(state, action.index, action.swatchIndex);
 
     default:
       return state;

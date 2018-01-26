@@ -17,7 +17,7 @@ const State = Record({
   loading: false,
   createdProjectCount: 0,
   mergePreviewProjectId: null,
-  clonedProjectId: null,
+  forkingProjectId: null,
   openingProjectId: null,
   mergingProjectId: null,
   deletingProjectId: null,

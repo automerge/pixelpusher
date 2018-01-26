@@ -145,12 +145,6 @@ export function newProject() {
   };
 }
 
-export function cloneProject() {
-  return {
-    type: 'CLONE_PROJECT'
-  };
-}
-
 export function undo() {
   return (ActionCreators.undo());
 }

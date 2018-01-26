@@ -1,0 +1,29 @@
+.PixelConflict {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: visible;
+
+  &_Pixels {
+    height: calc(100% + 16px);
+    display: none;
+    align-items: stretch;
+    margin: -8px;
+  }
+
+  &_Pixel {
+    flex-shrink: 0;
+    position: relative;
+    border: 3px solid $color-scorpion;
+    width: 100%;
+
+    & + & {
+      border-left-width: 0px;
+    }
+  }
+
+  &:hover &_Pixels {
+    display: flex;
+  }
+}

@@ -16,11 +16,16 @@ const PixelCanvas = (props) => {
   const emptyColor = project.get('defaultColor');
   const frames = project.get('frames');
   const activeFrame = frames.get(activeFrameIndex);
+  const pixels = activeFrame.get('pixels');
+  const conflicts = Automerge.getConflicts(project, pixels);
 
-  const cells = activeFrame.get('pixels').map((swatchIndex, i) => {
+  const cells = pixels.map((swatchIndex, i) => {
     return {
       id: i,
+      project,
+      conflicts: conflicts.get(i),
       width: 100 / columns,
+      swatchIndex,
       color: palette.getIn([swatchIndex, 'color']) || emptyColor,
     };
   });

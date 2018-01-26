@@ -12,7 +12,6 @@ import FramesHandlerContainer from './FramesHandler';
 import PaletteGridContainer from './PaletteGrid';
 import ResetContainer from './Reset';
 import NewProjectContainer from './NewProject';
-import CloneProjectContainer from './CloneProject';
 import SimpleNotificationContainer from './SimpleNotification';
 import SimpleSpinnerContainer from './SimpleSpinner';
 import PresenceContainer from './PresenceContainer';
@@ -113,10 +112,6 @@ export default class App extends React.Component {
             data-tooltip={this.tip('Load projects you stored before')}>
             Projects
           </button>
-
-          <div data-tooltip={this.tip('Clone project')}>
-            <CloneProjectContainer />
-          </div>
         </div>
       </header>
     );

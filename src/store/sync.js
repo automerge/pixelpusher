@@ -54,11 +54,11 @@ export default store => {
       dispatch({type: 'PROJECT_DELETED', id})
     })
 
-    whenChanged(store, state => state.clonedProjectId, id => {
+    whenChanged(store, state => state.forkingProjectId, id => {
       if (!id) return
 
       const project = sync.fork(id)
-      dispatch({type: 'PROJECT_CLONED', project})
+      dispatch({type: 'PROJECT_FORKED', project})
     })
 
     whenChanged(store, state => state.mergingProjectId, id => {

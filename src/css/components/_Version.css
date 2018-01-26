@@ -5,9 +5,22 @@
   margin-top: 5px;
   background-color: #4b4949;
   line-height: 1.5;
+  height: 54px;
 
   &-selected {
     border-color: #FF9800;
+  }
+
+  &-new {
+    cursor: pointer;
+    justify-content: center;
+    opacity: 0.7;
+    border-style: dashed;
+
+    &:hover {
+      color: #000;
+      opacity: 1;
+    }
   }
 
   &__preview {

@@ -1130,6 +1130,7 @@ input[type="text"]:focus, input[type="number"]:focus {
 .grid-container {
   line-height: 0;
   min-height: 1px;
+  position: relative;
 }
 
 .grid-container:before {
@@ -1143,11 +1144,21 @@ input[type="text"]:focus, input[type="number"]:focus {
   clear: both;
 }
 
-.grid-container div {
+.grid-container > div {
     float: left;
-    border: 1px solid #585858;
-    border-width: 0 1px 1px 0;
+    margin: 0 1px 1px 0;
+    position: relative
   }
+
+.grid-container > div.conflicting {
+  z-index: 1;
+  border-color: #961818;
+  box-shadow: 0 0 0 2px #961818;
+}
+
+.grid-container > div.conflicting:hover {
+  z-index: 2;
+}
 
 .grid-container.cell {
   cursor: cell;
@@ -2524,7 +2535,7 @@ label.picker__rows {
 }
 
 .button-disabled, .button-disabled:hover {
-    opacity: 0.5;
+    opacity: 0.2;
     cursor: default;
     background-color: #313131;
 }
@@ -2686,11 +2697,25 @@ label.picker__rows {
   margin-top: 5px;
   background-color: #4b4949;
   line-height: 1.5;
+  height: 54px;
 }
 
 .version-selected {
     border-color: #FF9800;
   }
+
+.version-new {
+    cursor: pointer;
+    -ms-flex-pack: center;
+        justify-content: center;
+    opacity: 0.7;
+    border-style: dashed
+  }
+
+.version-new:hover {
+  color: #000;
+  opacity: 1;
+}
 
 .version__preview {
     width: 51px; // Includes border width
@@ -2720,4 +2745,37 @@ label.picker__rows {
         justify-content: flex-end;
     font-size: 12px;
     color: #333;
+  }
+
+.PixelConflict {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: visible;
+}
+
+.PixelConflict_Pixels {
+    height: calc(100% + 16px);
+    display: none;
+    -ms-flex-align: stretch;
+        align-items: stretch;
+    margin: -8px;
+  }
+
+.PixelConflict_Pixel {
+    -ms-flex-negative: 0;
+        flex-shrink: 0;
+    position: relative;
+    border: 3px solid #585858;
+    width: 100%;
+  }
+
+.PixelConflict_Pixel + .PixelConflict_Pixel {
+      border-left-width: 0px;
+    }
+
+.PixelConflict:hover .PixelConflict_Pixels {
+    display: -ms-flexbox;
+    display: flex;
   }
