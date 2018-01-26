@@ -3,7 +3,7 @@ import { deserializeProject } from '../utils/serialization';
 import {getProject} from '../store/reducers/reducerHelpers'
 import Project from '../records/Project'
 import * as Init from '../logic/Init'
-import HyperMerge from '../lib/HyperMerge';
+import HyperMerge from 'hypermerge/HyperMerge';
 
 export default store => {
   const {dispatch} = store
