@@ -38,7 +38,7 @@ export default store => {
     whenChanged(store, state => state.createdProjectCount, shouldCreate => {
       if (!shouldCreate) return
 
-      const project = Init.project(sync.create())
+      const project = sync.update(Init.project(sync.create()))
 
       dispatch({type: "PROJECT_CREATED", project})
     })
