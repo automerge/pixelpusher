@@ -1,5 +1,4 @@
 import React from 'react'
-import {is} from 'immutable'
 import Preview from './Preview';
 import Button from './Button';
 import classnames from 'classnames'
@@ -10,7 +9,6 @@ export default class Version extends React.Component {
     const {currentProject, project} = this.props
     const isCurrent = currentProject === project
 
-    const isSame = is(project, currentProject)
     const isUpstream = Versions.isUpstream(project, currentProject)
     const color = Versions.color(project)
     const id = project._actorId
@@ -48,7 +46,7 @@ export default class Version extends React.Component {
               onMouseLeave={this.cancelPreview(id)}
             />
 
-            <Button tiny icon="delete" disabled={isSame} onClick={this.deleteProject(id)} />
+            <Button tiny icon="delete" disabled={isCurrent} onClick={this.deleteProject(id)} />
           </div>
           <div className="version__text">
             {project._actorId.slice(0, 6)}
