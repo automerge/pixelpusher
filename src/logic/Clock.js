@@ -18,3 +18,7 @@ export const comparator = (a, b) => {
   if (lessOrEqual(a, b)) return -1
   return 1
 }
+
+export const isUpstream = (parent, child) =>
+  parent.every((seq, k) =>
+    seq <= child.get(k, 0))

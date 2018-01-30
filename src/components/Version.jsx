@@ -35,9 +35,7 @@ export default class Version extends React.Component {
 
         <div className="version__main">
           <div className="version__buttons">
-            { sync.isWritable(project._actorId)
-              ? null
-              : "Read-only"}
+
 
             <Button tiny
               icon="merge"

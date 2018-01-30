@@ -17,11 +17,10 @@ export const related = (current, projects) => {
   return sort(relatives.toList())
 }
 
-export const relatedWithHistory = (relativeId, projects) => {
-  const base = projects.get(relativeId)
-  const parents = related(relativeId, projects).toList()
+export const relatedWithHistory = (current, projects) => {
+  const parents = related(current, projects)
     .flatMap(project =>
-      List.of(commonAncestor(base, project), List.of(project)))
+      List.of(commonAncestor(current, project), List.of(project)))
 
   return parents
 }
@@ -47,11 +46,11 @@ export const clock = project =>
 export const commonAncestor = (base, other) => {
   const commonClock = Clock.common(clock(base), clock(other))
   if (commonClock.equals(clock(base))) return base
-  const changes = changesBefore(base, commonClock)
+  const changes = changesUntil(base, commonClock)
   return Automerge.applyChanges(Automerge.initImmutable(), changes)
 }
 
-export const changesBefore = (doc, clock) =>
+export const changesUntil = (doc, clock) =>
   doc._state
   .getIn(['opSet', 'history'])
   .filter(ch =>
