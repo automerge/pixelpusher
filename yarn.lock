@@ -4619,7 +4619,7 @@ get-folder-size@^1.0.0:
 
 get-image-pixels@^1.0.1:
   version "1.0.1"
-  resolved "https://registry.npmjs.org/get-image-pixels/-/get-image-pixels-1.0.1.tgz#9cc55a60f5856454ca5918f455dcc1277039969c"
+  resolved "https://registry.yarnpkg.com/get-image-pixels/-/get-image-pixels-1.0.1.tgz#9cc55a60f5856454ca5918f455dcc1277039969c"
 
 get-installed-path@^2.0.3:
   version "2.1.1"
@@ -5235,7 +5235,7 @@ https-proxy-agent@^2.1.0:
 
 hypercore-archiver@^4.4.1:
   version "4.4.1"
-  resolved "https://registry.npmjs.org/hypercore-archiver/-/hypercore-archiver-4.4.1.tgz#0e85d3a68e2a9df9817fe7a7cc68fcbed28235ef"
+  resolved "https://registry.yarnpkg.com/hypercore-archiver/-/hypercore-archiver-4.4.1.tgz#0e85d3a68e2a9df9817fe7a7cc68fcbed28235ef"
   dependencies:
     datland-swarm-defaults "^1.0.2"
     debug "^2.6.8"
@@ -5249,7 +5249,7 @@ hypercore-archiver@^4.4.1:
 
 hypercore-protocol@^6.4.0, hypercore-protocol@^6.5.1:
   version "6.5.2"
-  resolved "https://registry.npmjs.org/hypercore-protocol/-/hypercore-protocol-6.5.2.tgz#18a6701852e02a008c7bb0bfd8888aa764d912c5"
+  resolved "https://registry.yarnpkg.com/hypercore-protocol/-/hypercore-protocol-6.5.2.tgz#18a6701852e02a008c7bb0bfd8888aa764d912c5"
   dependencies:
     inherits "^2.0.3"
     protocol-buffers-encodings "^1.1.0"
@@ -6416,7 +6416,7 @@ js-cookie@^2.2.0:
 
 js-crc@^0.2.0:
   version "0.2.0"
-  resolved "https://registry.npmjs.org/js-crc/-/js-crc-0.2.0.tgz#f72c5c7618176bff75cc812a1cedbde3d8eb6839"
+  resolved "https://registry.yarnpkg.com/js-crc/-/js-crc-0.2.0.tgz#f72c5c7618176bff75cc812a1cedbde3d8eb6839"
 
 js-sha3@^0.3.1:
   version "0.3.1"
@@ -9415,7 +9415,7 @@ property-is-enumerable-x@^1.1.0:
 
 protocol-buffers-encodings@^1.1.0:
   version "1.1.0"
-  resolved "https://registry.npmjs.org/protocol-buffers-encodings/-/protocol-buffers-encodings-1.1.0.tgz#f3905631106669b85381bad47a336add7d206873"
+  resolved "https://registry.yarnpkg.com/protocol-buffers-encodings/-/protocol-buffers-encodings-1.1.0.tgz#f3905631106669b85381bad47a336add7d206873"
   dependencies:
     signed-varint "^2.0.1"
     varint "^5.0.0"
