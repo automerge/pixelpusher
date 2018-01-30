@@ -67,13 +67,14 @@ export default class LoadDrawing extends React.Component {
             duration={1}
           />
           <div className="load-drawing__buttons">
-            <button
-              className="drawing__delete"
+            <Button
+              small
+              icon="delete"
               onClick={(event) => { this.deleteProject(id, event); }}
             />
             { peerInfo.avatarKey === project._actorId
               ? null
-              : <Button tiny icon="avatar" onClick={this.setAvatar(project._actorId)} />
+              : <Button small icon="avatar" onClick={this.setAvatar(project._actorId)} />
             }
           </div>
           <h2>{project.get('title')}</h2>

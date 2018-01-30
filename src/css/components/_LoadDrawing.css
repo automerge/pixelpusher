@@ -83,6 +83,7 @@
     position: absolute;
     top: 0;
     right: 0;
+    margin: -2px;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
