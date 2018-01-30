@@ -243,10 +243,6 @@ export default function (state = State(), action) {
     case 'SELF_AVATAR_SET':
       return state.setIn(['peerInfo', 'avatarKey'], action.key)
 
-    case 'PROJECT_CREATED':
-      return state.setIn(['projects', action.project._actorId], action.project)
-        .set('currentProjectId', action.project._actorId)
-
     case 'SET_PROJECT':
       return setProjectId(state, action.id)
 
@@ -300,9 +296,15 @@ export default function (state = State(), action) {
       return state.delete('mergePreviewProjectId')
 
     case 'PIXEL_CONFLICT_CLICKED':
-      return setGridCellValue(state, action.index, action.swatchIndex);
+      return setGridCellValue(state, action.index, action.swatchIndex)
+
+    case 'PROJECT_VERSION_CLICKED':
+      return state.set('currentProjectId', action.id)
+
+    case 'PROJECT_VERSION_DOUBLE_CLICKED':
+      return state.set('currentProjectId', action.id)
 
     default:
-      return state;
+      return state
   }
 }

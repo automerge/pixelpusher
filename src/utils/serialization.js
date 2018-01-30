@@ -12,6 +12,7 @@ export const serializeState = state =>
     peerInfo: state.peerInfo.toJS(),
     // projects: state.projects.map(Automerge.save),
     currentProjectId: state.currentProjectId,
+    focusedProjectId: state.focusedProjectId,
   })
 
 export const deserializeState = json =>
@@ -19,6 +20,7 @@ export const deserializeState = json =>
     peerInfo: deserializePeerInfo(json.peerInfo),
     // projects: deserializeProjects(json.projects),
     currentProjectId: json.currentProjectId,
+    focusedProjectId: json.focusedProjectId,
   })
 
 export const deserializeProjects = json =>

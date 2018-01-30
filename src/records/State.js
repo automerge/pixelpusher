@@ -7,6 +7,7 @@ export const DEFAULT_COLOR = '#313131';
 const State = Record({
   isLoaded: false,
   currentProjectId: null,
+  focusedProjectId: null,
   projects: Map(),
   peers: Map(),
   currentSwatchIndex: 0,

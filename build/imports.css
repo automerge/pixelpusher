@@ -2702,9 +2702,14 @@ label.picker__rows {
   background-color: #4b4949;
   line-height: 1.5;
   height: 54px;
+  position: relative;
 }
 
 .version-selected {
+    border-color: #FF9800;
+  }
+
+.version-viewing {
     border-color: #FF9800;
   }
 
@@ -2750,6 +2755,41 @@ label.picker__rows {
     font-size: 12px;
     color: #333;
   }
+
+.version__list {
+    position: relative;
+    margin-left: 5px;
+    padding-left: 8px
+  }
+
+.version__list::before {
+  content: '';
+  position: absolute;
+  width: 3px;
+  top: 26px;
+  bottom: -5px;
+  left: 0;
+  background-color: #222;
+}
+
+.version + .version__list::before {
+      top: -5px;
+      bottom: 26px;
+}
+
+.version__list > .version::before {
+  content: '';
+  display: block;
+  position: absolute;
+  height: 3px;
+  width: 8px;
+  top: 50%;
+  -ms-transform: translateY(-50%);
+      transform: translateY(-50%);
+  right: 100%;
+  margin-right: 3px;
+  background-color: #222;
+}
 
 .PixelConflict {
   position: absolute;

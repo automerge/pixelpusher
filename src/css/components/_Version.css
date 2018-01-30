@@ -6,8 +6,13 @@
   background-color: #4b4949;
   line-height: 1.5;
   height: 54px;
+  position: relative;
 
   &-selected {
+    border-color: #FF9800;
+  }
+
+  &-viewing {
     border-color: #FF9800;
   }
 
@@ -48,5 +53,39 @@
     justify-content: flex-end;
     font-size: 12px;
     color: #333;
+  }
+
+  &__list {
+    position: relative;
+    margin-left: 5px;
+    padding-left: 8px;
+
+    &::before {
+      content: '';
+      position: absolute;
+      width: 3px;
+      top: 26px;
+      bottom: -5px;
+      left: 0;
+      background-color: #222;
+    }
+
+    .version + &::before {
+      top: -5px;
+      bottom: 26px;
+    }
+
+    & > .version::before {
+      content: '';
+      display: block;
+      position: absolute;
+      height: 3px;
+      width: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 100%;
+      margin-right: 3px;
+      background-color: #222;
+    }
   }
 }

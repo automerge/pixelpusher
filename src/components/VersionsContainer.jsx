@@ -1,20 +1,21 @@
 import React from 'react'
+import {List} from 'immutable'
 import { connect } from 'react-redux';
 import { shareLinkForProjectId } from '../utils/shareLink';
 import { getProjectId } from '../store/reducers/reducerHelpers';
 import Version from './Version';
-import {related, clock} from '../logic/Versions'
+import {relatedTree, clock} from '../logic/Versions'
 
 class Versions extends React.Component {
   render() {
-    const {projectId, projects} = this.props
+    const {projectId, focusedId, projects} = this.props
     if (!projectId) return null
 
     const currentProject = projects.get(projectId)
 
     if (!currentProject) return null
 
-    const relatedProjects = related(currentProject.get('relativeId'), projects.valueSeq())
+    const relatedProjects = relatedTree(currentProject, projects)
 
     return (
       <div>
@@ -27,17 +28,27 @@ class Versions extends React.Component {
     )
   }
 
-  renderVersion = project => {
-    const {dispatch, projects, projectId} = this.props
-    const currentProject = projects.get(projectId)
+  renderVersion = (project, index) => {
+    if (List.isList(project)) return this.renderVersions(project, index)
+
+    const {dispatch, viewingId, projectId} = this.props
 
     return (
       <Version
         key={project._actorId}
         dispatch={dispatch}
-        currentProject={currentProject}
+        isCurrent={projectId === project._actorId}
+        isViewing={viewingId === project._actorId}
         project={project}
       />
+    )
+  }
+
+  renderVersions = (versions, index) => {
+    return (
+      <div className="version__list" key={index}>
+        {versions.map(this.renderVersion)}
+      </div>
     )
   }
 
@@ -49,6 +60,7 @@ class Versions extends React.Component {
 const mapStateToProps = state => ({
   projects: state.present.projects,
   projectId: getProjectId(state.present),
+  focusedId: state.present.get('focusedProjectId'),
 });
 
 const mapDispatchToProps = dispatch => ({

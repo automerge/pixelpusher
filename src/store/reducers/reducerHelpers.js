@@ -19,6 +19,7 @@ export const setProject = (state, project) =>
   state
   .setIn(['projects', project._actorId], project)
   .set('currentProjectId', project._actorId)
+  .set('focusedProjectId', project._actorId)
 
 export const getCurrentSwatch = state =>
   getInProject(state, ['palette', state.currentSwatchIndex]) || Map()

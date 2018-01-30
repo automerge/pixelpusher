@@ -6,10 +6,9 @@ import * as Versions from '../logic/Versions'
 
 export default class Version extends React.Component {
   render() {
-    const {currentProject, project} = this.props
-    const isCurrent = currentProject === project
+    const {isCurrent, isViewing, project} = this.props
 
-    const isUpstream = Versions.isUpstream(project, currentProject)
+    // const isUpstream = Versions.isUpstream(project, currentProject)
     const color = Versions.color(project)
     const id = project._actorId
 
@@ -17,6 +16,7 @@ export default class Version extends React.Component {
       <div
         className={classnames("version", {
           "version-selected": isCurrent,
+          "version-viewing": isViewing,
         })}
         onClick={this.openProject(project._actorId)}
         key={project._actorId}
@@ -40,7 +40,7 @@ export default class Version extends React.Component {
 
             <Button tiny
               icon="merge"
-              disabled={isUpstream}
+              disabled={isCurrent}
               onClick={this.mergeProject(id)}
               onMouseEnter={this.preview(id)}
               onMouseLeave={this.cancelPreview(id)}
@@ -59,7 +59,7 @@ export default class Version extends React.Component {
 
   openProject = id => e => {
     e.stopPropagation()
-    this.props.dispatch({type: 'SET_PROJECT', id})
+    this.props.dispatch({type: 'PROJECT_VERSION_CLICKED', id})
   }
 
   deleteProject = id => e => {
