@@ -266,18 +266,19 @@ export default function (state = State(), action) {
       .delete('forkingProjectId')
     case 'PROJECT_MERGED':
       return setProject(state, action.project)
-        .delete('mergedProjectId')
+        .update('projects', ps => ps.delete(state.mergingProjectId))
+        .delete('mergingProjectId')
     case 'DELETE_PROJECT_CLICKED':
       return state.set('deletingProjectId', action.id)
 
     case 'PROJECT_DELETED':
       return sendNotification(state, 'Project deleted')
       .update('currentProjectId', cId => cId === action.id ? null : cId)
-      .update('projects', p => p.delete(action.id))
+      .update('projects', ps => ps.delete(action.id))
 
     case 'SHARED_PROJECT_ID_ENTERED':
       return state.projects.has(action.id)
-      ? state.set('currentProjectId', action.id)
+      ? setProjectId(state, action.id)
       : state.set('openingProjectId', action.id)
 
     case 'REMOTE_PROJECT_OPENED':
@@ -299,10 +300,10 @@ export default function (state = State(), action) {
       return setGridCellValue(state, action.index, action.swatchIndex)
 
     case 'PROJECT_VERSION_CLICKED':
-      return state.set('currentProjectId', action.id)
+      return setProjectId(state, action.id)
 
     case 'PROJECT_VERSION_DOUBLE_CLICKED':
-      return state.set('currentProjectId', action.id)
+      return setProjectId(state, action.id)
 
     default:
       return state

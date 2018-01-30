@@ -1,5 +1,4 @@
 import {Record, List, Map} from 'immutable'
-import Project from './Project'
 import PeerInfo from './PeerInfo'
 
 export const DEFAULT_COLOR = '#313131';

@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as actionCreators from '../store/actions/actionCreators';
 import GridWrapper from './GridWrapper';
-import { getProject } from '../store/reducers/reducerHelpers';
+import { getProjectPreview } from '../store/reducers/reducerHelpers';
 
 const PixelCanvas = (props) => {
   let {project, activeFrameIndex} = props;
@@ -49,14 +49,8 @@ const PixelCanvas = (props) => {
 };
 
 const mapStateToProps = (state) => {
-  const {mergePreviewProjectId, projects} = state.present;
-  const project =
-    mergePreviewProjectId
-    ? Automerge.merge(getProject(state.present), projects.get(mergePreviewProjectId))
-    : getProject(state.present);
-
   return {
-    project,
+    project: getProjectPreview(state.present),
     mergePreviewProjectId: state.present.mergePreviewProjectId,
     activeFrameIndex: state.present.activeFrameIndex,
     eyedropperOn: state.present.eyedropperOn,

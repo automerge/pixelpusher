@@ -1,8 +1,15 @@
 import { List, Map, fromJS } from 'immutable';
+import Automerge from 'automerge'
 import shortid from 'shortid';
 import { pixels as pixelList } from '../../records/Pixel';
 import { frameOfSize } from '../../records/Frame';
 import * as Mutation from '../../logic/Mutation'
+
+
+export const getProjectPreview = state =>
+  state.mergePreviewProjectId
+  ? Automerge.merge(getProject(state), state.projects.get(state.mergePreviewProjectId))
+  : getProject(state)
 
 export const getProjectId = state =>
   state.currentProjectId || state.projects.keySeq().first()

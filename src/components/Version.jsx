@@ -18,7 +18,8 @@ export default class Version extends React.Component {
           "version-selected": isCurrent,
           "version-viewing": isViewing,
         })}
-        onClick={this.openProject(project._actorId)}
+        onClick={this.projectClicked(project._actorId)}
+        onDoubleClick={this.projectDoubleClicked(project._actorId)}
         key={project._actorId}
       >
         <div className="version__preview" style={{borderColor: color}}>
@@ -57,9 +58,14 @@ export default class Version extends React.Component {
     )
   }
 
-  openProject = id => e => {
+  projectClicked = id => e => {
     e.stopPropagation()
     this.props.dispatch({type: 'PROJECT_VERSION_CLICKED', id})
+  }
+
+  projectDoubleClicked = id => e => {
+    e.stopPropagation()
+    this.props.dispatch({type: 'PROJECT_VERSION_DOUBLE_CLICKED', id})
   }
 
   deleteProject = id => e => {

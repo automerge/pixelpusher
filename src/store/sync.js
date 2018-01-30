@@ -69,6 +69,7 @@ export default store => {
       const currentId = store.getState().present.currentProjectId
 
       const project = sync.merge(currentId, id)
+      sync.delete(id)
       dispatch({type: 'PROJECT_MERGED', project})
     })
 
