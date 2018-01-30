@@ -1,6 +1,6 @@
 import Automerge from 'automerge'
 import * as Clock from './Clock'
-import { List } from 'immutable';
+import { List } from 'immutable'
 
 export const relatedTree = (current, projects) => {
   const relatives = related(current, projects)
@@ -57,4 +57,4 @@ export const changesBefore = (doc, clock) =>
     ch.get('seq') <= clock.get(ch.get('actor'), 0))
 
 export const color = project =>
-  "#" + project._actorId.slice(0, 6)
+  '#' + project._actorId.slice(0, 6)
