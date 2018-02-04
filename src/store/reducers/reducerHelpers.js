@@ -5,7 +5,6 @@ import { pixels as pixelList } from '../../records/Pixel';
 import { frameOfSize } from '../../records/Frame';
 import * as Mutation from '../../logic/Mutation'
 
-
 export const getProjectPreview = state =>
   state.mergePreviewProjectId
   ? Automerge.merge(getProject(state), state.projects.get(state.mergePreviewProjectId))
@@ -21,6 +20,9 @@ export const getInProject = (state, path, value) => {
   const project = getProject(state)
   return project ? project.getIn(path) : null
 }
+
+export const getProjectDocument = state =>
+  getProject(state).document
 
 export const setProject = (state, project) =>
   state

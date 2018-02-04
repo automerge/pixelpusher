@@ -43,6 +43,9 @@ export const getSeq = (doc, actor) =>
 export const clock = project =>
   project._state.getIn(['opSet', 'clock'])
 
+export const commonClock = (doc, other) =>
+  Clock.common(clock(doc), clock(other))
+
 export const commonAncestor = (base, other) => {
   const commonClock = Clock.common(clock(base), clock(other))
   if (commonClock.equals(clock(base))) return base
@@ -50,9 +53,24 @@ export const commonAncestor = (base, other) => {
   return Automerge.applyChanges(Automerge.initImmutable(), changes)
 }
 
+export const getHistory = doc => {
+  const history = doc._state.getIn(['opSet', 'history'])
+  return history.map((change, index) => {
+    return {
+      change,
+      get snapshot () {
+        const root = Automerge.initImmutable(doc._state.get('actorId'))
+        return Automerge.applyChanges(root, history.slice(0, index + 1), false)
+      }
+    }
+  })
+}
+
+export const history = doc =>
+  doc._state.getIn(['opSet', 'history'])
+
 export const changesUntil = (doc, clock) =>
-  doc._state
-  .getIn(['opSet', 'history'])
+  history(doc)
   .filter(ch =>
     ch.get('seq') <= clock.get(ch.get('actor'), 0))
 

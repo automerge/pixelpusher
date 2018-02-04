@@ -1,6 +1,7 @@
 import shortid from 'shortid'
 import Automerge from 'automerge'
-import { DEFAULT_COLOR } from "../records/Project";
+
+export const DEFAULT_COLOR = '#313131'
 
 const init = f => doc =>
   Automerge.change(doc, 'Initialize', f)
@@ -8,7 +9,7 @@ const init = f => doc =>
 export const project = init(pro => {
   pro.relativeId = shortid.generate()
   pro.type = 'Project'
-  pro.title = "Untitled"
+  pro.title = 'Untitled'
   pro.rows = 16
   pro.columns = 16
   pro.cellSize = 10
@@ -25,7 +26,7 @@ export const frame = frame => {
 export const emptyFrame = n =>
   frame({
     pixels: pixels(n),
-    interval: 0,
+    interval: 0
   })
 
 export const pixels = n =>
@@ -61,5 +62,5 @@ const palette = () =>
     { color: '#383533' },
     { color: '#383532' },
     { color: '#383531' },
-    { color: '#383530' },
+    { color: '#383530' }
   ]

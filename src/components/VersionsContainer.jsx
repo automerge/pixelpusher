@@ -1,10 +1,12 @@
 import React from 'react'
+import Automerge from 'automerge'
 import {List} from 'immutable'
 import { connect } from 'react-redux';
 import { shareLinkForProjectId } from '../utils/shareLink';
 import { getProjectId, getProject } from '../store/reducers/reducerHelpers';
 import Version from './Version';
-import {relatedTree} from '../logic/Versions'
+import {related, getHistory, commonClock, clock} from '../logic/Versions'
+import * as Clock from '../logic/Clock'
 
 class Versions extends React.Component {
   render() {
@@ -12,7 +14,7 @@ class Versions extends React.Component {
 
     if (!currentProject) return null
 
-    const relatedProjects = relatedTree(currentProject, projects)
+    const relatedProjects = related(currentProject, projects)
 
     return (
       <div>
@@ -25,17 +27,36 @@ class Versions extends React.Component {
     )
   }
 
+  renderHistoryItem = (base, related) => ({change, snapshot}) => {
+    const snapClock = clock(snapshot)
+
+    let versions = related.get(snapClock)
+
+    if (!versions) return null
+
+    const seq = change.get('seq')
+
+    // versions = versions.filterNot(p => clock(p).equals(snapClock))
+
+    return [
+      this.renderVersion(snapshot, seq),
+      this.renderVersion(versions, seq)]
+  }
 
   renderVersion = (project, index) => {
     if (List.isList(project)) return this.renderVersions(project, index)
 
     const {dispatch, currentProject} = this.props
 
+    const isCurrent =
+      currentProject._actorId === project._actorId
+      && clock(currentProject).equals(clock(project))
+
     return (
       <Version
         key={project._actorId}
         dispatch={dispatch}
-        isCurrent={currentProject._actorId === project._actorId}
+        isCurrent={isCurrent}
         project={project}
       />
     )

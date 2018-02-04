@@ -16,15 +16,15 @@ export default store => {
     if (isLoaded) initSync()
   })
 
-  function initSync() {
-    const sync = global.sync = new HyperMerge({
+  function initSync () {
+    global.sync = new HyperMerge({
       peerInfo: store.getState().present.peerInfo.toJS(),
       port: 3282 + clientId,
-      path: `./.data/pixelpusher-v7/client-${clientId}`,
+      path: `./.data/pixelpusher-v7/client-${clientId}`
     }).once('ready', _syncReady)
   }
 
-  function _syncReady(sync) {
+  function _syncReady (sync) {
     console.log('Archiver changes feed:',
                 sync.core.archiver.changes.key.toString('hex'))
     sync.openAll()
@@ -42,7 +42,7 @@ export default store => {
 
       const project = sync.update(Init.project(sync.create()))
 
-      dispatch({type: "PROJECT_CREATED", project})
+      dispatch({type: 'PROJECT_CREATED', project})
     })
 
     whenChanged(store, getProject, project => {
@@ -80,12 +80,12 @@ export default store => {
 
     sync.on('document:ready', project => {
       if (!project.get('relativeId')) return
-      dispatch({type: "REMOTE_PROJECT_OPENED", project})
+      dispatch({type: 'REMOTE_PROJECT_OPENED', project})
     })
 
     sync.on('document:updated', project => {
       if (!project.get('relativeId')) return
-      dispatch({type: "REMOTE_PROJECT_UPDATED", project})
+      dispatch({type: 'REMOTE_PROJECT_UPDATED', project})
     })
 
     sync.on('merge:listening', merge => {

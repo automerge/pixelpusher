@@ -19,6 +19,10 @@ export const comparator = (a, b) => {
   return 1
 }
 
+export const isSame = (small, big) =>
+  small.every((seq, k) =>
+    seq === big.get(k))
+
 export const isUpstream = (parent, child) =>
   parent.every((seq, k) =>
     seq <= child.get(k, 0))
