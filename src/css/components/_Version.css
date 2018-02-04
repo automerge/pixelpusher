@@ -64,14 +64,13 @@
       content: '';
       position: absolute;
       width: 3px;
-      top: 26px;
+      top: -5px;
       bottom: -5px;
       left: 0;
       background-color: #222;
     }
 
     .version + &::before {
-      top: -5px;
       bottom: 26px;
     }
 
