@@ -68,7 +68,7 @@
     "html-webpack-plugin": "^2.30.1",
     "hypercore": "^6.11.0",
     "hyperdiscovery": "^7.0.0",
-    "hypermerge": "github:inkandswitch/hypermerge#from-pixelpusher",
+    "hypermerge": "github:inkandswitch/hypermerge",
     "immutable": "^3.8.2",
     "ipfs": "^0.27.3",
     "ipfs-pubsub-room": "^1.1.2",

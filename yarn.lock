@@ -547,6 +547,15 @@ author-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/author-regex/-/author-regex-1.0.0.tgz#d08885be6b9bbf9439fe087c76287245f0a81450"
 
+"automerge@github:automerge/automerge#immutable-api":
+  version "0.6.0"
+  resolved "https://codeload.github.com/automerge/automerge/tar.gz/4aeb602f80b5a57ea598cab87d83b06093bf2156"
+  dependencies:
+    immutable "^3.8.1"
+    transit-immutable-js "^0.7.0"
+    transit-js "^0.8.846"
+    uuid "^3.1.0"
+
 "automerge@github:inkandswitch/automerge#pixelpusher-support":
   version "0.6.0"
   resolved "https://codeload.github.com/inkandswitch/automerge/tar.gz/173436a663f83e2467966550f13f741fc6c0537d"
@@ -2670,7 +2679,7 @@ date-now@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/date-now/-/date-now-0.1.4.tgz#eaf439fd4d4848ad74e5cc7dbef200672b9e345b"
 
-datland-swarm-defaults@^1.0.0:
+datland-swarm-defaults@^1.0.0, datland-swarm-defaults@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/datland-swarm-defaults/-/datland-swarm-defaults-1.0.2.tgz#277b895a39f1aa7f96a495a02fb3662a5ed9f2e0"
   dependencies:
@@ -2889,7 +2898,7 @@ discovery-channel@^5.3.0:
     pretty-hash "^1.0.0"
     thunky "^0.1.0"
 
-discovery-swarm@^4.0.2:
+discovery-swarm@^4.0.2, discovery-swarm@^4.3.7:
   version "4.4.2"
   resolved "https://registry.yarnpkg.com/discovery-swarm/-/discovery-swarm-4.4.2.tgz#5d3160a46019e50e874195765df7d601ee55a813"
   dependencies:
@@ -4608,6 +4617,10 @@ get-folder-size@^1.0.0:
     async "^1.4.2"
     gar "^1.0.2"
 
+get-image-pixels@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/get-image-pixels/-/get-image-pixels-1.0.1.tgz#9cc55a60f5856454ca5918f455dcc1277039969c"
+
 get-installed-path@^2.0.3:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/get-installed-path/-/get-installed-path-2.1.1.tgz#a1f33dc6b8af542c9331084e8edbe37fe2634152"
@@ -5220,6 +5233,31 @@ https-proxy-agent@^2.1.0:
     agent-base "^4.1.0"
     debug "^3.1.0"
 
+hypercore-archiver@^4.4.1:
+  version "4.4.1"
+  resolved "https://registry.npmjs.org/hypercore-archiver/-/hypercore-archiver-4.4.1.tgz#0e85d3a68e2a9df9817fe7a7cc68fcbed28235ef"
+  dependencies:
+    datland-swarm-defaults "^1.0.2"
+    debug "^2.6.8"
+    discovery-swarm "^4.3.7"
+    hypercore "^6.6.3"
+    hypercore-protocol "^6.4.0"
+    random-access-file "^1.8.1"
+    thunky "^1.0.2"
+    to-buffer "^1.1.0"
+    xtend "^4.0.1"
+
+hypercore-protocol@^6.4.0, hypercore-protocol@^6.5.1:
+  version "6.5.2"
+  resolved "https://registry.npmjs.org/hypercore-protocol/-/hypercore-protocol-6.5.2.tgz#18a6701852e02a008c7bb0bfd8888aa764d912c5"
+  dependencies:
+    inherits "^2.0.3"
+    protocol-buffers-encodings "^1.1.0"
+    readable-stream "^2.2.6"
+    sodium-universal "^2.0.0"
+    sorted-indexof "^1.0.0"
+    varint "^5.0.0"
+
 hypercore-protocol@^6.4.1:
   version "6.5.0"
   resolved "https://registry.yarnpkg.com/hypercore-protocol/-/hypercore-protocol-6.5.0.tgz#cd2bad1d25603c778ac0918b4bec5b415ed7bd92"
@@ -5232,7 +5270,7 @@ hypercore-protocol@^6.4.1:
     sorted-indexof "^1.0.0"
     varint "^5.0.0"
 
-hypercore@^6.11.0:
+hypercore@^6.11.0, hypercore@^6.12.0, hypercore@^6.6.3:
   version "6.12.0"
   resolved "https://registry.yarnpkg.com/hypercore/-/hypercore-6.12.0.tgz#4bb9933d18d42b712b45e85f9633e4c8d3d1f16f"
   dependencies:
@@ -5275,14 +5313,14 @@ hyperdiscovery@^7.0.0:
     safe-buffer "^5.1.1"
     xtend "^4.0.1"
 
-"hypermerge@github:inkandswitch/hypermerge#89fc8e76b014e203923d7489f7c73a3edbce9cd9":
+"hypermerge@github:inkandswitch/hypermerge":
   version "0.0.1"
-  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#89fc8e76b014e203923d7489f7c73a3edbce9cd9"
+  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#5d99144c489ccb282f011a3fa7f8b2a1623f8167"
   dependencies:
     automerge "github:inkandswitch/automerge#pixelpusher-support"
-    hypercore "^6.11.0"
-    random-access-file "^1.8.1"
-    random-access-memory "^2.4.0"
+    hypercore "^6.12.0"
+    hypercore-archiver "^4.4.1"
+    hypercore-protocol "^6.5.1"
     thunky "^1.0.2"
     to-buffer "^1.1.0"
 
@@ -5336,7 +5374,7 @@ immediate@^3.2.3:
 
 immutable@^3.8.1, immutable@^3.8.2:
   version "3.8.2"
-  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+  resolved "https://registry.npmjs.org/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
 
 import-lazy@^2.1.0:
   version "2.1.0"
@@ -6375,6 +6413,10 @@ js-base64@^2.1.9:
 js-cookie@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/js-cookie/-/js-cookie-2.2.0.tgz#1b2c279a6eece380a12168b92485265b35b1effb"
+
+js-crc@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.npmjs.org/js-crc/-/js-crc-0.2.0.tgz#f72c5c7618176bff75cc812a1cedbde3d8eb6839"
 
 js-sha3@^0.3.1:
   version "0.3.1"
@@ -9371,6 +9413,13 @@ property-is-enumerable-x@^1.1.0:
     to-object-x "^1.4.1"
     to-property-key-x "^2.0.1"
 
+protocol-buffers-encodings@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.npmjs.org/protocol-buffers-encodings/-/protocol-buffers-encodings-1.1.0.tgz#f3905631106669b85381bad47a336add7d206873"
+  dependencies:
+    signed-varint "^2.0.1"
+    varint "^5.0.0"
+
 protocol-buffers-schema@^3.1.1, protocol-buffers-schema@^3.3.1:
   version "3.3.2"
   resolved "https://registry.yarnpkg.com/protocol-buffers-schema/-/protocol-buffers-schema-3.3.2.tgz#00434f608b4e8df54c59e070efeefc37fb4bb859"
@@ -9774,12 +9823,6 @@ random-access-file@^1.5.0, random-access-file@^1.8.1:
     inherits "^2.0.1"
     mkdirp "^0.5.1"
     thunky "^1.0.1"
-
-random-access-memory@^2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/random-access-memory/-/random-access-memory-2.4.0.tgz#72f3d865b4b55a259879473e2fb2de3569c69ee2"
-  dependencies:
-    process-nextick-args "^1.0.7"
 
 random-bytes@~1.0.0:
   version "1.0.0"
@@ -11825,11 +11868,11 @@ transformers@2.1.0:
 
 transit-immutable-js@^0.7.0:
   version "0.7.0"
-  resolved "https://registry.yarnpkg.com/transit-immutable-js/-/transit-immutable-js-0.7.0.tgz#993e25089b6311ff402140f556276d6d253005d9"
+  resolved "https://registry.npmjs.org/transit-immutable-js/-/transit-immutable-js-0.7.0.tgz#993e25089b6311ff402140f556276d6d253005d9"
 
 transit-js@^0.8.846:
   version "0.8.846"
-  resolved "https://registry.yarnpkg.com/transit-js/-/transit-js-0.8.846.tgz#76e06e8f0e6be27675e3442112f5c9bb75343464"
+  resolved "https://registry.npmjs.org/transit-js/-/transit-js-0.8.846.tgz#76e06e8f0e6be27675e3442112f5c9bb75343464"
 
 "traverse@>=0.3.0 <0.4":
   version "0.3.9"
@@ -12192,9 +12235,13 @@ utp-native@^1.2.2:
     node-gyp-build "^3.0.0"
     readable-stream "^2.2.2"
 
-uuid@3.1.0, uuid@^3.0.0, uuid@^3.0.1, uuid@^3.1.0:
+uuid@3.1.0, uuid@^3.0.0, uuid@^3.0.1:
   version "3.1.0"
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.1.0.tgz#3dd3d3e790abc24d7b0d3a034ffababe28ebbc04"
+
+uuid@^3.1.0:
+  version "3.2.1"
+  resolved "https://registry.npmjs.org/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
 uws@~0.14.4:
   version "0.14.5"
