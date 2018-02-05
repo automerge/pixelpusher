@@ -25,6 +25,8 @@ export default store => {
   }
 
   function _syncReady(sync) {
+    console.log('Archiver changes feed:',
+                sync.core.archiver.changes.key.toString('hex'))
     sync.openAll()
 
     if (!sync.any()) {
