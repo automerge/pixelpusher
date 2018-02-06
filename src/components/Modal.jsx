@@ -26,8 +26,11 @@ class Modal extends React.Component {
 
     const options = generateRadioOptions(props);
     let content;
-    const radioOptions = props.type !== 'load' ?
-      (
+    let radioOptions
+    if (props.type === 'addCloudPeer') {
+      radioOptions = null
+    } else if (props.type !== 'load') {
+      radioOptions = (
         <div className="modal__preview">
           <RadioSelector
             name="preview-type"
@@ -49,8 +52,8 @@ class Modal extends React.Component {
           }
         </div>
       )
-      :
-      (
+    } else {
+      radioOptions = (
         <div className="modal__load">
           <RadioSelector
             name="load-type"
@@ -60,7 +63,7 @@ class Modal extends React.Component {
           />
         </div>
       )
-      ;
+    }
 
     switch (props.type) {
       case 'load':
@@ -124,6 +127,11 @@ class Modal extends React.Component {
               sendNotification: props.actions.sendNotification
             }}
           />
+        );
+        break;
+      case 'addCloudPeer':
+        content = (
+          <h3>Add Cloud Peer</h3>
         );
         break;
       default:

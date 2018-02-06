@@ -8,7 +8,10 @@ const CloudPeers = (props) => {
         <li><span class="green" />Jim's Server</li>
         <li><span class="red" />Jeff's Server</li>
       </ul>
-      <button className="cloud-peers__add-button">Add Cloud Peer</button>
+      <button className="cloud-peers__add-button"
+              onClick={props.onAdd}>
+        Add Cloud Peer
+      </button>
     </div>
   )
 }

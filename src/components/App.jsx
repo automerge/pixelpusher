@@ -187,7 +187,9 @@ export default class App extends React.Component {
       <div className="app__right-side">
         <div>
           <VersionsContainer />
-          <CloudPeersContainer />
+          <CloudPeersContainer onAdd={
+            () => { this.changeModalType('addCloudPeer'); }
+          } />
           <DebugInfoContainer />
         </div>
       </div>
