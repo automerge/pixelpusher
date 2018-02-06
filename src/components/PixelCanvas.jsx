@@ -51,11 +51,11 @@ const PixelCanvas = (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    project: getProjectPreview(state.present),
-    mergePreviewProjectId: state.present.mergePreviewProjectId,
-    activeFrameIndex: state.present.activeFrameIndex,
-    eyedropperOn: state.present.eyedropperOn,
-    eraserOn: state.present.eraserOn
+    project: getProjectPreview(state),
+    mergePreviewProjectId: state.mergePreviewProjectId,
+    activeFrameIndex: state.activeFrameIndex,
+    eyedropperOn: state.eyedropperOn,
+    eraserOn: state.eraserOn
   }
 };
 

@@ -8,7 +8,7 @@ const SimpleSpinner = props =>
 ;
 
 const mapStateToProps = state => ({
-  loading: state.present.get('loading')
+  loading: state.get('loading')
 });
 
 const SimpleSpinnerContainer = connect(

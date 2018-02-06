@@ -12,7 +12,7 @@ export default store => {
   store.dispatch({type: "STATE_LOADED", state})
 
   whenChanged(store, state => state, () => {
-    save(store.getState().present)
+    save(store.getState())
   })
 }
 

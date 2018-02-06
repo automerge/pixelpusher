@@ -28,13 +28,13 @@ const PaletteGrid = (props) => {
 };
 
 const mapStateToProps = state => {
-  const project = getProject(state.present);
+  const project = getProject(state);
 
   if (!project) return {}
 
   return {
     palette: project.doc.get('palette'),
-    currentSwatchIndex: state.present.currentSwatchIndex,
+    currentSwatchIndex: state.currentSwatchIndex,
   };
 }
 

@@ -74,8 +74,8 @@ class FramesHandler extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  project: getProjectPreview(state.present),
-  activeFrameIndex: state.present.get('activeFrameIndex')
+  project: getProjectPreview(state),
+  activeFrameIndex: state.get('activeFrameIndex')
 });
 
 const mapDispatchToProps = dispatch => ({

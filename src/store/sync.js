@@ -17,7 +17,7 @@ export default store => {
 
   function initSync () {
     global.sync = new HyperMerge({
-      peerInfo: store.getState().present.peerInfo.toJS(),
+      peerInfo: store.getState().peerInfo.toJS(),
       port: 3282 + clientId,
       path: `./.data/pixelpusher-v7/client-${clientId}`
     }).once('ready', _syncReady)
@@ -66,7 +66,7 @@ export default store => {
     whenChanged(store, state => state.mergingProjectId, id => {
       if (!id) return
 
-      const currentId = store.getState().present.currentProjectId
+      const currentId = store.getState().currentProjectId
 
       const project = makeProject(sync.merge(currentId, id))
       dispatch({type: 'PROJECT_MERGED', project})

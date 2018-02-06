@@ -226,11 +226,11 @@ function generateRadioOptions(props) {
 
 const mapStateToProps = (state) => {
   return {
-    activeFrameIndex: state.present.get('activeFrameIndex'),
-    project: getProject(state.present),
-    projects: state.present.projects,
-    peerInfo: state.present.peerInfo,
-    duration: state.present.get('duration')
+    activeFrameIndex: state.get('activeFrameIndex'),
+    project: getProject(state),
+    projects: state.projects,
+    peerInfo: state.peerInfo,
+    duration: state.get('duration')
   };
 };
 

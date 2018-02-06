@@ -29,11 +29,11 @@ const CssDisplay = (props) => {
 };
 
 function mapStateToProps(state) {
-  const project = getProject(state.present);
+  const project = getProject(state);
 
   return {
     project,
-    activeFrameIndex: state.present.get('activeFrameIndex'),
+    activeFrameIndex: state.get('activeFrameIndex'),
   };
 }
 

@@ -22,9 +22,9 @@ const Reset = (props) => {
 };
 
 const mapStateToProps = state => ({
-  columns: state.present.get('columns'),
-  rows: state.present.get('rows'),
-  activeFrameIndex: state.present.get('activeFrameIndex')
+  columns: state.get('columns'),
+  rows: state.get('rows'),
+  activeFrameIndex: state.get('activeFrameIndex')
 });
 
 const mapDispatchToProps = dispatch => ({

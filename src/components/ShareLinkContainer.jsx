@@ -81,7 +81,7 @@ class ShareLink extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  projectId: getProjectId(state.present),
+  projectId: getProjectId(state),
 });
 
 const mapDispatchToProps = dispatch => ({
