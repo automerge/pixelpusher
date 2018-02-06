@@ -1,4 +1,3 @@
-import { ActionCreators } from 'redux-undo';
 
 export function changeDimensions(gridProperty, behaviour) {
   return {
@@ -143,12 +142,4 @@ export function newProject() {
   return {
     type: 'NEW_PROJECT'
   };
-}
-
-export function undo() {
-  return (ActionCreators.undo());
-}
-
-export function redo() {
-  return (ActionCreators.redo());
 }

@@ -42,7 +42,7 @@ class PixelConflict extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  project: getProject(state.present),
+  project: getProject(state),
 });
 
 const mapDispatchToProps = dispatch => ({

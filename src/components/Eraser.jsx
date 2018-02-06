@@ -17,7 +17,7 @@ const Eraser = (props) => {
 };
 
 const mapStateToProps = state => ({
-  eraserOn: state.present.get('eraserOn')
+  eraserOn: state.get('eraserOn')
 });
 
 const mapDispatchToProps = dispatch => ({

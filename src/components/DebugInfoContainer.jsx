@@ -21,7 +21,7 @@ class DebugInfo extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  state: state.present,
+  state
 });
 
 const mapDispatchToProps = dispatch => ({

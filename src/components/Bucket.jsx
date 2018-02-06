@@ -17,7 +17,7 @@ const Bucket = (props) => {
 };
 
 const mapStateToProps = state => ({
-  bucketOn: state.present.get('bucketOn')
+  bucketOn: state.get('bucketOn')
 });
 
 const mapDispatchToProps = dispatch => ({

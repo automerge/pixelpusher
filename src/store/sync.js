@@ -17,7 +17,7 @@ export default store => {
 
   function initSync () {
     global.sync = new HyperMerge({
-      peerInfo: store.getState().present.peerInfo.toJS(),
+      peerInfo: store.getState().peerInfo.toJS(),
       port: 3282 + clientId,
       path: `./.data/pixelpusher-v7/client-${clientId}`
     }).once('ready', _syncReady)
@@ -44,27 +44,29 @@ export default store => {
       dispatch({type: 'PROJECT_CREATED', project})
     })
 
-    whenChanged(store, getProject, project => {
-      const {id, doc} = project
+    whenChanged(store, state => state.projects, projects => {
+      projects.forEach(project => {
+        const {id, doc} = project
 
-      if (project.isOpening) {
-        sync.open(doc)
-      } else if (project.isDeleting) {
-        sync.delete(id)
-        dispatch({type: 'PROJECT_DELETED', id})
-      } else if (project.isForking) {
-        const sourceId = project.id
-        project = makeProject(sync.fork(id))
-        dispatch({type: 'PROJECT_FORKED', project, sourceId})
-      } else if (project.isWritable) {
-        sync.update(doc)
-      }
+        if (project.isOpening) {
+          sync.open(doc)
+        } else if (project.isDeleting) {
+          sync.delete(id)
+          dispatch({type: 'PROJECT_DELETED', id})
+        } else if (project.isForking) {
+          const sourceId = project.id
+          project = makeProject(sync.fork(id))
+          dispatch({type: 'PROJECT_FORKED', project, sourceId})
+        } else if (project.isWritable) {
+          sync.update(doc)
+        }
+      })
     })
 
     whenChanged(store, state => state.mergingProjectId, id => {
       if (!id) return
 
-      const currentId = store.getState().present.currentProjectId
+      const currentId = store.getState().currentProjectId
 
       const project = makeProject(sync.merge(currentId, id))
       dispatch({type: 'PROJECT_MERGED', project})

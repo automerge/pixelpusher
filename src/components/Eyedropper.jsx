@@ -17,7 +17,7 @@ const Eyedropper = (props) => {
 };
 
 const mapStateToProps = state => ({
-  eyedropperOn: state.present.get('eyedropperOn'),
+  eyedropperOn: state.get('eyedropperOn'),
 });
 
 const mapDispatchToProps = dispatch => ({

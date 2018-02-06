@@ -21,7 +21,7 @@ const ProjectInfo = ({project, dispatch}) => {
 const mapDispatchToProps = dispatch => ({dispatch});
 
 const mapStateToProps = state => ({
-  project: getProject(state.present)
+  project: getProject(state)
 })
 
 const ProjectInfoContainer = connect(

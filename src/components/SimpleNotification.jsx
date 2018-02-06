@@ -35,7 +35,7 @@ const SimpleNotification = (props) => {
 };
 
 const mapStateToProps = state => ({
-  notifications: state.present.get('notifications')
+  notifications: state.get('notifications')
 });
 
 const mapDispatchToProps = dispatch => ({

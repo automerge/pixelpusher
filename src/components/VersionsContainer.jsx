@@ -76,9 +76,9 @@ class Versions extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  currentProject: getProject(state.present),
-  projects: state.present.projects,
-  focusedId: state.present.get('focusedProjectId'),
+  currentProject: getProject(state),
+  projects: state.projects,
+  focusedId: state.get('focusedProjectId'),
 });
 
 const mapDispatchToProps = dispatch => ({

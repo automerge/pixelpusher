@@ -21,6 +21,8 @@ class ShareLink extends React.Component {
   }
 
   componentWillReceiveProps(props) {
+    if (props.projectId == null) return
+
     if (props.projectId !== this.props.projectId) {
       this.setState({
         shareLink: shareLinkForProjectId(props.projectId)
@@ -79,7 +81,7 @@ class ShareLink extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  projectId: getProjectId(state.present),
+  projectId: getProjectId(state),
 });
 
 const mapDispatchToProps = dispatch => ({

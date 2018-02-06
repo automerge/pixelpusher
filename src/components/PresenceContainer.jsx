@@ -50,10 +50,10 @@ class Presence extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  peers: state.present.peers,
-  projects: state.present.projects,
-  peerInfo: state.present.peerInfo,
-  projectId: getProjectId(state.present),
+  peers: state.peers,
+  projects: state.projects,
+  peerInfo: state.peerInfo,
+  projectId: getProjectId(state),
 });
 
 const mapDispatchToProps = dispatch => ({

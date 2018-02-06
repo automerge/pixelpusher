@@ -37,8 +37,8 @@ class History extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  projects: state.present.projects,
-  projectId: getProjectId(state.present),
+  projects: state.projects,
+  projectId: getProjectId(state),
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -23,7 +23,7 @@ const Duration = (props) => {
 };
 
 const mapStateToProps = state => ({
-  duration: state.present.get('duration')
+  duration: state.get('duration')
 });
 
 const mapDispatchToProps = dispatch => ({
