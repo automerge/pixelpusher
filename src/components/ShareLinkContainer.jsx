@@ -21,6 +21,8 @@ class ShareLink extends React.Component {
   }
 
   componentWillReceiveProps(props) {
+    if (props.projectId == null) return
+
     if (props.projectId !== this.props.projectId) {
       this.setState({
         shareLink: shareLinkForProjectId(props.projectId)

@@ -258,7 +258,7 @@ export default function (state = State(), action) {
       return setProject(state, action.project)
         .delete('mergingProjectId')
     case 'DELETE_PROJECT_CLICKED':
-      return state.set('deletingProjectId', action.id)
+      return state.setIn(['projects', action.id, 'isDeleting'], true)
 
     case 'PROJECT_DELETED':
       return sendNotification(state, 'Project deleted')
