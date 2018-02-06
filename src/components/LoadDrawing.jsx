@@ -42,8 +42,8 @@ export default class LoadDrawing extends React.Component {
     this.props.close();
   }
 
-  projectClick(project) {
-    this.props.actions.setProject(project._actorId);
+  projectClick(id) {
+    this.props.actions.setProject(id);
     this.props.close();
   }
 
@@ -52,11 +52,12 @@ export default class LoadDrawing extends React.Component {
     const projects = this.props.projects.valueSeq();
 
     return projects.map(project => {
-      const id = project._actorId
+      const {id, doc} = project
+
       return (
         <div
           key={id}
-          onClick={() => { this.projectClick(project); }}
+          onClick={() => { this.projectClick(id); }}
           className="load-drawing__drawing"
         >
           <Preview
@@ -72,12 +73,12 @@ export default class LoadDrawing extends React.Component {
               icon="delete"
               onClick={(event) => { this.deleteProject(id, event); }}
             />
-            { peerInfo.avatarKey === project._actorId
+            { peerInfo.avatarKey === id
               ? null
-              : <Button small icon="avatar" onClick={this.setAvatar(project._actorId)} />
+              : <Button small icon="avatar" onClick={this.setAvatar(id)} />
             }
           </div>
-          <h2>{project.get('title')}</h2>
+          <h2>{doc.get('title')}</h2>
         </div>
       );
     });

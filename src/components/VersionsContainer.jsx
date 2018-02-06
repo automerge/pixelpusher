@@ -54,7 +54,7 @@ class Versions extends React.Component {
 
     return (
       <Version
-        key={project._actorId}
+        key={project.id}
         dispatch={dispatch}
         isCurrent={isCurrent}
         project={project}

@@ -21,7 +21,7 @@ class Modal extends React.Component {
   }
 
   getModalContent(props) {
-    const project = props.project && props.project.update("cellSize", x =>
+    const project = props.project && props.project.updateIn(['doc', 'cellSize'], x =>
       props.type === 'preview' ? x : 5)
 
     const options = generateRadioOptions(props);
@@ -183,7 +183,7 @@ function generateRadioOptions(props) {
   const project = props.project;
 
   if (!project) return []
-  const frames = project.get('frames');
+  const frames = project.doc.get('frames');
   let options;
 
   if (props.type !== 'load') {

@@ -11,7 +11,7 @@ const ProjectInfo = ({project, dispatch}) => {
     <div>
       <Field
         label="Project Title"
-        value={project.get('title') || ""}
+        value={project.doc.get('title') || ""}
         onChange={title => dispatch({type: 'PROJECT_TITLE_CHANGED', title})}
       />
     </div>

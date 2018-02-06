@@ -11,9 +11,9 @@ export const relatedTree = (current, projects) => {
 }
 
 export const related = (current, projects) => {
-  const relativeId = current.get('relativeId')
+  const relativeId = current.doc.get('relativeId')
   const relatives = projects
-    .filter(project => project.get('relativeId') === relativeId)
+    .filter(project => project.doc.get('relativeId') === relativeId)
   return sort(relatives.toList())
 }
 
@@ -41,7 +41,7 @@ export const getSeq = (doc, actor) =>
   clock(doc).get(actor, 0)
 
 export const clock = project =>
-  project._state.getIn(['opSet', 'clock'])
+  project.doc._state.getIn(['opSet', 'clock'])
 
 export const commonClock = (doc, other) =>
   Clock.common(clock(doc), clock(other))
@@ -75,4 +75,4 @@ export const changesUntil = (doc, clock) =>
     ch.get('seq') <= clock.get(ch.get('actor'), 0))
 
 export const color = project =>
-  '#' + project._actorId.slice(0, 6)
+  '#' + project.id.slice(0, 6)

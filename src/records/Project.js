@@ -1,9 +1,12 @@
-import {Record, Map} from 'immutable'
+import {Record} from 'immutable'
 
 const Project = Record({
   id: null, // required
-  document: null,
-  isWritable: false
+  doc: null,
+  isWritable: false,
+  isOpening: false,
+  isDeleting: false,
+  isForking: false
 }, 'Project')
 
 export default Project

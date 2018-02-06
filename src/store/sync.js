@@ -1,9 +1,8 @@
 import whenChanged from './whenChanged'
-import { deserializeProject } from '../utils/serialization';
 import {getProject} from '../store/reducers/reducerHelpers'
-import Project from '../records/Project'
 import * as Init from '../logic/Init'
-import HyperMerge from 'hypermerge/HyperMerge';
+import Project from '../records/Project'
+import HyperMerge from 'hypermerge/HyperMerge'
 
 export default store => {
   const {dispatch} = store
@@ -46,21 +45,20 @@ export default store => {
     })
 
     whenChanged(store, getProject, project => {
-      if (sync.isWritable(project._actorId)) sync.update(project)
-    })
+      const {id, doc} = project
 
-    whenChanged(store, state => state.deletingProjectId, id => {
-      if (!id) return
-
-      sync.delete(id)
-      dispatch({type: 'PROJECT_DELETED', id})
-    })
-
-    whenChanged(store, state => state.forkingProjectId, id => {
-      if (!id) return
-
-      const project = sync.fork(id)
-      dispatch({type: 'PROJECT_FORKED', project})
+      if (project.isOpening) {
+        sync.open(doc)
+      } else if (project.isDeleting) {
+        sync.delete(id)
+        dispatch({type: 'PROJECT_DELETED', id})
+      } else if (project.isForking) {
+        const sourceId = project.id
+        project = makeProject(sync.fork(id))
+        dispatch({type: 'PROJECT_FORKED', project, sourceId})
+      } else if (project.isWritable) {
+        sync.update(doc)
+      }
     })
 
     whenChanged(store, state => state.mergingProjectId, id => {
@@ -68,23 +66,19 @@ export default store => {
 
       const currentId = store.getState().present.currentProjectId
 
-      const project = sync.merge(currentId, id)
-      sync.delete(id)
+      const project = makeProject(sync.merge(currentId, id))
       dispatch({type: 'PROJECT_MERGED', project})
     })
 
-    whenChanged(store, state => state.openingProjectId, id => {
-      if (!id) return
-      sync.open(id)
-    })
-
-    sync.on('document:ready', project => {
-      if (!project.get('relativeId')) return
+    sync.on('document:ready', doc => {
+      if (!doc.get('relativeId')) return
+      const project = makeProject(doc)
       dispatch({type: 'REMOTE_PROJECT_OPENED', project})
     })
 
-    sync.on('document:updated', project => {
-      if (!project.get('relativeId')) return
+    sync.on('document:updated', doc => {
+      if (!doc.get('relativeId')) return
+      const project = makeProject(doc)
       dispatch({type: 'REMOTE_PROJECT_UPDATED', project})
     })
 
@@ -107,5 +101,12 @@ export default store => {
       const key = merge.key.toString('hex')
       dispatch({type: 'PEER_DISCONNECTED', key, id})
     })
+
+    const makeProject = doc =>
+      Project({
+        id: doc._actorId,
+        doc,
+        isWritable: sync.isWritable(doc._actorId)
+      })
   }
 }

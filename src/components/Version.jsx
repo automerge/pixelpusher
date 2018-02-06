@@ -10,7 +10,7 @@ export default class Version extends React.Component {
 
     // const isUpstream = Versions.isUpstream(project, currentProject)
     const color = Versions.color(project)
-    const id = project._actorId
+    const {id} = project
 
     return (
       <div
@@ -18,9 +18,9 @@ export default class Version extends React.Component {
           "version-selected": isCurrent,
           "version-viewing": isViewing,
         })}
-        onClick={this.projectClicked(project._actorId)}
-        onDoubleClick={this.projectDoubleClicked(project._actorId)}
-        key={project._actorId}
+        onClick={this.projectClicked(project.id)}
+        onDoubleClick={this.projectDoubleClicked(project.id)}
+        key={project.id}
       >
         <div className="version__preview" style={{borderColor: color}}>
           { project
@@ -28,13 +28,17 @@ export default class Version extends React.Component {
                 animate
                 frameIndex={0}
                 duration={1}
-                project={project.set('cellSize', 3)}
+                project={project.setIn(['doc', 'cellSize'], 3)}
               />
             : null}
         </div>
 
         <div className="version__main">
           <div className="version__buttons">
+
+            { project.isWritable
+            ? null
+            : "Read-only" }
 
 
             <Button tiny
@@ -48,7 +52,7 @@ export default class Version extends React.Component {
             <Button tiny icon="delete" disabled={isCurrent} onClick={this.deleteProject(id)} />
           </div>
           <div className="version__text">
-            {project._actorId.slice(0, 6)}
+            {project.id.slice(0, 6)}
           </div>
 
         </div>

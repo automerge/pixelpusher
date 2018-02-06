@@ -33,7 +33,7 @@ const mapStateToProps = state => {
   if (!project) return {}
 
   return {
-    palette: project.get('palette'),
+    palette: project.doc.get('palette'),
     currentSwatchIndex: state.present.currentSwatchIndex,
   };
 }

@@ -5374,7 +5374,7 @@ immediate@^3.2.3:
 
 immutable@^3.8.1, immutable@^3.8.2:
   version "3.8.2"
-  resolved "https://registry.npmjs.org/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
+  resolved "https://registry.yarnpkg.com/immutable/-/immutable-3.8.2.tgz#c2439951455bb39913daf281376f1530e104adf3"
 
 import-lazy@^2.1.0:
   version "2.1.0"
@@ -11868,11 +11868,11 @@ transformers@2.1.0:
 
 transit-immutable-js@^0.7.0:
   version "0.7.0"
-  resolved "https://registry.npmjs.org/transit-immutable-js/-/transit-immutable-js-0.7.0.tgz#993e25089b6311ff402140f556276d6d253005d9"
+  resolved "https://registry.yarnpkg.com/transit-immutable-js/-/transit-immutable-js-0.7.0.tgz#993e25089b6311ff402140f556276d6d253005d9"
 
 transit-js@^0.8.846:
   version "0.8.846"
-  resolved "https://registry.npmjs.org/transit-js/-/transit-js-0.8.846.tgz#76e06e8f0e6be27675e3442112f5c9bb75343464"
+  resolved "https://registry.yarnpkg.com/transit-js/-/transit-js-0.8.846.tgz#76e06e8f0e6be27675e3442112f5c9bb75343464"
 
 "traverse@>=0.3.0 <0.4":
   version "0.3.9"
@@ -12241,7 +12241,7 @@ uuid@3.1.0, uuid@^3.0.0, uuid@^3.0.1:
 
 uuid@^3.1.0:
   version "3.2.1"
-  resolved "https://registry.npmjs.org/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
+  resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.2.1.tgz#12c528bb9d58d0b9265d9a2f6f0fe8be17ff1f14"
 
 uws@~0.14.4:
   version "0.14.5"

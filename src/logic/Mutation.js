@@ -2,18 +2,18 @@ import Automerge from 'automerge'
 import * as Init from './Init'
 
 export const setPixel = (frameIndex, pixelIndex, paletteId) =>
-  change("Set pixel", pro => {
+  change('Set pixel', pro => {
     pro.frames[frameIndex].pixels[pixelIndex] = paletteId
   })
 
 export const addFrame = () =>
-  change("Add frame", pro => {
+  change('Add frame', pro => {
     pro.frames.push(Init.emptyFrame(pro.columns * pro.rows))
     resetFrameIntervals(pro.frames)
   })
 
 export const resize = (dimension, behavior) =>
-  change("Resize", pro => {
+  change('Resize', pro => {
     const delta = behavior === 'add' ? 1 : -1
     const columns = pro.columns
 
@@ -25,23 +25,23 @@ export const resize = (dimension, behavior) =>
   })
 
 export const deleteFrame = (frameIndex, activeFrameIndex) =>
-  change("Delete frame", pro => {
+  change('Delete frame', pro => {
     pro.frames.splice(frameIndex, 1)
     resetFrameIntervals(pro.frames)
   })
 
 export const resetFrame = frameIndex =>
-  change("Reset frame", pro => {
+  change('Reset frame', pro => {
     pro.frames[frameIndex].pixels.fill(null)
   })
 
 export const setFrameInterval = (frameIndex, interval) =>
-  change("Set frame interval", pro => {
+  change('Set frame interval', pro => {
     pro.frames[frameIndex].interval = interval
   })
 
 export const cloneFrame = frameIndex =>
-  change("Clone frame", pro => {
+  change('Clone frame', pro => {
     const originalFrame = pro.frames[frameIndex]
     const frame = Init.emptyFrame(pro.columns * pro.rows)
     frame.pixels = originalFrame.pixels.map(x => x)
@@ -50,22 +50,22 @@ export const cloneFrame = frameIndex =>
   })
 
 export const setCellSize = cellSize =>
-  change("Set cell size", pro => {
+  change('Set cell size', pro => {
     pro.cellSize = cellSize
   })
 
 export const setSwatchColor = (index, color) =>
-  change("Set swatch Color", pro => {
+  change('Set swatch Color', pro => {
     pro.palette[index].color = color
   })
 
 export const addColorToPalette = color =>
-  change("Add color to palette", pro => {
+  change('Add color to palette', pro => {
     pro.palette.push({color})
   })
 
 export const setTitle = title =>
-  change("Set title", pro => {
+  change('Set title', pro => {
     pro.title = title
   })
 
@@ -88,49 +88,49 @@ export const addFrameFromPixels = (pixels, width, height) =>
       }
     })
     pro.frames.push(frame)
-    resetFrameIntervals(pro.frames  )
+    resetFrameIntervals(pro.frames)
   })
 
 const resizePixels = (pixels, dimension, behavior, columns) => {
-    if (dimension === 'columns') {
-      if (behavior === 'add') {
-        const size = pixels.length;
+  if (dimension === 'columns') {
+    if (behavior === 'add') {
+      const size = pixels.length
 
-        for (let i = size; i > 0; i -= columns) {
-          pixels.splice(i, 0, null);
-        }
-
-        return pixels
-      } else {
-        const size = pixels.length - 1;
-
-        for (let i = size; i > 0; i -= columns) {
-          pixels.splice(i, 1);
-        }
-
-        return pixels
+      for (let i = size; i > 0; i -= columns) {
+        pixels.splice(i, 0, null)
       }
-    } else if (dimension === 'rows') {
-      if (behavior === 'add') {
-        pixels.push(...Init.pixels(columns))
-        return pixels
-      } else {
-        pixels.splice(-1, columns)
-        return pixels
+
+      return pixels
+    } else {
+      const size = pixels.length - 1
+
+      for (let i = size; i > 0; i -= columns) {
+        pixels.splice(i, 1)
       }
+
+      return pixels
+    }
+  } else if (dimension === 'rows') {
+    if (behavior === 'add') {
+      pixels.push(...Init.pixels(columns))
+      return pixels
+    } else {
+      pixels.splice(-1, columns)
+      return pixels
     }
   }
+}
 
 const resetFrameIntervals = frames => {
-  const equalPercentage = 100 / frames.length;
+  const equalPercentage = 100 / frames.length
 
   frames.forEach((frame, index) => {
     const percentage = index ===
-      frames.length - 1 ? 100 : Math.round(((index + 1) * equalPercentage) * 10) / 10;
+      frames.length - 1 ? 100 : Math.round(((index + 1) * equalPercentage) * 10) / 10
 
-    frame.interval = percentage;
-  });
+    frame.interval = percentage
+  })
 }
 
-const change = (message = null, f) => doc =>
-  Automerge.change(doc, message, f)
+const change = (message = null, f) => project =>
+  project.update('doc', doc => Automerge.change(doc, message, f))
