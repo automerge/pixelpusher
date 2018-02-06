@@ -1,0 +1,34 @@
+.cloud-peers {
+  margin-top: 10px;
+
+  ul {
+    -webkit-padding-start: 10px;
+  }
+
+  li {
+    list-style-type: none;
+    margin-bottom: 6px;
+  }
+
+  li span {
+    font-size: 11px;
+    margin-right: 5px;
+    vertical-align: super;
+  }
+
+  li span.green {
+    border: 5px solid green;
+  }
+
+  li span.red {
+    border: 5px solid red;
+  }
+
+  &__add-button {
+    @mixin button gray;
+
+    width: 100%;
+    margin: 0 0 0.6em;
+    display: table;
+  }
+}

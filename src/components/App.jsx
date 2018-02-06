@@ -2,6 +2,7 @@ import React from 'react';
 import PixelCanvasContainer from './PixelCanvas';
 import CellSizeContainer from './CellSize';
 import ColorPickerContainer from './ColorPicker';
+import CloudPeersContainer from './CloudPeers';
 import ModalContainer from './Modal';
 import DimensionsContainer from './Dimensions';
 import DurationContainer from './Duration';
@@ -186,6 +187,7 @@ export default class App extends React.Component {
       <div className="app__right-side">
         <div>
           <VersionsContainer />
+          <CloudPeersContainer />
           <DebugInfoContainer />
         </div>
       </div>
