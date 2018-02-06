@@ -10,6 +10,7 @@ import Preview from './Preview';
 import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import TwitterForm from './TwitterForm';
+import AddCloudPeerForm from './AddCloudPeerForm';
 import { getProject } from '../store/reducers/reducerHelpers';
 
 ModalReact.setAppElement('#app');
@@ -130,9 +131,7 @@ class Modal extends React.Component {
         );
         break;
       case 'addCloudPeer':
-        content = (
-          <h3>Add Cloud Peer</h3>
-        );
+        content = <AddCloudPeerForm />;
         break;
       default:
     }
