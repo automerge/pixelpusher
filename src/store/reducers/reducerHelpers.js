@@ -187,3 +187,8 @@ export function applyBucket (state, activeFrameIndex, pixelIndex, sourceSwatchId
 
   return newState
 }
+
+export function addCloudPeer (key) {
+  return updateProject(state, Mutation.addFrame())
+}
+

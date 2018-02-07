@@ -17,7 +17,7 @@ export default store => {
 }
 
 export const saveNow = data => {
-  console.log("Auto-saving")
+  // console.log("Auto-saving")
 
   saveStateToStorage(localStorage, data)
 }

@@ -5270,9 +5270,35 @@ hypercore-protocol@^6.4.1:
     sorted-indexof "^1.0.0"
     varint "^5.0.0"
 
-hypercore@^6.11.0, hypercore@^6.12.0, hypercore@^6.6.3:
+hypercore@^6.12.0, hypercore@^6.6.3:
   version "6.12.0"
   resolved "https://registry.yarnpkg.com/hypercore/-/hypercore-6.12.0.tgz#4bb9933d18d42b712b45e85f9633e4c8d3d1f16f"
+  dependencies:
+    array-lru "^1.1.0"
+    atomic-batcher "^1.0.2"
+    bitfield-rle "^2.0.0"
+    buffer-equals "^1.0.4"
+    bulk-write-stream "^1.1.3"
+    codecs "^1.2.0"
+    flat-tree "^1.6.0"
+    from2 "^2.3.0"
+    hypercore-protocol "^6.4.1"
+    inherits "^2.0.3"
+    last-one-wins "^1.0.4"
+    memory-pager "^1.0.2"
+    merkle-tree-stream "^3.0.3"
+    process-nextick-args "^1.0.7"
+    random-access-file "^1.5.0"
+    sodium-universal "^2.0.0"
+    sparse-bitfield "^3.0.0"
+    thunky "^1.0.1"
+    uint64be "^2.0.1"
+    unordered-array-remove "^1.0.2"
+    unordered-set "^2.0.0"
+
+hypercore@^6.12.1:
+  version "6.12.1"
+  resolved "https://registry.npmjs.org/hypercore/-/hypercore-6.12.1.tgz#2d83bdd8f67efb30d2924cc88aebbf581eaf51fd"
   dependencies:
     array-lru "^1.1.0"
     atomic-batcher "^1.0.2"
@@ -5306,7 +5332,7 @@ hyperdiff@^2.0.3:
 
 hyperdiscovery@^7.0.0:
   version "7.0.0"
-  resolved "https://registry.yarnpkg.com/hyperdiscovery/-/hyperdiscovery-7.0.0.tgz#bae0876b60ee1b3e5315bafe5395c065208387d4"
+  resolved "https://registry.npmjs.org/hyperdiscovery/-/hyperdiscovery-7.0.0.tgz#bae0876b60ee1b3e5315bafe5395c065208387d4"
   dependencies:
     datland-swarm-defaults "^1.0.0"
     discovery-swarm "^4.0.2"
@@ -9309,13 +9335,9 @@ pretty-error@^2.0.2:
     renderkid "^2.0.1"
     utila "~0.4"
 
-pretty-hash@^1.0.0:
+pretty-hash@^1.0.0, pretty-hash@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/pretty-hash/-/pretty-hash-1.0.1.tgz#16e0579188def56bdb565892bcd05a5d65324807"
-
-pretty-hash@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.npmjs.org/pretty-hash/-/pretty-hash-1.0.1.tgz#16e0579188def56bdb565892bcd05a5d65324807"
 
 pretty-hrtime@^1.0.3:
   version "1.0.3"
@@ -9827,6 +9849,12 @@ random-access-file@^1.5.0, random-access-file@^1.8.1:
     inherits "^2.0.1"
     mkdirp "^0.5.1"
     thunky "^1.0.1"
+
+random-access-memory@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.npmjs.org/random-access-memory/-/random-access-memory-2.4.0.tgz#72f3d865b4b55a259879473e2fb2de3569c69ee2"
+  dependencies:
+    process-nextick-args "^1.0.7"
 
 random-bytes@~1.0.0:
   version "1.0.0"

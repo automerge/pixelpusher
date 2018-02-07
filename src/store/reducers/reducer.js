@@ -9,6 +9,7 @@ import Project, { project } from '../../records/Project'
 import State from '../../records/State'
 import Peer from '../../records/Peer'
 import PeerInfo from '../../records/PeerInfo'
+import CloudPeer from '../../records/CloudPeer'
 
 const getPalette = state =>
   getProject(state).get('palette')
@@ -296,7 +297,17 @@ export default function (state = State(), action) {
       return setProjectId(state, action.id)
 
     case 'ADD_CLOUD_PEER':
-      return state.setIn(['cloudPeers', action.key], true)
+      return state.setIn(['cloudPeers', action.key], CloudPeer())
+
+    case 'CLOUD_PEER_PING':
+      const cloudPeer = CloudPeer({
+        name: action.name,
+        timestamp: action.timestamp
+      })
+      return state.setIn(['cloudPeers', action.key], cloudPeer)
+
+    case 'SET_ARCHIVER_KEY':
+      return state.setIn(['archiverKey'], action.archiverKey)
 
     default:
       return state
