@@ -36,7 +36,15 @@ export default store => {
             })
           })
           sw.on('connection', peer => {
-            const name = peer.remoteUserData && peer.remoteUserData.toString()
+            let name
+            try {
+              if (peer.remoteUserData) {
+                const json = JSON.parse(peer.remoteUserData.toString())
+                name = json.name
+              }
+            } catch (e) {
+              console.log('Cloud peer JSON parse error')
+            }
             console.log('Cloud peer connection', name)
             ping()
             const intervalId = setInterval(ping, 1000)
@@ -50,6 +58,7 @@ export default store => {
             })
 
             function ping () {
+              if (!name) return
               dispatch({
                 type: 'CLOUD_PEER_PING',
                 key,
