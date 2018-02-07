@@ -13,6 +13,7 @@ export const serializeState = state =>
     // projects: state.projects.map(Automerge.save),
     currentProjectId: state.currentProjectId,
     focusedProjectId: state.focusedProjectId,
+    cloudPeers: state.cloudPeers.toJS()
   })
 
 export const deserializeState = json =>
@@ -21,6 +22,7 @@ export const deserializeState = json =>
     // projects: deserializeProjects(json.projects),
     currentProjectId: json.currentProjectId,
     focusedProjectId: json.focusedProjectId,
+    cloudPeers: json.cloudPeers ? new Map(json.cloudPeers) : new Map()
   })
 
 export const deserializeProjects = json =>
