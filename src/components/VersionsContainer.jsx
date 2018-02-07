@@ -12,7 +12,7 @@ class Versions extends React.Component {
   render() {
     const {currentProject, focusedId, projects} = this.props
 
-    if (!currentProject) return null
+    if (!(currentProject && currentProject.doc && currentProject.doc.get('relativeId'))) return null
 
     const relatedProjects = related(currentProject, projects)
 
@@ -49,13 +49,14 @@ class Versions extends React.Component {
     const {dispatch, currentProject} = this.props
 
     const isCurrent =
-      currentProject._actorId === project._actorId
+      currentProject.id === project.id
       && clock(currentProject).equals(clock(project))
 
     return (
       <Version
         key={project.id}
         dispatch={dispatch}
+        currentProject={currentProject}
         isCurrent={isCurrent}
         project={project}
       />
@@ -71,7 +72,8 @@ class Versions extends React.Component {
   }
 
   fork = e => {
-    this.props.dispatch({type: 'FORK_CURRENT_PROJECT_CLICKED'})
+    const {dispatch, currentProject} = this.props
+    dispatch({type: 'FORK_DOCUMENT', id: currentProject.id})
   }
 }
 

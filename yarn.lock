@@ -556,15 +556,6 @@ author-regex@^1.0.0:
     transit-js "^0.8.846"
     uuid "^3.1.0"
 
-"automerge@github:inkandswitch/automerge#pixelpusher-support":
-  version "0.6.0"
-  resolved "https://codeload.github.com/inkandswitch/automerge/tar.gz/173436a663f83e2467966550f13f741fc6c0537d"
-  dependencies:
-    immutable "^3.8.1"
-    transit-immutable-js "^0.7.0"
-    transit-js "^0.8.846"
-    uuid "^3.1.0"
-
 autoprefixer@^6.3.1:
   version "6.7.7"
   resolved "https://registry.yarnpkg.com/autoprefixer/-/autoprefixer-6.7.7.tgz#1dbd1c835658e35ce3f9984099db00585c782014"
@@ -5341,9 +5332,9 @@ hyperdiscovery@^7.0.0:
 
 "hypermerge@github:inkandswitch/hypermerge":
   version "0.0.1"
-  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#5d99144c489ccb282f011a3fa7f8b2a1623f8167"
+  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#d85f7c9b0a3826efe3de8d8a6682aba9f86a8647"
   dependencies:
-    automerge "github:inkandswitch/automerge#pixelpusher-support"
+    automerge "github:automerge/automerge#immutable-api"
     hypercore "^6.12.0"
     hypercore-archiver "^4.4.1"
     hypercore-protocol "^6.5.1"

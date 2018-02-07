@@ -167,13 +167,47 @@ const peerDisconnected = (state, key, id) =>
   state.deleteIn(['peers', id])
   // state.setIn(['peers', id, 'isConnected'], false)
 
-const remoteProjectUpdated = (state, project) =>
-  state.openingProjectId === project.id
+const remoteProjectUpdated = (state, project) => {
+  const prevProject = state.projects.get(project.id)
+
+  return prevProject && prevProject.isOpening
   ? setProject(state, project)
   : addProject(state, project)
+}
+
+const makeProject = ({id, doc, isWritable}) =>
+  Project({ id, doc, isWritable })
 
 export default function (state = State(), action) {
+  console.log(action)
+
   switch (action.type) {
+    // HyperMerge actions:
+
+    case 'HYPERMERGE_READY':
+      return state.setIn(['archiverKey'], action.archiverKey)
+
+    case 'DOCUMENT_READY':
+      return addProject(state, makeProject(action))
+
+    case 'DOCUMENT_UPDATED':
+      return remoteProjectUpdated(state, makeProject(action))
+
+    case 'DOCUMENT_FORKED':
+    case 'DOCUMENT_MERGED':
+    case 'DOCUMENT_OPENED':
+      return setProject(state, makeProject(action))
+
+    case 'DOCUMENT_CREATED':
+      return setProject(state, makeProject(action))
+
+    case 'DOCUMENT_DELETED':
+      return sendNotification(state, 'Project deleted')
+      .update('currentProjectId', cId => cId === action.id ? null : cId)
+      .update('projects', ps => ps.delete(action.id))
+
+    // End HyperMerge actions
+
     case 'STATE_LOADED':
       return stateLoaded(action.state)
     case 'CHANGE_DIMENSIONS':
@@ -243,41 +277,6 @@ export default function (state = State(), action) {
       return selfConnected(state, action.key, action.id, action.writable)
     case 'PEER_DISCONNECTED':
       return peerDisconnected(state, action.key, action.id)
-    case 'NEW_PROJECT_CLICKED':
-      return state.update('createdProjectCount', x => x + 1)
-    case 'PROJECT_CREATED':
-      return setProject(state, action.project)
-    case 'FORK_CURRENT_PROJECT_CLICKED':
-      return updateProject(state, project => project.set('isForking', true))
-    case 'MERGE_PROJECT_CLICKED':
-      return state.set('mergingProjectId', action.id)
-      .delete('mergePreviewProjectId')
-    case 'PROJECT_FORKED':
-      return setProject(state, action.project)
-        .setIn(['projects', action.sourceId, 'isForking'], false)
-    case 'PROJECT_MERGED':
-      return setProject(state, action.project)
-        .delete('mergingProjectId')
-    case 'DELETE_PROJECT_CLICKED':
-      return state.setIn(['projects', action.id, 'isDeleting'], true)
-
-    case 'PROJECT_DELETED':
-      return sendNotification(state, 'Project deleted')
-      .update('currentProjectId', cId => cId === action.id ? null : cId)
-      .update('projects', ps => ps.delete(action.id))
-
-    case 'SHARED_PROJECT_ID_ENTERED':
-      return state.projects.has(action.id)
-      ? setProjectId(state, action.id)
-      : state.setIn(['projects', action.id], Project({
-        id: action.id,
-        isOpening: true
-      }))
-
-    case 'REMOTE_PROJECT_OPENED':
-    case 'REMOTE_PROJECT_UPDATED':
-      return remoteProjectUpdated(state, action.project)
-
     case 'PIXELS_IMPORTED':
       return updateProject(state, Mutation.addFrameFromPixels(action.pixels, action.width, action.height))
 
@@ -305,9 +304,6 @@ export default function (state = State(), action) {
         timestamp: action.timestamp
       })
       return state.setIn(['cloudPeers', action.key], cloudPeer)
-
-    case 'SET_ARCHIVER_KEY':
-      return state.setIn(['archiverKey'], action.archiverKey)
 
     default:
       return state

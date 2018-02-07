@@ -196,6 +196,9 @@ function generateRadioOptions(props) {
 
   if (!project) return []
   const frames = project.doc.get('frames');
+
+  if (!frames) return []
+
   let options;
 
   if (props.type !== 'load') {
