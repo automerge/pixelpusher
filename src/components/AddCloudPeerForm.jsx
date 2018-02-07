@@ -8,7 +8,16 @@ export default class AddCloudPeerForm extends React.Component {
   }
 
   click () {
-    this.props.onAdd(this.state.key)
+    let key
+    try {
+      key = /^(dat:\/\/)?([0-9a-f]{64})$/i.exec(this.state.key)[2]
+      if (!key) throw new Error('Missing key')
+      this.props.onAdd(key)
+    } catch (e) {
+      this.setState({
+        validationError: 'Invalid key'
+      })
+    }
   }
 
   render () {
@@ -18,8 +27,9 @@ export default class AddCloudPeerForm extends React.Component {
         <Field
           label="Cloud Peer Key"
           value={this.state.key}
-          onChange={key => this.setState({key})}
+          onChange={key => this.setState({key, validationError: null})}
         />
+        {this.state.validationError}
         <button onClick={this.click.bind(this)}>Add</button>
       </div>
     )
