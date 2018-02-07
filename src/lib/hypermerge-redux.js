@@ -1,4 +1,4 @@
-import { is } from "immutable";
+import {equals} from '../logic/Versions'
 
 export default (sync, {init}) => ({dispatch, getState}) => next => {
   // TODO remove global assignment:
@@ -54,10 +54,12 @@ export default (sync, {init}) => ({dispatch, getState}) => next => {
     const {projects} = getState()
 
     projects.forEach((pro, k) => {
+      const pPro = prevProjects.get(k)
+
       if (!pro || !pro.doc) return
       if (!sync.isWritable(pro.doc._actorId)) return
-      if (!prevProjects.get(k)) return
-      if (is(pro.doc, prevProjects.get(k).doc)) return
+      if (!pPro || !pPro.doc) return
+      if (equals(pro, pPro)) return
 
       sync.update(pro.doc)
     })
