@@ -23,6 +23,8 @@ class FramesHandler extends React.Component {
 
     const {doc} = project
 
+    if (!doc.get('relativeId')) return null
+
     return doc.get('frames').map((frame, index, frames) =>
       <Frame
         key={frame.get('id')}

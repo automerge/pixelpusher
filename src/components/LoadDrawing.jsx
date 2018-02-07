@@ -34,11 +34,11 @@ export default class LoadDrawing extends React.Component {
   deleteProject(id, e) {
     e.stopPropagation();
 
-    this.props.dispatch({type: 'DELETE_PROJECT_CLICKED', id});
+    this.props.dispatch({type: 'DELETE_DOCUMENT', id});
   }
 
   newProjectClicked = e => {
-    this.props.dispatch({type: 'NEW_PROJECT_CLICKED'});
+    this.props.dispatch({type: 'CREATE_DOCUMENT'});
     this.props.close();
   }
 
@@ -53,6 +53,8 @@ export default class LoadDrawing extends React.Component {
 
     return projects.map(project => {
       const {id, doc} = project
+
+      if (!doc.get('relativeId')) return null
 
       return (
         <div

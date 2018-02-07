@@ -9,7 +9,7 @@ import { getProjectPreview } from '../store/reducers/reducerHelpers'
 const PixelCanvas = (props) => {
   let {project, activeFrameIndex} = props
 
-  if (!project) return <div>Loading...</div>
+  if (!project || !project.getIn(['doc', 'relativeId'])) return <div>Loading...</div>
   const {doc} = project
 
   const columns = doc.get('columns')

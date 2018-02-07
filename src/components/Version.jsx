@@ -72,12 +72,14 @@ export default class Version extends React.Component {
 
   deleteProject = id => e => {
     e.stopPropagation()
-    this.props.dispatch({type: 'DELETE_PROJECT_CLICKED', id})
+    this.props.dispatch({type: 'DELETE_DOCUMENT', id})
   }
 
-  mergeProject = id => e => {
+  mergeProject = src => e => {
+    const dst = this.props.currentProject.id
+
     e.stopPropagation()
-    this.props.dispatch({type: 'MERGE_PROJECT_CLICKED', id})
+    this.props.dispatch({type: 'MERGE_DOCUMENT', dst, src})
   }
 
   preview = id => e => {

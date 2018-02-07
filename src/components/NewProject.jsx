@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 const NewProject = (props) => {
   const newProject = () => {
-    props.dispatch({type: 'NEW_PROJECT_CLICKED'});
+    props.dispatch({type: 'CREATE_DOCUMENT'});
   };
 
   return (

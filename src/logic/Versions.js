@@ -13,7 +13,7 @@ export const relatedTree = (current, projects) => {
 export const related = (current, projects) => {
   const relativeId = current.doc.get('relativeId')
   const relatives = projects
-    .filter(project => project.doc.get('relativeId') === relativeId)
+    .filter(project => project.doc && project.doc.get('relativeId') === relativeId)
   return sort(relatives.toList())
 }
 
