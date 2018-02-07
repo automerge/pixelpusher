@@ -33,28 +33,26 @@ export default class Version extends React.Component {
             : null}
         </div>
 
-        <div className="version__main">
-          <div className="version__buttons">
+        <div className="version__text">
+          {project.id.slice(0, 6)}
+        </div>
 
-            { project.isWritable
+        <div className="version__status">
+          { project.isWritable
             ? null
             : "Read-only" }
+        </div>
 
+        <div className="version__buttons">
+          <Button tiny
+            icon="merge"
+            disabled={isCurrent}
+            onClick={this.mergeProject(id)}
+            onMouseEnter={this.preview(id)}
+            onMouseLeave={this.cancelPreview(id)}
+          />
 
-            <Button tiny
-              icon="merge"
-              disabled={isCurrent}
-              onClick={this.mergeProject(id)}
-              onMouseEnter={this.preview(id)}
-              onMouseLeave={this.cancelPreview(id)}
-            />
-
-            <Button tiny icon="delete" disabled={isCurrent} onClick={this.deleteProject(id)} />
-          </div>
-          <div className="version__text">
-            {project.id.slice(0, 6)}
-          </div>
-
+          <Button tiny icon="delete" disabled={isCurrent} onClick={this.deleteProject(id)} />
         </div>
       </div>
     )
