@@ -21,7 +21,7 @@ class PixelConflict extends React.Component {
 
   renderConflict = (swatchIndex, actor) => {
     const {project} = this.props
-    const color = project.getIn(['palette', swatchIndex, 'color'])
+    const color = project.getIn(['doc', 'palette', swatchIndex, 'color'])
 
     return (
       <div
