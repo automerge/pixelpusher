@@ -12,10 +12,10 @@ import PeerInfo from '../../records/PeerInfo'
 import CloudPeer from '../../records/CloudPeer'
 
 const getPalette = state =>
-  getProject(state).get('palette')
+  getProject(state).doc.getIn('palette')
 
 const getFrames = state =>
-  getProject(state).get('frames')
+  getProject(state).doc.get('frames')
 
 const setProjectId = (state, id) =>
   state.set('currentProjectId', id).merge({
