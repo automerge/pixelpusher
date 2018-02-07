@@ -22,6 +22,7 @@ const State = Record({
   activeFrameIndex: 0,
   duration: 1,
   peerInfo: PeerInfo(),
+  cloudPeers: Map()
 }, "State")
 
 export default State

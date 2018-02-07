@@ -295,6 +295,9 @@ export default function (state = State(), action) {
     case 'PROJECT_VERSION_DOUBLE_CLICKED':
       return setProjectId(state, action.id)
 
+    case 'ADD_CLOUD_PEER':
+      return state.setIn(['cloudPeers', action.key], true)
+
     default:
       return state
   }
