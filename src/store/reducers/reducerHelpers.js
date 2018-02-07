@@ -152,8 +152,8 @@ function getSameColorAdjacentCells (pixels, columns, rows, index, sourceSwatchId
 }
 
 export function applyBucket (state, activeFrameIndex, pixelIndex, sourceSwatchId) {
-  const columns = getProject(state).get('columns')
-  const rows = getProject(state).get('rows')
+  const columns = getProject(state).doc.get('columns')
+  const rows = getProject(state).doc.get('rows')
   const queue = [pixelIndex]
   const currentSwatchIndex = state.currentSwatchIndex
   let currentIndex
@@ -163,18 +163,17 @@ export function applyBucket (state, activeFrameIndex, pixelIndex, sourceSwatchId
   let auxAdjacentSwatchIndex
 
   while (queue.length > 0) {
+    const {doc} = getProject(newState)
+    const pixels = doc.getIn(['frames', activeFrameIndex, 'pixels'])
     currentIndex = queue.shift()
     newState = setGridCellValue(newState, currentIndex, currentSwatchIndex)
     adjacents = getSameColorAdjacentCells(
-      getProject(newState).getIn(['frames', activeFrameIndex, 'pixels']),
-      columns, rows, currentIndex, sourceSwatchId
+      pixels, columns, rows, currentIndex, sourceSwatchId
     )
 
     for (let i = 0; i < adjacents.length; i++) {
       auxAdjacentId = adjacents[i]
-      auxAdjacentSwatchIndex = getProject(newState).getIn(
-        ['frames', activeFrameIndex, 'pixels', auxAdjacentId]
-      )
+      auxAdjacentSwatchIndex = pixels.get(auxAdjacentId)
       // Avoid introduce repeated or painted already cell into the queue
       if (
         (queue.indexOf(auxAdjacentId) === -1) &&
