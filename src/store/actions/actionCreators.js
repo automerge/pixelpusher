@@ -143,3 +143,10 @@ export function newProject() {
     type: 'NEW_PROJECT'
   };
 }
+
+export function addCloudPeer(key) {
+  return {
+    type: 'ADD_CLOUD_PEER',
+    key
+  }
+}

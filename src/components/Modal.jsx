@@ -131,7 +131,7 @@ class Modal extends React.Component {
         );
         break;
       case 'addCloudPeer':
-        content = <AddCloudPeerForm />;
+        content = <AddCloudPeerForm onAdd={this.onAddCloudPeer.bind(this)} />;
         break;
       default:
     }
@@ -157,6 +157,11 @@ class Modal extends React.Component {
         newState.previewType = value;
     }
     this.setState(newState);
+  }
+
+  onAddCloudPeer(key) {
+    this.props.actions.addCloudPeer(key);
+    this.props.close();
   }
 
   render() {
