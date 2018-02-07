@@ -10,6 +10,7 @@ import State from '../../records/State'
 import Peer from '../../records/Peer'
 import PeerInfo from '../../records/PeerInfo'
 import CloudPeer from '../../records/CloudPeer'
+import Identity from '../../records/Identity'
 
 const getPalette = state =>
   getProject(state).doc.getIn('palette')
@@ -160,6 +161,9 @@ function changeFrameInterval (state, frameIndex, interval) {
 const peerConnected = (state, key, id, info) =>
   state.setIn(['peers', id], Peer({key, id, isConnected: true, info: PeerInfo(info.peerInfo)}))
 
+const identityUpdated = (state, key, identity) =>
+  state.setIn(['identities', key], Identity(identity))
+
 const selfConnected = (state, key, id, canEdit) =>
   state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit, info: state.peerInfo}))
 
@@ -267,9 +271,14 @@ export default function (state = State(), action) {
       return state.setIn(['peerInfo', 'name'], action.name)
     case 'SELF_AVATAR_SET':
       return state.setIn(['peerInfo', 'avatarKey'], action.key)
+    case 'IDENTITY_CREATED':
+      return state.setIn(['peerInfo', 'identity'], action.key)
 
     case 'SET_PROJECT':
       return setProjectId(state, action.id)
+
+    case 'IDENTITY_UPDATE':
+      return identityUpdated(state, action.key, action.project)
 
     case 'PEER_CONNECTED':
       return peerConnected(state, action.key, action.id, action.info)

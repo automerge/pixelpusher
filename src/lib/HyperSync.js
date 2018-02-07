@@ -15,6 +15,30 @@ export default class HyperSync extends EventEmitter {
     this.peerInfo = peerInfo || {name: "Unknown"}
   }
 
+  setupIdentity(cb) {
+    if (this.peerInfo.identity) {
+      this.identityMerge = this.openDocument(this.peerInfo.identity)
+    } else {
+      this.identityMerge = this.createDocument()
+      this.identityMerge.once('ready', () =>
+        this.emit('identity:created', this.identityMerge)
+      )
+    }
+    this.identityMerge.once('ready', () =>
+      cb(this.identityMerge.key.toString('hex'),this.identityMerge)
+    )
+  }
+
+  setPeerInfo(pi) {
+    this.peerInfo = pi.toJS()
+    this.identityMerge.ready( () => {
+      this.identityMerge.change(doc => {
+        doc.name = pi.name
+        doc.avatarKey = pi.avatarKey
+      })
+    })
+  }
+
   createDocument() {
     return this._createMerge(null, merge => {
       this.emit('document:created', merge.doc.get())
@@ -41,7 +65,7 @@ export default class HyperSync extends EventEmitter {
   }
 
   _createMerge(key, cb) {
-    if (key && this.merges[key]) return
+    if (key && this.merges[key]) return this.merges[key]
 
 
     const path = key

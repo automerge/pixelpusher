@@ -9,6 +9,7 @@ const State = Record({
   focusedProjectId: null,
   projects: Map(),
   peers: Map(),
+  identities: Map(),
   currentSwatchIndex: 0,
   eraserOn: false,
   eyedropperOn: false,

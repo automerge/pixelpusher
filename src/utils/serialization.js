@@ -46,6 +46,7 @@ export const deserializePeerInfo = json =>
   PeerInfo(json && {
     name: json.name,
     avatarKey: json.avatarKey,
+    identity: json.identity,
   })
 
 export const deserializePalette = json =>
