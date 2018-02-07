@@ -25,7 +25,11 @@ class CloudPeers extends React.Component {
     const {cloudPeers, onAdd} = this.props
     return (
       <div className="cloud-peers">
-        <h3>Cloud Peers</h3>
+        <h3>Archivers</h3>
+          <button className="cloud-peers__add-button"
+                  onClick={onAdd}>
+            +
+          </button>
         <ul>
           {cloudPeers.entrySeq().map(([key, value]) => {
             const name = value && value.name
@@ -39,10 +43,6 @@ class CloudPeers extends React.Component {
             )
           })}
         </ul>
-        <button className="cloud-peers__add-button"
-                onClick={onAdd}>
-          Add Cloud Peer
-        </button>
       </div>
     )
   }

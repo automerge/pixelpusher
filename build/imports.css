@@ -2854,6 +2854,11 @@ label.picker__rows {
   margin-top: 10px;
 }
 
+.cloud-peers h3 {
+    display: inline-block;
+    margin: 10px 0 0 0;
+  }
+
 .cloud-peers ul {
     -webkit-padding-start: 10px;
   }
@@ -2861,6 +2866,9 @@ label.picker__rows {
 .cloud-peers li {
     list-style-type: none;
     margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
 .cloud-peers li span {
@@ -2904,7 +2912,9 @@ label.picker__rows {
 
 .cloud-peers__add-button {
   font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
-  width: 100%;
-  margin: 0 0 0.6em;
-  display: table;
+  display: inline-block;
+  font-size: 12px;
+  padding: 5px 10px;
+  vertical-align: super;
+  margin-left: 10px;
 }

@@ -1,6 +1,11 @@
 .cloud-peers {
   margin-top: 10px;
 
+  h3 {
+    display: inline-block;
+    margin: 10px 0 0 0;
+  }
+
   ul {
     -webkit-padding-start: 10px;
   }
@@ -8,6 +13,9 @@
   li {
     list-style-type: none;
     margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
   li span {
@@ -27,8 +35,10 @@
   &__add-button {
     @mixin button gray;
 
-    width: 100%;
-    margin: 0 0 0.6em;
-    display: table;
+    display: inline-block;
+    font-size: 12px;
+    padding: 5px 10px;
+    vertical-align: super;
+    margin-left: 10px;
   }
 }

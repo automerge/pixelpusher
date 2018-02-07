@@ -23,9 +23,9 @@ export default class AddCloudPeerForm extends React.Component {
   render () {
     return (
       <div>
-        <h3>Add Cloud Peer</h3>
+        <h3>Add Archiver</h3>
         <Field
-          label="Cloud Peer Key"
+          label="Archiver Key"
           value={this.state.key}
           onChange={key => this.setState({key, validationError: null})}
         />
