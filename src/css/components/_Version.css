@@ -66,10 +66,14 @@
 
   &__buttons {
     grid-area: buttons;
-    display: flex;
+    display: none;
     font-size: 13px;
     align-self: start;
     justify-self: end;
+  }
+
+  &:hover > &__buttons {
+    display: flex;
   }
 
   &__list {

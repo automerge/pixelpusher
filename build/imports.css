@@ -2775,12 +2775,17 @@ label.picker__rows {
 
 .version__buttons {
     grid-area: buttons;
-    display: -ms-flexbox;
-    display: flex;
+    display: none;
     font-size: 13px;
     -ms-flex-item-align: start;
+        -ms-grid-row-align: start;
         align-self: start;
     justify-self: end;
+  }
+
+.version:hover > .version__buttons {
+    display: -ms-flexbox;
+    display: flex;
   }
 
 .version__list {
