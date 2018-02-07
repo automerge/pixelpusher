@@ -29,10 +29,13 @@ export default store => {
           feed
         }
         feed.ready(() => {
+          const userData = JSON.stringify({
+            key: archiverKey
+          })
           const sw = hyperdiscovery(feed, {
             stream: () => feed.replicate({
               live: true,
-              userData: archiverKey
+              userData
             })
           })
           sw.on('connection', peer => {
