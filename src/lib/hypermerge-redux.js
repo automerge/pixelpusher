@@ -39,7 +39,7 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
         return next(action)
 
       case 'DELETE_DOCUMENT':
-        return next(withDoc('DOCUMENT_DELETED', sync.delete(action.id)))
+        return next({type: 'DOCUMENT_DELETED', id: action.id})
 
       case 'FORK_DOCUMENT': {
         const doc = sync.fork(action.id, action.metadata)

@@ -188,6 +188,7 @@ const documentCreated = (state, action) => {
         .set('identityId', action.id)
     case 'Project':
       return setProject(state, makeProject(action))
+        .set('activeFrameIndex', 0)
     default:
       throw new Error(`Unknown document type: ${type}`)
   }
