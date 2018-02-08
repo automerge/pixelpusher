@@ -1,5 +1,8 @@
 import React from 'react';
+import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
+import Button from './Button';
+import * as actionCreators from '../store/actions/actionCreators';
 import prettyHash from 'pretty-hash';
 
 class CloudPeers extends React.Component {
@@ -21,6 +24,14 @@ class CloudPeers extends React.Component {
     this.setState({time: Date.now()})
   }
 
+  link (key) {
+    console.log('Jim link', key)
+  }
+
+  remove (key) {
+    this.props.actions.removeCloudPeer(key)
+  }
+
   render () {
     const {cloudPeers, onAdd} = this.props
     return (
@@ -39,6 +50,16 @@ class CloudPeers extends React.Component {
               <li key={key}>
                 <span className={color} />
                 {name ? name : prettyHash(key)}
+                <div className="cloud-peers__buttons">
+                  <Button tiny
+                    icon="link"
+                    onClick={this.link.bind(this, key)}
+                  />
+                  <Button tiny
+                    icon="delete"
+                    onClick={this.remove.bind(this, key)}
+                  />
+                </div>
               </li>
             )
           })}
@@ -53,6 +74,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actionCreators, dispatch),
   dispatch,
 });
 

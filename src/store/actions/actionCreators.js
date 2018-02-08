@@ -150,3 +150,9 @@ export function addCloudPeer(key) {
     key
   }
 }
+export function removeCloudPeer(key) {
+  return {
+    type: 'REMOVE_CLOUD_PEER',
+    key
+  }
+}

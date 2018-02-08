@@ -16,6 +16,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    position: relative;
   }
 
   li span {
@@ -40,5 +41,20 @@
     padding: 5px 10px;
     vertical-align: super;
     margin-left: 10px;
+  }
+
+  &__buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+
+    button {
+      vertical-align: top;
+    }
+  }
+
+  li:hover &__buttons {
+    opacity: 1;
   }
 }

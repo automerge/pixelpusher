@@ -298,6 +298,9 @@ export default function (state = State(), action) {
     case 'ADD_CLOUD_PEER':
       return state.setIn(['cloudPeers', action.key], CloudPeer())
 
+    case 'REMOVE_CLOUD_PEER':
+      return state.deleteIn(['cloudPeers', action.key])
+
     case 'CLOUD_PEER_PING':
       const cloudPeer = CloudPeer({
         name: action.name,
