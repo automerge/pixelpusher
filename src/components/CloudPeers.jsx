@@ -25,11 +25,13 @@ class CloudPeers extends React.Component {
   }
 
   link (key) {
-    console.log('Jim link', key)
+    alert(`Archiver key: ${key}`)
   }
 
   remove (key) {
-    this.props.actions.removeCloudPeer(key)
+    if (confirm('Do you really want to remove the archiver?')) {
+      this.props.actions.removeCloudPeer(key)
+    }
   }
 
   render () {

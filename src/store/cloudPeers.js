@@ -65,6 +65,7 @@ export default store => {
               if (!store.getState().getIn(['cloudPeers', key])) {
                 console.log('Cloud peer removed', key, name)
                 clearInterval(intervalId)
+                delete connectedCloudPeers[key]
                 sw.close()
                 return
               }
