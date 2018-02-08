@@ -55,10 +55,10 @@ class FramesHandler extends React.Component {
       <div className="frames-handler">
         <div className="frames-handler__list">
           <Scrollbars
+            hideTracksWhenNotNeeded
             autoHeight
-            ref={(c) => { this.scrollbars = c; }}
-            universal
             autoHide
+            ref={(c) => { this.scrollbars = c; }}
             onUpdate={() => { this.onScrollbarUpdate(); }}
           >
             <div className="list__container">

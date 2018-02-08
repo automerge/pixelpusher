@@ -141,7 +141,7 @@ function deleteFrame (state, frameIndex) {
 
 function duplicateFrame (state, frameIndex) {
   return updateProject(state, Mutation.cloneFrame(frameIndex))
-    .update('activeFrameIndex', i => i + 1)
+    .set('activeFrameIndex', frameIndex + 1)
 }
 
 const newProject = state =>

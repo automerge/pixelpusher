@@ -1,5 +1,5 @@
 import React from 'react'
-import Preview from './Preview'
+import Canvas from './Canvas'
 
 export default class Frame extends React.Component {
   handleClick () {
@@ -8,26 +8,20 @@ export default class Frame extends React.Component {
 
   deleteFrame (e) {
     e.stopPropagation()
-    if (this.props.active) {
-      this.props.actions.deleteFrame(this.props.frameIndex)
-    }
+    this.props.actions.deleteFrame(this.props.frameIndex)
   }
 
   duplicateFrame (e) {
     e.stopPropagation()
-    if (this.props.active) {
-      this.props.actions.duplicateFrame(this.props.frameIndex)
-    }
+    this.props.actions.duplicateFrame(this.props.frameIndex)
   }
 
   changeInterval (e) {
     e.stopPropagation()
-    if (this.props.active) {
-      this.props.actions.changeFrameInterval(
-        this.props.frameIndex,
-        this.percentage.value
-      )
-    }
+    this.props.actions.changeFrameInterval(
+      this.props.frameIndex,
+      this.percentage.value
+    )
   }
 
   render () {
@@ -40,7 +34,7 @@ export default class Frame extends React.Component {
         className={`frame${active ? ' active' : ''}`}
         onClick={() => { this.handleClick() }}
       >
-        <Preview
+        <Canvas
           project={project}
           frameIndex={frameIndex}
         />

@@ -10,6 +10,10 @@
   overflow: hidden;
   opacity: 0.4;
 
+  > .Canvas {
+    width: 100%;
+  }
+
   .delete,
   .duplicate {
     position: absolute;
@@ -23,6 +27,7 @@
   .delete {
     @mixin icon trash-o;
 
+    cursor: no-drop;
     font-size: 1.2em;
     top: 0;
     border-width: 0 0 2px 2px;
@@ -32,20 +37,15 @@
     @mixin icon files-o;
 
     bottom: 23px;
+    cursor: copy;
     border-width: 2px 0 0 2px;
   }
 
   &.active {
     border: 2px solid $color-tamarillo;
+    background-color: $color-silver;
+    color: white;
     opacity: 1;
-
-    .delete {
-      cursor: no-drop;
-    }
-
-    .duplicate {
-      cursor: copy;
-    }
 
     .delete,
     .duplicate {
@@ -55,6 +55,10 @@
     &__percentage {
       border-color: $color-tamarillo;
     }
+  }
+
+  &:hover {
+    opacity: 1;
   }
 
   &__percentage {

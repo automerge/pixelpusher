@@ -2161,7 +2161,11 @@ input[type="text"]:focus, input[type="number"]:focus {
 
 .frames-handler .frames-handler__add {
   font-family: 'minecraftiaregular','Helvetica Neue Light','Helvetica Neue','Helvetica','Arial',sans-serif;
-  height: 86px;
+  -ms-flex-item-align: stretch;
+      -ms-grid-row-align: stretch;
+      align-self: stretch;
+  margin-bottom: 5px;
+  margin-left: 2px;
 }
 
 .frames-handler__list {
@@ -2175,7 +2179,6 @@ input[type="text"]:focus, input[type="number"]:focus {
   }
 
 .frames-handler__list .list__container {
-      height: 85px;
       display: -ms-flexbox;
       display: flex;
       -ms-flex-wrap: nowrap;
@@ -2196,6 +2199,10 @@ input[type="text"]:focus, input[type="number"]:focus {
   opacity: 0.4;
 }
 
+.frame > .Canvas {
+    width: 100%;
+  }
+
 .frame .delete, .frame .duplicate {
     position: absolute;
     color: white;
@@ -2215,6 +2222,7 @@ input[type="text"]:focus, input[type="number"]:focus {
   }
 
 .frame .delete {
+  cursor: no-drop;
   font-size: 1.2em;
   top: 0;
   border-width: 0 0 2px 2px;
@@ -2231,20 +2239,15 @@ input[type="text"]:focus, input[type="number"]:focus {
 
 .frame .duplicate {
   bottom: 23px;
+  cursor: copy;
   border-width: 2px 0 0 2px;
 }
 
 .frame.active {
   border: 2px solid #961818;
+  background-color: #bbb;
+  color: white;
   opacity: 1;
-}
-
-.frame.active .delete {
-      cursor: no-drop;
-}
-
-.frame.active .duplicate {
-      cursor: copy;
 }
 
 .frame.active .delete, .frame.active .duplicate {
@@ -2253,6 +2256,10 @@ input[type="text"]:focus, input[type="number"]:focus {
 
 .frame.active__percentage {
       border-color: #961818;
+}
+
+.frame:hover {
+  opacity: 1;
 }
 
 .frame__percentage {

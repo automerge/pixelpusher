@@ -5,7 +5,9 @@
   .frames-handler__add {
     @mixin button gray;
 
-    height: 86px;
+    align-self: stretch;
+    margin-bottom: 5px;
+    margin-left: 2px;
   }
 
   &__list {
@@ -16,7 +18,6 @@
     flex-grow: 1;
 
     .list__container {
-      height: 85px;
       display: flex;
       flex-wrap: nowrap;
     }
