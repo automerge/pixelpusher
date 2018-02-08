@@ -14,7 +14,7 @@ const configureStore = devMode => {
     path: STORAGE_PATH
   })
 
-  sync.on('document:ready', doc => {
+  const addDepDocs = doc => {
     const metadata = sync.metadata(doc._actorId)
 
     switch (metadata.type) {
@@ -23,7 +23,10 @@ const configureStore = devMode => {
       case 'Identity':
         return doc.get('avatarId') && sync.open(doc.get('avatarId'))
     }
-  })
+  }
+
+  sync.on('document:ready', addDepDocs)
+  sync.on('document:updated', addDepDocs)
 
   const init = ({type}) => {
     switch (type) {
