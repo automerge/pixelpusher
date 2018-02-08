@@ -6,54 +6,60 @@ import * as actionCreators from '../store/actions/actionCreators'
 import GridWrapper from './GridWrapper'
 import { getProjectPreview } from '../store/reducers/reducerHelpers'
 
-const PixelCanvas = (props) => {
-  let {project, activeFrameIndex} = props
+class PixelCanvas extends React.Component {
 
-  if (!project || !project.getIn(['doc', 'relativeId'])) return <div>Loading...</div>
-  const {doc} = project
+  render () {
+    let {project, activeFrameIndex} = this.props
 
-  const columns = doc.get('columns')
-  const palette = doc.get('palette')
-  const emptyColor = doc.get('defaultColor')
-  const frames = doc.get('frames')
-  const activeFrame = frames.get(activeFrameIndex)
-  const pixels = activeFrame.get('pixels')
-  const conflicts = Automerge.getConflicts(doc, pixels)
+    if (!project || !project.getIn(['doc', 'relativeId'])) return <div>Loading...</div>
+    const {doc} = project
 
-  const readonly = !project.isWritable
+    const columns = doc.get('columns')
+    const palette = doc.get('palette')
+    const emptyColor = doc.get('defaultColor')
+    const frames = doc.get('frames')
+    const activeFrame = frames.get(activeFrameIndex)
+    const pixels = activeFrame.get('pixels')
+    const conflicts = Automerge.getConflicts(doc, pixels)
 
-  const cells = pixels.map((swatchIndex, i) => {
-    return {
-      id: i,
-      project,
-      conflicts: conflicts.get(i),
-      width: 100 / columns,
-      swatchIndex,
-      color: palette.getIn([swatchIndex, 'color']) || emptyColor
+    const readonly = !project.isWritable
+
+    const cells = pixels.map((swatchIndex, i) => {
+      return {
+        id: i,
+        project,
+        conflicts: conflicts.get(i),
+        width: 100 / columns,
+        swatchIndex,
+        color: palette.getIn([swatchIndex, 'color']) || emptyColor
+      }
+    })
+
+    let gridExtraClass = 'cell'
+    if (this.props.eraserOn) {
+      gridExtraClass = 'context-menu'
+    } else if (this.props.eyedropperOn) {
+      gridExtraClass = 'copy'
     }
-  })
 
-  const onCellEvent = id =>
-    readonly ? null : props.actions.drawCell(id)
+    if (readonly) {
+      gridExtraClass += ' readonly'
+    }
 
-  let gridExtraClass = 'cell'
-  if (props.eraserOn) {
-    gridExtraClass = 'context-menu'
-  } else if (props.eyedropperOn) {
-    gridExtraClass = 'copy'
+    return (
+      <GridWrapper
+        cells={cells}
+        onCellEvent={this.onCellEvent}
+        extraClass={gridExtraClass}
+      />
+    )
   }
 
-  if (readonly) {
-    gridExtraClass += ' readonly'
-  }
+  onCellEvent = id => {
+    if (!this.props.project.isWritable) return
 
-  return (
-    <GridWrapper
-      cells={cells}
-      onCellEvent={onCellEvent}
-      extraClass={gridExtraClass}
-    />
-  )
+    this.props.actions.drawCell(id)
+  }
 };
 
 const mapStateToProps = (state) => {
