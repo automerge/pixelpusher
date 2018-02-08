@@ -2729,6 +2729,7 @@ label.picker__rows {
   margin-top: 5px;
   background-color: #4b4949;
   line-height: 1.5;
+  font-size: 14px;
   height: 54px;
   position: relative;
 }
