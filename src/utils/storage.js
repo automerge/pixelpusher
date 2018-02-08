@@ -31,11 +31,13 @@ function saveDataToStorage (data) {
 }
 
 export function getDataFromStorage () {
-  if (fs.existsSync(STATE_PATH)) {
-    return JSON.parse(fs.readFileSync(STATE_PATH))
-  } else {
-    return initStorage()
-  }
+  if (!fs.existsSync(STATE_PATH)) return initStorage()
+
+  const contents = fs.readFileSync(STATE_PATH)
+
+  if (contents.length === 0) return initStorage()
+
+  return JSON.parse(contents)
 }
 
 export function saveStateToStorage (state) {
