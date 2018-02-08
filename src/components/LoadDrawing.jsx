@@ -44,12 +44,13 @@ export default class LoadDrawing extends React.Component {
   giveMeProjects() {
     const {identity} = this.props;
     const avatarId = identity.doc.get('avatarId')
-    const projects = this.props.projects.valueSeq();
+    const projectGroups = this.props.projects.valueSeq()
+      .filter(p => p.doc && p.doc.get('relativeId'))
+      .groupBy(p => p.doc.get('relativeId'));
 
-    return projects.map(project => {
+    return projectGroups.map(group => {
+      const project = group.find(p => p.isWritable) || group.first()
       const {id, doc} = project
-
-      if (!doc.get('relativeId')) return null
 
       return (
         <div
@@ -78,7 +79,7 @@ export default class LoadDrawing extends React.Component {
           <h2>{doc.get('title')}</h2>
         </div>
       );
-    });
+    }).valueSeq();
   }
 
   giveMeOptions(type) {
