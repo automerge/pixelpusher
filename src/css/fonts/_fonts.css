@@ -92,3 +92,7 @@
 @define-extend merge {
   content: "\F122";
 }
+
+@define-extend link {
+  content: "\f0c1";
+}

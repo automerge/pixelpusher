@@ -463,6 +463,10 @@ label.picker__rows::before{
   content: "\F122";
 }
 
+.button-link::before{
+  content: "\f0c1";
+}
+
 /* Button colors */
 
 /**
@@ -2581,6 +2585,15 @@ label.picker__rows {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.button-link {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .field {
   display: -ms-flexbox;
   display: flex;
@@ -2874,6 +2887,7 @@ label.picker__rows {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    position: relative;
   }
 
 .cloud-peers li span {
@@ -2923,3 +2937,18 @@ label.picker__rows {
   vertical-align: super;
   margin-left: 10px;
 }
+
+.cloud-peers__buttons {
+    position: absolute;
+    top: 0;
+    right: 0;
+    opacity: 0;
+  }
+
+.cloud-peers__buttons button {
+      vertical-align: top;
+    }
+
+li:hover .cloud-peers__buttons {
+    opacity: 1;
+  }

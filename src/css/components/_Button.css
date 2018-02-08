@@ -46,4 +46,8 @@
   &-delete {
     @mixin icon trash-o;
   }
+
+  &-link {
+    @mixin icon link;
+  }
 }

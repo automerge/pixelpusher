@@ -62,6 +62,12 @@ export default store => {
 
             function ping () {
               if (!name) return
+              if (!store.getState().getIn(['cloudPeers', key])) {
+                console.log('Cloud peer removed', key, name)
+                clearInterval(intervalId)
+                sw.close()
+                return
+              }
               dispatch({
                 type: 'CLOUD_PEER_PING',
                 key,
