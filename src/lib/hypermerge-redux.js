@@ -1,16 +1,18 @@
 import {equals} from '../logic/Versions'
+import { is } from 'immutable';
 
-export default (sync, {init}) => ({dispatch, getState}) => next => {
-  // TODO remove global assignment:
+export default (sync, {init, map}) => ({dispatch, getState}) => next => {
+  if (!map) map = x => x
 
   const withDoc = (type, doc) =>
-    ({
+    map({
       type,
       id: doc._actorId,
       doc,
+      metadata: sync.metadata(doc._actorId),
       isReady: sync.isOpened(doc._actorId),
       isWritable: sync.isWritable(doc._actorId)
-    })
+    }, getState())
 
   sync.once('ready', () => {
     const archiverKey = sync.core.archiver.changes.key.toString('hex')
@@ -18,15 +20,16 @@ export default (sync, {init}) => ({dispatch, getState}) => next => {
     dispatch({type: 'HYPERMERGE_READY', archiverKey})
 
     sync.openAll()
-    if (!sync.any()) dispatch({type: 'CREATE_DOCUMENT'})
   })
   .on('document:ready', doc => dispatch(withDoc('DOCUMENT_READY', doc)))
   .on('document:updated', doc => dispatch(withDoc('DOCUMENT_UPDATED', doc)))
 
-  return action => {
+  return _action => {
+    const action = map(_action, getState())
     switch (action.type) {
       case 'CREATE_DOCUMENT':
-        return next(withDoc('DOCUMENT_CREATED', sync.update(init(sync.create()))))
+        return next(withDoc('DOCUMENT_CREATED',
+          sync.update(init(action.metadata)(sync.create(action.metadata)))))
 
       case 'OPEN_DOCUMENT':
         return next(withDoc('DOCUMENT_OPENED', sync.open(action.id)))
@@ -39,7 +42,7 @@ export default (sync, {init}) => ({dispatch, getState}) => next => {
         return next(withDoc('DOCUMENT_DELETED', sync.delete(action.id)))
 
       case 'FORK_DOCUMENT': {
-        const doc = sync.fork(action.id)
+        const doc = sync.fork(action.id, action.metadata)
         sync.share(doc._actorId, action.id)
         return next(withDoc('DOCUMENT_FORKED', doc))
       }
@@ -49,22 +52,33 @@ export default (sync, {init}) => ({dispatch, getState}) => next => {
     }
 
     // HACK TODO figure out a better way to do this:
-    const prevProjects = getState().projects
+    const prev = getState()
     const res = next(action)
-    const {projects} = getState()
+    const curr = getState()
 
-    projects.forEach((pro, k) => {
-      const pPro = prevProjects.get(k)
-
-      if (!pro || !pro.doc) return
-      if (!sync.isWritable(pro.doc._actorId)) return
-      if (!pPro || !pPro.doc) return
-      if (equals(pro, pPro)) return
-
-      sync.update(pro.doc)
-    })
+    watch(sync, ['projects'], prev, curr)
+    watch(sync, ['identities'], prev, curr)
     // END HACK
 
     return res
   }
+}
+
+// HACK pixelpusher specific:
+const watch = (sync, path, prevState, currState) => {
+  const prev = prevState.getIn(path)
+  const curr = currState.getIn(path)
+
+  if (is(curr, prev)) return
+
+  curr.forEach((rec, k) => {
+    const pRec = prev.get(k)
+
+    if (!rec || !rec.doc) return
+    if (!rec.isWritable) return
+    if (!pRec || !pRec.doc) return
+    if (equals(rec, pRec)) return
+
+    sync.update(rec.doc)
+  })
 }

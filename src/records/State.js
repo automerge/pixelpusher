@@ -1,13 +1,12 @@
 import {Record, List, Map} from 'immutable'
-import PeerInfo from './PeerInfo'
 
 export const DEFAULT_COLOR = '#313131';
 
 const State = Record({
-  isLoaded: false,
   currentProjectId: null,
   focusedProjectId: null,
   projects: Map(),
+  identityId: null,
   peers: Map(),
   identities: Map(),
   currentSwatchIndex: 0,
@@ -22,9 +21,8 @@ const State = Record({
   notifications: List(),
   activeFrameIndex: 0,
   duration: 1,
-  peerInfo: PeerInfo(),
   cloudPeers: Map(),
   archiverKey: null
-}, "State")
+}, 'State')
 
 export default State

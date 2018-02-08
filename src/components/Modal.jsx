@@ -11,7 +11,7 @@ import CopyCSS from './CopyCSS';
 import DownloadDrawing from './DownloadDrawing';
 import TwitterForm from './TwitterForm';
 import AddCloudPeerForm from './AddCloudPeerForm';
-import { getProject } from '../store/reducers/reducerHelpers';
+import { getProject, getOwnIdentity } from '../store/reducers/reducerHelpers';
 
 ModalReact.setAppElement('#app');
 
@@ -75,7 +75,8 @@ class Modal extends React.Component {
             open={props.open}
             projects={props.projects}
             project={props.project}
-            peerInfo={props.peerInfo}
+            identity={props.identity}
+            identities={props.identities}
             dispatch={props.dispatch}
             actions={{
               setProject: props.actions.setProject,
@@ -244,7 +245,8 @@ const mapStateToProps = (state) => {
     activeFrameIndex: state.get('activeFrameIndex'),
     project: getProject(state),
     projects: state.projects,
-    peerInfo: state.peerInfo,
+    identity: getOwnIdentity(state),
+    identities: state.identities,
     duration: state.get('duration')
   };
 };

@@ -1,9 +1,13 @@
-import { exampleCat } from '../../examples/import-export/json-cat';
-import { deserializeState, serializeState } from './serialization';
+import fs from 'fs'
+import path from 'path'
+import mkdirp from 'mkdirp'
+import { exampleCat } from '../../examples/import-export/json-cat'
+import { deserializeState, deserializeProject, serializeState } from './serialization'
 import State from '../records/State'
 
-const clientId = +(process.env.CLIENT_ID || 0)
-const STORAGE_KEY = `pixelpusher-v7/client-${clientId}`;
+export const CLIENT_ID = +(process.env.CLIENT_ID || 0)
+export const STORAGE_PATH = `./.data/pixelpusher-v8/client-${CLIENT_ID}`
+export const STATE_PATH = path.join(STORAGE_PATH, 'state')
 
 /*
  *  Storage data structure
@@ -19,52 +23,55 @@ const STORAGE_KEY = `pixelpusher-v7/client-${clientId}`;
  *
 */
 
-function saveDataToStorage(storage, data) {
-  try {
-    storage.setItem(STORAGE_KEY, JSON.stringify(data));
-    return true;
-  } catch (e) {
-    return false; // There was an error
+function saveDataToStorage (data) {
+  fs.writeFile(
+    STATE_PATH,
+    JSON.stringify(data),
+    e => e && console.error(e))
+}
+
+export function getDataFromStorage () {
+  if (fs.existsSync(STATE_PATH)) {
+    return JSON.parse(fs.readFileSync(STATE_PATH))
+  } else {
+    return initStorage()
   }
 }
 
-export function getDataFromStorage(storage) {
-  const dataString = storage.getItem(STORAGE_KEY);
-  return dataString ? JSON.parse(dataString) : initStorage(storage);
+export function saveStateToStorage (state) {
+  return saveDataToStorage(serializeState(state))
 }
 
-export function saveStateToStorage(storage, state) {
-  return saveDataToStorage(storage, serializeState(state))
+export function getStateFromStorage () {
+  const data = getDataFromStorage()
+  return data ? deserializeState(data) : State()
 }
 
-export function getStateFromStorage(storage) {
-  const data = getDataFromStorage(storage)
-  return data && deserializeState(data)
-}
-
-export function initStorage(storage) {
+export function initStorage () {
   const data = serializeState(State())
 
-  storage.setItem(STORAGE_KEY, JSON.stringify(data));
+  mkdirp.sync(STORAGE_PATH)
+
+  saveDataToStorage(data)
 
   return data
 }
 
-export function generateExportString(project) {
+export function generateExportString (project) {
   try {
-    return JSON.stringify(project.toJS());
+    return JSON.stringify(project.toJS())
   } catch (e) {
-    return 'Sorry, there was an error';
+    return 'Sorry, there was an error'
   }
 }
 
-export function exportedStringToProject(str) {
+export function exportedStringToProject (str) {
   if (str === '') {
-    return false;
+    return false
   }
   try {
-    return deserializeProject(JSON.parse(str));
+    return deserializeProject(JSON.parse(str))
   } catch (e) {
-    return false;
+    return false
   }
 }

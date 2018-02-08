@@ -91,6 +91,16 @@ export const addFrameFromPixels = (pixels, width, height) =>
     resetFrameIntervals(pro.frames)
   })
 
+export const setAvatarId = id =>
+  change(ident => {
+    ident.avatarId = id
+  })
+
+export const setName = name =>
+  change(ident => {
+    ident.name = name
+  })
+
 const resizePixels = (pixels, dimension, behavior, columns) => {
   if (dimension === 'columns') {
     if (behavior === 'add') {

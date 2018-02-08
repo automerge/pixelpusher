@@ -7,7 +7,7 @@ import {
 import Animation from './Animation'
 
 const Preview = (props) => {
-  const { frameIndex, duration, animate } = props
+  const { frameIndex, duration, animate, width } = props
   const {project} = props
   const {doc} = project
   const frames = doc.get('frames')
@@ -55,7 +55,8 @@ const Preview = (props) => {
 
   const style = {
     width: columns * cellSize,
-    height: rows * cellSize
+    height: rows * cellSize,
+    transform: `scale(${width ? width / (columns * cellSize) : 1})`
   }
 
   return (

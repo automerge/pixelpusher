@@ -1,15 +1,16 @@
 import React from 'react'
 import Preview from './Preview';
+import Canvas from './Canvas';
 import Button from './Button';
 import classnames from 'classnames'
 import * as Versions from '../logic/Versions'
 
 export default class Version extends React.Component {
   render() {
-    const {isCurrent, isViewing, project} = this.props
+    const {isCurrent, isViewing, project, identity, avatar} = this.props
 
     // const isUpstream = Versions.isUpstream(project, currentProject)
-    const color = Versions.color(project)
+    const color = Versions.color(identity || project)
     const {id} = project
 
     return (
@@ -23,18 +24,21 @@ export default class Version extends React.Component {
         key={project.id}
       >
         <div className="version__preview" style={{borderColor: color}}>
-          { project
-            ? <Preview
-                animate
-                frameIndex={0}
-                duration={1}
-                project={project.setIn(['doc', 'cellSize'], 3)}
-              />
+          { project && project.doc
+            ? <Canvas project={project} />
+            : null}
+        </div>
+
+        <div className="version__avatar">
+          { avatar && avatar.doc
+            ? <Canvas project={avatar} />
             : null}
         </div>
 
         <div className="version__text">
-          {project.id.slice(0, 6)}
+          { identity
+            ? identity.doc.get('name')
+            : null }
         </div>
 
         <div className="version__status">

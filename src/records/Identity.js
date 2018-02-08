@@ -1,8 +1,9 @@
-import {Record, List} from 'immutable'
+import {Record} from 'immutable'
 
 const Identity = Record({
-  name: "Somebody",
-  avatarKey: null,
-}, "Identity")
+  id: null,
+  doc: null,
+  isWritable: false
+}, 'Identity')
 
 export default Identity

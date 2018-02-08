@@ -2,7 +2,8 @@ import { List } from 'immutable'
 import {
   resizeProject, setGridCellValue,
   applyBucket, addFrameToProject, getProject, updateProject,
-  setProject
+  setProject,
+  updateIdentity
 } from './reducerHelpers'
 import * as Mutation from '../../logic/Mutation'
 import Project, { project } from '../../records/Project'
@@ -23,11 +24,11 @@ const setProjectId = (state, id) =>
     activeFrameIndex: 0
   })
 
-const stateLoaded = state =>
-  state.set('isLoaded', true)
-
 const addProject = (state, project) =>
   state.setIn(['projects', project.id], project)
+
+const addIdentity = (state, identity) =>
+  state.setIn(['identities', identity.id], identity)
 
 function changeDimensions (state, dimension, behavior) {
   return resizeProject(state, dimension, behavior)
@@ -179,8 +180,55 @@ const remoteProjectUpdated = (state, project) => {
   : addProject(state, project)
 }
 
-const makeProject = ({id, doc, isWritable}) =>
-  Project({ id, doc, isWritable })
+const documentCreated = (state, action) => {
+  const {type} = action.metadata
+  switch (type) {
+    case 'Identity':
+      return addIdentity(state, makeIdentity(action))
+        .set('identityId', action.id)
+    case 'Project':
+      return setProject(state, makeProject(action))
+    default:
+      throw new Error(`Unknown document type: ${type}`)
+  }
+}
+
+const documentOpened = (state, action) => {
+  // currently only projects can be opened:
+  return setProject(state, makeProject(action))
+}
+
+const documentReady = (state, action) => {
+  const {type} = action.metadata
+
+  switch (type) {
+    case 'Identity':
+      return addIdentity(state, makeIdentity(action))
+    case 'Project':
+      return addProject(state, makeProject(action))
+    default:
+      throw new Error(`Unknown document type: ${type}`)
+  }
+}
+
+const documentUpdated = (state, action) => {
+  const {type} = action.metadata
+
+  switch (type) {
+    case 'Identity':
+      return addIdentity(state, makeIdentity(action))
+    case 'Project':
+      return remoteProjectUpdated(state, makeProject(action))
+    default:
+      throw new Error(`Unknown document type: ${type}`)
+  }
+}
+
+const makeProject = ({id, doc, isWritable, metadata: {identityId} = {}}) =>
+  Project({ id, doc, isWritable, identityId })
+
+const makeIdentity = ({id, doc, isWritable}) =>
+  Identity({ id, doc, isWritable })
 
 export default function (state = State(), action) {
   if (action.type !== 'CLOUD_PEER_PING') {
@@ -194,18 +242,18 @@ export default function (state = State(), action) {
       return state.setIn(['archiverKey'], action.archiverKey)
 
     case 'DOCUMENT_READY':
-      return addProject(state, makeProject(action))
+      return documentReady(state, action)
 
     case 'DOCUMENT_UPDATED':
-      return remoteProjectUpdated(state, makeProject(action))
+      return documentUpdated(state, action)
 
     case 'DOCUMENT_FORKED':
     case 'DOCUMENT_MERGED':
     case 'DOCUMENT_OPENED':
-      return setProject(state, makeProject(action))
+      return documentOpened(state, action)
 
     case 'DOCUMENT_CREATED':
-      return setProject(state, makeProject(action))
+      return documentCreated(state, action)
 
     case 'DOCUMENT_DELETED':
       return sendNotification(state, 'Project deleted')
@@ -214,8 +262,6 @@ export default function (state = State(), action) {
 
     // End HyperMerge actions
 
-    case 'STATE_LOADED':
-      return stateLoaded(action.state)
     case 'CHANGE_DIMENSIONS':
       return changeDimensions(state, action.gridProperty, action.behaviour)
     case 'SET_COLOR_SELECTED':
@@ -270,9 +316,9 @@ export default function (state = State(), action) {
     case 'PROJECT_TITLE_CHANGED':
       return updateProject(state, Mutation.setTitle(action.title))
     case 'SELF_NAME_CHANGED':
-      return state.setIn(['peerInfo', 'name'], action.name)
-    case 'SELF_AVATAR_SET':
-      return state.setIn(['peerInfo', 'avatarKey'], action.key)
+      return updateIdentity(state, Mutation.setName(action.name))
+    case 'AVATAR_BUTTON_CLICKED':
+      return updateIdentity(state, Mutation.setAvatarId(action.id))
     case 'IDENTITY_CREATED':
       return state.setIn(['peerInfo', 'identity'], action.key)
 

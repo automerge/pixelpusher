@@ -8,7 +8,6 @@ const init = f => doc =>
 
 export const project = init(pro => {
   pro.relativeId = shortid.generate()
-  pro.type = 'Project'
   pro.title = 'Untitled'
   pro.rows = 16
   pro.columns = 16
@@ -16,6 +15,11 @@ export const project = init(pro => {
   pro.defaultColor = DEFAULT_COLOR
   pro.frames = [emptyFrame(16 * 16)]
   pro.palette = palette()
+})
+
+export const identity = init(ident => {
+  ident.name = 'Somebody'
+  ident.avatarId = null
 })
 
 export const frame = frame => {

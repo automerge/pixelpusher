@@ -3,7 +3,8 @@ import {Record} from 'immutable'
 const Project = Record({
   id: null, // required
   doc: null,
-  isWritable: false
+  isWritable: false,
+  identityId: null,
 }, 'Project')
 
 export default Project

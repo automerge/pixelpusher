@@ -1,10 +1,10 @@
 .version {
   display: grid;
-  grid-template-columns: 48px 5px auto auto 24px;
+  grid-template-columns: 48px 5px auto auto 48px;
   grid-template-rows: 24px 24px;
   grid-template-areas:
-    "preview . status buttons buttons"
-    "preview . text text avatar";
+    "preview . status buttons avatar"
+    "preview . text   text    avatar";
   align-items: center;
   border: 3px solid #757575;
   margin-top: 5px;
@@ -40,11 +40,12 @@
     background-color: #313131;
     overflow: hidden;
     border-right: 3px solid #555;
+    display: flex;
+    justify-content: center;
 
-    .preview {
-      position: relative;
-      top: -3px;
-      left: -3px;
+    > .Canvas {
+      height: 100%;
+      width: auto;
     }
   }
 
@@ -52,6 +53,12 @@
     grid-area: avatar;
     height: 100%;
     overflow: hidden;
+    display: flex;
+
+    > .Canvas {
+      height: 100%;
+      width: auto;
+    }
   }
 
   &__text {
@@ -60,8 +67,11 @@
 
   &__status {
     grid-area: status;
-    font-size: 12px;
+    font-size: 11px;
     color: #333;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
 
   &__buttons {

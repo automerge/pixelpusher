@@ -8,12 +8,6 @@ import {
 import Project from '../records/Project'
 import { keyFromShareLink } from '../utils/shareLink';
 
-/*
-  Avoid error when server-side render doesn't recognize
-  localstorage (browser feature)
-*/
-const browserStorage = (typeof localStorage === 'undefined') ? null : localStorage;
-
 export default class LoadDrawing extends React.Component {
   getExportCode() {
     return generateExportString(this.props.project);
@@ -38,7 +32,7 @@ export default class LoadDrawing extends React.Component {
   }
 
   newProjectClicked = e => {
-    this.props.dispatch({type: 'CREATE_DOCUMENT'});
+    this.props.dispatch({type: 'NEW_PROJECT_CLICKED'});
     this.props.close();
   }
 
@@ -48,7 +42,8 @@ export default class LoadDrawing extends React.Component {
   }
 
   giveMeProjects() {
-    const {peerInfo} = this.props;
+    const {identity} = this.props;
+    const avatarId = identity.doc.get('avatarId')
     const projects = this.props.projects.valueSeq();
 
     return projects.map(project => {
@@ -75,7 +70,7 @@ export default class LoadDrawing extends React.Component {
               icon="delete"
               onClick={(event) => { this.deleteProject(id, event); }}
             />
-            { peerInfo.avatarKey === id
+            { avatarId === id
               ? null
               : <Button small icon="avatar" onClick={this.setAvatar(id)} />
             }
@@ -152,9 +147,9 @@ export default class LoadDrawing extends React.Component {
     return (this.giveMeOptions(this.props.loadType));
   }
 
-  setAvatar = key => e => {
+  setAvatar = id => e => {
     e.preventDefault();
     e.stopPropagation();
-    this.props.dispatch({type: 'SELF_AVATAR_SET', key})
+    this.props.dispatch({type: 'AVATAR_BUTTON_CLICKED', id})
   }
 }

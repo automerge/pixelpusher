@@ -1,50 +1,20 @@
 import React from 'react'
-import { connect } from 'react-redux';
+import { connect } from 'react-redux'
 
-import { getProjectId } from '../store/reducers/reducerHelpers';
-import Field from './Field';
-import Preview from './Preview';
+import { getProjectId, getOwnIdentity } from '../store/reducers/reducerHelpers'
+import Field from './Field'
+import Preview from './Preview'
 
 class Presence extends React.Component {
   render () {
-    const {identities, projectId, projects, peerInfo, dispatch} = this.props
-    if (!projectId) return null
-
-    const peers = this.props.peers.valueSeq()
-      .filter(({key}) => key === projectId)
-      .sortBy(p => !p.isSelf)
+    const {ownIdentity, dispatch} = this.props
+    if (!ownIdentity) return null
 
     return (
       <div>
-        <h3>Collaborators:</h3>
-        {peers.map(peer => {
-
-          const avatarKey = (identities.get(peer.info.identity) || {}).avatarKey
-          const name = (identities.get(peer.info.identity) || {}).name
-
-          return <div className="peer" key={peer.id} style={{
-            opacity: peer.isConnected ? 1 : 0.3
-          }}>
-            <div className="peer__avatar">
-              { avatarKey && projects.get(avatarKey)
-                ? <Preview
-                  animate
-                  frameIndex={0}
-                  duration={1}
-                  project={projects.get(avatarKey).set('cellSize', 3)}
-                  />
-                : null}
-            </div>
-            <div className="peer__text">
-              {peer.canEdit ? "+" : null}
-              {name}
-              {peer.isSelf ? " (you)" : null}
-            </div>
-          </div>
-        })}
         <Field
-          label="Your Name"
-          value={peerInfo.name}
+          label='Your Name'
+          value={ownIdentity.doc.get('name')}
           onChange={name => dispatch({type: 'SELF_NAME_CHANGED', name})}
         />
       </div>
@@ -56,16 +26,16 @@ const mapStateToProps = state => ({
   identities: state.identities,
   peers: state.peers,
   projects: state.projects,
-  peerInfo: state.peerInfo,
-  projectId: getProjectId(state),
-});
+  ownIdentity: getOwnIdentity(state),
+  projectId: getProjectId(state)
+})
 
 const mapDispatchToProps = dispatch => ({
-  dispatch,
-});
+  dispatch
+})
 
 const PresenceContainer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(Presence);
-export default PresenceContainer;
+)(Presence)
+export default PresenceContainer

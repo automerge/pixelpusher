@@ -46,7 +46,13 @@ class Versions extends React.Component {
   renderVersion = (project, index) => {
     if (List.isList(project)) return this.renderVersions(project, index)
 
-    const {dispatch, currentProject} = this.props
+    const {dispatch, currentProject, projects, identities} = this.props
+
+    const identity = identities.get(project.identityId)
+    const avatarId = identity && identity.doc.get('avatarId')
+    const avatar = avatarId
+      ? projects.get(avatarId)
+      : null
 
     const isCurrent =
       currentProject.id === project.id
@@ -59,6 +65,8 @@ class Versions extends React.Component {
         currentProject={currentProject}
         isCurrent={isCurrent}
         project={project}
+        identity={identity}
+        avatar={avatar}
       />
     )
   }
@@ -73,13 +81,14 @@ class Versions extends React.Component {
 
   fork = e => {
     const {dispatch, currentProject} = this.props
-    dispatch({type: 'FORK_DOCUMENT', id: currentProject.id})
+    dispatch({type: 'FORK_PROJECT', id: currentProject.id})
   }
 }
 
 const mapStateToProps = state => ({
   currentProject: getProject(state),
   projects: state.projects,
+  identities: state.identities,
   focusedId: state.get('focusedProjectId'),
 });
 

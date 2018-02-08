@@ -4,6 +4,12 @@ import shortid from 'shortid'
 import { pixels as pixelList } from '../../records/Pixel'
 import * as Mutation from '../../logic/Mutation'
 
+export const getOwnIdentity = state =>
+  state.identities.get(state.identityId)
+
+export const updateIdentity = (state, f) =>
+  state.updateIn(['identities', state.identityId], f)
+
 export const getProjectPreview = state =>
   state.mergePreviewProjectId
   ? getProject(state).update('doc', doc =>

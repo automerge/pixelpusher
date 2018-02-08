@@ -32,7 +32,7 @@ export default class TwitterForm extends React.Component {
         columns,
         rows,
       };
-      if (saveProjectToStorage(localStorage, drawingToSave)) {
+      if (saveProjectToStorage(drawingToSave)) {
         this.props.actions.showSpinner();
         shareDrawing(
           {
