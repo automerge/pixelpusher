@@ -24,13 +24,13 @@ export default class Version extends React.Component {
         key={project.id}
       >
         <div className="version__preview">
-          { project && project.doc
+          { project && project.doc && project.doc.get('rows')
             ? <Canvas project={project} />
             : null}
         </div>
 
         <div className="version__avatar" style={{color}}>
-          { avatar && avatar.doc
+          { avatar && avatar.doc && avatar.doc.get('rows')
             ? <Canvas project={avatar} />
             : null}
         </div>

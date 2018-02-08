@@ -30,7 +30,6 @@ export default class Canvas extends React.Component {
     const {project: {doc}} = this.props
     const empty = doc.get('defaultColor')
     const w = doc.get('columns')
-    const h = doc.get('rows')
     const palette = doc.get('palette')
     const pixels = doc.getIn(['frames', 0, 'pixels'])
 
