@@ -22,15 +22,12 @@ export default class PixelCell extends React.Component {
       backgroundColor: color
     };
 
-    const readonly = !project.isWritable
-
     return (
       <div
         className={classnames({
-          conflicting: !!conflicts,
-          readonly
+          conflicting: !!conflicts
         })}
-        onMouseDown={readonly ? null : ev => onMouseDown(id, ev)}
+        onMouseDown={ev => onMouseDown(id, ev)}
         onMouseOver={ev => onMouseOver(id, ev)}
         onTouchStart={ev => onMouseDown(id, ev)}
         onTouchEnd={ev => onMouseUp(id, ev)}

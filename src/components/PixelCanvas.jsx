@@ -20,6 +20,8 @@ const PixelCanvas = (props) => {
   const pixels = activeFrame.get('pixels')
   const conflicts = Automerge.getConflicts(doc, pixels)
 
+  const readonly = !project.isWritable
+
   const cells = pixels.map((swatchIndex, i) => {
     return {
       id: i,
@@ -31,13 +33,18 @@ const PixelCanvas = (props) => {
     }
   })
 
-  const onCellEvent = id => props.actions.drawCell(id)
+  const onCellEvent = id =>
+    readonly ? null : props.actions.drawCell(id)
 
   let gridExtraClass = 'cell'
   if (props.eraserOn) {
     gridExtraClass = 'context-menu'
   } else if (props.eyedropperOn) {
     gridExtraClass = 'copy'
+  }
+
+  if (readonly) {
+    gridExtraClass += ' readonly'
   }
 
   return (

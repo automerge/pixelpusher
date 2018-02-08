@@ -1164,10 +1164,6 @@ input[type="text"]:focus, input[type="number"]:focus {
   z-index: 2;
 }
 
-.grid-container > div.readonly {
-  cursor: not-allowed;
-}
-
 .grid-container.cell {
   cursor: cell;
 }
@@ -1178,6 +1174,10 @@ input[type="text"]:focus, input[type="number"]:focus {
 
 .grid-container.copy {
   cursor: copy;
+}
+
+.grid-container.readonly {
+  cursor: not-allowed;
 }
 
 .simple-notification {

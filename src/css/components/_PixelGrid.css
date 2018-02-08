@@ -18,10 +18,6 @@
         z-index: 2;
       }
     }
-
-    &.readonly {
-      cursor: not-allowed;
-    }
   }
 
   &.cell {
@@ -34,5 +30,9 @@
 
   &.copy {
     cursor: copy;
+  }
+
+  &.readonly {
+    cursor: not-allowed;
   }
 }
