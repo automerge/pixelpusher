@@ -17,9 +17,7 @@ class FramesHandler extends React.Component {
   }
 
   renderFrames() {
-    const project = this.props.project
-
-    if (!project) return null
+    const {project} = this.props
 
     const {doc} = project
 
@@ -49,6 +47,10 @@ class FramesHandler extends React.Component {
 
 
   render() {
+    const {project} = this.props
+
+    if (!project) return null
+
     return (
       <div className="frames-handler">
         <div className="frames-handler__list">
