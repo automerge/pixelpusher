@@ -183,7 +183,9 @@ const makeProject = ({id, doc, isWritable}) =>
   Project({ id, doc, isWritable })
 
 export default function (state = State(), action) {
-  console.log(action)
+  if (action.type !== 'CLOUD_PEER_PING') {
+    console.log(action)
+  }
 
   switch (action.type) {
     // HyperMerge actions:
