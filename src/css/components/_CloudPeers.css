@@ -23,14 +23,16 @@
     font-size: 11px;
     margin-right: 5px;
     vertical-align: super;
+    border-left-style: solid;
+    border-left-width: 8px;
   }
 
   li span.green {
-    border: 5px solid green;
+    border-left-color: green;
   }
 
   li span.red {
-    border: 5px solid red;
+    border-left-color: red;
   }
 
   &__add-button {

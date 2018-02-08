@@ -2907,14 +2907,16 @@ label.picker__rows {
     font-size: 11px;
     margin-right: 5px;
     vertical-align: super;
+    border-left-style: solid;
+    border-left-width: 8px;
   }
 
 .cloud-peers li span.green {
-    border: 5px solid green;
+    border-left-color: green;
   }
 
 .cloud-peers li span.red {
-    border: 5px solid red;
+    border-left-color: red;
   }
 
 .cloud-peers__add-button {
