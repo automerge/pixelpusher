@@ -5180,7 +5180,33 @@ hypercore-protocol@^6.4.0, hypercore-protocol@^6.4.1, hypercore-protocol@^6.5.1:
     sorted-indexof "^1.0.0"
     varint "^5.0.0"
 
-hypercore@^6.12.0, hypercore@^6.12.1, hypercore@^6.6.3:
+hypercore@^6.12.0, hypercore@^6.6.3:
+  version "6.12.2"
+  resolved "https://registry.yarnpkg.com/hypercore/-/hypercore-6.12.2.tgz#646d71bebbbad4e38dd00e4e4a9f6cb471b97321"
+  dependencies:
+    array-lru "^1.1.0"
+    atomic-batcher "^1.0.2"
+    bitfield-rle "^2.0.0"
+    buffer-equals "^1.0.4"
+    bulk-write-stream "^1.1.3"
+    codecs "^1.2.0"
+    flat-tree "^1.6.0"
+    from2 "^2.3.0"
+    hypercore-protocol "^6.4.1"
+    inherits "^2.0.3"
+    last-one-wins "^1.0.4"
+    memory-pager "^1.0.2"
+    merkle-tree-stream "^3.0.3"
+    process-nextick-args "^1.0.7"
+    random-access-file "^2.0.1"
+    sodium-universal "^2.0.0"
+    sparse-bitfield "^3.0.0"
+    thunky "^1.0.1"
+    uint64be "^2.0.1"
+    unordered-array-remove "^1.0.2"
+    unordered-set "^2.0.0"
+
+hypercore@^6.12.1:
   version "6.12.1"
   resolved "https://registry.npmjs.org/hypercore/-/hypercore-6.12.1.tgz#2d83bdd8f67efb30d2924cc88aebbf581eaf51fd"
   dependencies:
@@ -5225,7 +5251,7 @@ hyperdiscovery@^7.0.0:
 
 "hypermerge@github:inkandswitch/hypermerge":
   version "0.0.1"
-  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#b7466b53c4a4f1622915bfbb5135c2179d8ba62d"
+  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#4814c01a89ae3203ef32d501fba28cc1561db5aa"
   dependencies:
     automerge "github:automerge/automerge#immutable-api"
     hypercore "^6.12.0"
@@ -9711,11 +9737,24 @@ random-access-file@^1.5.0, random-access-file@^1.8.1:
     mkdirp "^0.5.1"
     thunky "^1.0.1"
 
+random-access-file@^2.0.1:
+  version "2.0.1"
+  resolved "https://registry.yarnpkg.com/random-access-file/-/random-access-file-2.0.1.tgz#dc22de79270e9a84cb36a2419b759725930dcaeb"
+  dependencies:
+    mkdirp "^0.5.1"
+    random-access-storage "^1.1.1"
+
 random-access-memory@^2.4.0:
   version "2.4.0"
   resolved "https://registry.npmjs.org/random-access-memory/-/random-access-memory-2.4.0.tgz#72f3d865b4b55a259879473e2fb2de3569c69ee2"
   dependencies:
     process-nextick-args "^1.0.7"
+
+random-access-storage@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/random-access-storage/-/random-access-storage-1.1.1.tgz#e3364013887367d54e2ad0a134c7bf68eb9229e5"
+  dependencies:
+    inherits "^2.0.3"
 
 random-bytes@~1.0.0:
   version "1.0.0"
