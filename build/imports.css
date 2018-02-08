@@ -2761,7 +2761,6 @@ label.picker__rows {
     height: 100%;
     background-color: #313131;
     overflow: hidden;
-    border-right: 3px solid #555;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: center;
@@ -2779,6 +2778,8 @@ label.picker__rows {
     overflow: hidden;
     display: -ms-flexbox;
     display: flex;
+    color: black;
+    box-shadow: -3px 0 0 0 currentColor;
   }
 
 .version__avatar > .Canvas {
@@ -2807,6 +2808,8 @@ label.picker__rows {
         -ms-grid-row-align: start;
         align-self: start;
     justify-self: end;
+    z-index: 1;
+    position: relative;
   }
 
 .version:hover > .version__buttons {

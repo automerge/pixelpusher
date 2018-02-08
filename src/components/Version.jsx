@@ -23,13 +23,13 @@ export default class Version extends React.Component {
         onDoubleClick={this.projectDoubleClicked(project.id)}
         key={project.id}
       >
-        <div className="version__preview" style={{borderColor: color}}>
+        <div className="version__preview">
           { project && project.doc
             ? <Canvas project={project} />
             : null}
         </div>
 
-        <div className="version__avatar">
+        <div className="version__avatar" style={{color}}>
           { avatar && avatar.doc
             ? <Canvas project={avatar} />
             : null}
