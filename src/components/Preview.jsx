@@ -15,6 +15,8 @@ const Preview = (props) => {
   const rows = doc.get('rows')
   const cellSize = doc.get('cellSize')
 
+  if (frames.size === 0) return null
+
   const generatePreview = () => {
     const animation = frames.size > 1 && animate
     let animationData

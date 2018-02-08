@@ -36,3 +36,10 @@
     cursor: not-allowed;
   }
 }
+
+.empty-grid {
+  display: flex;
+  height: 50vh;
+  align-items: center;
+  justify-content: center;
+}

@@ -1180,6 +1180,16 @@ input[type="text"]:focus, input[type="number"]:focus {
   cursor: not-allowed;
 }
 
+.empty-grid {
+  display: -ms-flexbox;
+  display: flex;
+  height: 50vh;
+  -ms-flex-align: center;
+      align-items: center;
+  -ms-flex-pack: center;
+      justify-content: center;
+}
+
 .simple-notification {
   background-color: #313131;
   color: #bbb;

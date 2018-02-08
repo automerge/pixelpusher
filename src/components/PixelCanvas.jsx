@@ -11,14 +11,21 @@ class PixelCanvas extends React.Component {
   render () {
     let {project, activeFrameIndex} = this.props
 
-    if (!project || !project.getIn(['doc', 'relativeId'])) return <div>Loading...</div>
-    const {doc} = project
+    if (!project || !project.getIn(['doc', 'relativeId'])) {
+      return this.empty('Loading...')
+    }
 
+    const {doc} = project
     const columns = doc.get('columns')
     const palette = doc.get('palette')
     const emptyColor = doc.get('defaultColor')
     const frames = doc.get('frames')
     const activeFrame = frames.get(activeFrameIndex)
+
+    if (!activeFrame) {
+      return this.empty('No frames. Click + below')
+    }
+
     const pixels = activeFrame.get('pixels')
     const conflicts = Automerge.getConflicts(doc, pixels)
 
@@ -52,6 +59,14 @@ class PixelCanvas extends React.Component {
         onCellEvent={this.onCellEvent}
         extraClass={gridExtraClass}
       />
+    )
+  }
+
+  empty(children) {
+    return (
+      <div className="empty-grid">
+        {children}
+      </div>
     )
   }
 

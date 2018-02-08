@@ -33,6 +33,8 @@ export default class Canvas extends React.Component {
     const palette = doc.get('palette')
     const pixels = doc.getIn(['frames', 0, 'pixels'])
 
+    if (!pixels) return
+
     pixels.forEach((swatchId, i) => {
       const color = palette.getIn([swatchId, 'color']) || empty
       const x = i % w
