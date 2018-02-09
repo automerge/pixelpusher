@@ -35,6 +35,7 @@ export const setProject = (state, project) =>
   .setIn(['projects', project.id], project)
   .set('currentProjectId', project.id)
   .set('focusedProjectId', project.id)
+  .delete('mergePreviewProjectId')
 
 export const getCurrentSwatch = state =>
   getInProject(state, ['doc', 'palette', state.currentSwatchIndex]) || Map()
