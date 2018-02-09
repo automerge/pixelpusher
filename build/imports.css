@@ -2914,19 +2914,14 @@ label.picker__rows {
 
 .version__buttons {
     grid-area: buttons;
-    display: none;
+    display: -ms-flexbox;
+    display: flex;
     font-size: 13px;
     -ms-flex-item-align: end;
-        -ms-grid-row-align: end;
         align-self: end;
     justify-self: end;
     z-index: 1;
     position: relative;
-  }
-
-.version:hover > .version__buttons {
-    display: -ms-flexbox;
-    display: flex;
   }
 
 .version__list {
