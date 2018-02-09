@@ -37,6 +37,11 @@ export const getInProject = (state, path, value) => {
   return project ? project.getIn(path) : null
 }
 
+export const getInProjectPreview = (state, path, value) => {
+  const project = getProjectPreview(state)
+  return project ? project.getIn(path) : null
+}
+
 export const getProjectDocument = state =>
   getProject(state).document
 
