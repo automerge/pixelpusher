@@ -43,7 +43,9 @@ export default class Version extends React.Component {
         </div>
 
         <div className="version__status">
-          { project.isWritable
+          { isLive
+            ? "Following"
+            : project.isWritable
             ? null
             : "Read-only" }
         </div>
@@ -57,7 +59,7 @@ export default class Version extends React.Component {
         <div className="version__buttons">
           <Button tiny
             icon="follow"
-            disabled={isCurrent}
+            disabled={isCurrent || !currentProject.isWritable}
             onClick={this.followClicked(id)}
           />
 
