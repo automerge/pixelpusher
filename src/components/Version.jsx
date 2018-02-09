@@ -7,11 +7,12 @@ import * as Versions from '../logic/Versions'
 
 export default class Version extends React.Component {
   render() {
-    const {isCurrent, isViewing, project, identity, avatar} = this.props
+    const {isCurrent, isViewing, currentProject, project, identity, avatar} = this.props
 
     // const isUpstream = Versions.isUpstream(project, currentProject)
     const color = Versions.color(identity || project)
     const {id} = project
+    const diffCount = Versions.diffCount(currentProject, project)
 
     return (
       <div
@@ -46,6 +47,12 @@ export default class Version extends React.Component {
             ? null
             : "Read-only" }
         </div>
+
+        { diffCount
+          ? <div className="version__badge">
+              {diffCount}
+            </div>
+          : null }
 
         <div className="version__buttons">
           <Button tiny

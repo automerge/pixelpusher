@@ -25,6 +25,11 @@ export const relatedWithHistory = (current, projects) => {
   return parents
 }
 
+export const diffCount = (proj, other) =>
+  clock(other).reduce((sum, seq, k) =>
+    sum + Math.max(0, seq - getSeq(proj, k)),
+  0)
+
 export const equals = (a, b) =>
   clock(a).equals(clock(b))
 

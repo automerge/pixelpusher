@@ -35,6 +35,19 @@
     }
   }
 
+  &__badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: -7px -10px;
+    background-color: red;
+    color: white;
+    font-size: 11px;
+    line-height: 1;
+    border-radius: 99px;
+    padding: 5px 4px 2px 5px;
+  }
+
   &__preview {
     grid-area: preview;
     height: 100%;
