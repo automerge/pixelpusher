@@ -79,5 +79,5 @@ export const changesUntil = (doc, clock) =>
   .filter(ch =>
     ch.get('seq') <= clock.get(ch.get('actor'), 0))
 
-export const color = project =>
-  '#' + project.id.slice(0, 6)
+export const color = identity =>
+  identity.getIn(['doc', 'color']) || '#' + identity.id.slice(0, 6)

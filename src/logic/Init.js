@@ -20,6 +20,7 @@ export const project = init(pro => {
 export const identity = init(ident => {
   ident.name = 'Somebody'
   ident.avatarId = null
+  ident.color = '#' + ident._actorId.slice(0, 6)
 })
 
 export const frame = frame => {

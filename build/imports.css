@@ -2924,6 +2924,8 @@ label.picker__rows {
     position: relative;
     border: 3px solid #585858;
     width: 100%;
+    color: transparent;
+    box-shadow: inset 0 0 0 2px currentColor;
   }
 
 .PixelConflict_Pixel + .PixelConflict_Pixel {

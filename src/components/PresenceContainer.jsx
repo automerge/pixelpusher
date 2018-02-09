@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 
 import { getProjectId, getOwnIdentity } from '../store/reducers/reducerHelpers'
 import Field from './Field'
-import Preview from './Preview'
 
 class Presence extends React.Component {
   render () {

@@ -2,6 +2,7 @@ import React from 'react'
 import Automerge from 'automerge'
 import { connect } from 'react-redux';
 
+import * as Versions from '../logic/Versions'
 import { shareLinkForProjectId } from '../utils/shareLink';
 import { getProjectId, getProject } from '../store/reducers/reducerHelpers';
 
@@ -12,7 +13,7 @@ class PixelConflict extends React.Component {
     return (
       <div className="PixelConflict">
         <div className="PixelConflict_Pixels">
-          {this.renderConflict(swatchIndex, project._actorId)}
+          {this.renderConflict(swatchIndex, project.id)}
           {conflicts.map(this.renderConflict).valueSeq()}
         </div>
       </div>
@@ -20,15 +21,18 @@ class PixelConflict extends React.Component {
   }
 
   renderConflict = (swatchIndex, actor) => {
-    const {project} = this.props
-    const color = project.getIn(['doc', 'palette', swatchIndex, 'color'])
+    const {project, projects, identities} = this.props
+    const backgroundColor = project.getIn(['doc', 'palette', swatchIndex, 'color'])
+    const identityId = projects.getIn([actor, 'identityId'])
+    const identity = identities.get(identityId)
+    const color = identity && Versions.color(identity)
 
     return (
       <div
         key={actor}
         className="PixelConflict_Pixel"
         onMouseDown={this.clicked(swatchIndex)}
-        style={{backgroundColor: color}}
+        style={{backgroundColor, color}}
       />
     )
   }
@@ -43,6 +47,8 @@ class PixelConflict extends React.Component {
 
 const mapStateToProps = state => ({
   project: getProject(state),
+  projects: state.projects,
+  identities: state.identities
 });
 
 const mapDispatchToProps = dispatch => ({
