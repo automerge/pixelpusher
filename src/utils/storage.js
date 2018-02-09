@@ -1,3 +1,4 @@
+import electron from 'electron'
 import fs from 'fs'
 import path from 'path'
 import mkdirp from 'mkdirp'
@@ -6,7 +7,7 @@ import { deserializeState, deserializeProject, serializeState } from './serializ
 import State from '../records/State'
 
 export const CLIENT_ID = +(process.env.CLIENT_ID || 0)
-export const STORAGE_PATH = `./.data/pixelpusher-v8/client-${CLIENT_ID}`
+export const STORAGE_PATH = `${electron.remote.app.getPath('userData')}/pixelpusher-v8/client-${CLIENT_ID}`
 export const STATE_PATH = path.join(STORAGE_PATH, 'state')
 
 /*
