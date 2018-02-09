@@ -48,7 +48,7 @@ export default class Version extends React.Component {
             : "Read-only" }
         </div>
 
-        { diffCount
+        { diffCount > 1
           ? <div className="version__badge">
               {diffCount}
             </div>
