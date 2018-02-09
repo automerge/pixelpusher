@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PaletteColor from './PaletteColor';
-import { getProject } from '../store/reducers/reducerHelpers';
+import { getProjectPreview } from '../store/reducers/reducerHelpers';
 
 const PaletteGrid = (props) => {
   const getColors = () => {
@@ -28,7 +28,7 @@ const PaletteGrid = (props) => {
 };
 
 const mapStateToProps = state => {
-  const project = getProject(state);
+  const project = getProjectPreview(state);
 
   if (!project) return {}
 

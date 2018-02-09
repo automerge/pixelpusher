@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 
 import Field from './Field'
-import { getProject } from '../store/reducers/reducerHelpers';
+import { getProjectPreview } from '../store/reducers/reducerHelpers';
 
 const ProjectInfo = ({project, dispatch}) => {
   if (!project) return null
@@ -21,7 +21,7 @@ const ProjectInfo = ({project, dispatch}) => {
 const mapDispatchToProps = dispatch => ({dispatch});
 
 const mapStateToProps = state => ({
-  project: getProject(state)
+  project: getProjectPreview(state)
 })
 
 const ProjectInfoContainer = connect(
