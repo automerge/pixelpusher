@@ -3,7 +3,7 @@ import Automerge from 'automerge'
 import {List} from 'immutable'
 import { connect } from 'react-redux';
 import { shareLinkForProjectId } from '../utils/shareLink';
-import { getProjectId, getProject } from '../store/reducers/reducerHelpers';
+import { getProjectId, getLiveProject } from '../store/reducers/reducerHelpers';
 import Version from './Version';
 import {related, getHistory, commonClock, clock} from '../logic/Versions'
 import * as Clock from '../logic/Clock'
@@ -56,9 +56,7 @@ class Versions extends React.Component {
 
     const isLive = liveIds.has(project.id)
 
-    const isCurrent =
-      currentProject.id === project.id
-      && clock(currentProject).equals(clock(project))
+    const isCurrent = currentProject.id === project.id
 
     return (
       <Version
@@ -89,7 +87,7 @@ class Versions extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  currentProject: getProject(state),
+  currentProject: getLiveProject(state),
   projects: state.projects,
   identities: state.identities,
   liveIds: state.liveIds,
