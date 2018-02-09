@@ -58,17 +58,9 @@ export default class Version extends React.Component {
 
         <div className="version__buttons">
           <Button tiny
-            icon={isLive ? 'pause' : 'play'}
+            icon={isLive ? 'pause' : canMerge ? 'forward' : 'play'}
             disabled={isCurrent || !currentProject.isWritable}
             onClick={this.followClicked(id)}
-            onMouseEnter={this.preview(id)}
-            onMouseLeave={this.cancelPreview(id)}
-          />
-
-          <Button tiny
-            icon='fast-forward'
-            disabled={!canMerge}
-            onClick={this.mergeProject(id)}
             onMouseEnter={this.preview(id)}
             onMouseLeave={this.cancelPreview(id)}
           />
@@ -93,6 +85,16 @@ export default class Version extends React.Component {
 
   followClicked = id => e => {
     e.stopPropagation()
+
+    const {currentProject, project, isCurrent, isLive} = this.props
+    const diffCount = Versions.diffCount(currentProject, project)
+    const canMerge = !isCurrent && currentProject.isWritable && diffCount > 0
+
+    if (!isLive && canMerge) {
+      const dst = currentProject.id
+      this.props.dispatch({type: 'MERGE_DOCUMENT', dst, src: id})
+    }
+
     this.props.dispatch({type: 'FOLLOW_PROJECT_CLICKED', id})
   }
 
