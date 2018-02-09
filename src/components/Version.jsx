@@ -9,7 +9,7 @@ export default class Version extends React.Component {
   render() {
     const {isCurrent, isViewing, currentProject, project, identity, avatar} = this.props
 
-    // const isUpstream = Versions.isUpstream(project, currentProject)
+    const canMerge = !isCurrent && currentProject.isWritable
     const color = Versions.color(identity || project)
     const {id} = project
     const diffCount = Versions.diffCount(currentProject, project)
@@ -57,7 +57,7 @@ export default class Version extends React.Component {
         <div className="version__buttons">
           <Button tiny
             icon="merge"
-            disabled={isCurrent}
+            disabled={!canMerge}
             onClick={this.mergeProject(id)}
             onMouseEnter={this.preview(id)}
             onMouseLeave={this.cancelPreview(id)}
