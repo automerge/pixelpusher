@@ -7,7 +7,7 @@ import * as Versions from '../logic/Versions'
 
 export default class Version extends React.Component {
   render() {
-    const {isCurrent, isViewing, currentProject, project, identity, avatar} = this.props
+    const {isCurrent, isLive, currentProject, project, identity, avatar} = this.props
 
     const diffCount = Versions.diffCount(currentProject, project)
     const canMerge = !isCurrent && currentProject.isWritable && diffCount > 0
@@ -18,7 +18,7 @@ export default class Version extends React.Component {
       <div
         className={classnames("version", {
           "version-selected": isCurrent,
-          "version-viewing": isViewing,
+          "version-following": isLive,
         })}
         onClick={this.projectClicked(project.id)}
         onDoubleClick={this.projectDoubleClicked(project.id)}
@@ -56,6 +56,12 @@ export default class Version extends React.Component {
 
         <div className="version__buttons">
           <Button tiny
+            icon="follow"
+            disabled={isCurrent}
+            onClick={this.followClicked(id)}
+          />
+
+          <Button tiny
             icon="merge"
             disabled={!canMerge}
             onClick={this.mergeProject(id)}
@@ -75,8 +81,15 @@ export default class Version extends React.Component {
   }
 
   projectDoubleClicked = id => e => {
+    return // disable for now
+
     e.stopPropagation()
     this.props.dispatch({type: 'PROJECT_VERSION_DOUBLE_CLICKED', id})
+  }
+
+  followClicked = id => e => {
+    e.stopPropagation()
+    this.props.dispatch({type: 'FOLLOW_PROJECT_CLICKED', id})
   }
 
   deleteProject = id => e => {

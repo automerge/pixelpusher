@@ -50,4 +50,8 @@
   &-link {
     @mixin icon link;
   }
+
+  &-follow {
+    @mixin icon follow;
+  }
 }

@@ -96,3 +96,7 @@
 @define-extend link {
   content: "\f0c1";
 }
+
+@define-extend follow {
+  content: "\f018";
+}

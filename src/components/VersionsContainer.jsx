@@ -46,13 +46,15 @@ class Versions extends React.Component {
   renderVersion = (project, index) => {
     if (List.isList(project)) return this.renderVersions(project, index)
 
-    const {dispatch, currentProject, projects, identities} = this.props
+    const {dispatch, currentProject, projects, identities, liveIds} = this.props
 
     const identity = identities.get(project.identityId)
     const avatarId = identity && identity.doc.get('avatarId')
     const avatar = avatarId
       ? projects.get(avatarId)
       : null
+
+    const isLive = liveIds.has(project.id)
 
     const isCurrent =
       currentProject.id === project.id
@@ -64,6 +66,7 @@ class Versions extends React.Component {
         dispatch={dispatch}
         currentProject={currentProject}
         isCurrent={isCurrent}
+        isLive={isLive}
         project={project}
         identity={identity}
         avatar={avatar}
@@ -89,6 +92,7 @@ const mapStateToProps = state => ({
   currentProject: getProject(state),
   projects: state.projects,
   identities: state.identities,
+  liveIds: state.liveIds,
   focusedId: state.get('focusedProjectId'),
 });
 

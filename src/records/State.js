@@ -1,4 +1,4 @@
-import {Record, List, Map} from 'immutable'
+import {Record, List, Map, Set} from 'immutable'
 
 export const DEFAULT_COLOR = '#313131';
 
@@ -6,6 +6,7 @@ const State = Record({
   currentProjectId: null,
   focusedProjectId: null,
   projects: Map(),
+  liveIds: Set(),
   identityId: null,
   peers: Map(),
   identities: Map(),

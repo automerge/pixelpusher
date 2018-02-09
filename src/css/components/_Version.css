@@ -18,8 +18,8 @@
     border-color: #FF9800;
   }
 
-  &-viewing {
-    border-color: #FF9800;
+  &-following {
+    border-color: #00BCD4;
   }
 
   &-new {

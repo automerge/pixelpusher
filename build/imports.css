@@ -467,6 +467,10 @@ label.picker__rows::before{
   content: "\f0c1";
 }
 
+.button-follow::before{
+  content: "\f018";
+}
+
 /* Button colors */
 
 /**
@@ -2615,6 +2619,15 @@ label.picker__rows {
     -moz-osx-font-smoothing: grayscale;
 }
 
+.button-follow {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
 .field {
   display: -ms-flexbox;
   display: flex;
@@ -2759,8 +2772,8 @@ label.picker__rows {
     border-color: #FF9800;
   }
 
-.version-viewing {
-    border-color: #FF9800;
+.version-following {
+    border-color: #00BCD4;
   }
 
 .version-new {

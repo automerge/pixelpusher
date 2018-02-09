@@ -12,9 +12,19 @@ export const updateIdentity = (state, f) =>
 
 export const getProjectPreview = state =>
   state.mergePreviewProjectId
-  ? getProject(state).update('doc', doc =>
+  ? getLiveProject(state).update('doc', doc =>
       Automerge.merge(doc, state.projects.get(state.mergePreviewProjectId).doc))
-  : getProject(state)
+  : getLiveProject(state)
+
+export const getLiveProject = state =>
+  // TODO include mergePreviewProjectId:
+  state.liveIds.toSeq()
+  .map(id =>
+    state.projects.get(id))
+  .reduce(
+   (a, b) => a.update('doc', doc => Automerge.merge(doc, b.doc)),
+    getProject(state)
+  )
 
 export const getProjectId = state =>
   state.currentProjectId || state.projects.keySeq().first()
@@ -36,6 +46,7 @@ export const setProject = (state, project) =>
   .set('currentProjectId', project.id)
   .set('focusedProjectId', project.id)
   .delete('mergePreviewProjectId')
+  .delete('liveIds')
 
 export const getCurrentSwatch = state =>
   getInProject(state, ['doc', 'palette', state.currentSwatchIndex]) || Map()
@@ -44,7 +55,7 @@ export const getCurrentColor = state =>
   getCurrentSwatch(state).get('color') || null
 
 export const updateProject = (state, f) =>
-  state.updateIn(['projects', getProjectId(state)], f)
+  state.setIn(['projects', getProjectId(state)], f(getLiveProject(state)))
 
 export function addFrameToProject (state) {
   return updateProject(state, Mutation.addFrame())

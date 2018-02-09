@@ -20,9 +20,9 @@ const getFrames = state =>
   getProject(state).doc.get('frames')
 
 const setProjectId = (state, id) =>
-  state.set('currentProjectId', id).merge({
-    activeFrameIndex: 0
-  })
+  state.set('currentProjectId', id)
+  .remove('activeFrameIndex')
+  .remove('liveIds')
 
 const addProject = (state, project) =>
   state.setIn(['projects', project.id], project)
@@ -225,7 +225,13 @@ const documentUpdated = (state, action) => {
   }
 }
 
-const makeProject = ({id, doc, isWritable, metadata: {identityId} = {}}) =>
+const followProject = (state, id) =>
+  state.update('liveIds', ids =>
+    ids.has(id)
+      ? ids.remove(id)
+      : ids.add(id))
+
+      const makeProject = ({id, doc, isWritable, metadata: {identityId} = {}}) =>
   Project({ id, doc, isWritable, identityId })
 
 const makeIdentity = ({id, doc, isWritable}) =>
@@ -352,6 +358,9 @@ export default function (state = State(), action) {
 
     case 'PROJECT_VERSION_DOUBLE_CLICKED':
       return setProjectId(state, action.id)
+
+    case 'FOLLOW_PROJECT_CLICKED':
+      return followProject(state, action.id)
 
     case 'ADD_CLOUD_PEER':
       return state.setIn(['cloudPeers', action.key], CloudPeer())
