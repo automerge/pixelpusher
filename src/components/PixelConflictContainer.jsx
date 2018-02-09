@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import * as Versions from '../logic/Versions'
 import { shareLinkForProjectId } from '../utils/shareLink';
-import { getProjectId, getProject } from '../store/reducers/reducerHelpers';
+import { getProjectId, getProjectPreview } from '../store/reducers/reducerHelpers';
 
 class PixelConflict extends React.Component {
   render() {
@@ -46,7 +46,7 @@ class PixelConflict extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  project: getProject(state),
+  project: getProjectPreview(state),
   projects: state.projects,
   identities: state.identities
 });
