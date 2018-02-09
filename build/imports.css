@@ -459,8 +459,24 @@ label.picker__rows::before{
   content: "\F0F6";
 }
 
-.button-merge::before{
-  content: "\F122";
+.button-play::before{
+  content: "\f04b";
+}
+
+.button-pause::before{
+  content: "\f04c";
+}
+
+.button-fast-forward::before{
+  content: "\f050";
+}
+
+.button-step-forward::before{
+  content: "\f051";
+}
+
+.button-forward::before{
+  content: "\f04e";
 }
 
 .button-link::before{
@@ -2620,6 +2636,51 @@ label.picker__rows {
 }
 
 .button-follow {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.button-play {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.button-pause {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.button-fast-forward {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.button-step-forward {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.button-forward {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
