@@ -89,8 +89,23 @@
   content: "\F0F6";
 }
 
-@define-extend merge {
-  content: "\F122";
+@define-extend play {
+  content: "\f04b";
+}
+
+@define-extend pause {
+  content: "\f04c";
+}
+
+@define-extend fast-forward {
+  content: "\f050";
+}
+
+@define-extend step-forward {
+  content: "\f051";
+}
+@define-extend forward {
+  content: "\f04e";
 }
 
 @define-extend link {

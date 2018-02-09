@@ -58,13 +58,15 @@ export default class Version extends React.Component {
 
         <div className="version__buttons">
           <Button tiny
-            icon="follow"
+            icon={isLive ? 'pause' : 'play'}
             disabled={isCurrent || !currentProject.isWritable}
             onClick={this.followClicked(id)}
+            onMouseEnter={this.preview(id)}
+            onMouseLeave={this.cancelPreview(id)}
           />
 
           <Button tiny
-            icon="merge"
+            icon='fast-forward'
             disabled={!canMerge}
             onClick={this.mergeProject(id)}
             onMouseEnter={this.preview(id)}

@@ -54,4 +54,24 @@
   &-follow {
     @mixin icon follow;
   }
+
+  &-play {
+    @mixin icon play;
+  }
+
+  &-pause {
+    @mixin icon pause;
+  }
+
+  &-fast-forward {
+    @mixin icon fast-forward;
+  }
+
+  &-step-forward {
+    @mixin icon step-forward;
+  }
+
+  &-forward {
+    @mixin icon forward;
+  }
 }

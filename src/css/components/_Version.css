@@ -94,16 +94,12 @@
 
   &__buttons {
     grid-area: buttons;
-    display: none;
+    display: flex;
     font-size: 13px;
     align-self: end;
     justify-self: end;
     z-index: 1;
     position: relative;
-  }
-
-  &:hover > &__buttons {
-    display: flex;
   }
 
   &__list {
