@@ -9,7 +9,6 @@ import * as Mutation from '../../logic/Mutation'
 import Project, { project } from '../../records/Project'
 import State from '../../records/State'
 import Peer from '../../records/Peer'
-import PeerInfo from '../../records/PeerInfo'
 import CloudPeer from '../../records/CloudPeer'
 import Identity from '../../records/Identity'
 
@@ -159,18 +158,11 @@ function changeFrameInterval (state, frameIndex, interval) {
   return updateProject(state, Mutation.setFrameInterval(frameIndex, interval))
 }
 
-const peerConnected = (state, key, id, info) =>
-  state.setIn(['peers', id], Peer({key, id, isConnected: true, info: PeerInfo(info.peerInfo)}))
-
 const identityUpdated = (state, key, identity) =>
   state.setIn(['identities', key], Identity(identity))
 
 const selfConnected = (state, key, id, canEdit) =>
   state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit, info: state.peerInfo}))
-
-const peerDisconnected = (state, key, id) =>
-  state.deleteIn(['peers', id])
-  // state.setIn(['peers', id, 'isConnected'], false)
 
 const remoteProjectUpdated = (state, project) => {
   const prevProject = state.projects.get(project.id)
@@ -225,17 +217,28 @@ const documentUpdated = (state, action) => {
   }
 }
 
+const peerLeft = (state, id) =>
+  state.setIn(['peers', id, 'isOnline'], false)
+
 const followProject = (state, id) =>
   state.update('liveIds', ids =>
     ids.has(id)
       ? ids.remove(id)
       : ids.add(id))
 
-      const makeProject = ({id, doc, isWritable, metadata: {identityId} = {}}) =>
+const makeProject = ({id, doc, isWritable, metadata: {identityId} = {}}) =>
   Project({ id, doc, isWritable, identityId })
 
 const makeIdentity = ({id, doc, isWritable}) =>
   Identity({ id, doc, isWritable })
+
+const makePeer = ({id, docId, canWrite, isOnline}) =>
+  Peer({
+    id,
+    projectId: docId,
+    isOnline,
+    canWrite
+  })
 
 export default function (state = State(), action) {
   if (action.type !== 'CLOUD_PEER_PING') {
@@ -251,11 +254,11 @@ export default function (state = State(), action) {
     case 'DOCUMENT_READY':
       return documentReady(state, action)
 
+    case 'DOCUMENT_MERGED':
     case 'DOCUMENT_UPDATED':
       return documentUpdated(state, action)
 
     case 'DOCUMENT_FORKED':
-    case 'DOCUMENT_MERGED':
     case 'DOCUMENT_OPENED':
       return documentOpened(state, action)
 
@@ -335,12 +338,12 @@ export default function (state = State(), action) {
     case 'IDENTITY_UPDATE':
       return identityUpdated(state, action.key, action.project)
 
-    case 'PEER_CONNECTED':
-      return peerConnected(state, action.key, action.id, action.info)
+    // case 'PEER_JOINED':
+    // case 'PEER_LEFT':
+    //   return addPeer(state, makePeer(action))
+
     case 'SELF_CONNECTED':
       return selfConnected(state, action.key, action.id, action.writable)
-    case 'PEER_DISCONNECTED':
-      return peerDisconnected(state, action.key, action.id)
     case 'PIXELS_IMPORTED':
       return updateProject(state, Mutation.addFrameFromPixels(action.pixels, action.width, action.height))
 

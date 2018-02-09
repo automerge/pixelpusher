@@ -14,6 +14,16 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
       isWritable: sync.isWritable(doc._actorId)
     }, getState())
 
+  const withPeer = (type, docId, peer) => {
+    return map({
+      type,
+      // id: peer.id.toString('hex'),
+      docId,
+      isOnline: !peer._closed,
+      canWrite: sync.isWritable(docId)
+    }, getState())
+  }
+
   sync.once('ready', () => {
     const archiverKey = sync.core.archiver.changes.key.toString('hex')
 
@@ -23,6 +33,8 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
   })
   .on('document:ready', doc => dispatch(withDoc('DOCUMENT_READY', doc)))
   .on('document:updated', doc => dispatch(withDoc('DOCUMENT_UPDATED', doc)))
+  .on('peer:joined', (hex, peer) => dispatch(withPeer('PEER_JOINED', hex, peer)))
+  .on('peer:left', (hex, peer) => dispatch(withPeer('PEER_LEFT', hex, peer)))
 
   return _action => {
     const action = map(_action, getState())

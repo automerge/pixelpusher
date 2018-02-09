@@ -1,8 +1,10 @@
 import React from 'react'
 import { connect } from 'react-redux'
 
-import { getProjectId, getOwnIdentity } from '../store/reducers/reducerHelpers'
+import { getProject, getOwnIdentity } from '../store/reducers/reducerHelpers'
+import * as Versions from '../logic/Versions'
 import Field from './Field'
+import Canvas from './Canvas'
 
 class Presence extends React.Component {
   render () {
@@ -11,6 +13,7 @@ class Presence extends React.Component {
 
     return (
       <div>
+        {this.renderPeers()}
         <Field
           label='Your Name'
           value={ownIdentity.doc.get('name')}
@@ -19,6 +22,26 @@ class Presence extends React.Component {
       </div>
     )
   }
+
+  renderPeers () {
+    const {project, peers, identities} = this.props
+
+    return peers
+      .valueSeq()
+      .filter(peer => peer.projectId === project.id)
+      .map(peer => {
+        const identity = identities.get(peer.identityId)
+        const color = identity && Versions.color(identity)
+
+        return (
+          <div className='peer' style={{color}}>
+            <Canvas
+              project={project}
+            />
+          </div>
+        )
+      })
+  }
 }
 
 const mapStateToProps = state => ({
@@ -26,7 +49,7 @@ const mapStateToProps = state => ({
   peers: state.peers,
   projects: state.projects,
   ownIdentity: getOwnIdentity(state),
-  projectId: getProjectId(state)
+  project: getProject(state)
 })
 
 const mapDispatchToProps = dispatch => ({

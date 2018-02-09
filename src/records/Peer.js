@@ -1,13 +1,12 @@
-import {Record, List} from 'immutable'
-import PeerInfo from './PeerInfo'
+import {Record} from 'immutable'
 
 const Peer = Record({
   id: null, // required
-  key: null, // required
-  info: PeerInfo(),
-  isConnected: false,
+  projectId: null, // required
+  identityId: null,
+  isOnline: false,
   isSelf: false,
-  canEdit: false,
-}, "Peer")
+  canWrite: false
+}, 'Peer')
 
 export default Peer
