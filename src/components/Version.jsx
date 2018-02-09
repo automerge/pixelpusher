@@ -9,10 +9,10 @@ export default class Version extends React.Component {
   render() {
     const {isCurrent, isViewing, currentProject, project, identity, avatar} = this.props
 
-    const canMerge = !isCurrent && currentProject.isWritable
+    const diffCount = Versions.diffCount(currentProject, project)
+    const canMerge = !isCurrent && currentProject.isWritable && diffCount > 0
     const color = Versions.color(identity || project)
     const {id} = project
-    const diffCount = Versions.diffCount(currentProject, project)
 
     return (
       <div
