@@ -1,7 +1,7 @@
 {
   "name": "pixelpusher",
   "productName": "pixelpusher",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Draw and animate Pixel Art, then export the results to CSS, share or download them, powered by Hypermerge",
   "main": "src/electron.js",
   "scripts": {
@@ -29,7 +29,14 @@
         ]
       },
       "electronPackagerConfig": {
-        "packageManager": "yarn"
+        "packageManager": "yarn",
+        "icon": "src/assets/pp-logo.png.icns"
+      },
+      "electronInstallerDMG": {
+        "title": "pixelpusher",
+        "icon": "./src/assets/pp-logo.png.icns",
+        "iconsize": 100,
+        "background": "./src/assets/dmg/background.png"
       },
       "electronWinstallerConfig": {
         "name": "pixel_art_forge"
@@ -120,8 +127,8 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "babel-preset-react": "^6.24.1",
-    "electron-forge": "^4.1.6",
-    "electron-prebuilt-compile": "1.8.2-beta.3",
+    "electron-forge": "^5.1.0",
+    "electron-prebuilt-compile": "1.8.2",
     "eslint": "^3",
     "eslint-config-airbnb": "^15",
     "eslint-plugin-import": "^2",
