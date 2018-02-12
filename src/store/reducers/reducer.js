@@ -186,9 +186,12 @@ const documentCreated = (state, action) => {
   }
 }
 
-const documentOpened = (state, action) => {
-  // currently only projects can be opened:
+const documentForked = (state, action) => {
   return setProject(state, makeProject(action))
+}
+
+const documentOpened = (state, action) => {
+  return setProject(state, project)
 }
 
 const documentReady = (state, action) => {
@@ -198,7 +201,7 @@ const documentReady = (state, action) => {
     case 'Identity':
       return addIdentity(state, makeIdentity(action))
     case 'Project':
-      return addProject(state, makeProject(action))
+      return addProject(state, makeProject(action).set('isLoaded', true))
     default:
       throw new Error(`Unknown document type: ${type}`)
   }
@@ -217,6 +220,18 @@ const documentUpdated = (state, action) => {
   }
 }
 
+const documentMetadata = (state, action) => {
+  const {type} = action.metadata
+
+  switch (type) {
+    case 'Project':
+      return addProject(state, makeProject(action))
+
+    default:
+      return state
+  }
+}
+
 const peerLeft = (state, id) =>
   state.setIn(['peers', id, 'isOnline'], false)
 
@@ -226,8 +241,14 @@ const followProject = (state, id) =>
       ? ids.remove(id)
       : ids.add(id))
 
-const makeProject = ({id, doc, isWritable, metadata: {identityId} = {}}) =>
-  Project({ id, doc, isWritable, identityId })
+const makeProject = ({id, doc, isWritable, metadata: {identityId, relativeId} = {}}) =>
+  Project({
+    id,
+    doc,
+    isWritable,
+    identityId,
+    relativeId: relativeId || (doc && doc.get('relativeId'))
+  })
 
 const makeIdentity = ({id, doc, isWritable}) =>
   Identity({ id, doc, isWritable })
@@ -259,6 +280,8 @@ export default function (state = State(), action) {
       return documentUpdated(state, action)
 
     case 'DOCUMENT_FORKED':
+      return documentForked(state, action)
+
     case 'DOCUMENT_OPENED':
       return documentOpened(state, action)
 
@@ -269,6 +292,9 @@ export default function (state = State(), action) {
       return sendNotification(state, 'Project deleted')
       .update('currentProjectId', cId => cId === action.id ? null : cId)
       .update('projects', ps => ps.delete(action.id))
+
+    case 'DOCUMENT_METADATA':
+      return documentMetadata(state, action)
 
     // End HyperMerge actions
 

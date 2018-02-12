@@ -22,37 +22,43 @@ class Modal extends React.Component {
   }
 
   getModalContent(props) {
-    const project = props.project && props.project.updateIn(['doc', 'cellSize'], x =>
-      props.type === 'preview' ? x : 5)
-
     const options = generateRadioOptions(props);
     let content;
     let radioOptions
     if (props.type === 'addCloudPeer') {
       radioOptions = null
     } else if (props.type !== 'load') {
-      radioOptions = (
-        <div className="modal__preview">
-          <RadioSelector
-            name="preview-type"
-            selected={this.state.previewType}
-            change={this.changeRadioType}
-            options={options}
-          />
-          { project && this.state.previewType !== 'spritesheet' ?
-            <div className="modal__preview--wrapper">
-              <Preview
-                key="0"
-                project={project}
-                duration={props.duration}
-                frameIndex={props.activeFrameIndex}
-                animate={this.state.previewType === 'animation'}
-              />
-            </div>
-          : null
-          }
-        </div>
-      )
+      const {project} = props
+
+      if (!project || !project.doc) {
+        radioOptions = null
+      } else {
+        const previewProject = project.updateIn(['doc', 'cellSize'], x =>
+          props.type === 'preview' ? x : 5)
+
+        radioOptions = (
+          <div className="modal__preview">
+            <RadioSelector
+              name="preview-type"
+              selected={this.state.previewType}
+              change={this.changeRadioType}
+              options={options}
+            />
+            { this.state.previewType !== 'spritesheet' ?
+              <div className="modal__preview--wrapper">
+                <Preview
+                  key="0"
+                  project={previewProject}
+                  duration={props.duration}
+                  frameIndex={props.activeFrameIndex}
+                  animate={this.state.previewType === 'animation'}
+                />
+              </div>
+              : null
+            }
+          </div>
+        )
+      }
     } else {
       radioOptions = (
         <div className="modal__load">
@@ -195,7 +201,7 @@ class Modal extends React.Component {
 function generateRadioOptions(props) {
   const project = props.project;
 
-  if (!project) return []
+  if (!project || !project.doc) return []
   const frames = project.doc.get('frames');
 
   if (!frames) return []

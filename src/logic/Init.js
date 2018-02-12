@@ -7,7 +7,6 @@ const init = f => doc =>
   Automerge.change(doc, 'Initialize', f)
 
 export const project = init(pro => {
-  pro.relativeId = shortid.generate()
   pro.title = 'Untitled'
   pro.rows = 16
   pro.columns = 16

@@ -30,12 +30,12 @@ const PaletteGrid = (props) => {
 const mapStateToProps = state => {
   const project = getProjectPreview(state);
 
-  if (!project) return {}
+  if (!project || !project.doc) return {}
 
   return {
     palette: project.doc.get('palette'),
-    currentSwatchIndex: state.currentSwatchIndex,
-  };
+    currentSwatchIndex: state.currentSwatchIndex
+  }
 }
 
 const mapDispatchToProps = dispatch => ({

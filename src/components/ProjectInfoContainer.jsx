@@ -5,7 +5,7 @@ import Field from './Field'
 import { getProjectPreview } from '../store/reducers/reducerHelpers';
 
 const ProjectInfo = ({project, dispatch}) => {
-  if (!project) return null
+  if (!project || !project.doc) return null
 
   return (
     <div>

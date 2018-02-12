@@ -1,3 +1,5 @@
+import shortid from 'shortid'
+
 export const mapAction = sync => (action, state) => {
   const {identityId} = state
 
@@ -5,14 +7,22 @@ export const mapAction = sync => (action, state) => {
     case 'NEW_PROJECT_CLICKED':
       return {
         type: 'CREATE_DOCUMENT',
-        metadata: { type: 'Project', identityId }
+        metadata: {
+          type: 'Project',
+          identityId,
+          relativeId: shortid.generate()
+        }
       }
 
     case 'FORK_PROJECT':
       return {
         type: 'FORK_DOCUMENT',
         id: action.id,
-        metadata: { type: 'Project', identityId }
+        metadata: {
+          type: 'Project',
+          identityId,
+          relativeId: state.projects.getIn([action.id, 'relativeId'])
+        }
       }
 
     default:

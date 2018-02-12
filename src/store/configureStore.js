@@ -14,6 +14,8 @@ const configureStore = devMode => {
     path: STORAGE_PATH
   })
 
+  sync.joinSwarm()
+
   const addDepDocs = doc => {
     const metadata = sync.metadata(doc._actorId)
 

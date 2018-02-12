@@ -11,7 +11,7 @@ class PixelCanvas extends React.Component {
   render () {
     let {project, activeFrameIndex} = this.props
 
-    if (!project || !project.getIn(['doc', 'relativeId'])) {
+    if (!project || !project.isLoaded) {
       return this.empty('Loading...')
     }
 

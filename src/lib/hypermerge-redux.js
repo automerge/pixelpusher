@@ -1,5 +1,5 @@
 import {equals} from '../logic/Versions'
-import { is } from 'immutable';
+import { is } from 'immutable'
 
 export default (sync, {init, map}) => ({dispatch, getState}) => next => {
   if (!map) map = x => x
@@ -40,6 +40,14 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
   .on('peer:left', (hex, peer) => {
     if (!peer.remoteId) return
     dispatch(withPeer('PEER_LEFT', hex, peer))
+  })
+  .on('document:metadata', (id, metadata) => {
+    dispatch(map({
+      type: 'DOCUMENT_METADATA',
+      id,
+      metadata,
+      isWritable: sync.isWritable(id)
+    }, getState()))
   })
 
   return _action => {

@@ -21,7 +21,7 @@ class FramesHandler extends React.Component {
 
     const {doc} = project
 
-    if (!doc.get('relativeId')) return null
+    if (!doc || !doc.get('frames')) return null
 
     return doc.get('frames').map((frame, index, frames) =>
       <Frame

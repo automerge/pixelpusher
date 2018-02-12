@@ -45,8 +45,8 @@ export default class LoadDrawing extends React.Component {
     const {identity} = this.props;
     const avatarId = identity.doc.get('avatarId')
     const projectGroups = this.props.projects.valueSeq()
-      .filter(p => p.doc && p.doc.get('relativeId'))
-      .groupBy(p => p.doc.get('relativeId'));
+      .filter(p => p.relativeId)
+      .groupBy(p => p.relativeId);
 
     return projectGroups.map(group => {
       const project = group.find(p => p.isWritable) || group.first()

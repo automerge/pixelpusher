@@ -12,7 +12,7 @@ class Versions extends React.Component {
   render() {
     const {currentProject, focusedId, projects} = this.props
 
-    if (!(currentProject && currentProject.doc && currentProject.doc.get('relativeId'))) return null
+    if (!(currentProject && currentProject.isLoaded)) return null
 
     const relatedProjects = related(currentProject, projects)
 

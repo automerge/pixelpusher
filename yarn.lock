@@ -5265,8 +5265,8 @@ hyperdiscovery@^7.0.0:
     xtend "^4.0.1"
 
 "hypermerge@github:inkandswitch/hypermerge":
-  version "0.0.1"
-  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#60f9ab42aa9ca4a8aa148eb63fd847abbfa5b90a"
+  version "0.1.0"
+  resolved "git+ssh://git@github.com/inkandswitch/hypermerge.git#6df88529cb13927a6391ed3de38450422c24f20a"
   dependencies:
     automerge "github:automerge/automerge#immutable-api"
     hypercore "^6.12.0"
