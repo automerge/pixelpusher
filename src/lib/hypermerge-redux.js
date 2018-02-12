@@ -17,7 +17,7 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
   const withPeer = (type, docId, peer) => {
     return map({
       type,
-      // id: peer.id.toString('hex'),
+      id: peer.remoteId.toString('hex'),
       docId,
       isOnline: !peer._closed,
       canWrite: sync.isWritable(docId)
@@ -33,8 +33,14 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
   })
   .on('document:ready', doc => dispatch(withDoc('DOCUMENT_READY', doc)))
   .on('document:updated', doc => dispatch(withDoc('DOCUMENT_UPDATED', doc)))
-  .on('peer:joined', (hex, peer) => dispatch(withPeer('PEER_JOINED', hex, peer)))
-  .on('peer:left', (hex, peer) => dispatch(withPeer('PEER_LEFT', hex, peer)))
+  .on('peer:joined', (hex, peer) => {
+    if (!peer.remoteId) return
+    dispatch(withPeer('PEER_JOINED', hex, peer))
+  })
+  .on('peer:left', (hex, peer) => {
+    if (!peer.remoteId) return
+    dispatch(withPeer('PEER_LEFT', hex, peer))
+  })
 
   return _action => {
     const action = map(_action, getState())
