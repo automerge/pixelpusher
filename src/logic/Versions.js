@@ -40,7 +40,8 @@ export const isUpstream = (project, other) =>
   Clock.lessOrEqual(clock(project), clock(other))
 
 export const comparator = (a, b) =>
-  Clock.comparator(clock(a), clock(b))
+  compareBoolean(b.isWritable, a.isWritable) ||
+    a.id.localeCompare(b.id)
 
 export const getSeq = (doc, actor) =>
   clock(doc).get(actor, 0)
@@ -81,3 +82,6 @@ export const changesUntil = (doc, clock) =>
 
 export const color = identity =>
   identity.getIn(['doc', 'color']) || '#' + identity.id.slice(0, 6)
+
+export const compareBoolean = (a, b) =>
+  a - b
