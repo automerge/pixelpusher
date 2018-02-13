@@ -1,13 +1,28 @@
 import Automerge from 'automerge'
 import * as Clock from './Clock'
 import { List } from 'immutable'
+import Tree from '../records/Tree'
 
 export const relatedTree = (current, projects) => {
-  const relatives = related(current, projects)
-  const past = relatives.takeUntil(p => p === current)
-  const future = relatives.skipUntil(p => p === current).skip(1)
+  const lookup = related(current, projects)
+    .toList()
+    .groupBy(p => p.sourceId)
+    .map(sort)
 
-  return List.of(past, current, future)
+  const root = lookup.get(undefined).first()
+
+  return buildTree(lookup)(root)
+}
+
+const buildTree = lookup => proj => {
+  const children = lookup.has(proj.id)
+    ? lookup.get(proj.id).map(buildTree(lookup))
+    : List()
+
+  return Tree({
+    value: proj,
+    children
+  })
 }
 
 export const related = (current, projects) => {

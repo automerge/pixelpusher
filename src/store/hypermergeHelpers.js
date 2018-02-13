@@ -22,9 +22,26 @@ export const mapAction = sync => (action, state) => {
           type: 'Project',
           identityId,
           sourceId: action.id,
+          versionId: shortid.generate(),
           relativeId: state.projects.getIn([action.id, 'relativeId'])
         }
       }
+
+    case 'CLONE_PROJECT': {
+      const {id, versionId, relativeId} = state.projects.get(action.id)
+
+      return {
+        type: 'FORK_DOCUMENT',
+        id: id,
+        metadata: {
+          type: 'Project',
+          identityId,
+          sourceId: id,
+          versionId,
+          relativeId
+        }
+      }
+    }
 
     default:
       return action

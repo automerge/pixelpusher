@@ -2905,6 +2905,8 @@ label.picker__rows {
     position: relative;
     top: 3px;
     margin-left: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 
 .version__status {

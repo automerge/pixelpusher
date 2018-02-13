@@ -1,11 +1,11 @@
-import React from 'react'
+import React, {Fragment} from 'react'
 import Automerge from 'automerge'
 import {List} from 'immutable'
 import { connect } from 'react-redux';
 import { shareLinkForProjectId } from '../utils/shareLink';
 import { getProjectId, getLiveProject } from '../store/reducers/reducerHelpers';
 import Version from './Version';
-import {related, getHistory, commonClock, clock, sort} from '../logic/Versions'
+import {relatedTree, getHistory, commonClock, clock, sort} from '../logic/Versions'
 import * as Clock from '../logic/Clock'
 
 class Versions extends React.Component {
@@ -14,15 +14,12 @@ class Versions extends React.Component {
 
     if (!(currentProject && currentProject.doc)) return null
 
-    const relatedProjects = related(currentProject, projects)
-      .toList()
-      .filter(p => p.doc)
-      .update(sort)
+    const tree = relatedTree(currentProject, projects)
 
     return (
       <div>
         <h3>Versions</h3>
-        {relatedProjects.map(this.renderVersion)}
+        {this.renderTree(tree)}
         <div className="version version-new" onClick={this.fork}>
           + New version
         </div>
@@ -30,25 +27,20 @@ class Versions extends React.Component {
     )
   }
 
-  renderHistoryItem = (base, related) => ({change, snapshot}) => {
-    const snapClock = clock(snapshot)
-
-    let versions = related.get(snapClock)
-
-    if (!versions) return null
-
-    const seq = change.get('seq')
-
-    // versions = versions.filterNot(p => clock(p).equals(snapClock))
-
-    return [
-      this.renderVersion(snapshot, seq),
-      this.renderVersion(versions, seq)]
+  renderTree = (tree, index) => {
+    return (
+      <Fragment key={index}>
+        {this.renderVersion(tree.value)}
+        { tree.children.size > 0
+          ? <div className="version__list">
+              {tree.children.map(this.renderTree)}
+            </div>
+          : null }
+      </Fragment>
+    )
   }
 
   renderVersion = (project, index) => {
-    if (List.isList(project)) return this.renderVersions(project, index)
-
     const {dispatch, currentProject, projects, identities, liveIds} = this.props
 
     const identity = identities.get(project.identityId)
