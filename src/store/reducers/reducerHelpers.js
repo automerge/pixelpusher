@@ -85,7 +85,7 @@ export const setProject = (state, project) =>
   .set('focusedProjectId', project.id)
   .delete('mergePreviewProjectId')
   .delete('liveIds')
-  .update(autoFollowProjects)
+  // .update(autoFollowProjects)
 
 export const getCurrentSwatch = state =>
   getInProject(state, ['doc', 'palette', state.currentSwatchIndex]) || Map()
