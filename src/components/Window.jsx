@@ -9,6 +9,8 @@ export default class Window extends Component {
     keyup: 'onKeyUp',
     keypress: 'onKeyPress',
     mouseup: 'onMouseUp',
+    touchend: 'onTouchEnd',
+    touchcancel: 'onTouchCancel'
   }
 
   componentDidMount() {

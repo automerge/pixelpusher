@@ -7,7 +7,11 @@ const PixelGrid = ({
   emptyColor,
 }) => (
   <div className={`grid-container ${extraClass}`}>
-    <Window onMouseUp={onMouseUp} />
+    <Window
+      onMouseUp={onMouseUp}
+      onTouchEnd={onMouseUp}
+      onTouchCancel={onMouseUp}
+    />
 
     {cells.map(cell => (
       <PixelCell
