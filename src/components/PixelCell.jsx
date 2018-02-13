@@ -35,7 +35,7 @@ export default class PixelCell extends React.Component {
         onTouchMove={ev => onTouchMove(id, ev)}
         style={styles}
       >
-        { conflicts
+        { conflicting
           ? <PixelConflictContainer
             index={id}
             swatchIndex={swatchIndex}
