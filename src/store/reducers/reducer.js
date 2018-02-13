@@ -229,14 +229,23 @@ const documentMetadata = (state, action) => {
 const peerLeft = (state, id) =>
   state.setIn(['peers', id, 'isOnline'], false)
 
-const makeProject = ({id, doc, isWritable, metadata: {identityId, relativeId} = {}}) =>
-  Project({
+const makeProject = action => {
+  const {
+    id,
+    doc,
+    isWritable,
+    metadata: {identityId, relativeId, sourceId} = {}
+  } = action
+
+  return Project({
     id,
     doc,
     isWritable,
     identityId,
-    relativeId: relativeId || (doc && doc.get('relativeId'))
+    sourceId,
+    relativeId
   })
+}
 
 const makeIdentity = ({id, doc, isWritable}) =>
   Identity({ id, doc, isWritable })

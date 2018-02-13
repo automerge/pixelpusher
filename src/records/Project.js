@@ -5,7 +5,8 @@ const Project = Record({
   relativeId: null,
   doc: null,
   isWritable: false,
-  identityId: null
+  identityId: null,
+  sourceId: null
 }, 'Project')
 
 export default Project
