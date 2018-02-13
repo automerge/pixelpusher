@@ -21,6 +21,7 @@ export const mapAction = sync => (action, state) => {
         metadata: {
           type: 'Project',
           identityId,
+          sourceId: action.id,
           relativeId: state.projects.getIn([action.id, 'relativeId'])
         }
       }
