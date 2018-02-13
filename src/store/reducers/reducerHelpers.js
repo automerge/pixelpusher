@@ -3,6 +3,7 @@ import Automerge from 'automerge'
 import shortid from 'shortid'
 import { pixels as pixelList } from '../../records/Pixel'
 import * as Mutation from '../../logic/Mutation'
+import { related, diffCount } from '../../logic/Versions';
 
 export const getOwnIdentity = state =>
   state.identities.get(state.identityId)
@@ -19,6 +20,7 @@ export const getProjectPreview = state =>
 export const getLiveProject = state =>
   // TODO include mergePreviewProjectId:
   state.liveIds.toSeq()
+  .filterNot(id => id === getProjectId(state))
   .map(id =>
     state.projects.get(id))
   .reduce(
@@ -45,6 +47,37 @@ export const getInProjectPreview = (state, path, value) => {
 export const getProjectDocument = state =>
   getProject(state).document
 
+export const toggleFollowProject = (state, id) =>
+  state.liveIds.has(id)
+    ? unfollowProject(state, id)
+    : followProject(state, id)
+
+export const followProject = (state, id) =>
+  state.update('liveIds', ids => ids.add(id))
+
+export const unfollowProject = (state, id) =>
+  state.update('liveIds', ids => ids.remove(id))
+
+export const autoFollowProject = (state, project) => {
+  const curr = getProject(state)
+
+  const shouldFollow =
+    project.doc &&
+    curr &&
+    curr.doc &&
+    curr.isWritable &&
+    diffCount(curr, project) <= 1
+
+  return shouldFollow
+    ? followProject(state, project.id)
+    : state
+}
+
+export const autoFollowProjects = (state, project) => {
+  const curr = getProject(state)
+  return related(curr, state.projects).reduce(autoFollowProject, state)
+}
+
 export const setProject = (state, project) =>
   state
   .setIn(['projects', project.id], project)
@@ -52,6 +85,7 @@ export const setProject = (state, project) =>
   .set('focusedProjectId', project.id)
   .delete('mergePreviewProjectId')
   .delete('liveIds')
+  .update(autoFollowProjects)
 
 export const getCurrentSwatch = state =>
   getInProject(state, ['doc', 'palette', state.currentSwatchIndex]) || Map()

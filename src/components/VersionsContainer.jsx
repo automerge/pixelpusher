@@ -5,16 +5,19 @@ import { connect } from 'react-redux';
 import { shareLinkForProjectId } from '../utils/shareLink';
 import { getProjectId, getLiveProject } from '../store/reducers/reducerHelpers';
 import Version from './Version';
-import {related, getHistory, commonClock, clock} from '../logic/Versions'
+import {related, getHistory, commonClock, clock, sort} from '../logic/Versions'
 import * as Clock from '../logic/Clock'
 
 class Versions extends React.Component {
   render() {
     const {currentProject, focusedId, projects} = this.props
 
-    if (!(currentProject && currentProject.isLoaded)) return null
+    if (!(currentProject && currentProject.doc)) return null
 
     const relatedProjects = related(currentProject, projects)
+      .toList()
+      .filter(p => p.doc)
+      .update(sort)
 
     return (
       <div>
@@ -54,9 +57,8 @@ class Versions extends React.Component {
       ? projects.get(avatarId)
       : null
 
-    const isLive = liveIds.has(project.id)
-
     const isCurrent = currentProject.id === project.id
+    const isLive = !isCurrent && liveIds.has(project.id)
 
     return (
       <Version

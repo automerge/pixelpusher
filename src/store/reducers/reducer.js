@@ -2,8 +2,7 @@ import { List } from 'immutable'
 import {
   resizeProject, setGridCellValue,
   applyBucket, addFrameToProject, getProject, updateProject,
-  setProject,
-  updateIdentity
+  setProject, updateIdentity, toggleFollowProject, autoFollowProject, autoFollowProjects
 } from './reducerHelpers'
 import * as Mutation from '../../logic/Mutation'
 import Project, { project } from '../../records/Project'
@@ -22,9 +21,11 @@ const setProjectId = (state, id) =>
   state.set('currentProjectId', id)
   .remove('activeFrameIndex')
   .remove('liveIds')
+  .update(autoFollowProjects)
 
-const addProject = (state, project) =>
-  state.setIn(['projects', project.id], project)
+const addProject = (state, project) => {
+  return autoFollowProject(state.setIn(['projects', project.id], project), project)
+}
 
 const addIdentity = (state, identity) =>
   state.setIn(['identities', identity.id], identity)
@@ -164,14 +165,6 @@ const identityUpdated = (state, key, identity) =>
 const selfConnected = (state, key, id, canEdit) =>
   state.setIn(['peers', id], Peer({key, id, isSelf: true, isConnected: true, canEdit, info: state.peerInfo}))
 
-const remoteProjectUpdated = (state, project) => {
-  const prevProject = state.projects.get(project.id)
-
-  return prevProject && prevProject.isOpening
-  ? setProject(state, project)
-  : addProject(state, project)
-}
-
 const documentCreated = (state, action) => {
   const {type} = action.metadata
   switch (type) {
@@ -201,7 +194,7 @@ const documentReady = (state, action) => {
     case 'Identity':
       return addIdentity(state, makeIdentity(action))
     case 'Project':
-      return addProject(state, makeProject(action).set('isLoaded', true))
+      return addProject(state, makeProject(action))
     default:
       throw new Error(`Unknown document type: ${type}`)
   }
@@ -214,7 +207,7 @@ const documentUpdated = (state, action) => {
     case 'Identity':
       return addIdentity(state, makeIdentity(action))
     case 'Project':
-      return remoteProjectUpdated(state, makeProject(action))
+      return addProject(state, makeProject(action))
     default:
       throw new Error(`Unknown document type: ${type}`)
   }
@@ -234,12 +227,6 @@ const documentMetadata = (state, action) => {
 
 const peerLeft = (state, id) =>
   state.setIn(['peers', id, 'isOnline'], false)
-
-const followProject = (state, id) =>
-  state.update('liveIds', ids =>
-    ids.has(id)
-      ? ids.remove(id)
-      : ids.add(id))
 
 const makeProject = ({id, doc, isWritable, metadata: {identityId, relativeId} = {}}) =>
   Project({
@@ -389,7 +376,7 @@ export default function (state = State(), action) {
       return setProjectId(state, action.id)
 
     case 'FOLLOW_PROJECT_CLICKED':
-      return followProject(state, action.id)
+      return toggleFollowProject(state, action.id)
 
     case 'ADD_CLOUD_PEER':
       return state.setIn(['cloudPeers', action.key], CloudPeer())

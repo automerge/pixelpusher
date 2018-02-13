@@ -11,10 +11,8 @@ export const relatedTree = (current, projects) => {
 }
 
 export const related = (current, projects) => {
-  const relativeId = current.relativeId
-  const relatives = projects
-    .filter(project => project.relativeId === relativeId)
-  return sort(relatives.toList())
+  const {relativeId} = current
+  return projects.filter(project => project.relativeId === relativeId)
 }
 
 export const relatedWithHistory = (current, projects) => {

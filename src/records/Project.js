@@ -5,7 +5,6 @@ const Project = Record({
   relativeId: null,
   doc: null,
   isWritable: false,
-  isLoaded: false,
   identityId: null
 }, 'Project')
 

@@ -2837,6 +2837,10 @@ label.picker__rows {
     border-color: #00BCD4;
   }
 
+.version-following > .version__status {
+    color: #00BCD4;
+  }
+
 .version-new {
     display: -ms-flexbox;
     display: flex;
