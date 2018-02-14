@@ -8,12 +8,12 @@ import * as Versions from '../logic/Versions'
 
 export default class Version extends React.Component {
   render() {
-    const {isCurrent, isLive, currentProject, project, parentId, identity, avatar} = this.props
+    const {isCurrent, isLive, project, parent, identity, avatar} = this.props
 
     if (!project.doc) return null
 
-    const diffCount = Versions.diffCount(currentProject, project)
-    const canMerge = diffCount > 0 && parentId
+    const diffCount = parent ? Versions.diffCount(parent, project) : 0
+    const canMerge = diffCount > 0 && parent
     const color = Versions.color(identity || project)
     const {id} = project
 
@@ -94,28 +94,13 @@ export default class Version extends React.Component {
     this.props.dispatch({type: 'PROJECT_VERSION_DOUBLE_CLICKED', id})
   }
 
-  followClicked = id => e => {
-    e.stopPropagation()
-
-    const {currentProject, project, isCurrent, isLive} = this.props
-    const diffCount = Versions.diffCount(currentProject, project)
-    const canMerge = !isCurrent && currentProject.isWritable && diffCount > 0
-
-    if (!isLive && canMerge) {
-      const dst = currentProject.id
-      this.props.dispatch({type: 'MERGE_DOCUMENT', dst, src: id})
-    }
-
-    this.props.dispatch({type: 'FOLLOW_PROJECT_CLICKED', id})
-  }
-
   deleteProject = id => e => {
     e.stopPropagation()
     this.props.dispatch({type: 'DELETE_DOCUMENT', id})
   }
 
   mergeClicked = src => e => {
-    const dst = this.props.parentId
+    const dst = this.props.parent.id
 
     e.stopPropagation()
     this.props.dispatch({type: 'MERGE_DOCUMENT', dst, src})

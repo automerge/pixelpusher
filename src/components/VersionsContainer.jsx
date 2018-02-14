@@ -44,6 +44,7 @@ class Versions extends React.Component {
 
   renderVersion = parentId => (project, index) => {
     const {dispatch, currentProject, projects, identities, liveIds} = this.props
+    const parent = projects.get(parentId)
 
     const identity = identities.get(project.identityId)
     const avatarId = identity && identity.doc.get('avatarId')
@@ -58,10 +59,9 @@ class Versions extends React.Component {
       <Version
         key={project.id}
         dispatch={dispatch}
-        currentProject={currentProject}
         isCurrent={isCurrent}
         isLive={isLive}
-        parentId={parentId}
+        parent={parent}
         project={project}
         identity={identity}
         avatar={avatar}
