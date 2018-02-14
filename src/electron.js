@@ -17,6 +17,9 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     width: 1920,
     height: 1080,
+    webPreferences: {
+      blinkFeatures: 'CSSDisplayContents'
+    }
   });
 
   // and load the index.html of the app.

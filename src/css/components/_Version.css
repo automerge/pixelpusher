@@ -1,10 +1,10 @@
 .version {
   display: grid;
-  grid-template-columns: 48px 6px 24px auto auto;
+  grid-template-columns: 48px 3px auto auto;
   grid-template-rows: 24px 24px;
   grid-template-areas:
-    "preview . status status status"
-    "preview . avatar text buttons";
+    "preview . text status"
+    "preview . avatars buttons";
   align-items: center;
   border: 3px solid #757575;
   margin-top: 5px;
@@ -15,15 +15,15 @@
   position: relative;
 
   &-selected {
-    border-color: #FF9800;
-  }
-
-  &-following {
     border-color: #00BCD4;
   }
 
-  &-following > &__status {
+  &-selected > &__status {
     color: #00BCD4;
+  }
+
+  &-following {
+    border-color: #FF9800;
   }
 
   &-new {
@@ -59,7 +59,7 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-    box-shadow: 3px 0 0 0 currentColor;
+    // box-shadow: 3px 0 0 0 currentColor;
 
     > .Canvas {
       height: 100%;
@@ -67,12 +67,23 @@
     }
   }
 
-  &__avatar {
-    grid-area: avatar;
+  &__avatars {
+    display: flex;
+    grid-area: avatars;
     height: 100%;
+  }
+
+  &__avatar {
+    height: 23px;
+    width: 23px;
     overflow: hidden;
     display: flex;
+    flex-shrink: 0;
+    flex-grow: 0;
     color: black;
+    background-color: currentColor;
+    border: 2px solid currentColor;
+    justify-self: start;
 
     > .Canvas {
       height: 100%;
@@ -96,6 +107,8 @@
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    justify-self: end;
+    margin-right: 2px;
   }
 
   &__buttons {

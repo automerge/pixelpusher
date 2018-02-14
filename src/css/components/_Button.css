@@ -39,10 +39,6 @@
     @mixin icon open;
   }
 
-  &-merge {
-    @mixin icon merge;
-  }
-
   &-delete {
     @mixin icon trash-o;
   }
@@ -73,5 +69,13 @@
 
   &-forward {
     @mixin icon forward;
+  }
+
+  &-merge {
+    @mixin icon reply-all;
+  }
+
+  &-fork {
+    @mixin icon files-o;
   }
 }

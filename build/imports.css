@@ -415,7 +415,7 @@ textarea {
   content: "\f014";
 }
 
-.frame .duplicate::before{
+.frame .duplicate::before, .button-fork::before{
   content: "\f0c5";
 }
 
@@ -485,6 +485,10 @@ label.picker__rows::before{
 
 .button-follow::before{
   content: "\f018";
+}
+
+.button-merge::before{
+  content: "\f122";
 }
 
 /* Button colors */
@@ -2608,15 +2612,6 @@ label.picker__rows {
     -moz-osx-font-smoothing: grayscale;
 }
 
-.button-merge {
-    display: inline-block;
-    font: normal normal normal 14px/1 FontAwesome;
-    font-size: inherit;
-    text-rendering: auto;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 .button-delete {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
@@ -2681,6 +2676,24 @@ label.picker__rows {
 }
 
 .button-forward {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.button-merge {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.button-fork {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
     font-size: inherit;
@@ -2811,13 +2824,13 @@ label.picker__rows {
 .version {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 48px 6px 24px auto auto;
-      grid-template-columns: 48px 6px 24px auto auto;
+  -ms-grid-columns: 48px 3px auto auto;
+      grid-template-columns: 48px 3px auto auto;
   -ms-grid-rows: 24px 24px;
       grid-template-rows: 24px 24px;
   grid-template-areas:
-    "preview . status status status"
-    "preview . avatar text buttons";
+    "preview . text status"
+    "preview . avatars buttons";
   -ms-flex-align: center;
       align-items: center;
   border: 3px solid #757575;
@@ -2830,15 +2843,15 @@ label.picker__rows {
 }
 
 .version-selected {
-    border-color: #FF9800;
-  }
-
-.version-following {
     border-color: #00BCD4;
   }
 
-.version-following > .version__status {
+.version-selected > .version__status {
     color: #00BCD4;
+  }
+
+.version-following {
+    border-color: #FF9800;
   }
 
 .version-new {
@@ -2878,7 +2891,7 @@ label.picker__rows {
     display: flex;
     -ms-flex-pack: center;
         justify-content: center;
-    box-shadow: 3px 0 0 0 currentColor;
+    // box-shadow: 3px 0 0 0 currentColor;
   }
 
 .version__preview > .Canvas {
@@ -2886,13 +2899,27 @@ label.picker__rows {
       width: auto;
     }
 
-.version__avatar {
-    grid-area: avatar;
+.version__avatars {
+    display: -ms-flexbox;
+    display: flex;
+    grid-area: avatars;
     height: 100%;
+  }
+
+.version__avatar {
+    height: 23px;
+    width: 23px;
     overflow: hidden;
     display: -ms-flexbox;
     display: flex;
+    -ms-flex-negative: 0;
+        flex-shrink: 0;
+    -ms-flex-positive: 0;
+        flex-grow: 0;
     color: black;
+    background-color: currentColor;
+    border: 2px solid currentColor;
+    justify-self: start;
   }
 
 .version__avatar > .Canvas {
@@ -2916,6 +2943,8 @@ label.picker__rows {
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
+    justify-self: end;
+    margin-right: 2px;
   }
 
 .version__buttons {
@@ -3085,3 +3114,7 @@ label.picker__rows {
 li:hover .cloud-peers__buttons {
     opacity: 1;
   }
+
+.Tooltip {
+  display: contents;
+}

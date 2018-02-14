@@ -2,17 +2,18 @@ import React from 'react'
 import Preview from './Preview';
 import Canvas from './Canvas';
 import Button from './Button';
+import Tooltip from './Tooltip';
 import classnames from 'classnames'
 import * as Versions from '../logic/Versions'
 
 export default class Version extends React.Component {
   render() {
-    const {isCurrent, isLive, currentProject, project, identity, avatar} = this.props
+    const {isCurrent, isLive, currentProject, project, parentId, identity, avatar} = this.props
 
     if (!project.doc) return null
 
     const diffCount = Versions.diffCount(currentProject, project)
-    const canMerge = !isCurrent && currentProject.isWritable && diffCount > 0
+    const canMerge = diffCount > 0 && parentId
     const color = Versions.color(identity || project)
     const {id} = project
 
@@ -26,51 +27,59 @@ export default class Version extends React.Component {
         onDoubleClick={this.projectDoubleClicked(project.id)}
         key={project.id}
       >
-        <div className="version__preview" style={{color}}>
+        <div className="version__preview">
           { project
             ? <Canvas project={project} />
             : null}
         </div>
 
-        <div className="version__avatar">
-          { avatar
-            ? <Canvas project={avatar} />
-            : null}
+        <div className="version__avatars">
+          <div className="version__avatar" style={{color}}>
+            { avatar
+              ? <Canvas project={avatar} />
+              : null}
+          </div>
         </div>
 
         <div className="version__text">
-          { identity
-            ? identity.doc.get('name')
-            : null }
+          { project.doc.get('title') }
         </div>
 
         <div className="version__status">
-          { isLive
-            ? "Following"
-            : project.isWritable
-            ? null
-            : "Read-only" }
+          { isCurrent
+            ? 'Current'
+            : null }
         </div>
 
         { diffCount > 1
           ? <div className="version__badge">
-              {diffCount}
+              {"\u00a0•\u00a0"}
             </div>
           : null }
 
         <div className="version__buttons">
           <Button tiny
-            icon={isLive ? 'pause' : canMerge ? 'forward' : 'play'}
-            disabled={isCurrent || !currentProject.isWritable}
-            onClick={this.followClicked(id)}
-            onMouseEnter={this.preview(id)}
-            onMouseLeave={this.cancelPreview(id)}
+            icon='merge'
+            disabled={!canMerge}
+            onClick={this.mergeClicked(id)}
           />
 
-          <Button tiny icon="delete" disabled={isCurrent} onClick={this.deleteProject(id)} />
+          <Button tiny
+            icon='fork'
+            onClick={this.forkClicked(id)}
+          />
+
+          <Button tiny icon="delete" onClick={this.deleteProject(id)} />
         </div>
       </div>
     )
+  }
+
+  forkClicked = id => e => {
+    e.stopPropagation()
+
+    const {dispatch} = this.props
+    dispatch({type: 'FORK_PROJECT', id})
   }
 
   projectClicked = id => e => {
@@ -105,8 +114,8 @@ export default class Version extends React.Component {
     this.props.dispatch({type: 'DELETE_DOCUMENT', id})
   }
 
-  mergeProject = src => e => {
-    const dst = this.props.currentProject.id
+  mergeClicked = src => e => {
+    const dst = this.props.parentId
 
     e.stopPropagation()
     this.props.dispatch({type: 'MERGE_DOCUMENT', dst, src})

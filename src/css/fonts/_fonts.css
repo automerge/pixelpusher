@@ -115,3 +115,7 @@
 @define-extend follow {
   content: "\f018";
 }
+
+@define-extend reply-all {
+  content: "\f122";
+}

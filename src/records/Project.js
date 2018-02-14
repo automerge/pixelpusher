@@ -2,10 +2,11 @@ import {Record} from 'immutable'
 
 const Project = Record({
   id: null, // required
-  relativeId: null,
   doc: null,
   isWritable: false,
   identityId: null,
+  relativeId: null,
+  versionId: null,
   sourceId: null
 }, 'Project')
 
