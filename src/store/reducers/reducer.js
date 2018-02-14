@@ -194,6 +194,10 @@ const documentForked = (state, action) => {
   return setProject(state, makeProject(action))
 }
 
+const documentMerged = (state, action) => {
+  return setProject(state, makeProject(action))
+}
+
 const documentOpened = (state, action) => {
   return setProject(state, project)
 }
@@ -283,6 +287,8 @@ export default function (state = State(), action) {
       return documentReady(state, action)
 
     case 'DOCUMENT_MERGED':
+      return documentMerged(state, action)
+
     case 'DOCUMENT_UPDATED':
       return documentUpdated(state, action)
 

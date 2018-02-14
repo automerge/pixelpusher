@@ -6,7 +6,7 @@ import { shareLinkForProjectId } from '../utils/shareLink';
 import { getProjectId, getLiveProject } from '../store/reducers/reducerHelpers';
 import Version from './Version';
 import Window from './Window';
-import {relatedTree, getHistory, commonClock, clock, sort} from '../logic/Versions'
+import {isUpstream, relatedTree, getHistory, commonClock, clock, sort} from '../logic/Versions'
 import * as Clock from '../logic/Clock'
 import {shortcut} from '../logic/Keyboard'
 
@@ -29,22 +29,26 @@ class Versions extends React.Component {
     )
   }
 
-  renderTree = parentId => (tree, index) => {
+  renderTree = parent => (tree, index) => {
     const proj = tree.value
+    const children = tree.children.map(this.renderTree(proj))
 
     return (
       <Fragment key={index}>
-        {this.renderVersion(parentId)(proj)}
-        <div className="version__list">
-          {tree.children.map(this.renderTree(proj.id))}
-        </div>
+        {this.renderVersion(parent)(proj)}
+        { children.size > 0
+          ? <div className="version__list">
+              {children}
+            </div>
+          : null}
       </Fragment>
     )
   }
 
-  renderVersion = parentId => (project, index) => {
+  renderVersion = parent => (project, index) => {
     const {dispatch, currentProject, projects, identities, liveIds} = this.props
-    const parent = projects.get(parentId)
+
+    if (parent && parent.doc && project.doc && isUpstream(parent, project)) return null
 
     const identity = identities.get(project.identityId)
     const avatarId = identity && identity.doc.get('avatarId')

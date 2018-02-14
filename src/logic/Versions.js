@@ -49,8 +49,8 @@ export const equals = (a, b) =>
 export const sort = projects =>
   projects.sort(comparator)
 
-export const isUpstream = (project, other) =>
-  Clock.lessOrEqual(clock(project), clock(other))
+export const isUpstream = (parent, child) =>
+  Clock.isUpstream(clock(parent), clock(child))
 
 export const comparator = (a, b) =>
   compareBoolean(b.isWritable, a.isWritable) ||

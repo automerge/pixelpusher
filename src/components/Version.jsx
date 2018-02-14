@@ -12,7 +12,7 @@ export default class Version extends React.Component {
 
     if (!project.doc) return null
 
-    const diffCount = parent ? Versions.diffCount(parent, project) : 0
+    const diffCount = parent && parent.doc ? Versions.diffCount(parent, project) : 0
     const canMerge = diffCount > 0 && parent
     const color = Versions.color(identity || project)
     const {id} = project

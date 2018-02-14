@@ -49,8 +49,10 @@ export default class LoadDrawing extends React.Component {
       .groupBy(p => p.relativeId);
 
     return projectGroups.map(group => {
-      const project = group.find(p => p.isWritable) || group.first()
+      const project = group.find(p => p.doc && p.isWritable) || group.first()
       const {id, doc} = project
+
+      if (!doc) return null
 
       return (
         <div

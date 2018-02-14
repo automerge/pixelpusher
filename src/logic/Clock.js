@@ -24,5 +24,5 @@ export const isSame = (small, big) =>
     seq === big.get(k))
 
 export const isUpstream = (parent, child) =>
-  parent.every((seq, k) =>
-    seq <= child.get(k, 0))
+  child.every((seq, k) =>
+    seq <= parent.get(k, 0))
