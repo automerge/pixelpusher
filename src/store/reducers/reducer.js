@@ -28,6 +28,16 @@ const addProject = (state, project) => {
   // return autoFollowProject(state.setIn(['projects', project.id], project), project)
 }
 
+const mergeProject = (state, project) => {
+  return state.updateIn(['projects', project.id], currProj =>
+    currProj
+      ? currProj.mergeWith(
+          (a, b) => b != null ? b : a,
+          project)
+      : project)
+  // return autoFollowProject(state.setIn(['projects', project.id], project), project)
+}
+
 const addIdentity = (state, identity) =>
   state.setIn(['identities', identity.id], identity)
 
@@ -219,7 +229,7 @@ const documentMetadata = (state, action) => {
 
   switch (type) {
     case 'Project':
-      return addProject(state, makeProject(action))
+      return mergeProject(state, makeProject(action))
 
     default:
       return state
