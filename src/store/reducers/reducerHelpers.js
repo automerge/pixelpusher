@@ -24,7 +24,7 @@ export const getLiveProject = state =>
   .map(id =>
     state.projects.get(id))
   .reduce(
-   (a, b) => a.update('doc', doc => Automerge.merge(doc, b.doc)),
+    (a, b) => a.update('doc', doc => Automerge.merge(doc, b.doc)),
     getProject(state)
   )
 
@@ -78,13 +78,15 @@ export const autoFollowProjects = (state, project) => {
   return related(curr, state.projects).reduce(autoFollowProject, state)
 }
 
+export const addProject = (state, project) => {
+  return state.setIn(['projects', project.id], project)
+}
+
 export const setProject = (state, project) =>
-  state
-  .setIn(['projects', project.id], project)
+  addProject(state, project)
   .set('currentProjectId', project.id)
   .delete('mergePreviewProjectId')
   .delete('liveIds')
-  // .update(autoFollowProjects)
 
 export const getCurrentSwatch = state =>
   getInProject(state, ['doc', 'palette', state.currentSwatchIndex]) || Map()

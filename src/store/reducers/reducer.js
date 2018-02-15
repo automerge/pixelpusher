@@ -2,7 +2,7 @@ import { List } from 'immutable'
 import {
   resizeProject, setGridCellValue,
   applyBucket, addFrameToProject, getProject, updateProject,
-  setProject, updateIdentity, toggleFollowProject
+  addProject, setProject, updateIdentity, toggleFollowProject
 } from './reducerHelpers'
 import * as Mutation from '../../logic/Mutation'
 import Project, { project } from '../../records/Project'
@@ -22,11 +22,6 @@ const setProjectId = (state, id) =>
   .remove('activeFrameIndex')
   .remove('liveIds')
   // .update(autoFollowProjects)
-
-const addProject = (state, project) => {
-  return state.setIn(['projects', project.id], project)
-  // return autoFollowProject(state.setIn(['projects', project.id], project), project)
-}
 
 const mergeProject = (state, project) => {
   return state.updateIn(['projects', project.id], currProj =>
