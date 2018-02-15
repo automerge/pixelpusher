@@ -12,7 +12,7 @@ import {shortcut} from '../logic/Keyboard'
 
 class Versions extends React.Component {
   render() {
-    const {currentProject, focusedId, projects} = this.props
+    const {currentProject, projects} = this.props
 
     if (!(currentProject && currentProject.doc)) return null
 
@@ -91,7 +91,6 @@ const mapStateToProps = state => ({
   projects: state.projects,
   identities: state.identities,
   liveIds: state.liveIds,
-  focusedId: state.get('focusedProjectId'),
 });
 
 const mapDispatchToProps = dispatch => ({

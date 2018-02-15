@@ -82,7 +82,6 @@ export const setProject = (state, project) =>
   state
   .setIn(['projects', project.id], project)
   .set('currentProjectId', project.id)
-  .set('focusedProjectId', project.id)
   .delete('mergePreviewProjectId')
   .delete('liveIds')
   // .update(autoFollowProjects)
