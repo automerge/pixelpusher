@@ -5266,7 +5266,7 @@ hyperdiscovery@^7.0.0:
 
 "hypermerge@github:inkandswitch/hypermerge#merged-docs":
   version "0.1.2"
-  resolved "https://codeload.github.com/inkandswitch/hypermerge/tar.gz/204c94a3eb4f48e63a147115c2bbb68768cb5f7a"
+  resolved "https://codeload.github.com/inkandswitch/hypermerge/tar.gz/fee0e945f5200128da0cdf9a0597cc04fccfc9ad"
   dependencies:
     automerge "github:automerge/automerge#immutable-api"
     hypercore "^6.12.0"
