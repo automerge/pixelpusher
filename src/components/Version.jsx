@@ -1,5 +1,5 @@
 import React from 'react'
-import Preview from './Preview';
+import AvatarContainer from './AvatarContainer';
 import Canvas from './Canvas';
 import Button from './Button';
 import Tooltip from './Tooltip';
@@ -8,14 +8,13 @@ import * as Versions from '../logic/Versions'
 
 export default class Version extends React.Component {
   render() {
-    const {isCurrent, isLive, project, parent, identity, avatar} = this.props
+    const {isCurrent, isLive, project, parent, avatar} = this.props
 
     if (!project.doc) return null
 
     const diffCount = parent && parent.doc ? Versions.diffCount(parent, project) : 0
     const canMerge = diffCount > 0 && parent
-    const color = Versions.color(identity || project)
-    const {id} = project
+    const {id, identityIds} = project
 
     return (
       <div
@@ -34,24 +33,17 @@ export default class Version extends React.Component {
         </div>
 
         <div className="version__avatars">
-          <div className="version__avatar" style={{color}}>
-            { avatar
-              ? <Canvas project={avatar} />
-              : null}
-          </div>
+          { project.identityIds
+            .map(identityId =>
+              <AvatarContainer key={identityId} identityId={identityId} />
+            )}
         </div>
 
         <div className="version__text">
           { project.doc.get('title') }
         </div>
 
-        <div className="version__status">
-          { isCurrent
-            ? 'Current'
-            : null }
-        </div>
-
-        { diffCount > 1
+        { diffCount > 2
           ? <div className="version__badge">
               {"\u00a0•\u00a0"}
             </div>

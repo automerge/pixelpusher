@@ -1,4 +1,4 @@
-import { List } from 'immutable'
+import { List, Set } from 'immutable'
 import {
   resizeProject, setGridCellValue,
   applyBucket, addFrameToProject, getProject, updateProject,
@@ -244,12 +244,16 @@ const makeProject = action => {
   const {
     id,
     doc,
+    metadatas,
     metadata: {parentId, groupId, identityId} = {}
   } = action
+
+  const identityIds = metadatas.map(m => m.identityId).filter(x => x)
 
   return Project({
     id,
     doc,
+    identityIds: Set(identityIds),
     identityId,
     sourceId: parentId,
     relativeId: groupId

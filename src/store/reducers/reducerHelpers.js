@@ -66,7 +66,7 @@ export const autoFollowProject = (state, project) => {
     curr &&
     curr.doc &&
     curr.isWritable &&
-    diffCount(curr, project) <= 1
+    diffCount(curr, project) <= 2
 
   return shouldFollow
     ? followProject(state, project.id)

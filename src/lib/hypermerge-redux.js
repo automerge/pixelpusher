@@ -11,12 +11,14 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
 
     // For now, merge the metadata and infos together
     const metadata = sync.metadata(actor)
+    const metadatas = sync.metadatas(id)
 
     return map({
       type,
       id,
       doc,
-      metadata
+      metadata,
+      metadatas
     }, getState())
   }
 

@@ -14,24 +14,20 @@ const configureStore = devMode => {
     path: STORAGE_PATH
   })
 
-  const addDepDocs = (docId, doc) => {
-    const metadata = sync.metadata(docId)
-
-    if (!metadata) {
-      console.log('no metadata', docId)
-      return
-    }
+  const addDepDocs = (id, doc) => {
+    const metadata = sync.metadata(id)
 
     switch (metadata.type) {
       case 'Project':
-        return sync.open(metadata.identityId)
+        return sync.metadatas(id).map(m => sync.open(m.identityId))
+
       case 'Identity':
         return doc.get('avatarId') && sync.open(doc.get('avatarId'))
     }
   }
 
-  // sync.on('document:ready', addDepDocs)
-  // sync.on('document:updated', addDepDocs)
+  sync.on('document:ready', addDepDocs)
+  sync.on('document:updated', addDepDocs)
 
   const init = ({type}) => {
     switch (type) {
@@ -52,7 +48,11 @@ const configureStore = devMode => {
     ))
 
   sync.once('ready', () => {
-    if (!state.identityId) {
+    if (state.identityId) {
+      sync.defaultMetadata = {
+        identityId: state.identityId
+      }
+    } else {
       let doc = sync.create({type: 'Identity'})
       doc = Init.identity(doc)
       sync.update(doc)

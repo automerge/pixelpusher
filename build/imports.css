@@ -2826,10 +2826,10 @@ label.picker__rows {
   display: grid;
   -ms-grid-columns: 48px 3px auto auto;
       grid-template-columns: 48px 3px auto auto;
-  -ms-grid-rows: 24px 24px;
-      grid-template-rows: 24px 24px;
+  -ms-grid-rows: 24px auto;
+      grid-template-rows: 24px auto;
   grid-template-areas:
-    "preview . text status"
+    "preview . text text"
     "preview . avatars buttons";
   -ms-flex-align: center;
       align-items: center;
@@ -2838,7 +2838,7 @@ label.picker__rows {
   background-color: #4b4949;
   line-height: 1.5;
   font-size: 14px;
-  height: 54px;
+  min-height: 54px;
   position: relative;
 }
 
@@ -2891,18 +2891,22 @@ label.picker__rows {
     display: flex;
     -ms-flex-pack: center;
         justify-content: center;
-    // box-shadow: 3px 0 0 0 currentColor;
+    -ms-flex-align: center;
+        align-items: center;
+    position: relative;
   }
 
 .version__preview > .Canvas {
-      height: 100%;
-      width: auto;
+      position: absolute;
+      width: 100%;
     }
 
 .version__avatars {
+    grid-area: avatars;
     display: -ms-flexbox;
     display: flex;
-    grid-area: avatars;
+    -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
     height: 100%;
   }
 
@@ -2920,6 +2924,8 @@ label.picker__rows {
     background-color: currentColor;
     border: 2px solid currentColor;
     justify-self: start;
+    margin-right: 2px;
+    margin-bottom: 2px;
   }
 
 .version__avatar > .Canvas {
@@ -2932,6 +2938,7 @@ label.picker__rows {
     position: relative;
     top: 3px;
     margin-left: 3px;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }

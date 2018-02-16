@@ -46,15 +46,9 @@ class Versions extends React.Component {
   }
 
   renderVersion = parent => (project, index) => {
-    const {dispatch, currentProject, projects, identities, liveIds} = this.props
+    const {dispatch, currentProject, projects, liveIds} = this.props
 
     if (parent && parent.doc && project.doc && isUpstream(parent, project)) return null
-
-    const identity = identities.get(project.identityId)
-    const avatarId = identity && identity.doc.get('avatarId')
-    const avatar = avatarId
-      ? projects.get(avatarId)
-      : null
 
     const isCurrent = currentProject.id === project.id
     const isLive = !isCurrent && liveIds.has(project.id)
@@ -67,8 +61,6 @@ class Versions extends React.Component {
         isLive={isLive}
         parent={parent}
         project={project}
-        identity={identity}
-        avatar={avatar}
       />
     )
   }
@@ -89,7 +81,6 @@ class Versions extends React.Component {
 const mapStateToProps = state => ({
   currentProject: getLiveProject(state),
   projects: state.projects,
-  identities: state.identities,
   liveIds: state.liveIds,
 });
 

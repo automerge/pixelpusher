@@ -1,9 +1,9 @@
 .version {
   display: grid;
   grid-template-columns: 48px 3px auto auto;
-  grid-template-rows: 24px 24px;
+  grid-template-rows: 24px auto;
   grid-template-areas:
-    "preview . text status"
+    "preview . text text"
     "preview . avatars buttons";
   align-items: center;
   border: 3px solid #757575;
@@ -11,7 +11,7 @@
   background-color: #4b4949;
   line-height: 1.5;
   font-size: 14px;
-  height: 54px;
+  min-height: 54px;
   position: relative;
 
   &-selected {
@@ -59,17 +59,19 @@
     overflow: hidden;
     display: flex;
     justify-content: center;
-    // box-shadow: 3px 0 0 0 currentColor;
+    align-items: center;
+    position: relative;
 
     > .Canvas {
-      height: 100%;
-      width: auto;
+      position: absolute;
+      width: 100%;
     }
   }
 
   &__avatars {
-    display: flex;
     grid-area: avatars;
+    display: flex;
+    flex-wrap: wrap;
     height: 100%;
   }
 
@@ -84,6 +86,8 @@
     background-color: currentColor;
     border: 2px solid currentColor;
     justify-self: start;
+    margin-right: 2px;
+    margin-bottom: 2px;
 
     > .Canvas {
       height: 100%;
@@ -96,6 +100,7 @@
     position: relative;
     top: 3px;
     margin-left: 3px;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
