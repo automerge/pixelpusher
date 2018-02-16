@@ -1,7 +1,7 @@
 {
   "name": "pixelpusher",
   "productName": "pixelpusher",
-  "version": "0.0.1",
+  "version": "0.0.4",
   "description": "Draw and animate Pixel Art, then export the results to CSS, share or download them, powered by Hypermerge",
   "main": "src/electron.js",
   "scripts": {
