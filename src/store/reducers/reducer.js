@@ -230,8 +230,11 @@ const identityCreated = (state, action) =>
   addIdentity(state, makeIdentity(action))
     .set('identityId', action.id)
 
-const peerLeft = (state, id) =>
-  state.setIn(['peers', id, 'isOnline'], false)
+const peerLeft = (state, peer) =>
+  state.setIn(['peers', peer.id], peer)
+
+const peerJoined = (state, peer) =>
+  state.setIn(['peers', peer.id], peer)
 
 const makeProject = action => {
   const {
@@ -370,9 +373,11 @@ export default function (state = State(), action) {
     case 'IDENTITY_UPDATE':
       return identityUpdated(state, action.key, action.project)
 
-    // case 'PEER_JOINED':
-    // case 'PEER_LEFT':
-    //   return addPeer(state, makePeer(action))
+    case 'PEER_JOINED':
+      return peerJoined(state, makePeer(action))
+
+    case 'PEER_LEFT':
+      return peerLeft(state, makePeer(action))
 
     case 'SELF_CONNECTED':
       return selfConnected(state, action.key, action.id, action.writable)

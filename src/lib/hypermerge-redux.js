@@ -27,8 +27,7 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
       type,
       id: peer.remoteId.toString('hex'),
       docId,
-      isOnline: !peer._closed,
-      canWrite: sync.isWritable(docId)
+      isOnline: peer._index > -1
     }, getState())
   }
 
@@ -39,22 +38,14 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
   })
   .on('document:ready', (id, doc) => dispatch(withDoc('DOCUMENT_READY', doc)))
   .on('document:updated', (id, doc) => dispatch(withDoc('DOCUMENT_UPDATED', doc)))
-  .on('peer:joined', (hex, peer) => {
+  .on('peer:joined', (docId, peer) => {
     if (!peer.remoteId) return
-    dispatch(withPeer('PEER_JOINED', hex, peer))
+    dispatch(withPeer('PEER_JOINED', docId, peer))
   })
-  .on('peer:left', (hex, peer) => {
+  .on('peer:left', (docId, peer) => {
     if (!peer.remoteId) return
-    dispatch(withPeer('PEER_LEFT', hex, peer))
+    dispatch(withPeer('PEER_LEFT', docId, peer))
   })
-  // .on('document:metadata', (id, metadata) => {
-  //   dispatch(map({
-  //     type: 'DOCUMENT_METADATA',
-  //     id,
-  //     metadata,
-  //     isWritable: sync.isWritable(id)
-  //   }, getState()))
-  // })
 
   return _action => {
     const action = map(_action, getState())
@@ -66,7 +57,6 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
       case 'OPEN_DOCUMENT':
         sync.open(action.id)
         return next(map(Object.assign({}, action, {type: 'DOCUMENT_OPENING'})))
-        // return next(withDoc('DOCUMENT_OPENED', sync.open(action.id)))
 
       case 'UPDATE_DOCUMENT':
         sync.update(action.doc)
