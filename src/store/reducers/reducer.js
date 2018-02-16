@@ -173,10 +173,8 @@ const selfConnected = (state, key, id, canEdit) =>
 
 const documentCreated = (state, action) => {
   const {type} = action.metadata
+
   switch (type) {
-    case 'Identity':
-      return addIdentity(state, makeIdentity(action))
-        .set('identityId', action.id)
     case 'Project':
       return setProject(state, makeProject(action))
         .set('activeFrameIndex', 0)
@@ -193,8 +191,8 @@ const documentMerged = (state, action) => {
   return setProject(state, makeProject(action))
 }
 
-const documentOpened = (state, action) => {
-  return setProject(state, makeProject(action))
+const documentOpening = (state, action) => {
+  return setProjectId(state, action.id)
 }
 
 const documentReady = (state, action) => {
@@ -235,6 +233,10 @@ const documentMetadata = (state, action) => {
   }
 }
 
+const identityCreated = (state, action) =>
+  addIdentity(state, makeIdentity(action))
+    .set('identityId', action.id)
+
 const peerLeft = (state, id) =>
   state.setIn(['peers', id, 'isOnline'], false)
 
@@ -242,8 +244,7 @@ const makeProject = action => {
   const {
     id,
     doc,
-    info: {parentId, groupId} = {},
-    metadata: {identityId} = {}
+    metadata: {parentId, groupId, identityId} = {}
   } = action
 
   return Project({
@@ -255,8 +256,8 @@ const makeProject = action => {
   })
 }
 
-const makeIdentity = ({id, doc, isWritable}) =>
-  Identity({ id, doc, isWritable })
+const makeIdentity = ({id, doc}) =>
+  Identity({id, doc})
 
 const makePeer = ({id, docId, canWrite, isOnline}) =>
   Peer({
@@ -289,8 +290,8 @@ export default function (state = State(), action) {
     case 'DOCUMENT_FORKED':
       return documentForked(state, action)
 
-    case 'DOCUMENT_OPENED':
-      return documentOpened(state, action)
+    case 'DOCUMENT_OPENING':
+      return documentOpening(state, action)
 
     case 'DOCUMENT_CREATED':
       return documentCreated(state, action)
@@ -362,8 +363,9 @@ export default function (state = State(), action) {
       return updateIdentity(state, Mutation.setName(action.name))
     case 'AVATAR_BUTTON_CLICKED':
       return updateIdentity(state, Mutation.setAvatarId(action.id))
+
     case 'IDENTITY_CREATED':
-      return state.setIn(['peerInfo', 'identity'], action.key)
+      return identityCreated(state, action)
 
     case 'SET_PROJECT':
       return setProjectId(state, action.id)

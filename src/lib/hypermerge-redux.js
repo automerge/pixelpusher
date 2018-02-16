@@ -10,22 +10,13 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
     const actor = sync.getHex(doc)
 
     // For now, merge the metadata and infos together
-    const metadata = assign(
-      sync.metadata(id) || {},
-      sync.metadata(actor) || {}
-    )
-
-    const info = assign(
-      sync.info(id) || {},
-      sync.info(actor) || {}
-    )
+    const metadata = sync.metadata(actor)
 
     return map({
       type,
       id,
       doc,
-      metadata,
-      info
+      metadata
     }, getState())
   }
 
@@ -71,7 +62,9 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
           sync.update(init(action.metadata)(sync.create(action.metadata)))))
 
       case 'OPEN_DOCUMENT':
-        return next(withDoc('DOCUMENT_OPENED', sync.open(action.id, action.metadata)))
+        sync.open(action.id)
+        return next(map(Object.assign({}, action, {type: 'DOCUMENT_OPENING'})))
+        // return next(withDoc('DOCUMENT_OPENED', sync.open(action.id)))
 
       case 'UPDATE_DOCUMENT':
         sync.update(action.doc)
@@ -81,7 +74,7 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
         return next({type: 'DOCUMENT_DELETED', id: action.id})
 
       case 'FORK_DOCUMENT': {
-        const doc = sync.fork(action.id, action.metadata)
+        const doc = sync.fork(action.id)
         return next(withDoc('DOCUMENT_FORKED', doc))
       }
 

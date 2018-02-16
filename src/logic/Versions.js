@@ -9,7 +9,15 @@ export const relatedTree = (current, projects) => {
     .groupBy(p => p.sourceId)
     .map(sort)
 
-  const root = lookup.get(undefined).first()
+  const roots = lookup.get(undefined)
+
+  if (!roots) {
+    return Tree({
+      value: current
+    })
+  }
+
+  const root = roots.first()
 
   return buildTree(lookup)(root)
 }

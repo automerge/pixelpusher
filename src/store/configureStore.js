@@ -14,8 +14,6 @@ const configureStore = devMode => {
     path: STORAGE_PATH
   })
 
-  sync.joinSwarm()
-
   const addDepDocs = (docId, doc) => {
     const metadata = sync.metadata(docId)
 
@@ -37,8 +35,6 @@ const configureStore = devMode => {
 
   const init = ({type}) => {
     switch (type) {
-      case 'Identity':
-        return Init.identity
       case 'Project':
         return Init.project
       default:
@@ -55,12 +51,24 @@ const configureStore = devMode => {
       hypermergeRedux(sync, {init, map: mapAction(sync)})
     ))
 
-  if (!state.identityId) {
-    sync.once('ready', () => {
-      store.dispatch({type: 'CREATE_DOCUMENT', metadata: {type: 'Identity'}})
+  sync.once('ready', () => {
+    if (!state.identityId) {
+      let doc = sync.create({type: 'Identity'})
+      doc = Init.identity(doc)
+      sync.update(doc)
+
+      const id = sync.getId(doc)
+
+      sync.defaultMetadata = {
+        identityId: id
+      }
+
+      store.dispatch({type: 'IDENTITY_CREATED', id, doc})
       store.dispatch({type: 'NEW_PROJECT_CLICKED'})
-    })
-  }
+    }
+
+    sync.joinSwarm()
+  })
 
   return store
 }
