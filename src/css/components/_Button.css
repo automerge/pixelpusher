@@ -13,11 +13,12 @@
   }
 
   &-tiny {
-    font-size: 1em !important;
+    font-size: 14px !important;
     box-shadow: none;
     padding: 2px;
     background-color: $color-mineShaft;
     border: 1px solid black;
+    min-width: 20px;
 
     &:active {
       transform: translate(0, 1px);
@@ -72,10 +73,19 @@
   }
 
   &-merge {
-    @mixin icon reply-all;
+    @mixin icon long-arrow-up;
+
+    &::before {
+      display: block;
+      transform: rotate(-35deg);
+    }
   }
 
+  /* &-merge {
+    @mixin icon level-up;
+  } */
+
   &-fork {
-    @mixin icon files-o;
+    @mixin icon level-down;
   }
 }

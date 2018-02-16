@@ -60,8 +60,6 @@ export default class Version extends React.Component {
             icon='fork'
             onClick={this.forkClicked(id)}
           />
-
-          <Button tiny icon="delete" onClick={this.deleteProject(id)} />
         </div>
       </div>
     )

@@ -415,7 +415,7 @@ textarea {
   content: "\f014";
 }
 
-.frame .duplicate::before, .button-fork::before{
+.frame .duplicate::before{
   content: "\f0c5";
 }
 
@@ -487,8 +487,12 @@ label.picker__rows::before{
   content: "\f018";
 }
 
+.button-fork::before{
+  content: "\F149";
+}
+
 .button-merge::before{
-  content: "\f122";
+  content: "\F176";
 }
 
 /* Button colors */
@@ -2576,11 +2580,12 @@ label.picker__rows {
 }
 
 .button-tiny {
-    font-size: 1em !important;
+    font-size: 14px !important;
     box-shadow: none;
     padding: 2px;
     background-color: #313131;
     border: 1px solid black;
+    min-width: 20px;
 }
 
 .button-tiny:active {
@@ -2692,6 +2697,16 @@ label.picker__rows {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.button-merge::before {
+  display: block;
+  -ms-transform: rotate(-35deg);
+      transform: rotate(-35deg);
+}
+
+/*&-merge {
+    @mixin icon level-up;
+  } */
 
 .button-fork {
     display: inline-block;

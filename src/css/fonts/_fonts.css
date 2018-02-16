@@ -119,3 +119,19 @@
 @define-extend reply-all {
   content: "\f122";
 }
+
+@define-extend level-down {
+  content: "\F149";
+}
+
+@define-extend level-up {
+  content: "\F148";
+}
+
+@define-extend arrow-up {
+  content: "\F062";
+}
+
+@define-extend long-arrow-up {
+  content: "\F176";
+}
