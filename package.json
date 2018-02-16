@@ -77,8 +77,6 @@
     "hyperdiscovery": "^7.0.0",
     "hypermerge": "github:inkandswitch/hypermerge#merged-docs",
     "immutable": "^3.8.2",
-    "ipfs": "^0.27.3",
-    "ipfs-pubsub-room": "^1.1.2",
     "js-cookie": "^2.2.0",
     "js-crc": "^0.2.0",
     "lodash": "^4.17.4",
