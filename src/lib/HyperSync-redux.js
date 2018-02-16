@@ -26,8 +26,6 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
     const archiverKey = sync.hypermerge.core.archiver.changes.key.toString('hex')
 
     dispatch({type: 'HYPERMERGE_READY', archiverKey})
-
-    sync.openAll()
   })
   .on('document:ready', doc => dispatch(withDoc('DOCUMENT_READY', doc)))
   .on('document:updated', doc => dispatch(withDoc('DOCUMENT_UPDATED', doc)))

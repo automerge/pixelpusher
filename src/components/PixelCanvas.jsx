@@ -11,7 +11,7 @@ class PixelCanvas extends React.Component {
   render () {
     let {project, activeFrameIndex} = this.props
 
-    if (!project || !project.doc) {
+    if (!project || !project.doc || !project.doc.get('frames')) {
       return this.empty('Loading...')
     }
 
@@ -29,7 +29,7 @@ class PixelCanvas extends React.Component {
     const pixels = activeFrame.get('pixels')
     const conflicts = Automerge.getConflicts(doc, pixels)
 
-    const readonly = !project.isWritable
+    const readonly = false
 
     const cells = pixels.map((swatchIndex, i) => {
       return {
@@ -71,7 +71,7 @@ class PixelCanvas extends React.Component {
   }
 
   onCellEvent = id => {
-    if (!this.props.project.isWritable) return
+    // if (!this.props.project.isWritable) return
 
     this.props.actions.drawCell(id)
   }

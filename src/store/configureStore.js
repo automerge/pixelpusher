@@ -16,8 +16,13 @@ const configureStore = devMode => {
 
   sync.joinSwarm()
 
-  const addDepDocs = doc => {
-    const metadata = sync.metadata(doc._actorId)
+  const addDepDocs = (docId, doc) => {
+    const metadata = sync.metadata(docId)
+
+    if (!metadata) {
+      console.log('no metadata', docId)
+      return
+    }
 
     switch (metadata.type) {
       case 'Project':
@@ -27,8 +32,8 @@ const configureStore = devMode => {
     }
   }
 
-  sync.on('document:ready', addDepDocs)
-  sync.on('document:updated', addDepDocs)
+  // sync.on('document:ready', addDepDocs)
+  // sync.on('document:updated', addDepDocs)
 
   const init = ({type}) => {
     switch (type) {
@@ -51,8 +56,10 @@ const configureStore = devMode => {
     ))
 
   if (!state.identityId) {
-    store.dispatch({type: 'CREATE_DOCUMENT', metadata: {type: 'Identity'}})
-    store.dispatch({type: 'NEW_PROJECT_CLICKED'})
+    sync.once('ready', () => {
+      store.dispatch({type: 'CREATE_DOCUMENT', metadata: {type: 'Identity'}})
+      store.dispatch({type: 'NEW_PROJECT_CLICKED'})
+    })
   }
 
   return store

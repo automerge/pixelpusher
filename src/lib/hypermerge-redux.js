@@ -1,18 +1,33 @@
 import {equals} from '../logic/Versions'
 import { is } from 'immutable'
+import { assign } from 'lodash'
 
 export default (sync, {init, map}) => ({dispatch, getState}) => next => {
   if (!map) map = x => x
 
-  const withDoc = (type, doc) =>
-    map({
+  const withDoc = (type, doc) => {
+    const id = sync.getId(doc)
+    const actor = sync.getHex(doc)
+
+    // For now, merge the metadata and infos together
+    const metadata = assign(
+      sync.metadata(id) || {},
+      sync.metadata(actor) || {}
+    )
+
+    const info = assign(
+      sync.info(id) || {},
+      sync.info(actor) || {}
+    )
+
+    return map({
       type,
-      id: doc._actorId,
+      id,
       doc,
-      metadata: sync.metadata(doc._actorId),
-      isReady: sync.isOpened(doc._actorId),
-      isWritable: sync.isWritable(doc._actorId)
+      metadata,
+      info
     }, getState())
+  }
 
   const withPeer = (type, docId, peer) => {
     return map({
@@ -28,11 +43,9 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
     const archiverKey = sync.core.archiver.changes.key.toString('hex')
 
     dispatch({type: 'HYPERMERGE_READY', archiverKey})
-
-    sync.openAll()
   })
-  .on('document:ready', doc => dispatch(withDoc('DOCUMENT_READY', doc)))
-  .on('document:updated', doc => dispatch(withDoc('DOCUMENT_UPDATED', doc)))
+  .on('document:ready', (id, doc) => dispatch(withDoc('DOCUMENT_READY', doc)))
+  .on('document:updated', (id, doc) => dispatch(withDoc('DOCUMENT_UPDATED', doc)))
   .on('peer:joined', (hex, peer) => {
     if (!peer.remoteId) return
     dispatch(withPeer('PEER_JOINED', hex, peer))
@@ -41,14 +54,14 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
     if (!peer.remoteId) return
     dispatch(withPeer('PEER_LEFT', hex, peer))
   })
-  .on('document:metadata', (id, metadata) => {
-    dispatch(map({
-      type: 'DOCUMENT_METADATA',
-      id,
-      metadata,
-      isWritable: sync.isWritable(id)
-    }, getState()))
-  })
+  // .on('document:metadata', (id, metadata) => {
+  //   dispatch(map({
+  //     type: 'DOCUMENT_METADATA',
+  //     id,
+  //     metadata,
+  //     isWritable: sync.isWritable(id)
+  //   }, getState()))
+  // })
 
   return _action => {
     const action = map(_action, getState())
@@ -58,7 +71,7 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
           sync.update(init(action.metadata)(sync.create(action.metadata)))))
 
       case 'OPEN_DOCUMENT':
-        return next(withDoc('DOCUMENT_OPENED', sync.open(action.id)))
+        return next(withDoc('DOCUMENT_OPENED', sync.open(action.id, action.metadata)))
 
       case 'UPDATE_DOCUMENT':
         sync.update(action.doc)
@@ -69,7 +82,6 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
 
       case 'FORK_DOCUMENT': {
         const doc = sync.fork(action.id, action.metadata)
-        sync.share(doc._actorId, action.id)
         return next(withDoc('DOCUMENT_FORKED', doc))
       }
 
@@ -101,9 +113,9 @@ const watch = (sync, path, prevState, currState) => {
     const pRec = prev.get(k)
 
     if (!rec || !rec.doc) return
-    if (!rec.isWritable) return
     if (!pRec || !pRec.doc) return
     if (equals(rec, pRec)) return
+    if (rec.doc === sync.find(sync.getId(rec.doc))) return
 
     sync.update(rec.doc)
   })

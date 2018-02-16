@@ -63,7 +63,7 @@ class ShareLink extends React.Component {
     if (isValidShareLink(shareLink)) {
       const id = keyFromShareLink(shareLink)
 
-      this.props.dispatch({type: 'OPEN_DOCUMENT', id})
+      this.props.dispatch({type: 'OPEN_PROJECT', id})
     } else {
       this.props.dispatch({type: 'SEND_NOTIFICATION', message: "Share link is invalid."})
     }

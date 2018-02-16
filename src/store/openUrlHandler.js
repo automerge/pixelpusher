@@ -6,6 +6,6 @@ export default store => {
     const id = keyFromShareLink(url)
 
     store.dispatch({type: 'SEND_NOTIFICATION', message: "Opening project."})
-    store.dispatch({type: 'OPEN_DOCUMENT', id})
+    store.dispatch({type: 'OPEN_PROJECT', id})
   })
 }

@@ -194,7 +194,7 @@ const documentMerged = (state, action) => {
 }
 
 const documentOpened = (state, action) => {
-  return setProject(state, project)
+  return setProject(state, makeProject(action))
 }
 
 const documentReady = (state, action) => {
@@ -242,17 +242,16 @@ const makeProject = action => {
   const {
     id,
     doc,
-    isWritable,
-    metadata: {identityId, relativeId, sourceId} = {}
+    info: {parentId, groupId} = {},
+    metadata: {identityId} = {}
   } = action
 
   return Project({
     id,
     doc,
-    isWritable,
     identityId,
-    sourceId,
-    relativeId
+    sourceId: parentId,
+    relativeId: groupId
   })
 }
 

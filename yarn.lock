@@ -5264,9 +5264,9 @@ hyperdiscovery@^7.0.0:
     safe-buffer "^5.1.1"
     xtend "^4.0.1"
 
-hypermerge@^0.1.2:
+"hypermerge@github:inkandswitch/hypermerge#merged-docs":
   version "0.1.2"
-  resolved "https://registry.yarnpkg.com/hypermerge/-/hypermerge-0.1.2.tgz#d892bb86b10d65eb0f6e858a8c82c068d8ed8667"
+  resolved "https://codeload.github.com/inkandswitch/hypermerge/tar.gz/dcab19a0ef3cded3afcfe2152942ee52f1b657b7"
   dependencies:
     automerge "github:automerge/automerge#immutable-api"
     hypercore "^6.12.0"

@@ -7,13 +7,10 @@ export default class HyperSync extends EventEmitter {
     super()
 
     this.groups = {} // groupId -> merged doc
+    this.pending = {} // groupId -> merged doc (read-only)
 
     this.hypermerge = new HyperMerge(rest)
     this._start()
-  }
-
-  openAll () {
-    this.hypermerge.openAll()
   }
 
   create (metadata = {}) {
@@ -47,21 +44,27 @@ export default class HyperSync extends EventEmitter {
     return doc
   }
 
+  metadata (hex) {
+    return this.hypermerge.metadata(hex)
+  }
+
   joinSwarm (opts) {
     this.hypermerge.joinSwarm(opts)
   }
 
-  _processDoc (doc) {
-    const hex = this.hypermerge.getHex(doc)
+  _processDocPart (docPart) {
+    const hex = this.hypermerge.getHex(docPart)
     const {groupId} = this.hypermerge.metadata(hex)
     const isWritable = this.hypermerge.isWritable(hex)
 
     if (this.groups[groupId]) {
-      this.groups[groupId] = Automerge.merge(this.groups[groupId], doc)
+      this.groups[groupId] = Automerge.merge(this.groups[groupId], docPart)
     } else if (isWritable) {
-      this.groups[groupId] = doc
+      this.groups[groupId] = docPart
+    } else if (this.pending[groupId]) {
+      this.pending[groupId] = Automerge.merge(this.pending[groupId], docPart)
     } else {
-      // TODO queue up the doc somehow until we have a writable relative
+      this.pending[groupId] = docPart
     }
 
     return this.groups[groupId]
@@ -70,14 +73,14 @@ export default class HyperSync extends EventEmitter {
   _onDocumentReady () {
     return docPart => {
       console.log('document:ready', docPart)
-      const doc = this._processDoc(docPart)
+      const doc = this._processDocPart(docPart)
       this.emit('document:ready', doc)
     }
   }
 
   _onDocumentUpdated () {
     return docPart => {
-      const doc = this._processDoc(docPart)
+      const doc = this._processDocPart(docPart)
       this.emit('document:updated', doc)
     }
   }
