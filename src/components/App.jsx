@@ -85,6 +85,7 @@ export default class App extends React.Component {
                   `)}>
                 <FramesHandlerContainer />
               </div>
+              <DebugInfoContainer />
             </div>
             {this.renderRightSide()}
           </div>
@@ -185,11 +186,9 @@ export default class App extends React.Component {
       <div className="app__right-side">
         <div>
           <VersionsContainer />
-          <PresenceContainer />
           <CloudPeersContainer onAdd={
             () => { this.changeModalType('addCloudPeer'); }
           } />
-          <DebugInfoContainer />
         </div>
       </div>
     );

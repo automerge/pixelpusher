@@ -1,20 +1,14 @@
 import React from 'react'
-import { connect } from 'react-redux';
-import * as actionCreators from '../store/actions/actionCreators';
-
-import { shareLinkForProjectId } from '../utils/shareLink';
-import { getProjectId } from '../store/reducers/reducerHelpers';
+import { connect } from 'react-redux'
+import { getProjectId } from '../store/reducers/reducerHelpers'
 
 class DebugInfo extends React.Component {
-  render() {
+  render () {
     const {state} = this.props
 
     return (
-      <pre>
-        Debug:<br /><br />
-
-        currentProjectId:<br />
-        {state.currentProjectId}
+      <pre style={{textAlign: 'center'}}>
+        {getProjectId(state)}
       </pre>
     )
   }
@@ -22,14 +16,11 @@ class DebugInfo extends React.Component {
 
 const mapStateToProps = state => ({
   state
-});
-
-const mapDispatchToProps = dispatch => ({
-  dispatch,
-});
+})
 
 const DebugInfoContainer = connect(
   mapStateToProps,
-  mapDispatchToProps
-)(DebugInfo);
-export default DebugInfoContainer;
+  null
+)(DebugInfo)
+
+export default DebugInfoContainer
