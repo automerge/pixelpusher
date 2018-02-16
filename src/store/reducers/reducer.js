@@ -2,7 +2,7 @@ import { List, Set } from 'immutable'
 import {
   resizeProject, setGridCellValue,
   applyBucket, addFrameToProject, getProject, updateProject,
-  addProject, setProject, updateIdentity, toggleFollowProject
+  addProject, setProject, setProjectId, updateIdentity
 } from './reducerHelpers'
 import * as Mutation from '../../logic/Mutation'
 import Project, { project } from '../../records/Project'
@@ -17,12 +17,6 @@ const getPalette = state =>
 const getFrames = state =>
   getProject(state).doc.get('frames')
 
-const setProjectId = (state, id) =>
-  state.set('currentProjectId', id)
-  .remove('activeFrameIndex')
-  .remove('liveIds')
-  // .update(autoFollowProjects)
-
 const mergeProject = (state, project) => {
   return state.updateIn(['projects', project.id], currProj =>
     currProj
@@ -30,7 +24,6 @@ const mergeProject = (state, project) => {
           (a, b) => b != null ? b : a,
           project)
       : project)
-  // return autoFollowProject(state.setIn(['projects', project.id], project), project)
 }
 
 const addIdentity = (state, identity) =>
@@ -387,10 +380,13 @@ export default function (state = State(), action) {
       return updateProject(state, Mutation.addFrameFromPixels(action.pixels, action.width, action.height))
 
     case 'MERGE_PREVIEW_STARTED':
-      return state.set('mergePreviewProjectId', action.id)
+      return state.merge({
+        mergeDstId: action.dst,
+        mergeSrcId: action.src
+      })
 
     case 'MERGE_PREVIEW_ENDED':
-      return state.delete('mergePreviewProjectId')
+      return state.delete('mergeDstId').delete('mergeSrcId')
 
     case 'PIXEL_CONFLICT_CLICKED':
       return setGridCellValue(state, action.index, action.swatchIndex)

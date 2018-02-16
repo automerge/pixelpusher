@@ -5,7 +5,6 @@ export const DEFAULT_COLOR = '#313131';
 const State = Record({
   currentProjectId: null,
   projects: Map(),
-  liveIds: Set(),
   identityId: null,
   peers: Map(),
   identities: Map(),
@@ -17,6 +16,8 @@ const State = Record({
   loading: false,
   createdProjectCount: 0,
   mergePreviewProjectId: null,
+  mergeDstId: null,
+  mergeSrcId: null,
   mergingProjectId: null,
   notifications: List(),
   activeFrameIndex: 0,

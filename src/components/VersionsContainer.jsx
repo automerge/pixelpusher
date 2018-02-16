@@ -3,7 +3,7 @@ import Automerge from 'automerge'
 import {List} from 'immutable'
 import { connect } from 'react-redux';
 import { shareLinkForProjectId } from '../utils/shareLink';
-import { getProjectId, getLiveProject } from '../store/reducers/reducerHelpers';
+import { getProjectId, getProject } from '../store/reducers/reducerHelpers';
 import Version from './Version';
 import Window from './Window';
 import {isUpstream, relatedTree, getHistory, commonClock, clock, sort} from '../logic/Versions'
@@ -46,19 +46,19 @@ class Versions extends React.Component {
   }
 
   renderVersion = parent => (project, index) => {
-    const {dispatch, currentProject, projects, liveIds} = this.props
+    const {dispatch, currentProject, projects, mergeDstId, mergeSrcId} = this.props
 
     if (parent && parent.doc && project.doc && isUpstream(parent, project)) return null
 
     const isCurrent = currentProject.id === project.id
-    const isLive = !isCurrent && liveIds.has(project.id)
 
     return (
       <Version
         key={project.id}
         dispatch={dispatch}
         isCurrent={isCurrent}
-        isLive={isLive}
+        mergeDstId={mergeDstId}
+        mergeSrcId={mergeSrcId}
         parent={parent}
         project={project}
       />
@@ -79,9 +79,10 @@ class Versions extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  currentProject: getLiveProject(state),
+  currentProject: getProject(state),
   projects: state.projects,
-  liveIds: state.liveIds,
+  mergeDstId: state.mergeDstId,
+  mergeSrcId: state.mergeSrcId
 });
 
 const mapDispatchToProps = dispatch => ({

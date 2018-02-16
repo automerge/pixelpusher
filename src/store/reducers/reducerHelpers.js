@@ -12,21 +12,11 @@ export const updateIdentity = (state, f) =>
   state.updateIn(['identities', state.identityId], f)
 
 export const getProjectPreview = state =>
-  state.mergePreviewProjectId
-  ? getLiveProject(state).update('doc', doc =>
-      Automerge.merge(doc, state.projects.get(state.mergePreviewProjectId).doc))
-  : getLiveProject(state)
-
-export const getLiveProject = state =>
-  // TODO include mergePreviewProjectId:
-  state.liveIds.toSeq()
-  .filterNot(id => id === getProjectId(state))
-  .map(id =>
-    state.projects.get(id))
-  .reduce(
-    (a, b) => a.update('doc', doc => Automerge.merge(doc, b.doc)),
-    getProject(state)
-  )
+  state.mergeSrcId && state.mergeDstId
+  ? state.projects.get(state.mergeDstId)
+    .update('doc', doc =>
+      Automerge.merge(doc, state.projects.get(state.mergeSrcId).doc))
+  : getProject(state)
 
 export const getProjectId = state =>
   state.currentProjectId || state.projects.keySeq().first()
@@ -47,46 +37,19 @@ export const getInProjectPreview = (state, path, value) => {
 export const getProjectDocument = state =>
   getProject(state).document
 
-export const toggleFollowProject = (state, id) =>
-  state.liveIds.has(id)
-    ? unfollowProject(state, id)
-    : followProject(state, id)
-
-export const followProject = (state, id) =>
-  state.update('liveIds', ids => ids.add(id))
-
-export const unfollowProject = (state, id) =>
-  state.update('liveIds', ids => ids.remove(id))
-
-export const autoFollowProject = (state, project) => {
-  const curr = getProject(state)
-
-  const shouldFollow =
-    project.doc &&
-    curr &&
-    curr.doc &&
-    curr.isWritable &&
-    diffCount(curr, project) <= 2
-
-  return shouldFollow
-    ? followProject(state, project.id)
-    : state
-}
-
-export const autoFollowProjects = (state, project) => {
-  const curr = getProject(state)
-  return related(curr, state.projects).reduce(autoFollowProject, state)
-}
-
 export const addProject = (state, project) => {
   return state.setIn(['projects', project.id], project)
 }
 
+export const setProjectId = (state, id) =>
+  state.set('currentProjectId', id)
+  .remove('activeFrameIndex')
+  .remove('mergeSrcId')
+  .remove('mergeDstId')
+
 export const setProject = (state, project) =>
   addProject(state, project)
-  .set('currentProjectId', project.id)
-  .delete('mergePreviewProjectId')
-  .delete('liveIds')
+  .update(state => setProjectId(state, project.id))
 
 export const getCurrentSwatch = state =>
   getInProject(state, ['doc', 'palette', state.currentSwatchIndex]) || Map()
@@ -95,7 +58,7 @@ export const getCurrentColor = state =>
   getCurrentSwatch(state).get('color') || null
 
 export const updateProject = (state, f) =>
-  state.setIn(['projects', getProjectId(state)], f(getLiveProject(state)))
+  state.setIn(['projects', getProjectId(state)], f(getProject(state)))
 
 export function addFrameToProject (state) {
   return updateProject(state, Mutation.addFrame())

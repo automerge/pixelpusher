@@ -2839,13 +2839,13 @@ label.picker__rows {
 .version {
   display: -ms-grid;
   display: grid;
-  -ms-grid-columns: 48px 3px auto auto;
-      grid-template-columns: 48px 3px auto auto;
-  -ms-grid-rows: 24px auto;
-      grid-template-rows: 24px auto;
+  -ms-grid-columns: 48px 3px auto auto auto;
+      grid-template-columns: 48px 3px auto auto auto;
+  -ms-grid-rows: 24px auto auto;
+      grid-template-rows: 24px auto auto;
   grid-template-areas:
-    "preview . text text"
-    "preview . avatars buttons";
+    "preview . text status status"
+    "preview . avatars . buttons";
   -ms-flex-align: center;
       align-items: center;
   border: 3px solid #757575;
@@ -2865,8 +2865,12 @@ label.picker__rows {
     color: #00BCD4;
   }
 
-.version-following {
+.version-merge-target {
     border-color: #FF9800;
+  }
+
+.version-merge-target > .version__status {
+    color: #FF9800;
   }
 
 .version-new {

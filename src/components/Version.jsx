@@ -7,20 +7,28 @@ import classnames from 'classnames'
 import * as Versions from '../logic/Versions'
 
 export default class Version extends React.Component {
+  state = {
+    forkHover: false
+  }
+
   render() {
-    const {isCurrent, isLive, project, parent, avatar} = this.props
+    const {forkHover} = this.state
+    const {isCurrent, mergeDstId, mergeSrcId, project, parent, avatar} = this.props
 
     if (!project.doc) return null
 
     const diffCount = parent && parent.doc ? Versions.diffCount(parent, project) : 0
-    const canMerge = diffCount > 0 && parent
+    const canMerge = diffCount > 2 && parent
     const {id, identityIds} = project
+
+    const isMergeDst = mergeDstId === id
+    const isMergeSrc = mergeSrcId === id
 
     return (
       <div
         className={classnames("version", {
-          "version-selected": isCurrent,
-          "version-following": isLive,
+          "version-selected": mergeSrcId ? isMergeSrc : isCurrent,
+          "version-merge-target": isMergeDst || forkHover,
         })}
         onClick={this.projectClicked(project.id)}
         onDoubleClick={this.projectDoubleClicked(project.id)}
@@ -43,22 +51,30 @@ export default class Version extends React.Component {
           { project.doc.get('title') }
         </div>
 
-        { diffCount > 2
-          ? <div className="version__badge">
-              {"\u00a0•\u00a0"}
-            </div>
-          : null }
+        <div className="version__status">
+          { isMergeDst
+              ? 'Dest'
+              : isMergeSrc
+              ? 'Source'
+              : forkHover
+              ? 'Clone'
+              : null }
+        </div>
 
         <div className="version__buttons">
           <Button tiny
             icon='merge'
             disabled={!canMerge}
             onClick={this.mergeClicked(id)}
+            onMouseEnter={this.preview(id)}
+            onMouseLeave={this.cancelPreview(id)}
           />
 
           <Button tiny
             icon='fork'
             onClick={this.forkClicked(id)}
+            onMouseEnter={() => this.setState({forkHover: true})}
+            onMouseLeave={() => this.setState({forkHover: false})}
           />
         </div>
       </div>
@@ -90,19 +106,21 @@ export default class Version extends React.Component {
   }
 
   mergeClicked = src => e => {
-    const dst = this.props.parent.id
-
     e.stopPropagation()
+
+    const dst = this.props.parent.id
     this.props.dispatch({type: 'MERGE_DOCUMENT', dst, src})
   }
 
-  preview = id => e => {
+  preview = src => e => {
     e.stopPropagation()
-    this.props.dispatch({type: 'MERGE_PREVIEW_STARTED', id})
+
+    const dst = this.props.parent.id
+    this.props.dispatch({type: 'MERGE_PREVIEW_STARTED', src, dst})
   }
 
   cancelPreview = id => e => {
     e.stopPropagation()
-    this.props.dispatch({type: 'MERGE_PREVIEW_ENDED', id})
+    this.props.dispatch({type: 'MERGE_PREVIEW_ENDED'})
   }
 }

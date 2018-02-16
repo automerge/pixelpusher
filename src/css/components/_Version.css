@@ -1,10 +1,10 @@
 .version {
   display: grid;
-  grid-template-columns: 48px 3px auto auto;
-  grid-template-rows: 24px auto;
+  grid-template-columns: 48px 3px auto auto auto;
+  grid-template-rows: 24px auto auto;
   grid-template-areas:
-    "preview . text text"
-    "preview . avatars buttons";
+    "preview . text status status"
+    "preview . avatars . buttons";
   align-items: center;
   border: 3px solid #757575;
   margin-top: 5px;
@@ -22,8 +22,12 @@
     color: #00BCD4;
   }
 
-  &-following {
+  &-merge-target {
     border-color: #FF9800;
+  }
+
+  &-merge-target > &__status {
+    color: #FF9800;
   }
 
   &-new {
