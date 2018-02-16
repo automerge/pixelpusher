@@ -1,5 +1,6 @@
 import React from 'react';
 import Preview from './Preview';
+import AvatarContainer from './AvatarContainer';
 import Button from './Button';
 import {
   generateExportString, exportedStringToProject
@@ -79,6 +80,11 @@ export default class LoadDrawing extends React.Component {
             }
           </div>
           <h2>{doc.get('title')}</h2>
+          <div className="version__avatars" style={{justifyContent: 'center'}}>
+            {project.identityIds.map(id =>
+              <AvatarContainer key={id} identityId={id} />
+            )}
+          </div>
         </div>
       );
     }).valueSeq();
