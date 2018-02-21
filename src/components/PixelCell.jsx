@@ -18,7 +18,7 @@ export default class PixelCell extends React.Component {
       onMouseDown, onMouseOver, onTouchMove
     } = this.props
 
-    const conflicting = conflicts && conflicts.groupBy(x => x).size > 1
+    const conflicting = !!conflicts
 
     const styles = {
       width: `calc(${width}% - 1px)`,
