@@ -29,13 +29,13 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
   })
   .on('document:ready', doc => dispatch(withDoc('DOCUMENT_READY', doc)))
   .on('document:updated', doc => dispatch(withDoc('DOCUMENT_UPDATED', doc)))
-  .on('peer:joined', (hex, peer) => {
+  .on('peer:joined', (actorId, peer) => {
     if (!peer.remoteId) return
-    dispatch(withPeer('PEER_JOINED', hex, peer))
+    dispatch(withPeer('PEER_JOINED', actorId, peer))
   })
-  .on('peer:left', (hex, peer) => {
+  .on('peer:left', (actorId, peer) => {
     if (!peer.remoteId) return
-    dispatch(withPeer('PEER_LEFT', hex, peer))
+    dispatch(withPeer('PEER_LEFT', actorId, peer))
   })
   .on('document:metadata', (id, metadata) => {
     dispatch(map({
