@@ -4,7 +4,7 @@ import Window from './Window';
 
 const PixelGrid = ({
   cells, onMouseUp, onMouseDown, onMouseOver, onTouchMove, extraClass,
-  emptyColor,
+  emptyColor
 }) => (
   <div className={`grid-container ${extraClass}`}>
     <Window

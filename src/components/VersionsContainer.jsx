@@ -67,7 +67,7 @@ class Versions extends React.Component {
 
   forkCurrent = e => {
     const {dispatch, currentProject} = this.props
-    dispatch({type: 'FORK_PROJECT', id: currentProject.id})
+    dispatch({type: 'FORK_DOCUMENT', id: currentProject.id})
   }
 
   onKeyDown = e => {

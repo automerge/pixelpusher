@@ -7,22 +7,6 @@ export function changeDimensions(gridProperty, behaviour) {
   };
 }
 
-export function setGridDimension(columns, rows) {
-  return {
-    type: 'SET_GRID_DIMENSION',
-    columns,
-    rows
-  };
-}
-
-export function setColorSelected(newColorSelected, paletteColorPosition) {
-  return {
-    type: 'SET_COLOR_SELECTED',
-    newColorSelected,
-    paletteColorPosition
-  };
-}
-
 export function drawCell(id) {
   return {
     type: 'DRAW_CELL',

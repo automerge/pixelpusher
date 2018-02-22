@@ -1,6 +1,5 @@
 import {equals} from '../logic/Versions'
 import { is } from 'immutable'
-import { assign } from 'lodash'
 
 export default (sync, {init, map}) => ({dispatch, getState}) => next => {
   if (!map) map = x => x

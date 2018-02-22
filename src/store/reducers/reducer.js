@@ -241,7 +241,7 @@ const makeProject = action => {
     id,
     doc,
     metadatas,
-    metadata: {parentId, groupId, identityId} = {}
+    metadata: {parentId, groupId} = {}
   } = action
 
   const identityIds = metadatas.map(m => m.identityId).filter(x => x)
@@ -250,9 +250,8 @@ const makeProject = action => {
     id,
     doc,
     identityIds: Set(identityIds),
-    identityId,
-    sourceId: parentId,
-    relativeId: groupId
+    parentId,
+    groupId
   })
 }
 
@@ -308,8 +307,6 @@ export default function (state = State(), action) {
 
     case 'CHANGE_DIMENSIONS':
       return changeDimensions(state, action.gridProperty, action.behaviour)
-    case 'SET_COLOR_SELECTED':
-      return setColorSelected(state, action.newColorSelected)
     case 'SWATCH_CLICKED':
       return state.merge({
         currentSwatchIndex: action.index,

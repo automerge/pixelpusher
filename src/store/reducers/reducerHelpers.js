@@ -3,7 +3,6 @@ import Automerge from 'automerge'
 import shortid from 'shortid'
 import { pixels as pixelList } from '../../records/Pixel'
 import * as Mutation from '../../logic/Mutation'
-import { related, diffCount } from '../../logic/Versions';
 
 export const getOwnIdentity = state =>
   state.identities.get(state.identityId)

@@ -1,7 +1,6 @@
-export function generatePixelDrawCss(project, frameIndex, type) {
+export function generatePixelDrawCss (project, frameIndex, type) {
   const frame = project.getIn(['frames', frameIndex])
   const columns = project.get('columns')
-  const rows = project.get('rows')
   const cellSize = project.get('cellSize')
   const palette = project.get('palette')
 
@@ -11,35 +10,35 @@ export function generatePixelDrawCss(project, frameIndex, type) {
       const frameData = frame.get('pixels').reduce((accumulator, swatchIndex, i) => {
         if (swatchIndex != null) {
           const pixel = palette.getIn([swatchIndex, 'color'])
-          const xCoord = ((i % columns) * cellSize) + cellSize;
-          const yCoord = (parseInt(i / columns, 10) * cellSize) + cellSize;
-          const pixelInfo = [];
+          const xCoord = ((i % columns) * cellSize) + cellSize
+          const yCoord = (parseInt(i / columns, 10) * cellSize) + cellSize
+          const pixelInfo = []
 
-          pixelInfo.push(`${xCoord}`);
-          pixelInfo.push(`${yCoord}`);
-          pixelInfo.push('0');
-          pixelInfo.push(pixel);
-          accumulator.push(pixelInfo);
+          pixelInfo.push(`${xCoord}`)
+          pixelInfo.push(`${yCoord}`)
+          pixelInfo.push('0')
+          pixelInfo.push(pixel)
+          accumulator.push(pixelInfo)
         }
 
-        return accumulator;
-      }, []);
-      return frameData;
+        return accumulator
+      }, [])
+      return frameData
     }
     default: {
       // Returns frame data as CSS string. Value: 'string'
       const cssString = frame.get('pixels').reduce((accumulator, swatchIndex, i) => {
         if (swatchIndex != null) {
           const pixel = palette.getIn([swatchIndex, 'color'])
-          const xCoord = ((i % columns) * cellSize) + cellSize;
-          const yCoord = (parseInt(i / columns, 10) * cellSize) + cellSize;
+          const xCoord = ((i % columns) * cellSize) + cellSize
+          const yCoord = (parseInt(i / columns, 10) * cellSize) + cellSize
 
-          return `${accumulator} ${xCoord}px ${yCoord}px 0 ${pixel},`;
+          return `${accumulator} ${xCoord}px ${yCoord}px 0 ${pixel},`
         }
 
-        return accumulator;
-      }, '');
-      return cssString.slice(0, -1);
+        return accumulator
+      }, '')
+      return cssString.slice(0, -1)
     }
   }
 }
@@ -60,26 +59,26 @@ export function generatePixelDrawCss(project, frameIndex, type) {
       75.01%, 100%: { box-shadow: ...}
      }
 */
-export function exportAnimationData(keyframes, duration) {
-  let result = '';
-  result += '.pixel-animation {\n  position: absolute;\n  ';
+export function exportAnimationData (keyframes, duration) {
+  let result = ''
+  result += '.pixel-animation {\n  position: absolute;\n  '
 
-  result += `animation: x ${duration}s infinite;\n  `;
-  result += `-webkit-animation: x ${duration}s infinite;\n  `;
-  result += `-moz-animation: x ${duration}s infinite;\n  `;
-  result += `-o-animation: x ${duration}s infinite;\n}\n\n`;
+  result += `animation: x ${duration}s infinite;\n  `
+  result += `-webkit-animation: x ${duration}s infinite;\n  `
+  result += `-moz-animation: x ${duration}s infinite;\n  `
+  result += `-o-animation: x ${duration}s infinite;\n}\n\n`
 
-  result += '@keyframes x {\n';
+  result += '@keyframes x {\n'
 
   for (const key in keyframes) {
     if (Object.prototype.hasOwnProperty.call(keyframes, key)) {
-      const boxShadow = keyframes[key].boxShadow;
-      result += `${key}{\n  box-shadow: ${boxShadow}\n  }\n`;
+      const boxShadow = keyframes[key].boxShadow
+      result += `${key}{\n  box-shadow: ${boxShadow}\n  }\n`
     }
   }
-  result += '}';
+  result += '}'
 
-  return result;
+  return result
 }
 
 /*
@@ -95,27 +94,25 @@ export function exportAnimationData(keyframes, duration) {
  *
  * for intervalData like: [0, 25, 50, 75, 100]
 */
-export function generateAnimationCSSData(project) {
-  const frames = project.get('frames');
-  const columns = project.get('columns');
-  const rows = project.get('rows');
-  const cellSize = project.get('cellSize');
+export function generateAnimationCSSData (project) {
+  const frames = project.get('frames')
+  const cellSize = project.get('cellSize')
   const intervalData = generateAnimationIntervals(frames)
 
   const result = frames.reduce((acc, frame, index) => {
-    const intervalAcc = acc;
-    const currentBoxShadow = generatePixelDrawCss(project, index, 'string');
-    const minValue = index === 0 ? 0 : intervalData[index] + 0.01;
-    const maxValue = intervalData[index + 1];
+    const intervalAcc = acc
+    const currentBoxShadow = generatePixelDrawCss(project, index, 'string')
+    const minValue = index === 0 ? 0 : intervalData[index] + 0.01
+    const maxValue = intervalData[index + 1]
     intervalAcc[`${minValue}%, ${maxValue}%`] =
     { boxShadow:
         `${currentBoxShadow};height: ${cellSize}px; width: ${cellSize}px;`
-    };
+    }
 
-    return intervalAcc;
-  }, {});
+    return intervalAcc
+  }, {})
 
-  return result;
+  return result
 }
 
 /*
@@ -124,9 +121,9 @@ export function generateAnimationCSSData(project) {
  *  i.e. [0, 25, 50, 75, 100]
  *  i.e. [0, 2.5, 67, 90.3, 100]
 */
-export function generateAnimationIntervals(frames) {
+export function generateAnimationIntervals (frames) {
   return frames.reduce((acc, frame) => {
-    acc.push(parseFloat(frame.get('interval')));
-    return acc;
-  }, [0]);
+    acc.push(parseFloat(frame.get('interval')))
+    return acc
+  }, [0])
 }

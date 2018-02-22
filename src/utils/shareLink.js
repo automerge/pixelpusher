@@ -2,7 +2,7 @@ import Base58 from 'bs58'
 import {crc16} from 'js-crc'
 
 export const shareLinkForProjectId = id =>
-  withCrc("pxlpshr://" + encode(id))
+  withCrc('pxlpshr://' + encode(id))
 
 export const shareLinkForProject = project =>
   shareLinkForProjectId(project._actorId)
@@ -33,7 +33,7 @@ export const encodedParts = str => {
   return {nonCrc, key, crc}
 }
 
-  export const withCrc = str =>
+export const withCrc = str =>
   str + `/` + encode(crc16(str))
 
 export const encode = str =>
@@ -45,7 +45,7 @@ export const decode = str =>
 export const hexToBuffer = key =>
   Buffer.isBuffer(key)
   ? key
-  : Buffer(key, 'hex')
+  : Buffer.from(key, 'hex')
 
 export const bufferToHex = key =>
   Buffer.isBuffer(key)

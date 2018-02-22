@@ -85,7 +85,7 @@ export default class Version extends React.Component {
     e.stopPropagation()
 
     const {dispatch} = this.props
-    dispatch({type: 'FORK_PROJECT', id})
+    dispatch({type: 'FORK_DOCUMENT', id})
   }
 
   projectClicked = id => e => {

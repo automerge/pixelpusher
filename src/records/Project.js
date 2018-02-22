@@ -4,11 +4,10 @@ const Project = Record({
   id: null, // required
   doc: null,
   isWritable: false,
-  identityId: null,
   identityIds: Set(),
-  relativeId: null,
+  groupId: null,
   versionId: null,
-  sourceId: null
+  parentId: null
 }, 'Project')
 
 export default Project

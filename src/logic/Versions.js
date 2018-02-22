@@ -6,7 +6,7 @@ import Tree from '../records/Tree'
 export const relatedTree = (current, projects) => {
   const lookup = related(current, projects)
     .toList()
-    .groupBy(p => p.sourceId)
+    .groupBy(p => p.parentId)
     .map(sort)
 
   const roots = lookup.get(undefined)
@@ -34,8 +34,8 @@ const buildTree = lookup => proj => {
 }
 
 export const related = (current, projects) => {
-  const {relativeId} = current
-  return projects.filter(project => project.relativeId === relativeId)
+  const {groupId} = current
+  return projects.filter(project => project.groupId === groupId)
 }
 
 export const relatedWithHistory = (current, projects) => {
