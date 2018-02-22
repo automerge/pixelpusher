@@ -1,6 +1,6 @@
 import { createStore, applyMiddleware } from 'redux'
 import reducer from '../store/reducers/reducer'
-import HyperMerge from 'hypermerge/HyperMerge'
+import Hypermerge from 'hypermerge'
 import hypermergeRedux from '../lib/hypermerge-redux'
 import * as Init from '../logic/Init'
 import {mapAction} from './hypermergeHelpers'
@@ -9,9 +9,10 @@ import { CLIENT_ID, STORAGE_PATH, getStateFromStorage } from '../utils/storage'
 const configureStore = devMode => {
   document.title = `pixelpusher client ${CLIENT_ID}`
 
-  const sync = global.sync = new HyperMerge({
+  const sync = global.sync = new Hypermerge({
     port: 3282 + CLIENT_ID,
-    path: STORAGE_PATH
+    path: STORAGE_PATH,
+    immutableApi: true
   })
 
   const addDepDocs = (id, doc) => {

@@ -75,7 +75,7 @@
     "html-webpack-plugin": "^2.30.1",
     "hypercore": "^6.12.1",
     "hyperdiscovery": "^7.0.0",
-    "hypermerge": "github:inkandswitch/hypermerge#merged-docs",
+    "hypermerge": "^0.3.2",
     "immutable": "^3.8.2",
     "js-cookie": "^2.2.0",
     "js-crc": "^0.2.0",

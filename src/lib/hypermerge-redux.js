@@ -7,7 +7,7 @@ export default (sync, {init, map}) => ({dispatch, getState}) => next => {
 
   const withDoc = (type, doc) => {
     const id = sync.getId(doc)
-    const actor = sync.getHex(doc)
+    const actor = sync.getActorId(doc)
 
     // For now, merge the metadata and infos together
     const metadata = sync.metadata(actor)
