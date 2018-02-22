@@ -1,4 +1,3 @@
-import 'whatwg-fetch';
 import { generatePixelDrawCss, generateAnimationIntervals } from './cssParse';
 
 const shareDrawing = (imageData, text, action, sendNotification) => {
