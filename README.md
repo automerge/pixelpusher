@@ -6,7 +6,13 @@ Read the announcement blog post here:
 
 [Pixelpusher: Real-time peer-to-peer collaboration with React](https://medium.com/@pvh/pixelpusher-real-time-peer-to-peer-collaboration-with-react-7c7bc8ecbf74)
 
-## Installation
+## Downloadable releases
+
+https://github.com/automerge/pixelpusher/releases
+
+A Mac .dmg and Windows installer are available. These are hand built at the moment.
+
+## Installation from source
 
 ```bash
 # Install latest node. I'm using 9.2.1
