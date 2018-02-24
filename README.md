@@ -2,6 +2,10 @@
 
 ![](screenshots/animation-cat.gif)
 
+Read the announcement blog post here:
+
+[Pixelpusher: Real-time peer-to-peer collaboration with React](https://medium.com/@pvh/pixelpusher-real-time-peer-to-peer-collaboration-with-react-7c7bc8ecbf74)
+
 ## Installation
 
 ```bash
