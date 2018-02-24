@@ -32,3 +32,9 @@ yarn run css
 ```
 
 ![pixelpusher](screenshots/screenshot-cat.png)
+
+## Slack
+
+[Join the Automerge Slack community](https://communityinviter.com/apps/automerge/automerge)
+
+There is a #pixelpusher channel. Come share your artwork and ask us about the code!
